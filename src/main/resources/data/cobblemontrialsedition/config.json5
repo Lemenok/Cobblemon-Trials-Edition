@@ -1,6 +1,0 @@
-{
-  // structures to match (use resource location strings)
-  "whitelist_structures": [
-    "minecraft:fortress"
-  ]
-}

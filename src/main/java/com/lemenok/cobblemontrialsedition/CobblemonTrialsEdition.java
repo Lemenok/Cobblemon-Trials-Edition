@@ -2,6 +2,7 @@ package com.lemenok.cobblemontrialsedition;
 
 import com.lemenok.cobblemontrialsedition.events.ChunkGenerationHandler;
 import com.lemenok.cobblemontrialsedition.item.ModItems;
+import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -51,15 +52,16 @@ public class CobblemonTrialsEdition {
         // Note that this is necessary if and only if we want *this* class (CobblemonTrialsEdition) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(new ChunkGenerationHandler());
 
         ModItems.register(modEventBus);
-        ChunkGenerationHandler.register();
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modEventBus.register(ConfigProcessor.class);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
