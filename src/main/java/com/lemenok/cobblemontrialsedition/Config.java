@@ -1,7 +1,9 @@
 package com.lemenok.cobblemontrialsedition;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.lemenok.cobblemontrialsedition.models.ConfigRoot;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -18,11 +20,6 @@ public class Config {
     public static final ModConfigSpec.ConfigValue<List<? extends String>> WHITELISTED_STRUCTURE_LIST = BUILDER
             .comment("A list of structures to replace spawners with trial spawners.")
             .defineListAllowEmpty("structures", List.of("minecraft:fortress", "minecraft:monster_room"), structure -> structure instanceof ResourceLocation);
-
-    public static final ModConfigSpec.ConfigValue<List<? extends String>> BLACKLISTED_STRUCTURE_LIST = BUILDER
-            .comment("A list of structures to replace spawners with trial spawners.")
-            .defineListAllowEmpty("structures", List.of("minecraft:fortress", "minecraft:monster_room"), structure -> structure instanceof ResourceLocation);
-
 
     /*public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
             .comment("Whether to log the dirt block on common setup")
