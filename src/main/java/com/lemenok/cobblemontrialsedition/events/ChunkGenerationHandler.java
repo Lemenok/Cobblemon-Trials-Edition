@@ -57,25 +57,29 @@ public class ChunkGenerationHandler {
 
         if (spawnersToReplace.isEmpty()) return;
 
+        StructureManager structureManager = serverLevel.structureManager();
+
         for (BlockPos blockEntityPosition : spawnersToReplace) {
             try {
                 if (!serverLevel.isLoaded(blockEntityPosition)) continue;
-                BlockEntity blockEntity = serverLevel.getBlockEntity(blockEntityPosition);
-                if (!(blockEntity instanceof SpawnerBlockEntity)) continue;
+                //BlockEntity blockEntity = chunk.getBlockEntity(blockEntityPosition);
+                //if (!(blockEntity instanceof SpawnerBlockEntity)) continue;
 
-                StructureManager structureManager = serverLevel.structureManager();
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
 
                 // If the there are no structures but still a spawner, this is likely from a Feature.
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
                 if (allStructuresAtPosition.isEmpty()) {
-                    serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 1);
+                    //serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 2);
+                    chunk.setBlockState(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), false);
                     LOGGER.info("Replaced Spawner at Location '{}' '{}' '{}'", blockEntityPosition.getX(), blockEntityPosition.getY(), blockEntityPosition.getZ());
                     return;
                 }
                 // Check to see if the Structure is on the CustomSpawner List
                 else if (isStructurePresentAt(allStructuresAtPosition)) {
-                    serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 1);
+                    //serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 2);
+                    //chunk.removeBlockEntity(blockEntityPosition);
+                    chunk.setBlockState(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), false);
                     LOGGER.info("Replaced Structure Spawner at Location '{}' '{}' '{}'", blockEntityPosition.getX(), blockEntityPosition.getY(), blockEntityPosition.getZ());
                     return;
                 }
