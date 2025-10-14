@@ -22,6 +22,7 @@ public final class ConfigProcessor {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
+        @SuppressWarnings("unchecked")
         List<String> listOfStructuresFromConfig = (List<String>) Config.WHITELISTED_STRUCTURE_LIST.get();
 
         if (listOfStructuresFromConfig.isEmpty()) {
@@ -33,7 +34,7 @@ public final class ConfigProcessor {
         List<ResourceLocation> listOfResourceLocations = new ArrayList<>(listOfStructuresFromConfig.size());
         for (String structure : listOfStructuresFromConfig) {
             if (structure == null) {
-                LOGGER.warn("Found nulll entry in structures config; skipping.");
+                LOGGER.warn("Found null entry in structures config; skipping.");
                 continue;
             }
             try {
