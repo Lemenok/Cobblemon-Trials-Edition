@@ -66,19 +66,20 @@ public class ChunkGenerationHandler {
                 StructureManager structureManager = serverLevel.structureManager();
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
 
-                // Check to see if the Structure is on the CustomSpawner List
-                if (isStructurePresentAt(allStructuresAtPosition)) {
-                    serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 3);
-                    LOGGER.info("Replaced Structure Spawner at Location '{}' '{}' '{}'", blockEntityPosition.getX(), blockEntityPosition.getY(), blockEntityPosition.getZ());
-                    return;
-                }
                 // If the there are no structures but still a spawner, this is likely from a Feature.
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
-                else if (allStructuresAtPosition.isEmpty()) {
-                    serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 3);
+                if (allStructuresAtPosition.isEmpty()) {
+                    serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 1);
                     LOGGER.info("Replaced Spawner at Location '{}' '{}' '{}'", blockEntityPosition.getX(), blockEntityPosition.getY(), blockEntityPosition.getZ());
                     return;
                 }
+                // Check to see if the Structure is on the CustomSpawner List
+                else if (isStructurePresentAt(allStructuresAtPosition)) {
+                    serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 1);
+                    LOGGER.info("Replaced Structure Spawner at Location '{}' '{}' '{}'", blockEntityPosition.getX(), blockEntityPosition.getY(), blockEntityPosition.getZ());
+                    return;
+                }
+
                 // If there are still structures around the spawner this means that the spawner is in a structure
                 // that the user has defined they WANT to leave the default spawner. So we do nothing.
 
