@@ -13,6 +13,7 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
@@ -25,29 +26,23 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
-public class ChunkGenerationHandler {
+public class SpawnerReplacementHandler {
     // TODO: Create Centralized Logger
+    // TODO: Pull data from config
     private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEdition.MODID);
-
-    // Keep track of chunks we have already processed.
-    //private static final Set<Long> processedChunks = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     @SubscribeEvent
     public void onChunkLoad(ChunkEvent.Load event) {
         Level level = (Level) event.getLevel();
 
-        if(level.isClientSide()) return; //We only care about server side level events
+        // Verify that the events are chunk events.
         if(!(level instanceof ServerLevel serverLevel)) return;
         if(!(event.getChunk() instanceof LevelChunk chunk)) return;
 
-        if (!event.isNewChunk()){
-            LOGGER.debug("Chunk '{}' is not new", chunk.getPos());
-            return;
-        }
+        if (!event.isNewChunk()) return;
 
-        // Collect positions of spawners first
+        // Collect positions of spawners within the chunk first
         List<BlockPos> spawnersToReplace = new ArrayList<>();
         for (BlockEntity anyBlockEntity : chunk.getBlockEntities().values()) {
             if (anyBlockEntity instanceof SpawnerBlockEntity) {
@@ -62,25 +57,22 @@ public class ChunkGenerationHandler {
         for (BlockPos blockEntityPosition : spawnersToReplace) {
             try {
                 if (!serverLevel.isLoaded(blockEntityPosition)) continue;
-                //BlockEntity blockEntity = chunk.getBlockEntity(blockEntityPosition);
-                //if (!(blockEntity instanceof SpawnerBlockEntity)) continue;
 
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
 
                 // If the there are no structures but still a spawner, this is likely from a Feature.
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
                 if (allStructuresAtPosition.isEmpty()) {
-                    //serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 2);
-                    chunk.setBlockState(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), false);
-                    LOGGER.info("Replaced Spawner at Location '{}' '{}' '{}'", blockEntityPosition.getX(), blockEntityPosition.getY(), blockEntityPosition.getZ());
+                    chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, Blocks.TRIAL_SPAWNER.defaultBlockState());
+                    chunk.setBlockEntity(new TrialSpawnerBlockEntity(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState()));
+                    LOGGER.info("Replaced Spawner at Location '{}'", blockEntityPosition);
                     return;
                 }
                 // Check to see if the Structure is on the CustomSpawner List
                 else if (isStructurePresentAt(allStructuresAtPosition)) {
-                    //serverLevel.setBlock(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), 2);
-                    //chunk.removeBlockEntity(blockEntityPosition);
-                    chunk.setBlockState(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState(), false);
-                    LOGGER.info("Replaced Structure Spawner at Location '{}' '{}' '{}'", blockEntityPosition.getX(), blockEntityPosition.getY(), blockEntityPosition.getZ());
+                    chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, Blocks.TRIAL_SPAWNER.defaultBlockState());
+                    chunk.setBlockEntity(new TrialSpawnerBlockEntity(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState()));
+                    LOGGER.info("Replaced Structure Spawner at Location '{}'", blockEntityPosition);
                     return;
                 }
 
