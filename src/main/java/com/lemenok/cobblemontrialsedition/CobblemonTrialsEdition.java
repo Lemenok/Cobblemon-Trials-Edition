@@ -1,6 +1,9 @@
 package com.lemenok.cobblemontrialsedition;
 
+import com.lemenok.cobblemontrialsedition.block.ModBlocks;
+import com.lemenok.cobblemontrialsedition.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.events.SpawnerReplacementHandler;
+import com.lemenok.cobblemontrialsedition.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.item.ModItems;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import org.slf4j.Logger;
@@ -38,7 +41,11 @@ public class CobblemonTrialsEdition {
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(new SpawnerReplacementHandler());
 
+        ModCreativeModeTabs.register(modEventBus);
+
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
