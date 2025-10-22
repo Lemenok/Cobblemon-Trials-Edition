@@ -5,7 +5,8 @@ bin
 .metadata
 .classpath
 .project
-
+/.architectury-transformer/
+common/src/main/resources/assets/cobblemon/showdown
 # idea
 out
 *.ipr
@@ -20,7 +21,15 @@ build
 # other
 eclipse
 run
-runs
-run-data
 
-repo
+# Files from Forge MDK
+forge*changelog.txt
+/showdown/
+/logs/
+.vscode/launch.json
+.vscode
+common/src/main/resources/assets/cobblemon/showdown
+
+# Generated files
+*/generated/resources/*
+/fabric/src/generated/resources/cobblemon-common.accesswidener

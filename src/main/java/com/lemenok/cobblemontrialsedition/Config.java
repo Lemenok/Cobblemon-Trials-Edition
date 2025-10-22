@@ -3,7 +3,6 @@ package com.lemenok.cobblemontrialsedition;
 import java.util.List;
 import java.util.Optional;
 
-import com.lemenok.cobblemontrialsedition.models.ConfigRoot;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;

@@ -1,31 +1,31 @@
 package com.lemenok.cobblemontrialsedition.events;
 
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
+import com.lemenok.cobblemontrialsedition.block.ModBlocks;
+import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
+import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawner;
+import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerData;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.block.entity.trialspawner.PlayerDetector;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerData;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -35,7 +35,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class SpawnerReplacementHandler {
     // TODO: Create Centralized Logger
@@ -74,17 +73,41 @@ public class SpawnerReplacementHandler {
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
                 if (allStructuresAtPosition.isEmpty()) {
 
-                    TrialSpawnerBlockEntity newTrialSpawnerBlockEntity = new TrialSpawnerBlockEntity(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState());
-                    newTrialSpawnerBlockEntity.loadWithComponents(BuildTrialSpawnerNBT(blockEntityPosition), serverLevel.registryAccess());
+                    CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get().defaultBlockState());
 
-                    var spawner = newTrialSpawnerBlockEntity.getTrialSpawner();
-                    var spawnerData = spawner.getData();
+                    SpawnData newSpawnData = new SpawnData(BuildTrialSpawnerNBT(blockEntityPosition), Optional.empty(), Optional.empty());
+                    CobblemonTrialSpawnerData trialSpawnerData = new CobblemonTrialSpawnerData(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.of(newSpawnData), Optional.empty());
 
-                    newTrialSpawnerBlockEntity.setChanged();
+                    PlayerDetector playerDetector = PlayerDetector.NO_CREATIVE_PLAYERS;
+                    PlayerDetector.EntitySelector entitySelector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
+                    CobblemonTrialSpawner trialSpawner = new CobblemonTrialSpawner(TrialSpawnerConfig.DEFAULT, TrialSpawnerConfig.DEFAULT,trialSpawnerData, 1200, 14, cobblemonTrialSpawnerEntity,playerDetector,entitySelector);
+                    cobblemonTrialSpawnerEntity.setCobblemonTrialSpawner(trialSpawner);
 
-                    chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, newTrialSpawnerBlockEntity.getBlockState());
+                    /*Pokemon pokemon = new Pokemon();
+                    pokemon.initialize();
+                    //Species species = new Species();
+                    //species.initialize();
+                    //species.setName("beedrill");
+                    //pokemon.setSpecies(species);
+                    PokemonEntity pokemonEntity = new PokemonEntity(level, pokemon, CobblemonEntities.POKEMON);
+                    pokemonEntity.setPose(Pose.STANDING);
+                    //pokemonEntity.load(BuildTrialSpawnerNBT(blockEntityPosition));
+
+
+                    newTrialSpawnerBlockEntity.setEntityId(pokemonEntity.getType(), RandomSource.create());*/
+
+                    CompoundTag poseType = new CompoundTag();
+                    poseType.putString("PoseType", "WALK");
+                    cobblemonTrialSpawnerEntity.loadWithComponents(poseType, serverLevel.registryAccess());
+
+                    //var spawner = newTrialSpawnerBlockEntity.getCobblemonTrialSpawner();
+                    //var spawnerData = spawner.getData();
+
+                    cobblemonTrialSpawnerEntity.setChanged();
+
+                    chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
                     // ServerLevel set required to properly allow the Trial Spawner to work.
-                    serverLevel.setBlockEntity(newTrialSpawnerBlockEntity);
+                    serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
                     LOGGER.info("Replaced Spawner at Location '{}'", blockEntityPosition);
                     return;
                 }
@@ -221,6 +244,6 @@ public class SpawnerReplacementHandler {
 
         LOGGER.info("Trial Data: '{}'", trialNBT);
 
-        return trialNBT;
+        return entity;
     }
 }
