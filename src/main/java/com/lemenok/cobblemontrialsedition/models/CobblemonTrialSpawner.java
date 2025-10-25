@@ -41,8 +41,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.extensions.IOwnedSpawner;
 import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -74,7 +76,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     }
 
     public CobblemonTrialSpawner(CobblemonTrialSpawner.StateAccessor arg, PlayerDetector arg2, PlayerDetector.EntitySelector arg3) {
-        this(TrialSpawnerConfig.DEFAULT, TrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 36000, 14, arg, arg2, arg3);
+        this(TrialSpawnerConfig.DEFAULT, TrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, arg, arg2, arg3);
     }
 
     public CobblemonTrialSpawner(TrialSpawnerConfig arg, TrialSpawnerConfig arg2, CobblemonTrialSpawnerData arg3, int i, int j, CobblemonTrialSpawner.StateAccessor arg4, PlayerDetector arg5, PlayerDetector.EntitySelector arg6) {

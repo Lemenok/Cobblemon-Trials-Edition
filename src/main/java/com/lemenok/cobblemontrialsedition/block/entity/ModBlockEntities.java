@@ -16,7 +16,7 @@ public class ModBlockEntities {
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, CobblemonTrialsEdition.MODID);
 
     public static final Supplier<BlockEntityType<CobblemonTrialSpawnerEntity>> COBBLEMON_TRIAL_SPAWNER =
-            BLOCK_ENTITIES.register("cobblemontrialspawner", () ->
+            BLOCK_ENTITIES.register("cobblemon_trial_spawner", () ->
                     BlockEntityType.Builder.of(CobblemonTrialSpawnerEntity::new, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get()).build(null));
 
     public static void register(IEventBus eventBus) {

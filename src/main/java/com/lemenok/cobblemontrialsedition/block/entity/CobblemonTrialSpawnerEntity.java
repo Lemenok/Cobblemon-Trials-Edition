@@ -2,6 +2,7 @@ package com.lemenok.cobblemontrialsedition.block.entity;
 
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawner;
+import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerData;
 import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerState;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
@@ -18,9 +19,11 @@ import net.minecraft.world.level.block.TrialSpawnerBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.PlayerDetector;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
+import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -34,7 +37,8 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Spawner,
         super(ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(), blockPos, blockState);
         PlayerDetector playerDetector = PlayerDetector.INCLUDING_CREATIVE_PLAYERS;
         PlayerDetector.EntitySelector entitySelector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
-        this.cobblemonTrialSpawner = new CobblemonTrialSpawner(this, playerDetector, entitySelector);
+        // TODO: Import config settings here.
+        this.cobblemonTrialSpawner = new CobblemonTrialSpawner(TrialSpawnerConfig.DEFAULT, TrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, this, playerDetector, entitySelector);
     }
 
     @Override

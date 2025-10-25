@@ -32,8 +32,8 @@ public class ModBlocks {
             () -> new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().noCollission()));*/
 
     public static final DeferredBlock<Block> COBBLEMON_TRIAL_SPAWNER = registerBlock(
-            "cobblemontrialspawner", () -> new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((arg) ->
-                    ((CobblemonTrialSpawnerState)arg.getValue(CobblemonTrialSpawnerBlock.STATE)).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).noOcclusion()));
+            "cobblemon_trial_spawner", () -> new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((arg) ->
+                    ((CobblemonTrialSpawnerState)arg.getValue(CobblemonTrialSpawnerBlock.STATE)).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);

@@ -51,6 +51,7 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     @Override
     protected @NotNull RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
 
+
     @Override
     @Nullable
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) { return new CobblemonTrialSpawnerEntity(blockPos, blockState); }

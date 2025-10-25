@@ -1,5 +1,15 @@
 package com.lemenok.cobblemontrialsedition.events;
 
+import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.CobblemonEntities;
+import com.cobblemon.mod.common.api.Priority;
+import com.cobblemon.mod.common.api.abilities.Ability;
+import com.cobblemon.mod.common.api.abilities.AbilityPool;
+import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
+import com.cobblemon.mod.common.api.pokemon.Natures;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.*;
+import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.lemenok.cobblemontrialsedition.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
@@ -8,9 +18,11 @@ import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerData;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -32,7 +44,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.jmx.Server;
 
+import java.rmi.registry.Registry;
 import java.util.*;
 import java.util.List;
 
@@ -55,6 +69,11 @@ public class SpawnerReplacementHandler {
         List<BlockPos> spawnersToReplace = new ArrayList<>();
         for (BlockEntity anyBlockEntity : chunk.getBlockEntities().values()) {
             if (anyBlockEntity instanceof SpawnerBlockEntity) {
+                var spawnerEntityContents = ((SpawnerBlockEntity) anyBlockEntity).getSpawner().getOrCreateDisplayEntity(level, anyBlockEntity.getBlockPos()).getType().getDescription().getContents().toString();
+                if (spawnerEntityContents.contains("minecraft.cave_spider"))
+                {
+                    LOGGER.info("Spider found.");
+                }
                 spawnersToReplace.add(anyBlockEntity.getBlockPos());
             }
         }
@@ -74,35 +93,7 @@ public class SpawnerReplacementHandler {
                 if (allStructuresAtPosition.isEmpty()) {
 
                     CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get().defaultBlockState());
-
-                    SpawnData newSpawnData = new SpawnData(BuildTrialSpawnerNBT(blockEntityPosition), Optional.empty(), Optional.empty());
-                    CobblemonTrialSpawnerData trialSpawnerData = new CobblemonTrialSpawnerData(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.of(newSpawnData), Optional.empty());
-
-                    PlayerDetector playerDetector = PlayerDetector.NO_CREATIVE_PLAYERS;
-                    PlayerDetector.EntitySelector entitySelector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
-                    CobblemonTrialSpawner trialSpawner = new CobblemonTrialSpawner(TrialSpawnerConfig.DEFAULT, TrialSpawnerConfig.DEFAULT,trialSpawnerData, 1200, 14, cobblemonTrialSpawnerEntity,playerDetector,entitySelector);
-                    cobblemonTrialSpawnerEntity.setCobblemonTrialSpawner(trialSpawner);
-
-                    /*Pokemon pokemon = new Pokemon();
-                    pokemon.initialize();
-                    //Species species = new Species();
-                    //species.initialize();
-                    //species.setName("beedrill");
-                    //pokemon.setSpecies(species);
-                    PokemonEntity pokemonEntity = new PokemonEntity(level, pokemon, CobblemonEntities.POKEMON);
-                    pokemonEntity.setPose(Pose.STANDING);
-                    //pokemonEntity.load(BuildTrialSpawnerNBT(blockEntityPosition));
-
-
-                    newTrialSpawnerBlockEntity.setEntityId(pokemonEntity.getType(), RandomSource.create());*/
-
-                    CompoundTag poseType = new CompoundTag();
-                    poseType.putString("PoseType", "WALK");
-                    cobblemonTrialSpawnerEntity.loadWithComponents(poseType, serverLevel.registryAccess());
-
-                    //var spawner = newTrialSpawnerBlockEntity.getCobblemonTrialSpawner();
-                    //var spawnerData = spawner.getData();
-
+                    cobblemonTrialSpawnerEntity.loadWithComponents(BuildPokemonForSpawn(serverLevel, blockEntityPosition), serverLevel.registryAccess());
                     cobblemonTrialSpawnerEntity.setChanged();
 
                     chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
@@ -151,6 +142,84 @@ public class SpawnerReplacementHandler {
             }
         }
         return false;
+    }
+
+    public static CompoundTag BuildPokemonForSpawn(ServerLevel serverLevel, BlockPos blockEntityPosition) {
+        Species species = new Species();
+        species.setName("charcadet");
+        species.setResourceIdentifier(ResourceLocation.fromNamespaceAndPath("cobblemon","charcadet"));
+        species.initialize();
+
+        Pokemon pokemon = new Pokemon();
+
+        pokemon.setShiny(true);
+
+        pokemon.setGender(Gender.GENDERLESS);
+
+        pokemon.setLevel(15);
+
+        // Setting Scale of Pokemon
+        pokemon.setScaleModifier(2);
+
+        Nature nature = Natures.INSTANCE.getADAMANT();
+        pokemon.setNature(Natures.INSTANCE.getADAMANT());
+
+        EVs evs = new EVs();
+        pokemon.setEvs$common(evs);
+
+        IVs ivs = new IVs();
+        pokemon.setIvs$common(ivs);
+
+        // Setup Abilities
+        AbilityTemplate abilityTemplate = new AbilityTemplate();
+        CompoundTag abilityNbt = new CompoundTag();
+        abilityNbt.putString("AbilityName", "flashfire");
+        Ability ability = abilityTemplate.create(abilityNbt);
+
+        // Ability must be before species.
+        pokemon.updateAbility(ability);
+        pokemon.setSpecies(species);
+        pokemon.initialize();
+
+        CompoundTag pokemonNbt = pokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
+
+        // Make pokemon uncatchable
+        String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
+        ListTag listTag = new ListTag();
+        for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
+        pokemonNbt.put("PokemonData", listTag);
+
+        CompoundTag entityNbt = new CompoundTag();
+        entityNbt.put("Pokemon", pokemonNbt);
+        entityNbt.putString("id", "cobblemon:pokemon");
+        entityNbt.putString("PoseType", "WALK");
+
+        // Check if Invulnerable
+        entityNbt.putBoolean("Invulnerable", true);
+
+        // Build spawn_data compound that contains entity
+        CompoundTag spawnData = new CompoundTag();
+        spawnData.put("entity", entityNbt);
+
+        CompoundTag trialNBT = new CompoundTag();
+        trialNBT.put("spawn_data",spawnData);
+        trialNBT.putInt("target_cooldown_length", 1200);
+        trialNBT.putInt("x", blockEntityPosition.getX());
+        trialNBT.putInt("y", blockEntityPosition.getY());
+        trialNBT.putInt("z", blockEntityPosition.getZ());
+
+        LOGGER.info("Trial Data: '{}'", trialNBT);
+
+        return trialNBT;
+
+        /*PokemonEntity pokemonEntity = new PokemonEntity(serverLevel, pokemon, CobblemonEntities.POKEMON);
+
+        CompoundTag poseType = new CompoundTag();
+        poseType.putString("POKEMON_POSE_TYPE", "WALK");
+
+        pokemonEntity.load(poseType);
+
+        return pokemonEntity;*/
     }
 
     public static CompoundTag BuildTrialSpawnerNBT(BlockPos blockEntityPosition) {

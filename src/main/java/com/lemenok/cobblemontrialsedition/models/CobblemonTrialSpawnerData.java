@@ -27,6 +27,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -36,6 +37,8 @@ import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -227,6 +230,7 @@ public class CobblemonTrialSpawnerData {
 
     protected SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner arg, RandomSource arg2) {
         if (this.nextSpawnData.isPresent()) {
+            //ApplySpawnVariance
             return (SpawnData)this.nextSpawnData.get();
         } else {
             SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = arg.getConfig().spawnPotentialsDefinition();
@@ -299,5 +303,9 @@ public class CobblemonTrialSpawnerData {
     private static long lowResolutionPosition(ServerLevel arg, BlockPos arg2) {
         BlockPos blockPos = new BlockPos(Mth.floor((float)arg2.getX() / 30.0F), Mth.floor((float)arg2.getY() / 20.0F), Mth.floor((float)arg2.getZ() / 30.0F));
         return arg.getSeed() + blockPos.asLong();
+    }
+
+    public Set<UUID> getCurrentMobs() {
+        return currentMobs;
     }
 }
