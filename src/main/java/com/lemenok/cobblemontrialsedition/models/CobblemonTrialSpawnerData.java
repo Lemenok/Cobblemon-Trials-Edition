@@ -28,10 +28,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
@@ -39,8 +37,6 @@ import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -61,7 +57,7 @@ public class CobblemonTrialSpawnerData {
     protected Optional<SpawnData> nextSpawnData;
     protected Optional<ResourceKey<LootTable>> ejectingLootTable;
     @Nullable
-    protected Entity displayEntity;
+    protected ItemStack displayItem;
     @Nullable
     private SimpleWeightedRandomList<ItemStack> dispensing;
     protected double spin;
@@ -178,7 +174,7 @@ public class CobblemonTrialSpawnerData {
     public void resetAfterBecomingOminous(CobblemonTrialSpawner cobblemonTrialSpawner, ServerLevel serverLevel) {
         Stream var10000 = this.currentMobs.stream();
         Objects.requireNonNull(serverLevel);
-        var10000.map(id -> serverLevel.getEntity((Integer) id)).forEach((arg2x) -> {
+        var10000.map(id -> serverLevel.getEntity((UUID) id)).forEach((arg2x) -> {
             if (arg2x != null) {
                 if (arg2x instanceof Entity entity) {
                     serverLevel.levelEvent(3012, entity.blockPosition(), CobblemonTrialSpawner.FlameParticle.NORMAL.encode());
@@ -230,7 +226,7 @@ public class CobblemonTrialSpawnerData {
         this.getOrCreateNextSpawnData(arg, arg2).getEntityToSpawn().putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(arg3).toString());
     }
 
-    protected SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner arg, RandomSource arg2) {
+    public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner arg, RandomSource arg2) {
         if (this.nextSpawnData.isPresent()) {
             //ApplySpawnVariance
             return (SpawnData)this.nextSpawnData.get();
@@ -244,22 +240,21 @@ public class CobblemonTrialSpawnerData {
     }
 
     @Nullable
-    public Entity getOrCreateDisplayEntity(CobblemonTrialSpawner arg, Level arg2, CobblemonTrialSpawnerState arg3) {
+    public ItemStack getOrCreateDisplayEntity(boolean isOminous, Level arg2, CobblemonTrialSpawnerState arg3) {
         if (!arg3.hasSpinningMob()) {
             return null;
         } else {
-            if (this.displayEntity == null) {
-                CompoundTag compoundTag = this.getOrCreateNextSpawnData(arg, arg2.getRandom()).getEntityToSpawn();
-                if (compoundTag.contains("id", 8)) {
-                    CompoundTag zombie = new CompoundTag();
-                    zombie.putString("id","minecraft:zombie");
-                    this.displayEntity = EntityType.loadEntityRecursive(zombie, arg2, Function.identity());
-                    /* Item pokeball = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","poke_ball"));
-                    this.displayItem = new ItemStack(pokeball); */
-                }
+            if (this.displayItem == null) {
+                //CompoundTag compoundTag = this.getOrCreateNextSpawnData(arg, arg2.getRandom()).getEntityToSpawn();
+                //if (compoundTag.contains("id", 8)) {
+                    //this.displayItem = EntityType.loadEntityRecursive(compoundTag, arg2, Function.identity());
+                if (isOminous)
+                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","master_ball")).getDefaultInstance();
+                else
+                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","poke_ball")).getDefaultInstance();
             }
 
-            return this.displayEntity;
+            return this.displayItem;
         }
     }
 

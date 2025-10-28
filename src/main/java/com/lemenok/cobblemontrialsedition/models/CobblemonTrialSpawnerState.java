@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.models;
 
+import com.lemenok.cobblemontrialsedition.particle.ModParticles;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -57,7 +58,7 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         CobblemonTrialSpawnerState var10000;
         switch (this.ordinal()) {
             case 0:
-                var10000 = trialSpawnerData.getOrCreateDisplayEntity(arg2, arg3, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
+                var10000 = trialSpawnerData.getOrCreateDisplayEntity(false, arg3, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
                 break;
             case 1:
                 if (!arg2.canSpawnInLevel(arg3)) {
@@ -296,14 +297,14 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         CobblemonTrialSpawnerState.ParticleEmission SMALL_FLAMES = (arg, arg2, arg3, bl) -> {
             if (arg2.nextInt(2) == 0) {
                 Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 0.9F);
-                addParticle(bl ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.SMALL_FLAME, vec3, arg);
+                addParticle(bl ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
             }
 
         };
         CobblemonTrialSpawnerState.ParticleEmission FLAMES_AND_SMOKE = (arg, arg2, arg3, bl) -> {
             Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 1.0F);
-            addParticle(ParticleTypes.SMOKE, vec3, arg);
-            addParticle(bl ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME, vec3, arg);
+            //addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
+            addParticle(bl ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
         };
         CobblemonTrialSpawnerState.ParticleEmission SMOKE_INSIDE_AND_TOP_FACE = (arg, arg2, arg3, bl) -> {
             Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 0.9F);

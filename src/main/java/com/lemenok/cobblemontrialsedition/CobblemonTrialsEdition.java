@@ -5,7 +5,13 @@ import com.lemenok.cobblemontrialsedition.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.events.SpawnerReplacementHandler;
 import com.lemenok.cobblemontrialsedition.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.item.ModItems;
+import com.lemenok.cobblemontrialsedition.particle.ModParticles;
+import com.lemenok.cobblemontrialsedition.particle.UnownParticles;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -46,6 +52,7 @@ public class CobblemonTrialsEdition {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModParticles.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
