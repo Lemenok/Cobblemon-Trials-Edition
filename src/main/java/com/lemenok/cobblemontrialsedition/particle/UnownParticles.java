@@ -6,7 +6,8 @@ import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.Nullable;
 
 public class UnownParticles extends TextureSheetParticle {
-        protected UnownParticles(ClientLevel level, double x, double y, double z, SpriteSet spriteSet,
+
+    protected UnownParticles(ClientLevel level, double x, double y, double z, SpriteSet spriteSet,
                                  double xSpeed, double ySpeed, double zSpeed) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
@@ -14,11 +15,11 @@ public class UnownParticles extends TextureSheetParticle {
 
         this.lifetime = 20;
         this.setSpriteFromAge(spriteSet);
+        this.pickSprite(spriteSet);
 
         this.rCol = 1f;
         this.gCol = 1f;
         this.bCol = 1f;
-
     }
 
     @Override

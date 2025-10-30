@@ -40,7 +40,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class CobblemonTrialSpawnerData {
@@ -177,7 +176,7 @@ public class CobblemonTrialSpawnerData {
         var10000.map(id -> serverLevel.getEntity((UUID) id)).forEach((arg2x) -> {
             if (arg2x != null) {
                 if (arg2x instanceof Entity entity) {
-                    serverLevel.levelEvent(3012, entity.blockPosition(), CobblemonTrialSpawner.FlameParticle.NORMAL.encode());
+                    serverLevel.levelEvent(3012, entity.blockPosition(), CobblemonTrialSpawner.UnownParticle.NORMAL.encode());
                     if (arg2x instanceof Mob) {
                         Mob mob = (Mob)arg2x;
                         mob.dropPreservedEquipment();
@@ -249,9 +248,9 @@ public class CobblemonTrialSpawnerData {
                 //if (compoundTag.contains("id", 8)) {
                     //this.displayItem = EntityType.loadEntityRecursive(compoundTag, arg2, Function.identity());
                 if (isOminous)
-                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","master_ball")).getDefaultInstance();
+                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
                 else
-                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","poke_ball")).getDefaultInstance();
+                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
             }
 
             return this.displayItem;

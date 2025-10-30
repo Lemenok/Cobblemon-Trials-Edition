@@ -30,10 +30,10 @@ import java.util.stream.Stream;
 
 public enum CobblemonTrialSpawnerState implements StringRepresentable {
     INACTIVE("inactive", 0, CobblemonTrialSpawnerState.ParticleEmission.NONE, (double)-1.0F, false),
-    WAITING_FOR_PLAYERS("waiting_for_players", 4, CobblemonTrialSpawnerState.ParticleEmission.SMALL_FLAMES, (double)200.0F, true),
-    ACTIVE("active", 8, CobblemonTrialSpawnerState.ParticleEmission.FLAMES_AND_SMOKE, (double)1000.0F, true),
-    WAITING_FOR_REWARD_EJECTION("waiting_for_reward_ejection", 8, CobblemonTrialSpawnerState.ParticleEmission.SMALL_FLAMES, (double)-1.0F, false),
-    EJECTING_REWARD("ejecting_reward", 8, CobblemonTrialSpawnerState.ParticleEmission.SMALL_FLAMES, (double)-1.0F, false),
+    WAITING_FOR_PLAYERS("waiting_for_players", 4, ParticleEmission.UNOWN, (double)200.0F, true),
+    ACTIVE("active", 8, ParticleEmission.UNOWN_AND_SPARKS, (double)1000.0F, true),
+    WAITING_FOR_REWARD_EJECTION("waiting_for_reward_ejection", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, (double)-1.0F, false),
+    EJECTING_REWARD("ejecting_reward", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, (double)-1.0F, false),
     COOLDOWN("cooldown", 0, CobblemonTrialSpawnerState.ParticleEmission.SMOKE_INSIDE_AND_TOP_FACE, (double)-1.0F, false);
 
     private static final float DELAY_BEFORE_EJECT_AFTER_KILLING_LAST_MOB = 40.0F;
@@ -186,18 +186,6 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
 
         Entity entity = selectEntityToSpawnItemAbove(players, cobblemonTrialSpawnerData.currentMobs, cobblemonTrialSpawner, blockPosition, serverLevel);
         return entity == null ? Optional.empty() : calculatePositionAbove(entity, serverLevel);
-
-        /*
-        Stream stream = cobblemonTrialSpawnerData.detectedPlayers.stream();
-        Objects.requireNonNull(serverLevel);
-        List<Player> list = stream.map(uuid -> serverLevel.getPlayerByUUID((UUID) uuid)).filter(Objects::nonNull).filter((arg3x) ->
-                !arg3x.isCreative() && !arg3x.isSpectator() && arg3x.isAlive() && arg3x.distanceToSqr(blockPosition.getCenter()) <= (double)Mth.square(cobblemonTrialSpawner.getRequiredPlayerRange())).toList();
-        if (list.isEmpty()) {
-            return Optional.empty();
-        } else {
-            Entity entity = selectEntityToSpawnItemAbove(list, cobblemonTrialSpawnerData.currentMobs, cobblemonTrialSpawner, blockPosition, serverLevel);
-            return entity == null ? Optional.empty() : calculatePositionAbove(entity, serverLevel);
-        }*/
     }
 
     private static Optional<Vec3> calculatePositionAbove(Entity arg, ServerLevel arg2) {
@@ -231,18 +219,6 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         } else {
             return list2.size() == 1 ? list2.get(0) : Util.getRandom(list2, serverLevel.random);
         }
-
-
-        /*
-        Stream var10000 = uuidSet.stream();
-        Objects.requireNonNull(serverLevel);
-        Stream<Entity> stream = var10000.map(serverLevel::getEntity).filter(Objects::nonNull).filter((arg3x) -> arg3x.isAlive() && arg3x.distanceToSqr(blockPos.getCenter()) <= (double)Mth.square(cobblemonTrialSpawner.getRequiredPlayerRange()));
-        List<? extends Entity> list2 = serverLevel.random.nextBoolean() ? stream.toList() : playerList;
-        if (list2.isEmpty()) {
-            return null;
-        } else {
-            return list2.size() == 1 ? (Entity)list2.getFirst() : (Entity) Util.getRandom(list2, serverLevel.random);
-        }*/
     }
 
     private boolean timeToSpawnItemSpawner(ServerLevel arg, CobblemonTrialSpawnerData arg2) {
@@ -294,16 +270,16 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
     interface ParticleEmission {
         CobblemonTrialSpawnerState.ParticleEmission NONE = (arg, arg2, arg3, bl) -> {
         };
-        CobblemonTrialSpawnerState.ParticleEmission SMALL_FLAMES = (arg, arg2, arg3, bl) -> {
+        CobblemonTrialSpawnerState.ParticleEmission UNOWN = (arg, arg2, arg3, bl) -> {
             if (arg2.nextInt(2) == 0) {
                 Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 0.9F);
-                addParticle(bl ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
+                addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
             }
 
         };
-        CobblemonTrialSpawnerState.ParticleEmission FLAMES_AND_SMOKE = (arg, arg2, arg3, bl) -> {
+        CobblemonTrialSpawnerState.ParticleEmission UNOWN_AND_SPARKS = (arg, arg2, arg3, bl) -> {
             Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 1.0F);
-            //addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
+            addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
             addParticle(bl ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
         };
         CobblemonTrialSpawnerState.ParticleEmission SMOKE_INSIDE_AND_TOP_FACE = (arg, arg2, arg3, bl) -> {

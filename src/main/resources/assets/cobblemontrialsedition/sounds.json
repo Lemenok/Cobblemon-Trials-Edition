@@ -1,0 +1,16 @@
+{
+  "cobblemon_trial_spawner_ambient": {
+    "subtitle": "sounds.cobblemontrialsedition.cobblemon_trial_spawner_ambient",
+    "sounds": [
+      "cobblemontrialsedition:cobblemon_trial_spawner_ambient1",
+      "cobblemontrialsedition:cobblemon_trial_spawner_ambient2"
+    ]
+  },
+  "cobblemon_trial_spawner_ambient_ominous": {
+    "subtitle": "sounds.cobblemontrialsedition.cobblemon_trial_spawner_ambient_ominous",
+    "sounds": [
+      "cobblemontrialsedition:cobblemon_trial_spawner_ambient_ominous1",
+      "cobblemontrialsedition:cobblemon_trial_spawner_ambient_ominous2"
+    ]
+  }
+}

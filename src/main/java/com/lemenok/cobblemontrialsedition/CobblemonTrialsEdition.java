@@ -8,6 +8,7 @@ import com.lemenok.cobblemontrialsedition.item.ModItems;
 import com.lemenok.cobblemontrialsedition.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.particle.UnownParticles;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
+import com.lemenok.cobblemontrialsedition.sound.ModSounds;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -52,6 +53,7 @@ public class CobblemonTrialsEdition {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
 
         // Register the item to a creative tab

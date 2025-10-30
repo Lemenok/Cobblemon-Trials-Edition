@@ -3,6 +3,8 @@ package com.lemenok.cobblemontrialsedition.models;
 import com.google.common.annotations.VisibleForTesting;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
+import com.lemenok.cobblemontrialsedition.particle.ModParticles;
+import com.lemenok.cobblemontrialsedition.sound.ModSounds;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -41,10 +43,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.extensions.IOwnedSpawner;
 import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -219,9 +219,12 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                             if (!arg.tryAddFreshEntityWithPassengers(entity)) {
                                 return Optional.empty();
                             } else {
-                                CobblemonTrialSpawner.FlameParticle trialspawner$flameparticle = this.isOminous ? CobblemonTrialSpawner.FlameParticle.OMINOUS : CobblemonTrialSpawner.FlameParticle.NORMAL;
-                                arg.levelEvent(3011, arg2, trialspawner$flameparticle.encode());
-                                arg.levelEvent(3012, blockpos, trialspawner$flameparticle.encode());
+                                UnownParticle unownParticle = this.isOminous ? UnownParticle.OMINOUS : UnownParticle.NORMAL;
+
+                                var encoded = unownParticle.encode();
+
+                                arg.levelEvent(3011, arg2, unownParticle.encode());
+                                arg.levelEvent(3012, blockpos, unownParticle.encode());
                                 arg.gameEvent(entity, GameEvent.ENTITY_PLACE, blockpos);
                                 return Optional.of(entity.getUUID());
                             }
@@ -261,8 +264,8 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         if (trialspawnerstate.isCapableOfSpawning()) {
             RandomSource randomsource = arg.getRandom();
             if (randomsource.nextFloat() <= 0.02F) {
-                SoundEvent soundevent = bl ? SoundEvents.TRIAL_SPAWNER_AMBIENT_OMINOUS : SoundEvents.TRIAL_SPAWNER_AMBIENT;
-                arg.playLocalSound(arg2, soundevent, SoundSource.BLOCKS, randomsource.nextFloat() * 0.25F + 0.75F, randomsource.nextFloat() + 0.5F, false);
+                SoundEvent soundevent = bl ? ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT_OMINOUS.get() : ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT.get();
+                arg.playLocalSound(arg2, soundevent, SoundSource.BLOCKS, 1f, 1f, false);
             }
         }
 
@@ -298,7 +301,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
             double d1 = (double)arg2.getY() + (double)0.5F + (arg3.nextDouble() - (double)0.5F) * (double)2.0F;
             double d2 = (double)arg2.getZ() + (double)0.5F + (arg3.nextDouble() - (double)0.5F) * (double)2.0F;
             arg.addParticle(ParticleTypes.SMOKE, d0, d1, d2, (double)0.0F, (double)0.0F, (double)0.0F);
-            arg.addParticle(arg4, d0, d1, d2, (double)0.0F, (double)0.0F, (double)0.0F);
+            arg.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, (double)0.0F, (double)0.0F, (double)0.0F);
         }
 
     }
@@ -311,8 +314,8 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
             double d3 = arg3.nextGaussian() * 0.02;
             double d4 = arg3.nextGaussian() * 0.02;
             double d5 = arg3.nextGaussian() * 0.02;
-            arg.addParticle(ParticleTypes.TRIAL_OMEN, d0, d1, d2, d3, d4, d5);
-            arg.addParticle(ParticleTypes.SOUL_FIRE_FLAME, d0, d1, d2, d3, d4, d5);
+            //arg.addParticle(ParticleTypes.TRIAL_OMEN, d0, d1, d2, d3, d4, d5);
+            arg.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, d3, d4, d5);
         }
 
     }
@@ -337,7 +340,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
             double d3 = arg3.nextGaussian() * 0.02;
             double d4 = arg3.nextGaussian() * 0.02;
             double d5 = arg3.nextGaussian() * 0.02;
-            arg.addParticle(ParticleTypes.SMALL_FLAME, d0, d1, d2, d3, d4, d5 * (double)0.25F);
+            arg.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, d3, d4, d5 * (double)0.25F);
             arg.addParticle(ParticleTypes.SMOKE, d0, d1, d2, d3, d4, d5);
         }
 
@@ -370,19 +373,19 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         }
     }
 
-    public static enum FlameParticle {
+    public static enum UnownParticle {
         NORMAL(ParticleTypes.FLAME),
         OMINOUS(ParticleTypes.SOUL_FIRE_FLAME);
 
         public final SimpleParticleType particleType;
 
-        private FlameParticle(SimpleParticleType arg) {
+        private UnownParticle(SimpleParticleType arg) {
             this.particleType = arg;
         }
 
-        public static CobblemonTrialSpawner.FlameParticle decode(int i) {
-            CobblemonTrialSpawner.FlameParticle[] atrialspawner$flameparticle = values();
-            return i <= atrialspawner$flameparticle.length && i >= 0 ? atrialspawner$flameparticle[i] : NORMAL;
+        public static UnownParticle decode(int i) {
+            UnownParticle[] atrialspawner$unownparticle = values();
+            return i <= atrialspawner$unownparticle.length && i >= 0 ? atrialspawner$unownparticle[i] : NORMAL;
         }
 
         public int encode() {
