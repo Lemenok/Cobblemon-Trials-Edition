@@ -104,6 +104,8 @@ public class SpawnerReplacementHandler {
                 }
                 // Check to see if the Structure is on the CustomSpawner List
                 else if (isStructurePresentAt(allStructuresAtPosition)) {
+
+                    // Compare structure name to map. Use Wildcards to help with replacing spawners that may not be caught with a default.
                     chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, Blocks.TRIAL_SPAWNER.defaultBlockState());
                     chunk.setBlockEntity(new TrialSpawnerBlockEntity(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState()));
                     LOGGER.info("Replaced Structure Spawner at Location '{}'", blockEntityPosition);

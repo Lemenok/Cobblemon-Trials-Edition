@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -53,52 +52,52 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
     }
 
     CobblemonTrialSpawnerState tickAndGetNext(BlockPos arg, CobblemonTrialSpawner arg2, ServerLevel arg3) {
-        CobblemonTrialSpawnerData trialSpawnerData = arg2.getData();
-        TrialSpawnerConfig trialSpawnerConfig = arg2.getConfig();
+        CobblemonTrialSpawnerData cobblemonTrialSpawnerData = arg2.getData();
+        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = arg2.getConfig();
         CobblemonTrialSpawnerState var10000;
         switch (this.ordinal()) {
             case 0:
-                var10000 = trialSpawnerData.getOrCreateDisplayEntity(false, arg3, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
+                var10000 = cobblemonTrialSpawnerData.getOrCreateDisplayEntity(false, arg2, arg3, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
                 break;
             case 1:
                 if (!arg2.canSpawnInLevel(arg3)) {
-                    trialSpawnerData.reset();
+                    cobblemonTrialSpawnerData.reset();
                     var10000 = this;
-                } else if (!trialSpawnerData.hasMobToSpawn(arg2, arg3.random)) {
+                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(arg2, arg3.random)) {
                     var10000 = INACTIVE;
                 } else {
-                    trialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
-                    var10000 = trialSpawnerData.detectedPlayers.isEmpty() ? this : ACTIVE;
+                    cobblemonTrialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
+                    var10000 = cobblemonTrialSpawnerData.detectedPlayers.isEmpty() ? this : ACTIVE;
                 }
                 break;
             case 2:
                 if (!arg2.canSpawnInLevel(arg3)) {
-                    trialSpawnerData.reset();
+                    cobblemonTrialSpawnerData.reset();
                     var10000 = WAITING_FOR_PLAYERS;
-                } else if (!trialSpawnerData.hasMobToSpawn(arg2, arg3.random)) {
+                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(arg2, arg3.random)) {
                     var10000 = INACTIVE;
                 } else {
-                    int i = trialSpawnerData.countAdditionalPlayers(arg);
-                    trialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
+                    int i = cobblemonTrialSpawnerData.countAdditionalPlayers(arg);
+                    cobblemonTrialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
                     if (arg2.isOminous()) {
                         this.spawnOminousOminousItemSpawner(arg3, arg, arg2);
                     }
 
-                    if (trialSpawnerData.hasFinishedSpawningAllMobs(trialSpawnerConfig, i)) {
-                        if (trialSpawnerData.haveAllCurrentMobsDied()) {
-                            trialSpawnerData.cooldownEndsAt = arg3.getGameTime() + (long)arg2.getTargetCooldownLength();
-                            trialSpawnerData.totalMobsSpawned = 0;
-                            trialSpawnerData.nextMobSpawnsAt = 0L;
+                    if (cobblemonTrialSpawnerData.hasFinishedSpawningAllMobs(cobblemonTrialSpawnerConfig, i)) {
+                        if (cobblemonTrialSpawnerData.haveAllCurrentMobsDied()) {
+                            cobblemonTrialSpawnerData.cooldownEndsAt = arg3.getGameTime() + (long)arg2.getTargetCooldownLength();
+                            cobblemonTrialSpawnerData.totalMobsSpawned = 0;
+                            cobblemonTrialSpawnerData.nextMobSpawnsAt = 0L;
                             var10000 = WAITING_FOR_REWARD_EJECTION;
                             break;
                         }
-                    } else if (trialSpawnerData.isReadyToSpawnNextMob(arg3, trialSpawnerConfig, i)) {
+                    } else if (cobblemonTrialSpawnerData.isReadyToSpawnNextMob(arg3, cobblemonTrialSpawnerConfig, i)) {
                         arg2.spawnMob(arg3, arg).ifPresent((uUID) -> {
-                            trialSpawnerData.currentMobs.add(uUID);
-                            ++trialSpawnerData.totalMobsSpawned;
-                            trialSpawnerData.nextMobSpawnsAt = arg3.getGameTime() + (long)trialSpawnerConfig.ticksBetweenSpawn();
-                            trialSpawnerConfig.spawnPotentialsDefinition().getRandom(arg3.getRandom()).ifPresent((arg3x) -> {
-                                trialSpawnerData.nextSpawnData = Optional.of((SpawnData)arg3x.data());
+                            cobblemonTrialSpawnerData.currentMobs.add(uUID);
+                            ++cobblemonTrialSpawnerData.totalMobsSpawned;
+                            cobblemonTrialSpawnerData.nextMobSpawnsAt = arg3.getGameTime() + (long) cobblemonTrialSpawnerConfig.ticksBetweenSpawn();
+                            cobblemonTrialSpawnerConfig.spawnPotentialsDefinition().getRandom(arg3.getRandom()).ifPresent((arg3x) -> {
+                                cobblemonTrialSpawnerData.nextSpawnData = Optional.of((SpawnData)arg3x.data());
                                 arg2.markUpdated();
                             });
                         });
@@ -108,7 +107,7 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
                 }
                 break;
             case 3:
-                if (trialSpawnerData.isReadyToOpenShutter(arg3, 40.0F, arg2.getTargetCooldownLength())) {
+                if (cobblemonTrialSpawnerData.isReadyToOpenShutter(arg3, 40.0F, arg2.getTargetCooldownLength())) {
                     arg3.playSound((Player)null, arg, SoundEvents.TRIAL_SPAWNER_OPEN_SHUTTER, SoundSource.BLOCKS);
                     var10000 = EJECTING_REWARD;
                 } else {
@@ -116,31 +115,31 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
                 }
                 break;
             case 4:
-                if (!trialSpawnerData.isReadyToEjectItems(arg3, (float)TIME_BETWEEN_EACH_EJECTION, arg2.getTargetCooldownLength())) {
+                if (!cobblemonTrialSpawnerData.isReadyToEjectItems(arg3, (float)TIME_BETWEEN_EACH_EJECTION, arg2.getTargetCooldownLength())) {
                     var10000 = this;
-                } else if (trialSpawnerData.detectedPlayers.isEmpty()) {
+                } else if (cobblemonTrialSpawnerData.detectedPlayers.isEmpty()) {
                     arg3.playSound((Player)null, arg, SoundEvents.TRIAL_SPAWNER_CLOSE_SHUTTER, SoundSource.BLOCKS);
-                    trialSpawnerData.ejectingLootTable = Optional.empty();
+                    cobblemonTrialSpawnerData.ejectingLootTable = Optional.empty();
                     var10000 = COOLDOWN;
                 } else {
-                    if (trialSpawnerData.ejectingLootTable.isEmpty()) {
-                        trialSpawnerData.ejectingLootTable = trialSpawnerConfig.lootTablesToEject().getRandomValue(arg3.getRandom());
+                    if (cobblemonTrialSpawnerData.ejectingLootTable.isEmpty()) {
+                        cobblemonTrialSpawnerData.ejectingLootTable = cobblemonTrialSpawnerConfig.lootTablesToEject().getRandomValue(arg3.getRandom());
                     }
 
-                    trialSpawnerData.ejectingLootTable.ifPresent((arg4) -> arg2.ejectReward(arg3, arg, arg4));
-                    trialSpawnerData.detectedPlayers.remove(trialSpawnerData.detectedPlayers.iterator().next());
+                    cobblemonTrialSpawnerData.ejectingLootTable.ifPresent((arg4) -> arg2.ejectReward(arg3, arg, arg4));
+                    cobblemonTrialSpawnerData.detectedPlayers.remove(cobblemonTrialSpawnerData.detectedPlayers.iterator().next());
                     var10000 = this;
                 }
                 break;
             case 5:
-                trialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
-                if (!trialSpawnerData.detectedPlayers.isEmpty()) {
-                    trialSpawnerData.totalMobsSpawned = 0;
-                    trialSpawnerData.nextMobSpawnsAt = 0L;
+                cobblemonTrialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
+                if (!cobblemonTrialSpawnerData.detectedPlayers.isEmpty()) {
+                    cobblemonTrialSpawnerData.totalMobsSpawned = 0;
+                    cobblemonTrialSpawnerData.nextMobSpawnsAt = 0L;
                     var10000 = ACTIVE;
-                } else if (trialSpawnerData.isCooldownFinished(arg3)) {
+                } else if (cobblemonTrialSpawnerData.isCooldownFinished(arg3)) {
                     arg2.removeOminous(arg3, arg);
-                    trialSpawnerData.reset();
+                    cobblemonTrialSpawnerData.reset();
                     var10000 = WAITING_FOR_PLAYERS;
                 } else {
                     var10000 = this;
@@ -155,8 +154,8 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
 
     private void spawnOminousOminousItemSpawner(ServerLevel arg, BlockPos arg2, CobblemonTrialSpawner arg3) {
         CobblemonTrialSpawnerData trialSpawnerData = arg3.getData();
-        TrialSpawnerConfig trialSpawnerConfig = arg3.getConfig();
-        ItemStack itemStack = (ItemStack)trialSpawnerData.getDispensingItems(arg, trialSpawnerConfig, arg2).getRandomValue(arg.random).orElse(ItemStack.EMPTY);
+        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = arg3.getConfig();
+        ItemStack itemStack = (ItemStack)trialSpawnerData.getDispensingItems(arg, cobblemonTrialSpawnerConfig, arg2).getRandomValue(arg.random).orElse(ItemStack.EMPTY);
         if (!itemStack.isEmpty()) {
             if (this.timeToSpawnItemSpawner(arg, trialSpawnerData)) {
                 calculatePositionToSpawnSpawner(arg, arg2, arg3, trialSpawnerData).ifPresent((arg5) -> {

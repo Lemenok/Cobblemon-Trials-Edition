@@ -2,6 +2,7 @@ package com.lemenok.cobblemontrialsedition.block.custom;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.block.entity.ModBlockEntities;
+import com.lemenok.cobblemontrialsedition.models.CobblemonSpawner;
 import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerState;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -72,7 +73,7 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     @Override
     public void appendHoverText(ItemStack arg, Item.TooltipContext arg2, List<Component> list, TooltipFlag arg3) {
         super.appendHoverText(arg, arg2, list, arg3);
-        Spawner.appendHoverText(arg, list, "spawn_data");
+        CobblemonSpawner.appendHoverText(arg, list, "spawn_data");
     }
 
     static {

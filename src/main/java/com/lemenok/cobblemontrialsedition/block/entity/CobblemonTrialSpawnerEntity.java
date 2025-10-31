@@ -1,18 +1,20 @@
 package com.lemenok.cobblemontrialsedition.block.entity;
 
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawner;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerData;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerState;
+import com.lemenok.cobblemontrialsedition.models.*;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.TrialSpawnerBlock;
@@ -27,18 +29,19 @@ import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.util.List;
 import java.util.Objects;
 
-public class CobblemonTrialSpawnerEntity extends BlockEntity implements Spawner, CobblemonTrialSpawner.StateAccessor  {
+public class CobblemonTrialSpawnerEntity extends BlockEntity implements CobblemonSpawner, CobblemonTrialSpawner.StateAccessor  {
     private static final Logger LOGGER = LogUtils.getLogger();
     private CobblemonTrialSpawner cobblemonTrialSpawner;
 
     public CobblemonTrialSpawnerEntity(BlockPos blockPos, BlockState blockState) {
         super(ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(), blockPos, blockState);
-        PlayerDetector playerDetector = PlayerDetector.INCLUDING_CREATIVE_PLAYERS;
+        PlayerDetector playerDetector = PlayerDetector.NO_CREATIVE_PLAYERS;
         PlayerDetector.EntitySelector entitySelector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
         // TODO: Import config settings here.
-        this.cobblemonTrialSpawner = new CobblemonTrialSpawner(TrialSpawnerConfig.DEFAULT, TrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, this, playerDetector, entitySelector);
+        this.cobblemonTrialSpawner = new CobblemonTrialSpawner(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, this, playerDetector, entitySelector);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Spawner,
         return true;
     }
 
-    @Override
+
     public void setEntityId(EntityType<?> arg, RandomSource arg2) {
         this.cobblemonTrialSpawner.getData().setEntityId(this.cobblemonTrialSpawner, arg2, arg);
         this.setChanged();
@@ -113,12 +116,4 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Spawner,
             this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
         }
     }
-
-    /*public static void tick(Level level, BlockPos pos, BlockState state, CobblemonTrialSpawnerEntity blockEntity) {
-        if (blockEntity.cobblemonTrialSpawner != null) {
-            blockEntity.cobblemonTrialSpawner.tickClient(level, pos, blockEntity.cobblemonTrialSpawner.isOminous());
-            blockEntity.setChanged();
-        }
-    }*/
-
 }
