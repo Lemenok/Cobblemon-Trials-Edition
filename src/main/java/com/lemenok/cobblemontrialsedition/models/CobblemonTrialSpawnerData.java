@@ -33,7 +33,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -47,7 +46,14 @@ public class CobblemonTrialSpawnerData {
     private static final String TAG_NEXT_MOB_SPAWNS_AT = "next_mob_spawns_at";
     private static final int DELAY_BETWEEN_PLAYER_SCANS = 20;
     private static final int TRIAL_OMEN_PER_BAD_OMEN_LEVEL = 18000;
-    public static MapCodec<CobblemonTrialSpawnerData> MAP_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(UUIDUtil.CODEC_SET.lenientOptionalFieldOf("registered_players", Sets.newHashSet()).forGetter((arg) -> arg.detectedPlayers), UUIDUtil.CODEC_SET.lenientOptionalFieldOf("current_mobs", Sets.newHashSet()).forGetter((arg) -> arg.currentMobs), Codec.LONG.lenientOptionalFieldOf("cooldown_ends_at", 0L).forGetter((arg) -> arg.cooldownEndsAt), Codec.LONG.lenientOptionalFieldOf("next_mob_spawns_at", 0L).forGetter((arg) -> arg.nextMobSpawnsAt), Codec.intRange(0, Integer.MAX_VALUE).lenientOptionalFieldOf("total_mobs_spawned", 0).forGetter((arg) -> arg.totalMobsSpawned), SpawnData.CODEC.lenientOptionalFieldOf("spawn_data").forGetter((arg) -> arg.nextSpawnData), ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("ejecting_loot_table").forGetter((arg) -> arg.ejectingLootTable)).apply(instance, CobblemonTrialSpawnerData::new));
+    public static MapCodec<CobblemonTrialSpawnerData> MAP_CODEC = RecordCodecBuilder.mapCodec((instance) ->
+            instance.group(UUIDUtil.CODEC_SET.lenientOptionalFieldOf("registered_players", Sets.newHashSet()).forGetter((arg) -> arg.detectedPlayers),
+                    UUIDUtil.CODEC_SET.lenientOptionalFieldOf("current_mobs", Sets.newHashSet()).forGetter((arg) -> arg.currentMobs),
+                    Codec.LONG.lenientOptionalFieldOf("cooldown_ends_at", 0L).forGetter((arg) -> arg.cooldownEndsAt),
+                    Codec.LONG.lenientOptionalFieldOf("next_mob_spawns_at", 0L).forGetter((arg) -> arg.nextMobSpawnsAt),
+                    Codec.intRange(0, Integer.MAX_VALUE).lenientOptionalFieldOf("total_mobs_spawned", 0).forGetter((arg) -> arg.totalMobsSpawned),
+                    SpawnData.CODEC.lenientOptionalFieldOf("spawn_data").forGetter((arg) -> arg.nextSpawnData),
+                    ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("ejecting_loot_table").forGetter((arg) -> arg.ejectingLootTable)).apply(instance, CobblemonTrialSpawnerData::new));
     protected final Set<UUID> detectedPlayers;
     protected final Set<UUID> currentMobs;
     protected long cooldownEndsAt;
@@ -92,7 +98,7 @@ public class CobblemonTrialSpawnerData {
         return bl || !arg.getConfig().spawnPotentialsDefinition().isEmpty();
     }
 
-    public boolean hasFinishedSpawningAllMobs(TrialSpawnerConfig arg, int i) {
+    public boolean hasFinishedSpawningAllMobs(CobblemonTrialSpawnerConfig arg, int i) {
         return this.totalMobsSpawned >= arg.calculateTargetTotalMobs(i);
     }
 
@@ -100,7 +106,7 @@ public class CobblemonTrialSpawnerData {
         return this.currentMobs.isEmpty();
     }
 
-    public boolean isReadyToSpawnNextMob(ServerLevel arg, TrialSpawnerConfig arg2, int i) {
+    public boolean isReadyToSpawnNextMob(ServerLevel arg, CobblemonTrialSpawnerConfig arg2, int i) {
         return arg.getGameTime() >= this.nextMobSpawnsAt && this.currentMobs.size() < arg2.calculateTargetSimultaneousMobs(i);
     }
 
@@ -239,18 +245,20 @@ public class CobblemonTrialSpawnerData {
     }
 
     @Nullable
-    public ItemStack getOrCreateDisplayEntity(boolean isOminous, Level arg2, CobblemonTrialSpawnerState arg3) {
+    public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner arg, Level arg2, CobblemonTrialSpawnerState arg3) {
         if (!arg3.hasSpinningMob()) {
             return null;
         } else {
             if (this.displayItem == null) {
-                //CompoundTag compoundTag = this.getOrCreateNextSpawnData(arg, arg2.getRandom()).getEntityToSpawn();
-                //if (compoundTag.contains("id", 8)) {
+                CompoundTag compoundTag = this.getOrCreateNextSpawnData(arg, arg2.getRandom()).getEntityToSpawn();
+                if (compoundTag.contains("id", 8)) {
+                    if (isOminous)
+                        this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
+                    else
+                        this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
+                }
                     //this.displayItem = EntityType.loadEntityRecursive(compoundTag, arg2, Function.identity());
-                if (isOminous)
-                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
-                else
-                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
+
             }
 
             return this.displayItem;
@@ -275,7 +283,7 @@ public class CobblemonTrialSpawnerData {
         return this.oSpin;
     }
 
-    SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel arg, TrialSpawnerConfig arg2, BlockPos arg3) {
+    SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel arg, CobblemonTrialSpawnerConfig arg2, BlockPos arg3) {
         if (this.dispensing != null) {
             return this.dispensing;
         } else {

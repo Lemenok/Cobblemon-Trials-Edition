@@ -18,7 +18,7 @@ public class ModCreativeModeTabs {
 
     public static final Supplier<CreativeModeTab> COBBLEMON_TRIALS_EDITION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("cobblemon_trials_edition_blocks_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.COBBLEMON_TRIAL_SPAWNER))
-                    .title(Component.translatable("creativetab.cobblemontrialsedition.cobblemon_trials_edition_blocks"))
+                    .title(Component.translatable("Cobblemon Trials Edition Blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER.get());

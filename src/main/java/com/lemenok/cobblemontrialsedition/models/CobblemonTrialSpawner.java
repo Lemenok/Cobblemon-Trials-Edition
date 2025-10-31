@@ -21,11 +21,9 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
@@ -60,8 +58,8 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private static final int MAX_MOB_TRACKING_DISTANCE = 47;
     private static final int MAX_MOB_TRACKING_DISTANCE_SQR = Mth.square(47);
     private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.02F;
-    private final TrialSpawnerConfig normalConfig;
-    private final TrialSpawnerConfig ominousConfig;
+    private final CobblemonTrialSpawnerConfig normalConfig;
+    private final CobblemonTrialSpawnerConfig ominousConfig;
     private final CobblemonTrialSpawnerData data;
     private final int requiredPlayerRange;
     private final int targetCooldownLength;
@@ -72,14 +70,14 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private boolean isOminous;
 
     public Codec<CobblemonTrialSpawner> codec() {
-        return RecordCodecBuilder.create((instance) -> instance.group(TrialSpawnerConfig.CODEC.optionalFieldOf("normal_config", TrialSpawnerConfig.DEFAULT).forGetter(CobblemonTrialSpawner::getNormalConfig), TrialSpawnerConfig.CODEC.optionalFieldOf("ominous_config", TrialSpawnerConfig.DEFAULT).forGetter(CobblemonTrialSpawner::getOminousConfigForSerialization), CobblemonTrialSpawnerData.MAP_CODEC.forGetter(CobblemonTrialSpawner::getData), Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("target_cooldown_length", 36000).forGetter(CobblemonTrialSpawner::getTargetCooldownLength), Codec.intRange(1, 128).optionalFieldOf("required_player_range", 14).forGetter(CobblemonTrialSpawner::getRequiredPlayerRange)).apply(instance, (arg, arg2, arg3, integer, integer2) -> new CobblemonTrialSpawner(arg, arg2, arg3, integer, integer2, this.stateAccessor, this.playerDetector, this.entitySelector)));
+        return RecordCodecBuilder.create((instance) -> instance.group(CobblemonTrialSpawnerConfig.CODEC.optionalFieldOf("normal_config", CobblemonTrialSpawnerConfig.DEFAULT).forGetter(CobblemonTrialSpawner::getNormalConfig), CobblemonTrialSpawnerConfig.CODEC.optionalFieldOf("ominous_config", CobblemonTrialSpawnerConfig.DEFAULT).forGetter(CobblemonTrialSpawner::getOminousConfigForSerialization), CobblemonTrialSpawnerData.MAP_CODEC.forGetter(CobblemonTrialSpawner::getData), Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("target_cooldown_length", 36000).forGetter(CobblemonTrialSpawner::getTargetCooldownLength), Codec.intRange(1, 128).optionalFieldOf("required_player_range", 14).forGetter(CobblemonTrialSpawner::getRequiredPlayerRange)).apply(instance, (arg, arg2, arg3, integer, integer2) -> new CobblemonTrialSpawner(arg, arg2, arg3, integer, integer2, this.stateAccessor, this.playerDetector, this.entitySelector)));
     }
 
     public CobblemonTrialSpawner(CobblemonTrialSpawner.StateAccessor arg, PlayerDetector arg2, PlayerDetector.EntitySelector arg3) {
-        this(TrialSpawnerConfig.DEFAULT, TrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, arg, arg2, arg3);
+        this(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, arg, arg2, arg3);
     }
 
-    public CobblemonTrialSpawner(TrialSpawnerConfig arg, TrialSpawnerConfig arg2, CobblemonTrialSpawnerData arg3, int i, int j, CobblemonTrialSpawner.StateAccessor arg4, PlayerDetector arg5, PlayerDetector.EntitySelector arg6) {
+    public CobblemonTrialSpawner(CobblemonTrialSpawnerConfig arg, CobblemonTrialSpawnerConfig arg2, CobblemonTrialSpawnerData arg3, int i, int j, CobblemonTrialSpawner.StateAccessor arg4, PlayerDetector arg5, PlayerDetector.EntitySelector arg6) {
         this.normalConfig = arg;
         this.ominousConfig = arg2;
         this.data = arg3;
@@ -90,22 +88,22 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         this.entitySelector = arg6;
     }
 
-    public TrialSpawnerConfig getConfig() {
+    public CobblemonTrialSpawnerConfig getConfig() {
         return this.isOminous ? this.ominousConfig : this.normalConfig;
     }
 
     @VisibleForTesting
-    public TrialSpawnerConfig getNormalConfig() {
+    public CobblemonTrialSpawnerConfig getNormalConfig() {
         return this.normalConfig;
     }
 
     @VisibleForTesting
-    public TrialSpawnerConfig getOminousConfig() {
+    public CobblemonTrialSpawnerConfig getOminousConfig() {
         return this.ominousConfig;
     }
 
-    private TrialSpawnerConfig getOminousConfigForSerialization() {
-        return !this.ominousConfig.equals(this.normalConfig) ? this.ominousConfig : TrialSpawnerConfig.DEFAULT;
+    private CobblemonTrialSpawnerConfig getOminousConfigForSerialization() {
+        return !this.ominousConfig.equals(this.normalConfig) ? this.ominousConfig : CobblemonTrialSpawnerConfig.DEFAULT;
     }
 
     public void applyOminous(ServerLevel arg, BlockPos arg2) {
@@ -157,11 +155,12 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     }
 
     public boolean canSpawnInLevel(Level arg) {
-        if (this.overridePeacefulAndMobSpawnRule) {
+        return arg.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
+        /*if (this.overridePeacefulAndMobSpawnRule) {
             return true;
         } else {
             return arg.getDifficulty() == Difficulty.PEACEFUL ? false : arg.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
-        }
+        }*/
     }
 
     public Optional<UUID> spawnMob(ServerLevel arg, BlockPos arg2) {

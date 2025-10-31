@@ -1,13 +1,9 @@
 {
-  "itemGroup.cobblemontrialsedition": "Example Mod Tab",
-  "block.cobblemontrialsedition.example_block": "Example Block",
-  "item.cobblemontrialsedition.example_item": "Example Item",
+  "itemGroup.cobblemontrialsedition": "Cobblemon Trials Edition",
+  "block.cobblemontrialsedition.cobblemon_trial_spawner": "Cobblemon Trial Spawner",
+  "item.cobblemontrialsedition.cobblemon_trial_spawner": "Cobblemon Trial Spawner",
 
   "cobblemontrialsedition.configuration.title": "Cobblemon-Trials-Edition Configs",
   "cobblemontrialsedition.configuration.section.cobblemontrialsedition.common.toml": "Cobblemon-Trials-Edition Configs",
-  "cobblemontrialsedition.configuration.section.cobblemontrialsedition.common.toml.title": "Cobblemon-Trials-Edition Configs",
-  "cobblemontrialsedition.configuration.items": "Item List",
-  "cobblemontrialsedition.configuration.logDirtBlock": "Log Dirt Block",
-  "cobblemontrialsedition.configuration.magicNumberIntroduction": "Magic Number Text",
-  "cobblemontrialsedition.configuration.magicNumber": "Magic Number"
+  "cobblemontrialsedition.configuration.section.cobblemontrialsedition.common.toml.title": "Cobblemon-Trials-Edition Configs"
 }

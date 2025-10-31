@@ -31,7 +31,7 @@ public class CobblemonTrialSpawnerRenderer implements BlockEntityRenderer<Cobble
         if (level != null) {
             CobblemonTrialSpawner cobblemonTrialSpawner = arg.getCobblemonTrialSpawner();
             CobblemonTrialSpawnerData cobblemonTrialSpawnerData = cobblemonTrialSpawner.getData();
-            ItemStack itemStack = cobblemonTrialSpawnerData.getOrCreateDisplayEntity(arg.getBlockState().getValue(CobblemonTrialSpawnerBlock.OMINOUS), level, cobblemonTrialSpawner.getState());
+            ItemStack itemStack = cobblemonTrialSpawnerData.getOrCreateDisplayEntity(arg.getBlockState().getValue(CobblemonTrialSpawnerBlock.OMINOUS), cobblemonTrialSpawner, level, cobblemonTrialSpawner.getState());
             if (itemStack != null) {
                 if (!itemStack.isEmpty()) {
                     this.random.setSeed((long) ItemEntityRenderer.getSeedForItemStack(itemStack));
