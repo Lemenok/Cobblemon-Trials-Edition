@@ -6,13 +6,8 @@ import com.lemenok.cobblemontrialsedition.events.SpawnerReplacementHandler;
 import com.lemenok.cobblemontrialsedition.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.item.ModItems;
 import com.lemenok.cobblemontrialsedition.particle.ModParticles;
-import com.lemenok.cobblemontrialsedition.particle.UnownParticles;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import com.lemenok.cobblemontrialsedition.sound.ModSounds;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -21,7 +16,6 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -60,12 +54,14 @@ public class CobblemonTrialsEdition {
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-        modEventBus.register(ConfigProcessor.class);
+        modEventBus.addListener(this::commonSetup);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-
+        event.enqueueWork(() -> {
+           ConfigProcessor.SetupDefaultConfigs();
+           ConfigProcessor.LoadConfigs();
+        });
     }
 
     // Add the example block item to the building blocks tab

@@ -1,52 +1,33 @@
 package com.lemenok.cobblemontrialsedition.events;
 
-import com.cobblemon.mod.common.Cobblemon;
-import com.cobblemon.mod.common.CobblemonEntities;
-import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.abilities.Ability;
-import com.cobblemon.mod.common.api.abilities.AbilityPool;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.api.pokemon.Natures;
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.*;
-import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.lemenok.cobblemontrialsedition.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawner;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerData;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
-import net.minecraft.world.level.block.entity.trialspawner.PlayerDetector;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerData;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.jmx.Server;
 
-import java.rmi.registry.Registry;
 import java.util.*;
 import java.util.List;
 
@@ -57,6 +38,10 @@ public class SpawnerReplacementHandler {
 
     @SubscribeEvent
     public void onChunkLoad(ChunkEvent.Load event) {
+
+        if(!ConfigProcessor.GLOBAL_SETTINGS.ReplaceGeneratedSpawnersWithCobblemonSpawners)
+            return;
+
         Level level = (Level) event.getLevel();
 
         // Verify that the events are chunk events.
@@ -124,7 +109,7 @@ public class SpawnerReplacementHandler {
 
     private boolean isStructurePresentAt(Map<Structure, LongSet> allStructuresAtPosition) {
 
-        for (ResourceLocation resourceLocation : ConfigProcessor.WHITELISTED_STRUCTURES) {
+        /*for (ResourceLocation resourceLocation : ConfigProcessor.WHITELISTED_STRUCTURES) {
             try {
                 for (Structure structure : allStructuresAtPosition.keySet()){
                     // Get the ResourceKey for the given Structure instance.
@@ -142,7 +127,7 @@ public class SpawnerReplacementHandler {
             catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        }
+        }*/
         return false;
     }
 

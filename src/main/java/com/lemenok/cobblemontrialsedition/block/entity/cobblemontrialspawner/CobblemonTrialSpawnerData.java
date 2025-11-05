@@ -1,4 +1,4 @@
-package com.lemenok.cobblemontrialsedition.models;
+package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;

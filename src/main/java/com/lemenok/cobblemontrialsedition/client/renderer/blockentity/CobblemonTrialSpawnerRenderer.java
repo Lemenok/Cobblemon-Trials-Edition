@@ -1,7 +1,9 @@
-package com.lemenok.cobblemontrialsedition.models;
+package com.lemenok.cobblemontrialsedition.client.renderer.blockentity;
 
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawner;
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -35,7 +37,7 @@ public class CobblemonTrialSpawnerRenderer implements BlockEntityRenderer<Cobble
             if (itemStack != null) {
                 if (!itemStack.isEmpty()) {
                     this.random.setSeed((long) ItemEntityRenderer.getSeedForItemStack(itemStack));
-                    renderItemInside(f, level, arg2, arg3, i, itemStack, this.itemRenderer, (float) cobblemonTrialSpawnerData.oSpin, (float) cobblemonTrialSpawnerData.spin, this.random);
+                    renderItemInside(f, level, arg2, arg3, i, itemStack, this.itemRenderer, (float) cobblemonTrialSpawnerData.getOSpin(), (float) cobblemonTrialSpawnerData.getSpin(), this.random);
                 }
             }
         }

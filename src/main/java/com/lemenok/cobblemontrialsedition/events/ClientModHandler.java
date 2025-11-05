@@ -1,9 +1,8 @@
 package com.lemenok.cobblemontrialsedition.events;
 
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
-import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.block.entity.ModBlockEntities;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerRenderer;
+import com.lemenok.cobblemontrialsedition.client.renderer.blockentity.CobblemonTrialSpawnerRenderer;
 import com.lemenok.cobblemontrialsedition.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.particle.UnownParticles;
 import net.neoforged.api.distmarker.Dist;

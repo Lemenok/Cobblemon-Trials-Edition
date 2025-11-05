@@ -1,52 +1,307 @@
 package com.lemenok.cobblemontrialsedition.processors;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
-import com.lemenok.cobblemontrialsedition.Config;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import org.apache.logging.log4j.Logger;
+import com.lemenok.cobblemontrialsedition.config.GlobalSettings;
+import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonSettings;
+import com.lemenok.cobblemontrialsedition.config.SpawnerSettings;
+import com.lemenok.cobblemontrialsedition.config.StructureSettings;
+import com.lemenok.cobblemontrialsedition.config.mappers.GlobalSettingsMapper;
+import com.lemenok.cobblemontrialsedition.config.mappers.SpawnablePokemonMapper;
+import com.lemenok.cobblemontrialsedition.config.mappers.SpawnerMapper;
+import com.lemenok.cobblemontrialsedition.config.mappers.StructureMapper;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
-
-public final class ConfigProcessor {
+public class ConfigProcessor {
     private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEdition.MODID);
+    private static final Gson GSON = new Gson();
 
-    public static List<ResourceLocation> WHITELISTED_STRUCTURES = Collections.emptyList();
+    private static final String DefaultGlobalSettings = "globalSettings.json";
+    private static final String DefaultFortressSettings = "minecraft-fortress.json";
+    private static final String DefaultSpawnerSettings = "spawner-fortress.json";
+    private static final String DefaultLootTableSettings = "loot_table-fortress.json";
+    private static final String DefaultOminousLootTableSettings = "loot_table-ominous-fortress.json";
 
-    private ConfigProcessor() {}
+    private static final Path GlobalDefaultConfigPath = FMLPaths.CONFIGDIR.get().resolve(CobblemonTrialsEdition.MODID);
+    private static final Path StructuresConfigPath = GlobalDefaultConfigPath.resolve("structures");
+    private static final Path SpawnersConfigPath = StructuresConfigPath.resolve("spawners");
+    private static final Path LootTablesConfigPath = SpawnersConfigPath.resolve("loot_tables");
 
-    @SubscribeEvent
-    public static void onCommonSetup(FMLCommonSetupEvent event) {
-        @SuppressWarnings("unchecked")
-        List<String> listOfStructuresFromConfig = (List<String>) Config.WHITELISTED_STRUCTURE_LIST.get();
+    public static GlobalSettings GLOBAL_SETTINGS = null;
+    private static List<StructureMapper> STRUCTURE_SETTINGS = null;
+    private static HashMap<String, SpawnerMapper> SPAWNER_MAPPING = null;
+    private static HashMap<String, LootTable> LOOT_TABLES = null;
 
-        if (listOfStructuresFromConfig.isEmpty()) {
-            LOGGER.info("No Structures have been added to the config, setting Structure Whitelist to Empty.");
-            WHITELISTED_STRUCTURES = Collections.emptyList();
-            return;
-        }
+    public static void SetupDefaultConfigs() {
+        Path modConfigDirectory = FMLPaths.CONFIGDIR.get().resolve(CobblemonTrialsEdition.MODID);
 
-        List<ResourceLocation> listOfResourceLocations = new ArrayList<>(listOfStructuresFromConfig.size());
-        for (String structure : listOfStructuresFromConfig) {
-            if (structure == null) {
-                LOGGER.warn("Found null entry in structures config; skipping.");
-                continue;
+        try {
+            // Check if the Global Settings exists. If it doesn't we want to copy
+            // all other default config files into the appropriate directories.
+            Path targetPath = modConfigDirectory.resolve(DefaultGlobalSettings);
+
+            if (!Files.exists(targetPath)) {
+                LOGGER.info("Default config not found. Copying all default config files.");
+                copyDefaultConfig();
             }
-            try {
-                String[] namespacePath = structure.split(":");
-                ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(namespacePath[0],namespacePath[1]);
-                listOfResourceLocations.add(resourceLocation);
-            } catch (Exception ex) {
-                LOGGER.warn("Invalid structure id in config: '{}', skipping. Error: {}", structure, ex.getMessage());
-            }
-        }
 
-        WHITELISTED_STRUCTURES = Collections.unmodifiableList(listOfResourceLocations);
-        LOGGER.info("Loaded {} whitelisted structures from config.", WHITELISTED_STRUCTURES.size());
+        } catch (Exception e) {
+            LOGGER.error("Failed to setup default configs", e);
+            throw new RuntimeException(e);
+        }
     }
+
+    public static void LoadConfigs() {
+
+        if(!Files.isDirectory(GlobalDefaultConfigPath)) LOGGER.error("GlobalSettings Path does not exist.");
+        if(!Files.isDirectory(StructuresConfigPath)) LOGGER.error("StructuresConfig Path does not exist.");
+        if(!Files.isDirectory(SpawnersConfigPath)) LOGGER.error("SpawnersConfig Path does not exist.");
+        if(!Files.isDirectory(LootTablesConfigPath)) LOGGER.error("LootTablesConfig Path does not exist.");
+
+        // Clear for old reloads
+        GLOBAL_SETTINGS = null;
+        STRUCTURE_SETTINGS = new ArrayList<>();
+        SPAWNER_MAPPING = new HashMap<>();
+        LOOT_TABLES = new HashMap<>();
+        LOGGER.info("Loading config files.");
+
+
+        try (Stream<Path> stream = Files.walk(GlobalDefaultConfigPath, 1)){
+            stream.filter(Files::isRegularFile)
+                    .filter(path -> path.toString().endsWith(".json"))
+                    .forEach(ConfigProcessor::ProcessGlobalFile);
+        } catch (Exception e) {
+            LOGGER.error("Failed to read files from directory", e);
+        }
+
+        try (Stream<Path> stream = Files.walk(StructuresConfigPath, 1)){
+            stream.filter(Files::isRegularFile)
+                    .filter(path -> path.toString().endsWith(".json"))
+                    .forEach(ConfigProcessor::ProcessStructuresFiles);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (Stream<Path> stream = Files.walk(SpawnersConfigPath, 1)){
+            stream.filter(Files::isRegularFile)
+                    .filter(path -> path.toString().endsWith(".json"))
+                    .forEach(ConfigProcessor::ProcessSpawnerFiles);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (Stream<Path> stream = Files.walk(LootTablesConfigPath, 1)){
+            stream.filter(Files::isRegularFile)
+                    .filter(path -> path.toString().endsWith(".json"))
+                    .forEach(ConfigProcessor::ProcessLootTableFiles);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        BuildGlobalConfig();
+
+        LOGGER.info("Successfully loaded config files.");
+    }
+
+    private static void copyDefaultConfig() throws IOException {
+        String globalDefaultResourcePath = "/assets/" + CobblemonTrialsEdition.MODID + "/config/";
+        String structuresDefaultResourcePath = globalDefaultResourcePath + "structures/";
+        String spawnersDefaultResourcePath = structuresDefaultResourcePath + "spawners/";
+        String lootTablesDefaultResourcePath = spawnersDefaultResourcePath + "loot_tables/";
+        String ominousLootTablesDefaultResourcePath = spawnersDefaultResourcePath + "loot_tables/";
+
+        Files.createDirectories(GlobalDefaultConfigPath);
+        Files.createDirectories(StructuresConfigPath);
+        Files.createDirectories(SpawnersConfigPath);
+        Files.createDirectories(LootTablesConfigPath);
+
+        CopyFileFromPath(ConfigProcessor.class.getResourceAsStream(globalDefaultResourcePath + DefaultGlobalSettings), GlobalDefaultConfigPath, DefaultGlobalSettings);
+        CopyFileFromPath(ConfigProcessor.class.getResourceAsStream(structuresDefaultResourcePath + DefaultFortressSettings), StructuresConfigPath, DefaultFortressSettings);
+        CopyFileFromPath(ConfigProcessor.class.getResourceAsStream(spawnersDefaultResourcePath + DefaultSpawnerSettings), SpawnersConfigPath, DefaultSpawnerSettings);
+        CopyFileFromPath(ConfigProcessor.class.getResourceAsStream(lootTablesDefaultResourcePath + DefaultLootTableSettings), LootTablesConfigPath, DefaultLootTableSettings);
+        CopyFileFromPath(ConfigProcessor.class.getResourceAsStream(ominousLootTablesDefaultResourcePath + DefaultOminousLootTableSettings), LootTablesConfigPath, DefaultOminousLootTableSettings);
+    }
+
+    private static void CopyFileFromPath(InputStream ResourceAsStream, Path targetPath, String fileName) {
+        try (InputStream stream = ResourceAsStream) {
+            if (stream == null) {
+                throw new RuntimeException("Default config file is not found in the JAR: " + fileName);
+            }
+
+            Path fileLocationPath = targetPath.resolve(fileName);
+            Files.copy(stream, fileLocationPath, StandardCopyOption.REPLACE_EXISTING);
+
+        } catch (Exception e) {
+            LOGGER.error("Failed to copy default global config", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void BuildGlobalConfig() {
+        List<StructureSettings> structureSettingsList =  new ArrayList<>();
+
+        for(StructureMapper structureMapper: STRUCTURE_SETTINGS){
+            StructureSettings structureSettings = new StructureSettings();
+            structureSettings.AddToStructureSpawnerMapping(structureMapper.structureId, BuildSpawnerConfigList(structureMapper.spawners));
+
+            structureSettingsList.add(structureSettings);
+        }
+
+        GLOBAL_SETTINGS.setStructureSettingsList(structureSettingsList);
+    }
+
+    private static List<SpawnerSettings> BuildSpawnerConfigList(String[] arrayOfSpawnerFileNames) {
+        List<SpawnerSettings> newSpawnerSettingsList = new ArrayList<>();
+
+        for(String spawnerFileName : arrayOfSpawnerFileNames){
+            SpawnerMapper spawnerMapper = SPAWNER_MAPPING.get(spawnerFileName);
+            SpawnerSettings spawnerSettings = new SpawnerSettings(
+                    spawnerMapper.TicksBetweenSpawnAttempts,
+                    spawnerMapper.SpawnerCooldown,
+                    spawnerMapper.PlayerDetectionRange,
+                    spawnerMapper.SpawnRange,
+                    spawnerMapper.MaximumNumberOfSimultaneousPokemon,
+                    spawnerMapper.MaximumNumberOfSimultaneousPokemonAddedPerPlayer,
+                    spawnerMapper.TotalNumberOfPokemonPerTrial,
+                    spawnerMapper.TotalNumberOfPokemonPerTrialAddedPerPlayer,
+                    spawnerMapper.DisableOminousSpawnerAttacks
+            );
+
+            spawnerSettings.SetSpawnerTypesToReplace(spawnerMapper.SpawnerTypeToReplace);
+            spawnerSettings.SetSpawnerEntityToReplace(spawnerMapper.SpawnerEntityToReplace);
+            spawnerSettings.SetLootTable(LOOT_TABLES.get(spawnerMapper.LootTable), false);
+            spawnerSettings.SetLootTable(LOOT_TABLES.get(spawnerMapper.OminousLootTable), true);
+
+            spawnerSettings.SetListOfPokemonToSpawn(BuildSpawnablePokemonList(spawnerMapper.ListOfPokemonToSpawn), false);
+            spawnerSettings.SetListOfPokemonToSpawn(BuildSpawnablePokemonList(spawnerMapper.ListOfOminousPokemonToSpawn), true);
+
+            newSpawnerSettingsList.add(spawnerSettings);
+        }
+
+        return newSpawnerSettingsList;
+    }
+
+    private static List<SpawnablePokemonSettings> BuildSpawnablePokemonList(SpawnablePokemonMapper[] listOfPokemonToSpawn) {
+        List<SpawnablePokemonSettings> newSpawnablePokemonSettings = new ArrayList<>();
+
+        for(SpawnablePokemonMapper spawnablePokemonMapper: listOfPokemonToSpawn){
+            SpawnablePokemonSettings spawnablePokemonSettings = new SpawnablePokemonSettings(
+                    spawnablePokemonMapper.Species,
+                    spawnablePokemonMapper.Weight,
+                    spawnablePokemonMapper.Form,
+                    spawnablePokemonMapper.MinLevel,
+                    spawnablePokemonMapper.MaxLevel,
+                    spawnablePokemonMapper.Gender,
+                    spawnablePokemonMapper.ListOfNatures,
+                    spawnablePokemonMapper.DefaultEVs,
+                    spawnablePokemonMapper.DefaultIVs,
+                    spawnablePokemonMapper.ListOfAbilities,
+                    spawnablePokemonMapper.DynaMaxLevel,
+                    spawnablePokemonMapper.TeraType,
+                    spawnablePokemonMapper.IsShiny,
+                    spawnablePokemonMapper.ScaleModifier,
+                    spawnablePokemonMapper.IsUncatchable,
+                    spawnablePokemonMapper.MustBeDefeatedInBattle
+            );
+
+            newSpawnablePokemonSettings.add(spawnablePokemonSettings);
+        }
+
+        return newSpawnablePokemonSettings;
+    }
+
+    private static void ProcessGlobalFile(Path path) {
+
+        try (Reader reader = Files.newBufferedReader(path)) {
+            GlobalSettingsMapper globalSettings = GSON.fromJson(reader, GlobalSettingsMapper.class);
+
+            if(globalSettings != null){
+                GLOBAL_SETTINGS = new GlobalSettings(
+                        globalSettings.EnableDebugLogs,
+                        globalSettings.ReplaceGeneratedSpawnersWithCobblemonSpawners,
+                        globalSettings.ReplaceSpawnersNotInStructuresWithCobblemonSpawners,
+                        globalSettings.ReplaceSpawnersInStructuresWithCobblemonSpawners);
+
+                LOGGER.info("Loaded global settings.");
+            } else {
+                LOGGER.info("Failed to parse globalSettings file or file was empty: {}", path);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Invalid JSON syntax in file: {}", path, e);
+        }
+    }
+
+    private static void ProcessStructuresFiles(Path path) {
+        try (Reader reader = Files.newBufferedReader(path)) {
+            String structureFileName = path.getFileName().toString();
+            StructureMapper structureMapper = GSON.fromJson(reader, StructureMapper.class);
+
+            if(structureMapper != null){
+                STRUCTURE_SETTINGS.add(structureMapper);
+                LOGGER.info("Loaded Structure file: {}", structureFileName);
+            } else {
+                LOGGER.info("Failed to parse structure file or file was empty: {}", path);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Invalid JSON syntax in file: {}", path, e);
+        }
+    }
+
+    private static void ProcessSpawnerFiles(Path path) {
+        try (Reader reader = Files.newBufferedReader(path)) {
+            String spawnerFileName = path.getFileName().toString();
+            SpawnerMapper newSpawnerMapper = GSON.fromJson(reader, SpawnerMapper.class);
+
+            if(newSpawnerMapper != null){
+                SPAWNER_MAPPING.put(spawnerFileName, newSpawnerMapper);
+                LOGGER.info("Loaded Spawner file: {}", spawnerFileName);
+            } else {
+                LOGGER.info("Failed to parse spawner file or file was empty: {}", path);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Invalid JSON syntax in file: {}", path, e);
+        }
+    }
+
+    private static void ProcessLootTableFiles(Path path) {
+        try (Reader reader = Files.newBufferedReader(path)) {
+            String lootTableFileName = path.getFileName().toString();
+
+            JsonElement jsonElement = JsonParser.parseReader(reader);
+            DataResult<Holder<LootTable>> dataResult = LootTable.CODEC.parse(JsonOps.INSTANCE, jsonElement);
+
+
+            LootTable newLootTable = dataResult.getOrThrow(errorMessage ->
+                    new IllegalStateException("Failed to parse loot table: " + errorMessage)).value();
+
+            LOOT_TABLES.put(lootTableFileName, newLootTable);
+            LOGGER.info("Loaded loot table file: {}", lootTableFileName);
+
+        } catch (Exception e) {
+            LOGGER.error("Invalid JSON syntax in file: {}", path, e);
+        }
+    }
+
+
+
 }

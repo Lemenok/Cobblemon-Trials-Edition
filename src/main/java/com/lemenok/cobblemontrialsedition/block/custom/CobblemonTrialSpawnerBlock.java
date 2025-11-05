@@ -2,8 +2,8 @@ package com.lemenok.cobblemontrialsedition.block.custom;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.block.entity.ModBlockEntities;
-import com.lemenok.cobblemontrialsedition.models.CobblemonSpawner;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerState;
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonSpawner;
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerState;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -12,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.Spawner;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
