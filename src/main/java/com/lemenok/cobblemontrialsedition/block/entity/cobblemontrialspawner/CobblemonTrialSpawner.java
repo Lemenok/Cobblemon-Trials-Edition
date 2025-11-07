@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
+import com.cobblemon.mod.common.pokemon.Nature;
 import com.google.common.annotations.VisibleForTesting;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
@@ -45,9 +46,7 @@ import net.neoforged.neoforge.common.extensions.IOwnedSpawner;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class CobblemonTrialSpawner implements IOwnedSpawner {
     public static final String NORMAL_CONFIG_TAG_NAME = "normal_config";
@@ -58,11 +57,15 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private static final int MAX_MOB_TRACKING_DISTANCE = 47;
     private static final int MAX_MOB_TRACKING_DISTANCE_SQR = Mth.square(47);
     private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.02F;
-    private final CobblemonTrialSpawnerConfig normalConfig;
-    private final CobblemonTrialSpawnerConfig ominousConfig;
-    private final CobblemonTrialSpawnerData data;
-    private final int requiredPlayerRange;
-    private final int targetCooldownLength;
+    private CobblemonTrialSpawnerConfig normalConfig;
+    private CobblemonTrialSpawnerConfig ominousConfig;
+    private CobblemonTrialSpawnerData data;
+    private int requiredPlayerRange;
+    private int targetCooldownLength;
+    private final int minimumLevel;
+    private final int maximumLevel;
+    private final List<Nature> listOfNatures;
+    private final List<String> listOfAbilities;
     private final CobblemonTrialSpawner.StateAccessor stateAccessor;
     private PlayerDetector playerDetector;
     private final PlayerDetector.EntitySelector entitySelector;
@@ -70,19 +73,41 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private boolean isOminous;
 
     public Codec<CobblemonTrialSpawner> codec() {
-        return RecordCodecBuilder.create((instance) -> instance.group(CobblemonTrialSpawnerConfig.CODEC.optionalFieldOf("normal_config", CobblemonTrialSpawnerConfig.DEFAULT).forGetter(CobblemonTrialSpawner::getNormalConfig), CobblemonTrialSpawnerConfig.CODEC.optionalFieldOf("ominous_config", CobblemonTrialSpawnerConfig.DEFAULT).forGetter(CobblemonTrialSpawner::getOminousConfigForSerialization), CobblemonTrialSpawnerData.MAP_CODEC.forGetter(CobblemonTrialSpawner::getData), Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("target_cooldown_length", 36000).forGetter(CobblemonTrialSpawner::getTargetCooldownLength), Codec.intRange(1, 128).optionalFieldOf("required_player_range", 14).forGetter(CobblemonTrialSpawner::getRequiredPlayerRange)).apply(instance, (arg, arg2, arg3, integer, integer2) -> new CobblemonTrialSpawner(arg, arg2, arg3, integer, integer2, this.stateAccessor, this.playerDetector, this.entitySelector)));
+        return RecordCodecBuilder.create((instance) ->
+                instance.group(CobblemonTrialSpawnerConfig.CODEC
+                            .optionalFieldOf("normal_config", CobblemonTrialSpawnerConfig.DEFAULT)
+                            .forGetter(CobblemonTrialSpawner::getNormalConfig),
+                        CobblemonTrialSpawnerConfig.CODEC
+                            .optionalFieldOf("ominous_config", CobblemonTrialSpawnerConfig.DEFAULT)
+                            .forGetter(CobblemonTrialSpawner::getOminousConfigForSerialization),
+                        CobblemonTrialSpawnerData.MAP_CODEC
+                            .forGetter(CobblemonTrialSpawner::getData),
+                        Codec.intRange(0, Integer.MAX_VALUE)
+                            .optionalFieldOf("target_cooldown_length", 36000)
+                            .forGetter(CobblemonTrialSpawner::getTargetCooldownLength),
+                        Codec.intRange(1, 128)
+                            .optionalFieldOf("required_player_range", 14)
+                            .forGetter(CobblemonTrialSpawner::getRequiredPlayerRange))
+                        .apply(instance,
+                                (arg, arg2,
+                                 arg3, integer, integer2) ->
+                                        new CobblemonTrialSpawner(this.stateAccessor, this.playerDetector, this.entitySelector)));
     }
 
     public CobblemonTrialSpawner(CobblemonTrialSpawner.StateAccessor arg, PlayerDetector arg2, PlayerDetector.EntitySelector arg3) {
         this(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, arg, arg2, arg3);
     }
 
-    public CobblemonTrialSpawner(CobblemonTrialSpawnerConfig arg, CobblemonTrialSpawnerConfig arg2, CobblemonTrialSpawnerData arg3, int i, int j, CobblemonTrialSpawner.StateAccessor arg4, PlayerDetector arg5, PlayerDetector.EntitySelector arg6) {
-        this.normalConfig = arg;
-        this.ominousConfig = arg2;
-        this.data = arg3;
-        this.targetCooldownLength = i;
-        this.requiredPlayerRange = j;
+    public CobblemonTrialSpawner(CobblemonTrialSpawnerConfig normalConfig, CobblemonTrialSpawnerConfig ominousConfig, CobblemonTrialSpawnerData spawnerData, int targetCooldownLength, int requiredPlayerRange, CobblemonTrialSpawner.StateAccessor arg4, PlayerDetector arg5, PlayerDetector.EntitySelector arg6) {
+        this.normalConfig = normalConfig;
+        this.ominousConfig = ominousConfig;
+        this.data = spawnerData;
+        this.targetCooldownLength = targetCooldownLength;
+        this.requiredPlayerRange = requiredPlayerRange;
+        this.minimumLevel = 10;
+        this.maximumLevel = 10;
+        this.listOfNatures = new ArrayList<>();
+        this.listOfAbilities = new ArrayList<>();
         this.stateAccessor = arg4;
         this.playerDetector = arg5;
         this.entitySelector = arg6;
@@ -90,6 +115,13 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
 
     public CobblemonTrialSpawnerConfig getConfig() {
         return this.isOminous ? this.ominousConfig : this.normalConfig;
+    }
+
+    public void setConfig(CobblemonTrialSpawnerConfig config, boolean isOminous){
+        if(isOminous)
+            this.ominousConfig = config;
+        else
+            this.normalConfig = config;
     }
 
     @VisibleForTesting
@@ -126,6 +158,10 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         return this.data;
     }
 
+    public void setData(CobblemonTrialSpawnerData cobblemonTrialSpawnerData) {
+        this.data = cobblemonTrialSpawnerData;
+    }
+
     public int getTargetCooldownLength() {
         return this.targetCooldownLength;
     }
@@ -154,6 +190,14 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         return this.entitySelector;
     }
 
+    public void setTargetCooldownLength(int cooldownLength){
+        this.targetCooldownLength = cooldownLength;
+    }
+
+    public void setRequiredPlayerRange(int requiredPlayerRange){
+        this.requiredPlayerRange = requiredPlayerRange;
+    }
+
     public boolean canSpawnInLevel(Level arg) {
         return arg.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
         /*if (this.overridePeacefulAndMobSpawnRule) {
@@ -167,6 +211,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         RandomSource randomsource = arg.getRandom();
         SpawnData spawndata = this.data.getOrCreateNextSpawnData(this, arg.getRandom());
         CompoundTag compoundtag = spawndata.entityToSpawn();
+        ApplyRandomPokemonModifiers(compoundtag);
         ListTag listtag = compoundtag.getList("Pos", 6);
         Optional<EntityType<?>> optional = EntityType.by(compoundtag);
         if (optional.isEmpty()) {
@@ -234,10 +279,13 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         }
     }
 
-    public void ejectReward(ServerLevel arg, BlockPos arg2, ResourceKey<LootTable> arg3) {
-        LootTable loottable = arg.getServer().reloadableRegistries().getLootTable(arg3);
+    private void ApplyRandomPokemonModifiers(CompoundTag compoundtag) {
+
+    }
+
+    public void ejectReward(ServerLevel arg, BlockPos arg2, LootTable lootTable) {
         LootParams lootparams = (new LootParams.Builder(arg)).create(LootContextParamSets.EMPTY);
-        ObjectArrayList<ItemStack> objectarraylist = loottable.getRandomItems(lootparams);
+        ObjectArrayList<ItemStack> objectarraylist = lootTable.getRandomItems(lootparams);
         if (!objectarraylist.isEmpty()) {
             ObjectListIterator var7 = objectarraylist.iterator();
 

@@ -53,14 +53,14 @@ public class CobblemonTrialSpawnerData {
                     Codec.LONG.lenientOptionalFieldOf("next_mob_spawns_at", 0L).forGetter((arg) -> arg.nextMobSpawnsAt),
                     Codec.intRange(0, Integer.MAX_VALUE).lenientOptionalFieldOf("total_mobs_spawned", 0).forGetter((arg) -> arg.totalMobsSpawned),
                     SpawnData.CODEC.lenientOptionalFieldOf("spawn_data").forGetter((arg) -> arg.nextSpawnData),
-                    ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("ejecting_loot_table").forGetter((arg) -> arg.ejectingLootTable)).apply(instance, CobblemonTrialSpawnerData::new));
+                    Codec.unit(LootTable.EMPTY).lenientOptionalFieldOf("ejecting_loot_table").forGetter((arg) -> arg.ejectingLootTable)).apply(instance, CobblemonTrialSpawnerData::new));
     protected final Set<UUID> detectedPlayers;
     protected final Set<UUID> currentMobs;
     protected long cooldownEndsAt;
     protected long nextMobSpawnsAt;
     protected int totalMobsSpawned;
     protected Optional<SpawnData> nextSpawnData;
-    protected Optional<ResourceKey<LootTable>> ejectingLootTable;
+    protected Optional<LootTable> ejectingLootTable;
     @Nullable
     protected ItemStack displayItem;
     @Nullable
@@ -72,7 +72,7 @@ public class CobblemonTrialSpawnerData {
         this(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.empty(), Optional.empty());
     }
 
-    public CobblemonTrialSpawnerData(Set<UUID> set, Set<UUID> set2, long l, long m, int i, Optional<SpawnData> optional, Optional<ResourceKey<LootTable>> optional2) {
+    public CobblemonTrialSpawnerData(Set<UUID> set, Set<UUID> set2, long l, long m, int i, Optional<SpawnData> optional, Optional<LootTable> optional2) {
         this.detectedPlayers = new HashSet();
         this.currentMobs = new HashSet();
         this.detectedPlayers.addAll(set);
@@ -177,9 +177,9 @@ public class CobblemonTrialSpawnerData {
     }
 
     public void resetAfterBecomingOminous(CobblemonTrialSpawner cobblemonTrialSpawner, ServerLevel serverLevel) {
-        Stream var10000 = this.currentMobs.stream();
+        Stream stream = this.currentMobs.stream();
         Objects.requireNonNull(serverLevel);
-        var10000.map(id -> serverLevel.getEntity((UUID) id)).forEach((arg2x) -> {
+        stream.map(id -> serverLevel.getEntity((UUID) id)).forEach((arg2x) -> {
             if (arg2x != null) {
                 if (arg2x instanceof Entity entity) {
                     serverLevel.levelEvent(3012, entity.blockPosition(), CobblemonTrialSpawner.UnownParticle.NORMAL.encode());
@@ -287,7 +287,7 @@ public class CobblemonTrialSpawnerData {
         if (this.dispensing != null) {
             return this.dispensing;
         } else {
-            LootTable lootTable = arg.getServer().reloadableRegistries().getLootTable(arg2.itemsToDropWhenOminous());
+            LootTable lootTable = arg2.itemsToDropWhenOminous();
             LootParams lootParams = (new LootParams.Builder(arg)).create(LootContextParamSets.EMPTY);
             long l = lowResolutionPosition(arg, arg3);
             ObjectArrayList<ItemStack> objectArrayList = lootTable.getRandomItems(lootParams, l);

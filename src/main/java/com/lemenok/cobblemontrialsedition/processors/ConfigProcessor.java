@@ -15,6 +15,7 @@ import com.lemenok.cobblemontrialsedition.config.mappers.StructureMapper;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
@@ -159,7 +160,11 @@ public class ConfigProcessor {
 
         for(StructureMapper structureMapper: STRUCTURE_SETTINGS){
             StructureSettings structureSettings = new StructureSettings();
-            structureSettings.AddToStructureSpawnerMapping(structureMapper.structureId, BuildSpawnerConfigList(structureMapper.spawners));
+
+            String[] structureNamespacePath = structureMapper.structureId.split(":");
+            ResourceLocation newStructureResource = ResourceLocation.fromNamespaceAndPath(structureNamespacePath[0], structureNamespacePath[1]);
+
+            structureSettings.AddToStructureSpawnerMapping(newStructureResource, BuildSpawnerConfigList(structureMapper.spawners));
 
             structureSettingsList.add(structureSettings);
         }

@@ -162,6 +162,6 @@ public class SpawnablePokemonSettings {
     }
 
     private @Nullable String parseTeraType(String teraType) {
-        return TeraTypes.get(teraType).toString();
+        return TeraTypes.get(teraType).showdownId();
     }
 }

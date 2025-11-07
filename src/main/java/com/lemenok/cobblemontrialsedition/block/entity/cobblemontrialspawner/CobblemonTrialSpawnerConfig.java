@@ -13,8 +13,8 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
       float totalMobsAddedPerPlayer, float simultaneousMobsAddedPerPlayer,
       int ticksBetweenSpawn,
       SimpleWeightedRandomList<SpawnData> spawnPotentialsDefinition,
-      SimpleWeightedRandomList<ResourceKey<LootTable>> lootTablesToEject,
-      ResourceKey<LootTable> itemsToDropWhenOminous) {
+      SimpleWeightedRandomList<LootTable> lootTablesToEject,
+      LootTable itemsToDropWhenOminous) {
 
     public static final CobblemonTrialSpawnerConfig DEFAULT;
     public static final Codec<CobblemonTrialSpawnerConfig> CODEC;
@@ -34,7 +34,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
     static {
         DEFAULT = new CobblemonTrialSpawnerConfig(4, 6.0F, 2.0F, 2.0F,
                 1.0F, 40, SimpleWeightedRandomList.empty(),
-                SimpleWeightedRandomList.empty(), BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS);
+                SimpleWeightedRandomList.empty(), LootTable.EMPTY);
         CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(Codec.intRange(1, 128).lenientOptionalFieldOf("spawn_range", DEFAULT.spawnRange)
                                 .forGetter(CobblemonTrialSpawnerConfig::spawnRange),
@@ -50,10 +50,10 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
                                 .forGetter(CobblemonTrialSpawnerConfig::ticksBetweenSpawn),
                         SpawnData.LIST_CODEC.lenientOptionalFieldOf("spawn_potentials", SimpleWeightedRandomList.empty())
                                 .forGetter(CobblemonTrialSpawnerConfig::spawnPotentialsDefinition),
-                        SimpleWeightedRandomList.wrappedCodecAllowingEmpty(ResourceKey.codec(Registries.LOOT_TABLE))
+                        SimpleWeightedRandomList.wrappedCodecAllowingEmpty(Codec.unit(LootTable.EMPTY))
                                 .lenientOptionalFieldOf("loot_tables_to_eject", DEFAULT.lootTablesToEject)
                                 .forGetter(CobblemonTrialSpawnerConfig::lootTablesToEject),
-                        ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("items_to_drop_when_ominous", DEFAULT.itemsToDropWhenOminous)
+                        Codec.unit(LootTable.EMPTY).lenientOptionalFieldOf("items_to_drop_when_ominous", DEFAULT.itemsToDropWhenOminous)
                                 .forGetter(CobblemonTrialSpawnerConfig::itemsToDropWhenOminous))
                         .apply(instance, CobblemonTrialSpawnerConfig::new));
     }

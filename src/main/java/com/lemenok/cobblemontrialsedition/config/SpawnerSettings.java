@@ -1,10 +1,19 @@
 package com.lemenok.cobblemontrialsedition.config;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.mojang.serialization.DataResult;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.LootTable;
 
@@ -22,11 +31,11 @@ public class SpawnerSettings {
     private final int MaximumNumberOfSimultaneousPokemonAddedPerPlayer;
     private final int TotalNumberOfPokemonPerTrial;
     private final int TotalNumberOfPokemonPerTrialAddedPerPlayer;
-    private LootTable SpawnerLootTable;
+    private SimpleWeightedRandomList<LootTable> SpawnerLootTable;
     private LootTable SpawnerOminousLootTable;
     private final boolean DisableOminousSpawnerAttacks;
-    private SimpleWeightedRandomList<PokemonProperties> ListOfPokemonToSpawn;
-    private SimpleWeightedRandomList<PokemonProperties> ListOfOminousPokemonToSpawn;
+    private List<SpawnablePokemonSettings> ListOfPokemonToSpawn;
+    private List<SpawnablePokemonSettings> ListOfOminousPokemonToSpawn;
 
     private final ResourceLocation SpawnerType = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(BlockEntityType.MOB_SPAWNER);
     private final ResourceLocation TrialSpawnerType = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(BlockEntityType.TRIAL_SPAWNER);
@@ -85,21 +94,14 @@ public class SpawnerSettings {
         if(isOminous)
             SpawnerOminousLootTable = lootTable;
         else
-            SpawnerLootTable = lootTable;
+            SpawnerLootTable = new SimpleWeightedRandomList.Builder<LootTable>().add(lootTable).build();
     }
 
     public void SetListOfPokemonToSpawn(List<SpawnablePokemonSettings> spawnablePokemonList, boolean isOminous){
-        var newSpawnablePokemonList = new SimpleWeightedRandomList.Builder<PokemonProperties>();
-
-        for(SpawnablePokemonSettings pokemonSettings: spawnablePokemonList){
-            PokemonProperties pokemon = pokemonSettings.getSpawnablePokemonProperties();
-            newSpawnablePokemonList.add(pokemon, pokemonSettings.getSpawnWeight());
-        }
-
         if(isOminous)
-            ListOfOminousPokemonToSpawn = newSpawnablePokemonList.build();
+            ListOfOminousPokemonToSpawn = spawnablePokemonList;
         else
-            ListOfPokemonToSpawn = newSpawnablePokemonList.build();
+            ListOfPokemonToSpawn = spawnablePokemonList;
     }
 
     public boolean DoesSpawnerSettingsContainEntityToReplace(EntityType entityType){
@@ -143,7 +145,7 @@ public class SpawnerSettings {
         return TotalNumberOfPokemonPerTrialAddedPerPlayer;
     }
 
-    public LootTable getSpawnerLootTable() {
+    public SimpleWeightedRandomList<LootTable> getSpawnerLootTable() {
         return SpawnerLootTable;
     }
 
@@ -155,11 +157,49 @@ public class SpawnerSettings {
         return DisableOminousSpawnerAttacks;
     }
 
-    public SimpleWeightedRandomList<PokemonProperties> getListOfPokemonToSpawn() {
-        return ListOfPokemonToSpawn;
-    }
+    public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(ServerLevel serverLevel, boolean isOminous) {
+        var spawnDataList = new SimpleWeightedRandomList.Builder<SpawnData>();
+        List<SpawnablePokemonSettings> listOfPokemonToSpawn = new ArrayList<>();
 
-    public SimpleWeightedRandomList<PokemonProperties> getListOfOminousPokemonToSpawn() {
-        return ListOfOminousPokemonToSpawn;
+        if(isOminous)
+            listOfPokemonToSpawn = this.ListOfOminousPokemonToSpawn;
+        else
+            listOfPokemonToSpawn = this.ListOfPokemonToSpawn;
+
+        for(SpawnablePokemonSettings spawnablePokemonSettings: listOfPokemonToSpawn){
+
+            PokemonProperties newPokemonProperties = spawnablePokemonSettings.getSpawnablePokemonProperties();
+            Pokemon newPokemon = newPokemonProperties.create();
+            newPokemon.setScaleModifier(spawnablePokemonSettings.getScaleModifier());
+
+            CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
+
+            if(spawnablePokemonSettings.isUncatchable()){
+                // Make pokemon uncatchable
+                String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
+                ListTag listTag = new ListTag();
+                for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
+                pokemonNbt.put("PokemonData", listTag);
+            }
+
+            CompoundTag entityNbt = new CompoundTag();
+            entityNbt.put("Pokemon", pokemonNbt);
+            entityNbt.putString("id", "cobblemon:pokemon");
+            entityNbt.putString("PoseType", "WALK");
+
+            if(spawnablePokemonSettings.isMustBeDefeatedInBattle()){
+                entityNbt.putBoolean("Invulnerable", true);
+            }
+
+            CompoundTag spawnData = new CompoundTag();
+            spawnData.put("entity", entityNbt);
+
+            DataResult<SpawnData> result = SpawnData.CODEC.parse(NbtOps.INSTANCE, spawnData);
+            SpawnData newPokemonSpawnData = result.getOrThrow();
+
+            spawnDataList.add(newPokemonSpawnData, spawnablePokemonSettings.getSpawnWeight());
+        }
+
+        return spawnDataList.build();
     }
 }
