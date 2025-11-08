@@ -1,6 +1,7 @@
 package com.lemenok.cobblemontrialsedition.config;
 
 import com.lemenok.cobblemontrialsedition.config.mappers.GlobalSettingsMapper;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -47,9 +48,10 @@ public class GlobalSettings extends GlobalSettingsMapper {
         return StructureSettingsList;
     }
 
-    public @Nullable StructureSettings getStructureSettingsByStructureId(String structureId){
+    public @Nullable StructureSettings getStructureSettingsByResourceLocation(ResourceLocation structureResource){
+
         for(StructureSettings structureSettings: this.StructureSettingsList){
-            if(structureSettings.DoesStructureHaveSpawners(structureId))
+            if(structureSettings.DoesStructureHaveSpawners(structureResource))
                 return structureSettings;
         }
 
