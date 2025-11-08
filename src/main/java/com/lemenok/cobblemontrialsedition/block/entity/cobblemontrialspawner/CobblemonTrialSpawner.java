@@ -60,7 +60,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.02F;
     private CobblemonTrialSpawnerConfig normalConfig;
     private CobblemonTrialSpawnerConfig ominousConfig;
-    private final CobblemonTrialSpawnerData data;
+    private CobblemonTrialSpawnerData data;
     private int requiredPlayerRange;
     private int targetCooldownLength;
     private final CobblemonTrialSpawner.StateAccessor stateAccessor;
@@ -131,6 +131,10 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
 
     public CobblemonTrialSpawnerData getData() {
         return this.data;
+    }
+
+    public void setData(CobblemonTrialSpawnerData cobblemonTrialSpawnerData){
+        this.data = cobblemonTrialSpawnerData;
     }
 
     public int getTargetCooldownLength() {

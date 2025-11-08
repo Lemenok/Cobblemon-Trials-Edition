@@ -173,14 +173,14 @@ public class SpawnerReplacementHandler {
                                 cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setTargetCooldownLength(spawnerSettings.getSpawnerCooldown());
                                 cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setRequiredPlayerRange(spawnerSettings.getPlayerDetectionRange());
 
-                                //CobblemonTrialSpawnerData cobblemonTrialSpawnerData = new CobblemonTrialSpawnerData();
-                                //cobblemonTrialSpawnerData.getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
-                                //cobblemonTrialSpawnerData.getOrCreateDisplayEntity(false, cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), level, cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getState());
-                                //cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setData(cobblemonTrialSpawnerData);
+                                CobblemonTrialSpawnerData cobblemonTrialSpawnerData = new CobblemonTrialSpawnerData();
+                                cobblemonTrialSpawnerData.getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
+                                cobblemonTrialSpawnerData.getOrCreateDisplayEntity(false, cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), level, cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getState());
+                                cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setData(cobblemonTrialSpawnerData);
 
-                                //cobblemonTrialSpawnerEntity.loadWithComponents(BuildPokemonForSpawn(serverLevel, blockEntityPosition), serverLevel.registryAccess());
+                                //cobblemonTrialSpawnerEntity.loadWithComponents(new CompoundTag(), serverLevel.registryAccess());
                                 cobblemonTrialSpawnerEntity.markUpdated();
-                                cobblemonTrialSpawnerEntity.setChanged();
+                                //cobblemonTrialSpawnerEntity.setChanged();
 
                                 chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
                                 chunk.setBlockEntity(cobblemonTrialSpawnerEntity);
