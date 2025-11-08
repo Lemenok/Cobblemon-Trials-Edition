@@ -58,11 +58,11 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private static final int MAX_MOB_TRACKING_DISTANCE = 47;
     private static final int MAX_MOB_TRACKING_DISTANCE_SQR = Mth.square(47);
     private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.02F;
-    private final CobblemonTrialSpawnerConfig normalConfig;
-    private final CobblemonTrialSpawnerConfig ominousConfig;
+    private CobblemonTrialSpawnerConfig normalConfig;
+    private CobblemonTrialSpawnerConfig ominousConfig;
     private final CobblemonTrialSpawnerData data;
-    private final int requiredPlayerRange;
-    private final int targetCooldownLength;
+    private int requiredPlayerRange;
+    private int targetCooldownLength;
     private final CobblemonTrialSpawner.StateAccessor stateAccessor;
     private PlayerDetector playerDetector;
     private final PlayerDetector.EntitySelector entitySelector;
@@ -90,6 +90,13 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
 
     public CobblemonTrialSpawnerConfig getConfig() {
         return this.isOminous ? this.ominousConfig : this.normalConfig;
+    }
+
+    public void setConfig(CobblemonTrialSpawnerConfig config, boolean isOminous){
+        if(isOminous)
+            this.ominousConfig = config;
+        else
+            this.normalConfig = config;
     }
 
     @VisibleForTesting
@@ -132,6 +139,14 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
 
     public int getRequiredPlayerRange() {
         return this.requiredPlayerRange;
+    }
+
+    public void setTargetCooldownLength(int cooldownLength){
+        this.targetCooldownLength = cooldownLength;
+    }
+
+    public void setRequiredPlayerRange(int requiredPlayerRange){
+        this.requiredPlayerRange = requiredPlayerRange;
     }
 
     public CobblemonTrialSpawnerState getState() {

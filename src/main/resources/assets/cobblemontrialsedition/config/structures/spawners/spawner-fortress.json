@@ -13,7 +13,7 @@
   "OminousLootTable": "loot_table-ominous-fortress.json",
   "DisableOminousSpawnerAttacks": true,
   "ListOfPokemonToSpawn": [{
-      "Species": "carcadet",
+      "Species": "charcadet",
       "Weight": 70,
       "Form": "normal",
       "MinLevel": 25,
