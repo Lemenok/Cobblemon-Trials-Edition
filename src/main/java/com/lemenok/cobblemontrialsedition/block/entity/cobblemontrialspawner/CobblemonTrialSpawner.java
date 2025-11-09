@@ -1,4 +1,4 @@
-package com.lemenok.cobblemontrialsedition.models;
+package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
@@ -58,11 +58,11 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private static final int MAX_MOB_TRACKING_DISTANCE = 47;
     private static final int MAX_MOB_TRACKING_DISTANCE_SQR = Mth.square(47);
     private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.02F;
-    private final CobblemonTrialSpawnerConfig normalConfig;
-    private final CobblemonTrialSpawnerConfig ominousConfig;
-    private final CobblemonTrialSpawnerData data;
-    private final int requiredPlayerRange;
-    private final int targetCooldownLength;
+    private CobblemonTrialSpawnerConfig normalConfig;
+    private CobblemonTrialSpawnerConfig ominousConfig;
+    private CobblemonTrialSpawnerData data;
+    private int requiredPlayerRange;
+    private int targetCooldownLength;
     private final CobblemonTrialSpawner.StateAccessor stateAccessor;
     private PlayerDetector playerDetector;
     private final PlayerDetector.EntitySelector entitySelector;
@@ -90,6 +90,13 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
 
     public CobblemonTrialSpawnerConfig getConfig() {
         return this.isOminous ? this.ominousConfig : this.normalConfig;
+    }
+
+    public void setConfig(CobblemonTrialSpawnerConfig config, boolean isOminous){
+        if(isOminous)
+            this.ominousConfig = config;
+        else
+            this.normalConfig = config;
     }
 
     @VisibleForTesting
@@ -126,12 +133,24 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         return this.data;
     }
 
+    public void setData(CobblemonTrialSpawnerData cobblemonTrialSpawnerData){
+        this.data = cobblemonTrialSpawnerData;
+    }
+
     public int getTargetCooldownLength() {
         return this.targetCooldownLength;
     }
 
     public int getRequiredPlayerRange() {
         return this.requiredPlayerRange;
+    }
+
+    public void setTargetCooldownLength(int cooldownLength){
+        this.targetCooldownLength = cooldownLength;
+    }
+
+    public void setRequiredPlayerRange(int requiredPlayerRange){
+        this.requiredPlayerRange = requiredPlayerRange;
     }
 
     public CobblemonTrialSpawnerState getState() {
@@ -234,8 +253,8 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         }
     }
 
-    public void ejectReward(ServerLevel arg, BlockPos arg2, ResourceKey<LootTable> arg3) {
-        LootTable loottable = arg.getServer().reloadableRegistries().getLootTable(arg3);
+    public void ejectReward(ServerLevel arg, BlockPos arg2, LootTable arg3) {
+        LootTable loottable = arg3;
         LootParams lootparams = (new LootParams.Builder(arg)).create(LootContextParamSets.EMPTY);
         ObjectArrayList<ItemStack> objectarraylist = loottable.getRandomItems(lootparams);
         if (!objectarraylist.isEmpty()) {

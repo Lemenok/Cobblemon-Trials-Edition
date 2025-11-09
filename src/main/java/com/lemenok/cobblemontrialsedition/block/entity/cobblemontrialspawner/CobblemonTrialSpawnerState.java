@@ -1,4 +1,4 @@
-package com.lemenok.cobblemontrialsedition.models;
+package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
 import com.lemenok.cobblemontrialsedition.particle.ModParticles;
 import net.minecraft.Util;

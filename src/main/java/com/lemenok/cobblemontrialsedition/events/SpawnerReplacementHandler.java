@@ -1,52 +1,48 @@
 package com.lemenok.cobblemontrialsedition.events;
 
-import com.cobblemon.mod.common.Cobblemon;
-import com.cobblemon.mod.common.CobblemonEntities;
-import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.abilities.Ability;
-import com.cobblemon.mod.common.api.abilities.AbilityPool;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.api.pokemon.Natures;
-import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.*;
-import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.lemenok.cobblemontrialsedition.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawner;
-import com.lemenok.cobblemontrialsedition.models.CobblemonTrialSpawnerData;
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerData;
+import com.lemenok.cobblemontrialsedition.config.SpawnerSettings;
+import com.lemenok.cobblemontrialsedition.config.StructureSettings;
 import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
-import net.minecraft.world.level.block.entity.trialspawner.PlayerDetector;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
-import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerConfig;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerData;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.jmx.Server;
 
-import java.rmi.registry.Registry;
 import java.util.*;
 import java.util.List;
 
@@ -57,6 +53,10 @@ public class SpawnerReplacementHandler {
 
     @SubscribeEvent
     public void onChunkLoad(ChunkEvent.Load event) {
+
+        if(!ConfigProcessor.GLOBAL_SETTINGS.ReplaceGeneratedSpawnersWithCobblemonSpawners)
+            return;
+
         Level level = (Level) event.getLevel();
 
         // Verify that the events are chunk events.
@@ -65,7 +65,7 @@ public class SpawnerReplacementHandler {
 
         if (!event.isNewChunk()) return;
 
-        // Collect positions of spawners within the chunk first
+        /*// Collect positions of spawners within the chunk first
         List<BlockPos> spawnersToReplace = new ArrayList<>();
         for (BlockEntity anyBlockEntity : chunk.getBlockEntities().values()) {
             if (anyBlockEntity instanceof SpawnerBlockEntity) {
@@ -76,14 +76,28 @@ public class SpawnerReplacementHandler {
                 }
                 spawnersToReplace.add(anyBlockEntity.getBlockPos());
             }
+        }*/
+
+        //if (spawnersToReplace.isEmpty()) return;
+
+        List<BlockEntity> listOfBlockEntities = new ArrayList<>();
+        for (BlockEntity blockEntity: chunk.getBlockEntities().values()) {
+            if (blockEntity instanceof SpawnerBlockEntity || blockEntity instanceof TrialSpawnerBlockEntity){
+                listOfBlockEntities.add(blockEntity);
+            }
         }
 
-        if (spawnersToReplace.isEmpty()) return;
+        if(listOfBlockEntities.isEmpty()) return;
 
         StructureManager structureManager = serverLevel.structureManager();
+        RegistryAccess registryAccess = level.registryAccess();
+        Registry<Structure> structureRegistry = registryAccess.registryOrThrow(Registries.STRUCTURE);
 
-        for (BlockPos blockEntityPosition : spawnersToReplace) {
+
+        for (BlockEntity blockEntity : listOfBlockEntities) {
             try {
+                BlockPos blockEntityPosition = blockEntity.getBlockPos();
+
                 if (!serverLevel.isLoaded(blockEntityPosition)) continue;
 
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
@@ -92,26 +106,94 @@ public class SpawnerReplacementHandler {
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
                 if (allStructuresAtPosition.isEmpty()) {
 
-                    CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get().defaultBlockState());
+                    /*CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get().defaultBlockState());
                     cobblemonTrialSpawnerEntity.loadWithComponents(BuildPokemonForSpawn(serverLevel, blockEntityPosition), serverLevel.registryAccess());
                     cobblemonTrialSpawnerEntity.setChanged();
 
                     chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
                     // ServerLevel set required to properly allow the Trial Spawner to work.
-                    serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
+                    serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);*/
                     LOGGER.info("Replaced Spawner at Location '{}'", blockEntityPosition);
                     return;
                 }
                 // Check to see if the Structure is on the CustomSpawner List
-                else if (isStructurePresentAt(allStructuresAtPosition)) {
+                else {
+                    for (Structure structure: allStructuresAtPosition.keySet()){
+                        ResourceLocation resourceAtPosition = structureRegistry.getKey(structure);
 
-                    // Compare structure name to map. Use Wildcards to help with replacing spawners that may not be caught with a default.
-                    chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, Blocks.TRIAL_SPAWNER.defaultBlockState());
-                    chunk.setBlockEntity(new TrialSpawnerBlockEntity(blockEntityPosition, Blocks.TRIAL_SPAWNER.defaultBlockState()));
-                    LOGGER.info("Replaced Structure Spawner at Location '{}'", blockEntityPosition);
-                    return;
+                        // Check if Structure Exists to have its spawners swapped.
+                        StructureSettings structureSettingsConfig = ConfigProcessor.GLOBAL_SETTINGS.getStructureSettingsByResourceLocation(resourceAtPosition);
+                        if(structureSettingsConfig != null) {
+                            EntityType spawnerEntityType = null;
+
+                            // Grab Entity in spawner to specify which spawner to replace.
+                            if(blockEntity instanceof SpawnerBlockEntity){
+                                spawnerEntityType = Objects.requireNonNull(((SpawnerBlockEntity) blockEntity).getSpawner().getOrCreateDisplayEntity(level, blockEntity.getBlockPos())).getType();
+                            }
+                            if (blockEntity instanceof TrialSpawnerBlockEntity){
+                                TrialSpawnerData trialSpawnerData = Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner().getData());
+                                spawnerEntityType = trialSpawnerData.getOrCreateDisplayEntity(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner(), level, ((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner().getState()).getType();
+                            }
+
+                            // Grab the spawner settings that match the structure and entity in the spawner to be replaced.
+                            SpawnerSettings spawnerSettings = structureSettingsConfig.GetSpawnerSettingsByStructureIdAndSpawnerEntityToReplace(resourceAtPosition, spawnerEntityType);
+                            if(spawnerSettings != null) {
+                                // Setup all configuration for the spawner.
+
+                                CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = new CobblemonTrialSpawnerConfig(
+                                        spawnerSettings.getSpawnRange(),
+                                        spawnerSettings.getTotalNumberOfPokemonPerTrial(),
+                                        spawnerSettings.getMaximumNumberOfSimultaneousPokemon(),
+                                        spawnerSettings.getTotalNumberOfPokemonPerTrialAddedPerPlayer(),
+                                        spawnerSettings.getMaximumNumberOfSimultaneousPokemonAddedPerPlayer(),
+                                        spawnerSettings.getTicksBetweenSpawnAttempts(),
+                                        spawnerSettings.getListOfPokemonToSpawn(serverLevel, false),
+                                        spawnerSettings.getSpawnerLootTable(),
+                                        BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
+                                );
+                                CobblemonTrialSpawnerConfig cobblemonTrialSpawnerOminousConfig = new CobblemonTrialSpawnerConfig(
+                                        spawnerSettings.getSpawnRange(),
+                                        spawnerSettings.getTotalNumberOfPokemonPerTrial(),
+                                        spawnerSettings.getMaximumNumberOfSimultaneousPokemon(),
+                                        spawnerSettings.getTotalNumberOfPokemonPerTrialAddedPerPlayer(),
+                                        spawnerSettings.getMaximumNumberOfSimultaneousPokemonAddedPerPlayer(),
+                                        spawnerSettings.getTicksBetweenSpawnAttempts(),
+                                        spawnerSettings.getListOfPokemonToSpawn(serverLevel, true),
+                                        spawnerSettings.getSpawnerOminousLootTable(),
+                                        BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
+                                );
+
+                                CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(
+                                        blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get().defaultBlockState());
+
+                                //cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().reset();
+
+
+                                cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerConfig, false);
+                                cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
+                                cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setTargetCooldownLength(spawnerSettings.getSpawnerCooldown());
+                                cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setRequiredPlayerRange(spawnerSettings.getPlayerDetectionRange());
+                                cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(),RandomSource.create());
+                                cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().markUpdated();
+
+                                //CobblemonTrialSpawnerData cobblemonTrialSpawnerData = new CobblemonTrialSpawnerData();
+                                //cobblemonTrialSpawnerData.getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
+                                //cobblemonTrialSpawnerData.getOrCreateDisplayEntity(false, cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), level, cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getState());
+                                //cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setData(cobblemonTrialSpawnerData);
+
+                                //cobblemonTrialSpawnerEntity.loadWithComponents(new CompoundTag(), serverLevel.registryAccess());
+                                cobblemonTrialSpawnerEntity.markUpdated();
+                                //cobblemonTrialSpawnerEntity.setChanged();
+
+                                chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
+                                //chunk.setBlockEntity(cobblemonTrialSpawnerEntity);
+                                serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
+                                LOGGER.info("Replaced Structure Spawner at Location '{}'", blockEntityPosition);
+                                return;
+                            }
+                        }
+                    }
                 }
-
                 // If there are still structures around the spawner this means that the spawner is in a structure
                 // that the user has defined they WANT to leave the default spawner. So we do nothing.
 
@@ -122,9 +204,26 @@ public class SpawnerReplacementHandler {
         }
     }
 
-    private boolean isStructurePresentAt(Map<Structure, LongSet> allStructuresAtPosition) {
+    private boolean isStructureConfiguredToHaveSpawnersReplaced(Map<Structure, LongSet> allStructuresAtPosition) {
 
-        for (ResourceLocation resourceLocation : ConfigProcessor.WHITELISTED_STRUCTURES) {
+        for (Structure structure : allStructuresAtPosition.keySet()){
+
+            // Get the ResourceKey for the given Structure instance.
+            Optional<ResourceKey<StructureType<?>>> optionalStructureKey = BuiltInRegistries.STRUCTURE_TYPE.getResourceKey(structure.type());
+            // If the Structure is in the registry, proceed with the comparison.
+            if (optionalStructureKey.isPresent()) {
+                ResourceKey<StructureType<?>> structureKey = optionalStructureKey.get();
+                ResourceLocation structureLocation = structureKey.location(); // Get the ResourceLocation from the key.
+
+                if(ConfigProcessor.GLOBAL_SETTINGS.getStructureSettingsByResourceLocation(structureLocation) != null){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+        /*for (ResourceLocation resourceLocation : ConfigProcessor.WHITELISTED_STRUCTURES) {
             try {
                 for (Structure structure : allStructuresAtPosition.keySet()){
                     // Get the ResourceKey for the given Structure instance.
@@ -142,8 +241,8 @@ public class SpawnerReplacementHandler {
             catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        }
-        return false;
+        }*/
+        //return false;
     }
 
     public static CompoundTag BuildPokemonForSpawn(ServerLevel serverLevel, BlockPos blockEntityPosition) {
