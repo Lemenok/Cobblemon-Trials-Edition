@@ -90,7 +90,7 @@ public class CobblemonTrialSpawnerData {
         this.nextMobSpawnsAt = 0L;
         this.cooldownEndsAt = 0L;
         this.currentMobs.clear();
-        /*this.nextSpawnData = Optional.empty();*/
+        this.nextSpawnData = Optional.empty();
     }
 
     public boolean hasMobToSpawn(CobblemonTrialSpawner arg, RandomSource arg2) {
