@@ -147,6 +147,7 @@ public class SpawnerReplacementHandler {
                                         spawnerSettings.getTotalNumberOfPokemonPerTrialAddedPerPlayer(),
                                         spawnerSettings.getMaximumNumberOfSimultaneousPokemonAddedPerPlayer(),
                                         spawnerSettings.getTicksBetweenSpawnAttempts(),
+                                        spawnerSettings.areOminousSpawnerAttacksEnabled(),
                                         spawnerSettings.getListOfPokemonToSpawn(serverLevel, false),
                                         spawnerSettings.getSpawnerLootTable(),
                                         BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
@@ -158,6 +159,7 @@ public class SpawnerReplacementHandler {
                                         spawnerSettings.getTotalNumberOfPokemonPerTrialAddedPerPlayer(),
                                         spawnerSettings.getMaximumNumberOfSimultaneousPokemonAddedPerPlayer(),
                                         spawnerSettings.getTicksBetweenSpawnAttempts(),
+                                        spawnerSettings.areOminousSpawnerAttacksEnabled(),
                                         spawnerSettings.getListOfPokemonToSpawn(serverLevel, true),
                                         spawnerSettings.getSpawnerOminousLootTable(),
                                         BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS

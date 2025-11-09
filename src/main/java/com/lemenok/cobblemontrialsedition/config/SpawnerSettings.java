@@ -8,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -33,7 +32,7 @@ public class SpawnerSettings {
     private final int TotalNumberOfPokemonPerTrialAddedPerPlayer;
     private SimpleWeightedRandomList<LootTable> SpawnerLootTable;
     private SimpleWeightedRandomList<LootTable> SpawnerOminousLootTable;
-    private final boolean DisableOminousSpawnerAttacks;
+    private final boolean OminousSpawnerAttacksEnabled;
     private List<SpawnablePokemonSettings> ListOfPokemonToSpawn;
     private List<SpawnablePokemonSettings> ListOfOminousPokemonToSpawn;
 
@@ -42,7 +41,7 @@ public class SpawnerSettings {
 
     public SpawnerSettings(int ticksBetweenSpawnAttempts, int spawnerCooldown, int playerDetectionRange, int spawnRange,
                            int maximumNumberOfSimultaneousPokemon, int maximumNumberOfSimultaneousPokemonAddedPerPlayer,
-                           int totalNumberOfPokemonPerTrial, int totalNumberOfPokemonPerTrialAddedPerPlayer, boolean disableOminousSpawnerAttacks){
+                           int totalNumberOfPokemonPerTrial, int totalNumberOfPokemonPerTrialAddedPerPlayer, boolean ominousSpawnerAttacksEnabled){
 
         TicksBetweenSpawnAttempts = ticksBetweenSpawnAttempts;
         SpawnerCooldown = spawnerCooldown;
@@ -52,7 +51,7 @@ public class SpawnerSettings {
         MaximumNumberOfSimultaneousPokemonAddedPerPlayer = maximumNumberOfSimultaneousPokemonAddedPerPlayer;
         TotalNumberOfPokemonPerTrial = totalNumberOfPokemonPerTrial;
         TotalNumberOfPokemonPerTrialAddedPerPlayer = totalNumberOfPokemonPerTrialAddedPerPlayer;
-        DisableOminousSpawnerAttacks = disableOminousSpawnerAttacks;
+        OminousSpawnerAttacksEnabled = ominousSpawnerAttacksEnabled;
 
         SpawnerTypesToReplace = new ArrayList<>();
         SpawnerEntityToReplace = new ArrayList<>();
@@ -153,8 +152,8 @@ public class SpawnerSettings {
         return SpawnerOminousLootTable;
     }
 
-    public boolean isDisableOminousSpawnerAttacks() {
-        return DisableOminousSpawnerAttacks;
+    public boolean areOminousSpawnerAttacksEnabled() {
+        return OminousSpawnerAttacksEnabled;
     }
 
     public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(ServerLevel serverLevel, boolean isOminous) {

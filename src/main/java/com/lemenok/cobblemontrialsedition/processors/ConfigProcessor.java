@@ -186,7 +186,7 @@ public class ConfigProcessor {
                     spawnerMapper.MaximumNumberOfSimultaneousPokemonAddedPerPlayer,
                     spawnerMapper.TotalNumberOfPokemonPerTrial,
                     spawnerMapper.TotalNumberOfPokemonPerTrialAddedPerPlayer,
-                    spawnerMapper.DisableOminousSpawnerAttacks
+                    spawnerMapper.OminousSpawnerAttacksEnabled
             );
 
             spawnerSettings.SetSpawnerTypesToReplace(spawnerMapper.SpawnerTypeToReplace);

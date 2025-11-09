@@ -11,7 +11,7 @@
   "TotalNumberOfPokemonPerTrialAddedPerPlayer": 1,
   "LootTable": "loot_table-fortress.json",
   "OminousLootTable": "loot_table-ominous-fortress.json",
-  "DisableOminousSpawnerAttacks": true,
+  "OminousSpawnerAttacksEnabled": false,
   "ListOfPokemonToSpawn": [{
       "Species": "charcadet",
       "Weight": 70,
