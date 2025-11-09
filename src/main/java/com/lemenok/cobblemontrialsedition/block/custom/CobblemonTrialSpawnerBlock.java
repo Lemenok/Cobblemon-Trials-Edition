@@ -57,7 +57,6 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) { return new CobblemonTrialSpawnerEntity(blockPos, blockState); }
 
     @Override
-    @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level arg, BlockState arg2, BlockEntityType<T> arg3) {
         BlockEntityTicker var10000;
         if (arg instanceof ServerLevel serverLevel) {

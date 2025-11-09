@@ -283,11 +283,11 @@ public class CobblemonTrialSpawnerData {
         return this.oSpin;
     }
 
-    SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel arg, CobblemonTrialSpawnerConfig arg2, BlockPos arg3) {
+    public SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel arg, CobblemonTrialSpawnerConfig arg2, BlockPos arg3) {
         if (this.dispensing != null) {
             return this.dispensing;
         } else {
-            LootTable lootTable = arg2.itemsToDropWhenOminous();
+            LootTable lootTable = arg.getServer().reloadableRegistries().getLootTable(arg2.itemsToDropWhenOminous());
             LootParams lootParams = (new LootParams.Builder(arg)).create(LootContextParamSets.EMPTY);
             long l = lowResolutionPosition(arg, arg3);
             ObjectArrayList<ItemStack> objectArrayList = lootTable.getRandomItems(lootParams, l);

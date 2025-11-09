@@ -32,7 +32,7 @@ public class SpawnerSettings {
     private final int TotalNumberOfPokemonPerTrial;
     private final int TotalNumberOfPokemonPerTrialAddedPerPlayer;
     private SimpleWeightedRandomList<LootTable> SpawnerLootTable;
-    private LootTable SpawnerOminousLootTable;
+    private SimpleWeightedRandomList<LootTable> SpawnerOminousLootTable;
     private final boolean DisableOminousSpawnerAttacks;
     private List<SpawnablePokemonSettings> ListOfPokemonToSpawn;
     private List<SpawnablePokemonSettings> ListOfOminousPokemonToSpawn;
@@ -92,7 +92,7 @@ public class SpawnerSettings {
 
     public void SetLootTable(LootTable lootTable, boolean isOminous){
         if(isOminous)
-            SpawnerOminousLootTable = lootTable;
+            SpawnerOminousLootTable = new SimpleWeightedRandomList.Builder<LootTable>().add(lootTable).build();
         else
             SpawnerLootTable = new SimpleWeightedRandomList.Builder<LootTable>().add(lootTable).build();
     }
@@ -149,7 +149,7 @@ public class SpawnerSettings {
         return SpawnerLootTable;
     }
 
-    public LootTable getSpawnerOminousLootTable() {
+    public SimpleWeightedRandomList<LootTable> getSpawnerOminousLootTable() {
         return SpawnerOminousLootTable;
     }
 
