@@ -1,5 +1,7 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.annotations.VisibleForTesting;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
@@ -12,6 +14,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -186,6 +189,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         RandomSource randomsource = arg.getRandom();
         SpawnData spawndata = this.data.getOrCreateNextSpawnData(this, arg.getRandom());
         CompoundTag compoundtag = spawndata.entityToSpawn();
+        ApplyCobblemonRandomModifiers(arg, compoundtag);
         ListTag listtag = compoundtag.getList("Pos", 6);
         Optional<EntityType<?>> optional = EntityType.by(compoundtag);
         if (optional.isEmpty()) {
@@ -251,6 +255,14 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                 }
             }
         }
+    }
+
+    private void ApplyCobblemonRandomModifiers(ServerLevel serverLevel, CompoundTag compoundtag) {
+        Pokemon pokemon = new Pokemon();
+        pokemon.loadFromNBT(serverLevel.registryAccess(), compoundtag);
+
+        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = isOminous ? ominousConfig: normalConfig;
+
     }
 
     public void ejectReward(ServerLevel arg, BlockPos arg2, LootTable arg3) {

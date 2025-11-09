@@ -13,7 +13,8 @@ public class SpawnerMapper {
     public int TotalNumberOfPokemonPerTrialAddedPerPlayer;
     public String LootTable;
     public String OminousLootTable;
-    public Boolean OminousSpawnerAttacksEnabled;
+    public boolean OminousSpawnerAttacksEnabled;
+    public boolean DoPokemonSpawnedGlow;
     public SpawnablePokemonMapper[] ListOfPokemonToSpawn;
     public SpawnablePokemonMapper[] ListOfOminousPokemonToSpawn;
 }

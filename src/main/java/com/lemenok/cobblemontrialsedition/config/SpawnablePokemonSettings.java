@@ -1,12 +1,14 @@
 package com.lemenok.cobblemontrialsedition.config;
 
 import com.cobblemon.mod.common.api.abilities.Abilities;
+import com.cobblemon.mod.common.api.abilities.Ability;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -16,24 +18,16 @@ public class SpawnablePokemonSettings {
     private final PokemonProperties SpawnablePokemonProperties;
     private final int SpawnWeight;
 
-    private final int MinimumLevel;
-    private final int MaximumLevel;
-    private final List<Nature> ListOfNatures;
-    private final List<String> ListOfAbilities;
     private final float ScaleModifier;
     private final boolean IsUncatchable;
     private final boolean MustBeDefeatedInBattle;
 
-    public SpawnablePokemonSettings(String species, int spawnWeight, String form, int minimumLevel, int maximumLevel,
-                                    String gender, String[] arrayOfNatures, int[] defaultEVs, int[] defaultIVs, String[] arrayOfAbilities,
+    public SpawnablePokemonSettings(String species, int spawnWeight, String form, int level,
+                                    String gender, String nature, int[] defaultEVs, int[] defaultIVs, String ability,
                                     int dynaMaxLevel, String teraType, boolean isShiny, int scaleModifier, boolean isUncatchable,
                                     boolean mustBeDefeatedInBattle) {
 
         this.SpawnWeight = spawnWeight;
-        this.MinimumLevel = minimumLevel;
-        this.MaximumLevel = maximumLevel;
-        this.ListOfNatures = parseListOfNatures(arrayOfNatures);
-        this.ListOfAbilities = parseListOfAbilities(arrayOfAbilities);
         this.ScaleModifier = scaleModifier;
         this.IsUncatchable = isUncatchable;
         this.MustBeDefeatedInBattle = mustBeDefeatedInBattle;
@@ -41,12 +35,15 @@ public class SpawnablePokemonSettings {
         PokemonProperties pokemonProperties = new PokemonProperties();
         pokemonProperties.setSpecies(species);
         pokemonProperties.setForm(form);
+        pokemonProperties.setLevel(level);
         pokemonProperties.setGender(parseGender(gender));
+        pokemonProperties.setNature(parseNature(nature).getDisplayName());
         pokemonProperties.setEvs(parseEVs(defaultEVs));
         pokemonProperties.setIvs(parseIVs(defaultIVs));
         pokemonProperties.setShiny(isShiny);
         pokemonProperties.setDmaxLevel(dynaMaxLevel);
         pokemonProperties.setTeraType(parseTeraType(teraType));
+        setAbility(pokemonProperties, ability);
 
         this.SpawnablePokemonProperties = pokemonProperties;
     }
@@ -57,22 +54,6 @@ public class SpawnablePokemonSettings {
 
     public int getSpawnWeight() {
         return SpawnWeight;
-    }
-
-    public int getMinimumLevel() {
-        return MinimumLevel;
-    }
-
-    public int getMaximumLevel() {
-        return MaximumLevel;
-    }
-
-    public List<Nature> getListOfNatures() {
-        return ListOfNatures;
-    }
-
-    public List<String> getListOfAbilities() {
-        return ListOfAbilities;
     }
 
     public float getScaleModifier() {
@@ -99,34 +80,13 @@ public class SpawnablePokemonSettings {
         };
     }
 
-    private List<Nature> parseListOfNatures(String[] arrayOfNatures){
-
-        if(arrayOfNatures.length == 0)
-            return List.of();
-
-        List<Nature> parsedNatureList = new ArrayList<>(List.of());
-
-        for(String nature: arrayOfNatures){
-            Nature newNature = Natures.INSTANCE.getNature(nature);
-            if(newNature != null)
-                parsedNatureList.add(newNature);
-        }
-
-        return parsedNatureList;
+    private Nature parseNature(String nature){
+        return nature.isEmpty() ? Natures.INSTANCE.getRandomNature() : Natures.INSTANCE.getNature(nature);
     }
 
-    private List<String> parseListOfAbilities(String[] arrayOfAbilities){
-        if(arrayOfAbilities.length == 0)
-            return List.of();
-
-        List<String> parsedAbilityList = new ArrayList<>(List.of());
-
-        for(String ability : arrayOfAbilities){
-            AbilityTemplate newAbility = Abilities.INSTANCE.getOrException(ability);
-            parsedAbilityList.add(newAbility.getName());
-        }
-
-        return parsedAbilityList;
+    private void setAbility(PokemonProperties pokemonProperties, String ability){
+        if (ability.isEmpty()) return;
+        pokemonProperties.setAbility(Abilities.INSTANCE.getOrException(ability).getName());
     }
 
     private EVs parseEVs (int[] defaultEVs){

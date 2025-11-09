@@ -33,6 +33,7 @@ public class SpawnerSettings {
     private SimpleWeightedRandomList<LootTable> SpawnerLootTable;
     private SimpleWeightedRandomList<LootTable> SpawnerOminousLootTable;
     private final boolean OminousSpawnerAttacksEnabled;
+    private final boolean DoPokemonSpawnedGlow;
     private List<SpawnablePokemonSettings> ListOfPokemonToSpawn;
     private List<SpawnablePokemonSettings> ListOfOminousPokemonToSpawn;
 
@@ -41,7 +42,8 @@ public class SpawnerSettings {
 
     public SpawnerSettings(int ticksBetweenSpawnAttempts, int spawnerCooldown, int playerDetectionRange, int spawnRange,
                            int maximumNumberOfSimultaneousPokemon, int maximumNumberOfSimultaneousPokemonAddedPerPlayer,
-                           int totalNumberOfPokemonPerTrial, int totalNumberOfPokemonPerTrialAddedPerPlayer, boolean ominousSpawnerAttacksEnabled){
+                           int totalNumberOfPokemonPerTrial, int totalNumberOfPokemonPerTrialAddedPerPlayer,
+                           boolean ominousSpawnerAttacksEnabled, boolean doPokemonSpawnedGlow){
 
         TicksBetweenSpawnAttempts = ticksBetweenSpawnAttempts;
         SpawnerCooldown = spawnerCooldown;
@@ -52,6 +54,7 @@ public class SpawnerSettings {
         TotalNumberOfPokemonPerTrial = totalNumberOfPokemonPerTrial;
         TotalNumberOfPokemonPerTrialAddedPerPlayer = totalNumberOfPokemonPerTrialAddedPerPlayer;
         OminousSpawnerAttacksEnabled = ominousSpawnerAttacksEnabled;
+        DoPokemonSpawnedGlow = doPokemonSpawnedGlow;
 
         SpawnerTypesToReplace = new ArrayList<>();
         SpawnerEntityToReplace = new ArrayList<>();
@@ -185,6 +188,7 @@ public class SpawnerSettings {
             entityNbt.put("Pokemon", pokemonNbt);
             entityNbt.putString("id", "cobblemon:pokemon");
             entityNbt.putString("PoseType", "WALK");
+            if(DoPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
 
             if(spawnablePokemonSettings.isMustBeDefeatedInBattle()){
                 entityNbt.putBoolean("Invulnerable", true);

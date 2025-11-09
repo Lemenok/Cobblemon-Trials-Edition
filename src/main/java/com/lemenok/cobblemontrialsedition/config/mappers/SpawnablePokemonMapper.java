@@ -4,13 +4,12 @@ public class SpawnablePokemonMapper {
     public String Species;
     public int Weight;
     public String Form;
-    public int MinLevel;
-    public int MaxLevel;
+    public int Level;
     public String Gender;
-    public String[] ListOfNatures;
+    public String Nature;
     public int[] DefaultEVs;
     public int[] DefaultIVs;
-    public String[] ListOfAbilities;
+    public String Ability;
     public int DynaMaxLevel;
     public String TeraType;
     public boolean IsShiny;

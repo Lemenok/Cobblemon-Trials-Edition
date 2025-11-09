@@ -1,5 +1,7 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
+import com.cobblemon.mod.common.api.pokemon.Natures;
+import com.cobblemon.mod.common.pokemon.Nature;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.Registries;
@@ -8,6 +10,8 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
+
+import java.util.List;
 
 public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float simultaneousMobs,
       float totalMobsAddedPerPlayer, float simultaneousMobsAddedPerPlayer,

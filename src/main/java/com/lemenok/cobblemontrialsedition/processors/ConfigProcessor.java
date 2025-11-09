@@ -186,7 +186,8 @@ public class ConfigProcessor {
                     spawnerMapper.MaximumNumberOfSimultaneousPokemonAddedPerPlayer,
                     spawnerMapper.TotalNumberOfPokemonPerTrial,
                     spawnerMapper.TotalNumberOfPokemonPerTrialAddedPerPlayer,
-                    spawnerMapper.OminousSpawnerAttacksEnabled
+                    spawnerMapper.OminousSpawnerAttacksEnabled,
+                    spawnerMapper.DoPokemonSpawnedGlow
             );
 
             spawnerSettings.SetSpawnerTypesToReplace(spawnerMapper.SpawnerTypeToReplace);
@@ -211,13 +212,12 @@ public class ConfigProcessor {
                     spawnablePokemonMapper.Species,
                     spawnablePokemonMapper.Weight,
                     spawnablePokemonMapper.Form,
-                    spawnablePokemonMapper.MinLevel,
-                    spawnablePokemonMapper.MaxLevel,
+                    spawnablePokemonMapper.Level,
                     spawnablePokemonMapper.Gender,
-                    spawnablePokemonMapper.ListOfNatures,
+                    spawnablePokemonMapper.Nature,
                     spawnablePokemonMapper.DefaultEVs,
                     spawnablePokemonMapper.DefaultIVs,
-                    spawnablePokemonMapper.ListOfAbilities,
+                    spawnablePokemonMapper.Ability,
                     spawnablePokemonMapper.DynaMaxLevel,
                     spawnablePokemonMapper.TeraType,
                     spawnablePokemonMapper.IsShiny,
