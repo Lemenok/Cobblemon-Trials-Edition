@@ -16,8 +16,10 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -192,8 +194,14 @@ public class ConfigProcessor {
 
             spawnerSettings.SetSpawnerTypesToReplace(spawnerMapper.SpawnerTypeToReplace);
             spawnerSettings.SetSpawnerEntityToReplace(spawnerMapper.SpawnerEntityToReplace);
-            spawnerSettings.SetLootTable(LOOT_TABLES.get(spawnerMapper.LootTable), false);
-            spawnerSettings.SetLootTable(LOOT_TABLES.get(spawnerMapper.OminousLootTable), true);
+
+            List<LootTable> lootTableList = new ArrayList<>();
+            if(!spawnerMapper.LootTable.isEmpty()) lootTableList.add(LOOT_TABLES.get(spawnerMapper.LootTable));
+            spawnerSettings.SetLootTable(lootTableList, false);
+
+            List<LootTable> ominousLootTableList = new ArrayList<>();
+            if(!spawnerMapper.OminousLootTable.isEmpty()) ominousLootTableList.add(LOOT_TABLES.get(spawnerMapper.OminousLootTable));
+            spawnerSettings.SetLootTable(ominousLootTableList, true);
 
             spawnerSettings.SetListOfPokemonToSpawn(BuildSpawnablePokemonList(spawnerMapper.ListOfPokemonToSpawn), false);
             spawnerSettings.SetListOfPokemonToSpawn(BuildSpawnablePokemonList(spawnerMapper.ListOfOminousPokemonToSpawn), true);

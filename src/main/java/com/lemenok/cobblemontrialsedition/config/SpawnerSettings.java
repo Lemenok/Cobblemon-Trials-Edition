@@ -2,22 +2,44 @@ package com.lemenok.cobblemontrialsedition.config;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.relocations.oracle.truffle.js.nodes.access.LocalVarIncNode;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SpawnerSettings {
     private final List<BlockEntityType> SpawnerTypesToReplace;
@@ -92,11 +114,22 @@ public class SpawnerSettings {
         }
     }
 
-    public void SetLootTable(LootTable lootTable, boolean isOminous){
-        if(isOminous)
-            SpawnerOminousLootTable = new SimpleWeightedRandomList.Builder<LootTable>().add(lootTable).build();
-        else
-            SpawnerLootTable = new SimpleWeightedRandomList.Builder<LootTable>().add(lootTable).build();
+    public void SetLootTable(@Nullable List<LootTable> lootTables, boolean isOminous){
+        SimpleWeightedRandomList.Builder<LootTable> weightedLootTableListBuilder = new SimpleWeightedRandomList.Builder<>();
+
+        if(lootTables.isEmpty()){
+            // No loot table is detected, so we load the default loot table from the trial spawner at placement time.
+            if(isOminous) SpawnerOminousLootTable = weightedLootTableListBuilder.build();
+            else SpawnerLootTable = weightedLootTableListBuilder.build();
+        } else {
+
+            for(LootTable lootTable: lootTables){
+                weightedLootTableListBuilder.add(lootTable);
+            }
+
+            if(isOminous) SpawnerOminousLootTable = weightedLootTableListBuilder.build();
+            else SpawnerLootTable = weightedLootTableListBuilder.build();
+        }
     }
 
     public void SetListOfPokemonToSpawn(List<SpawnablePokemonSettings> spawnablePokemonList, boolean isOminous){
@@ -188,7 +221,7 @@ public class SpawnerSettings {
             entityNbt.put("Pokemon", pokemonNbt);
             entityNbt.putString("id", "cobblemon:pokemon");
             entityNbt.putString("PoseType", "WALK");
-            if(DoPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
+            if(this.DoPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
 
             if(spawnablePokemonSettings.isMustBeDefeatedInBattle()){
                 entityNbt.putBoolean("Invulnerable", true);
@@ -204,5 +237,54 @@ public class SpawnerSettings {
         }
 
         return spawnDataList.build();
+    }
+
+    private void getDefaultTrialSpawnerLootTables(SimpleWeightedRandomList.Builder<LootTable> weightedLootTableListBuilder, boolean isOminous) {
+        ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+
+        if(!isOminous){
+            ResourceLocation chamberKey = BuiltInLootTables.SPAWNER_TRIAL_CHAMBER_KEY.location();
+            ResourceLocation chamberConsumables = BuiltInLootTables.SPAWNER_TRIAL_CHAMBER_CONSUMABLES.location();
+
+            ResourceLocation chamberKeyPath = ResourceLocation.fromNamespaceAndPath(chamberKey.getNamespace(), chamberKey.getPath());
+            ResourceLocation chamberConsumablesPath = ResourceLocation.fromNamespaceAndPath(chamberConsumables.getNamespace(), chamberConsumables.getPath());
+
+            LootTable chamberKeyLootTable = getLootTableFromResourcePath(weightedLootTableListBuilder, resourceManager, chamberKey);
+            LootTable chamberConsumablesLootTable = getLootTableFromResourcePath(weightedLootTableListBuilder, resourceManager, chamberConsumablesPath);
+
+            weightedLootTableListBuilder.add(chamberKeyLootTable).add(chamberConsumablesLootTable);
+        } else {
+            ResourceLocation chamberKey = BuiltInLootTables.SPAWNER_OMINOUS_TRIAL_CHAMBER_KEY.location();
+            ResourceLocation chamberConsumables = BuiltInLootTables.SPAWNER_OMINOUS_TRIAL_CHAMBER_CONSUMABLES.location();
+
+            ResourceLocation chamberKeyPath = ResourceLocation.fromNamespaceAndPath(chamberKey.getNamespace(), chamberKey.getPath());
+            ResourceLocation chamberConsumablesPath = ResourceLocation.fromNamespaceAndPath(chamberConsumables.getNamespace(), chamberConsumables.getPath());
+
+            LootTable chamberKeyLootTable = getLootTableFromResourcePath(weightedLootTableListBuilder, resourceManager, chamberKeyPath);
+            LootTable chamberConsumablesLootTable = getLootTableFromResourcePath(weightedLootTableListBuilder, resourceManager, chamberConsumablesPath);
+
+            weightedLootTableListBuilder.add(chamberKeyLootTable).add(chamberConsumablesLootTable);
+        }
+    }
+
+    private static LootTable getLootTableFromResourcePath(SimpleWeightedRandomList.Builder<LootTable> weightedLootTableListBuilder, ResourceManager resourceManager, ResourceLocation keyPath) {
+        try {
+            Optional<Resource> resourceOptional = resourceManager.getResource(keyPath);
+            if(resourceOptional.isEmpty()) return LootTable.EMPTY;
+
+            Resource res = resourceOptional.get();
+            try (InputStream inputStream = res.open(); InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+                JsonElement jsonElement = JsonParser.parseReader(reader);
+                DataResult<Holder<LootTable>> dataResult = LootTable.CODEC.parse(JsonOps.INSTANCE, jsonElement);
+
+                return dataResult.getOrThrow(errorMessage ->
+                        new IllegalStateException("Failed to parse loot table: " + errorMessage)).value();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
