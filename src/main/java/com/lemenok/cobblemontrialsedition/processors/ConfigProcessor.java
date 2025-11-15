@@ -195,12 +195,12 @@ public class ConfigProcessor {
             spawnerSettings.SetSpawnerTypesToReplace(spawnerMapper.SpawnerTypeToReplace);
             spawnerSettings.SetSpawnerEntityToReplace(spawnerMapper.SpawnerEntityToReplace);
 
-            List<LootTable> lootTableList = new ArrayList<>();
-            if(!spawnerMapper.LootTable.isEmpty()) lootTableList.add(LOOT_TABLES.get(spawnerMapper.LootTable));
+            List<String> lootTableList = new ArrayList<>();
+            if(!spawnerMapper.LootTable.isEmpty()) lootTableList.add(spawnerMapper.LootTable);
             spawnerSettings.SetLootTable(lootTableList, false);
 
-            List<LootTable> ominousLootTableList = new ArrayList<>();
-            if(!spawnerMapper.OminousLootTable.isEmpty()) ominousLootTableList.add(LOOT_TABLES.get(spawnerMapper.OminousLootTable));
+            List<String> ominousLootTableList = new ArrayList<>();
+            if(!spawnerMapper.OminousLootTable.isEmpty()) ominousLootTableList.add(spawnerMapper.OminousLootTable);
             spawnerSettings.SetLootTable(ominousLootTableList, true);
 
             spawnerSettings.SetListOfPokemonToSpawn(BuildSpawnablePokemonList(spawnerMapper.ListOfPokemonToSpawn), false);

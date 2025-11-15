@@ -18,6 +18,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -52,8 +53,8 @@ public class SpawnerSettings {
     private final int MaximumNumberOfSimultaneousPokemonAddedPerPlayer;
     private final int TotalNumberOfPokemonPerTrial;
     private final int TotalNumberOfPokemonPerTrialAddedPerPlayer;
-    private SimpleWeightedRandomList<LootTable> SpawnerLootTable;
-    private SimpleWeightedRandomList<LootTable> SpawnerOminousLootTable;
+    private SimpleWeightedRandomList<ResourceKey<LootTable>> SpawnerLootTable;
+    private SimpleWeightedRandomList<ResourceKey<LootTable>> SpawnerOminousLootTable;
     private final boolean OminousSpawnerAttacksEnabled;
     private final boolean DoPokemonSpawnedGlow;
     private List<SpawnablePokemonSettings> ListOfPokemonToSpawn;
@@ -114,8 +115,8 @@ public class SpawnerSettings {
         }
     }
 
-    public void SetLootTable(@Nullable List<LootTable> lootTables, boolean isOminous){
-        SimpleWeightedRandomList.Builder<LootTable> weightedLootTableListBuilder = new SimpleWeightedRandomList.Builder<>();
+    public void SetLootTable(List<String> lootTables, boolean isOminous){
+        SimpleWeightedRandomList.Builder<ResourceKey<LootTable>> weightedLootTableListBuilder = new SimpleWeightedRandomList.Builder<>();
 
         if(lootTables.isEmpty()){
             // No loot table is detected, so we load the default loot table from the trial spawner at placement time.
@@ -123,13 +124,22 @@ public class SpawnerSettings {
             else SpawnerLootTable = weightedLootTableListBuilder.build();
         } else {
 
-            for(LootTable lootTable: lootTables){
-                weightedLootTableListBuilder.add(lootTable);
+            for(String lootTable: lootTables){
+
+                String[] splitLootTable = lootTable.split(":");
+                ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(splitLootTable[0], splitLootTable[1]);
+                ResourceKey<LootTable> newResourceKey = ResourceKey.create(Registries.LOOT_TABLE, resourceLocation);
+                weightedLootTableListBuilder.add(newResourceKey);
             }
 
             if(isOminous) SpawnerOminousLootTable = weightedLootTableListBuilder.build();
             else SpawnerLootTable = weightedLootTableListBuilder.build();
         }
+    }
+
+    public void SetLootTable(SimpleWeightedRandomList<ResourceKey<LootTable>> lootTables, boolean isOminous){
+        if(isOminous) SpawnerOminousLootTable = lootTables;
+        else SpawnerLootTable = lootTables;
     }
 
     public void SetListOfPokemonToSpawn(List<SpawnablePokemonSettings> spawnablePokemonList, boolean isOminous){
@@ -180,11 +190,11 @@ public class SpawnerSettings {
         return TotalNumberOfPokemonPerTrialAddedPerPlayer;
     }
 
-    public SimpleWeightedRandomList<LootTable> getSpawnerLootTable() {
+    public SimpleWeightedRandomList<ResourceKey<LootTable>> getSpawnerLootTable() {
         return SpawnerLootTable;
     }
 
-    public SimpleWeightedRandomList<LootTable> getSpawnerOminousLootTable() {
+    public SimpleWeightedRandomList<ResourceKey<LootTable>> getSpawnerOminousLootTable() {
         return SpawnerOminousLootTable;
     }
 

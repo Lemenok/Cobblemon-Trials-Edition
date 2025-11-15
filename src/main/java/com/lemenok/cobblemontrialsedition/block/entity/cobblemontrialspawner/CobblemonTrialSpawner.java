@@ -265,8 +265,8 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
 
     }
 
-    public void ejectReward(ServerLevel arg, BlockPos arg2, LootTable arg3) {
-        LootTable loottable = arg3;
+    public void ejectReward(ServerLevel arg, BlockPos arg2, ResourceKey<LootTable> arg3) {
+        LootTable loottable = arg.getServer().reloadableRegistries().getLootTable(arg3);
         LootParams lootparams = (new LootParams.Builder(arg)).create(LootContextParamSets.EMPTY);
         ObjectArrayList<ItemStack> objectarraylist = loottable.getRandomItems(lootparams);
         if (!objectarraylist.isEmpty()) {

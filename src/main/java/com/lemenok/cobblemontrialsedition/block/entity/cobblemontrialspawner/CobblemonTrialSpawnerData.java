@@ -53,14 +53,14 @@ public class CobblemonTrialSpawnerData {
                     Codec.LONG.lenientOptionalFieldOf("next_mob_spawns_at", 0L).forGetter((arg) -> arg.nextMobSpawnsAt),
                     Codec.intRange(0, Integer.MAX_VALUE).lenientOptionalFieldOf("total_mobs_spawned", 0).forGetter((arg) -> arg.totalMobsSpawned),
                     SpawnData.CODEC.lenientOptionalFieldOf("spawn_data").forGetter((arg) -> arg.nextSpawnData),
-                    Codec.unit(LootTable.EMPTY).lenientOptionalFieldOf("ejecting_loot_table").forGetter((arg) -> arg.ejectingLootTable)).apply(instance, CobblemonTrialSpawnerData::new));
+                    ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("ejecting_loot_table").forGetter((arg) -> arg.ejectingLootTable)).apply(instance, CobblemonTrialSpawnerData::new));
     protected final Set<UUID> detectedPlayers;
     protected final Set<UUID> currentMobs;
     protected long cooldownEndsAt;
     protected long nextMobSpawnsAt;
     protected int totalMobsSpawned;
     protected Optional<SpawnData> nextSpawnData;
-    protected Optional<LootTable> ejectingLootTable;
+    protected Optional<ResourceKey<LootTable>> ejectingLootTable;
     @Nullable
     protected ItemStack displayItem;
     @Nullable
@@ -72,7 +72,7 @@ public class CobblemonTrialSpawnerData {
         this(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.empty(), Optional.empty());
     }
 
-    public CobblemonTrialSpawnerData(Set<UUID> set, Set<UUID> set2, long l, long m, int i, Optional<SpawnData> optional, Optional<LootTable> optional2) {
+    public CobblemonTrialSpawnerData(Set<UUID> set, Set<UUID> set2, long l, long m, int i, Optional<SpawnData> optional, Optional<ResourceKey<LootTable>> optional2) {
         this.detectedPlayers = new HashSet();
         this.currentMobs = new HashSet();
         this.detectedPlayers.addAll(set);

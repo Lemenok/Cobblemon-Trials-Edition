@@ -17,7 +17,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
       float totalMobsAddedPerPlayer, float simultaneousMobsAddedPerPlayer,
       int ticksBetweenSpawn, boolean enableOminousSpawnerAttacks,
       SimpleWeightedRandomList<SpawnData> spawnPotentialsDefinition,
-      SimpleWeightedRandomList<LootTable> lootTablesToEject,
+      SimpleWeightedRandomList<ResourceKey<LootTable>> lootTablesToEject,
       ResourceKey<LootTable> itemsToDropWhenOminous) {
 
     public static final CobblemonTrialSpawnerConfig DEFAULT;
@@ -56,7 +56,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
                                 .forGetter(CobblemonTrialSpawnerConfig::enableOminousSpawnerAttacks),
                         SpawnData.LIST_CODEC.lenientOptionalFieldOf("spawn_potentials", SimpleWeightedRandomList.empty())
                                 .forGetter(CobblemonTrialSpawnerConfig::spawnPotentialsDefinition),
-                        SimpleWeightedRandomList.wrappedCodecAllowingEmpty(Codec.unit(LootTable.EMPTY))
+                        SimpleWeightedRandomList.wrappedCodecAllowingEmpty(ResourceKey.codec(Registries.LOOT_TABLE))
                                 .lenientOptionalFieldOf("loot_tables_to_eject", DEFAULT.lootTablesToEject)
                                 .forGetter(CobblemonTrialSpawnerConfig::lootTablesToEject),
                         ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("items_to_drop_when_ominous", DEFAULT.itemsToDropWhenOminous)

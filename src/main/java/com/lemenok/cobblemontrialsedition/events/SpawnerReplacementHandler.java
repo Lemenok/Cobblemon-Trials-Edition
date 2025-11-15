@@ -164,8 +164,8 @@ public class SpawnerReplacementHandler {
 
                                 // If the block entity is a trial spawner and no loot tables are listed, we default to the original Loot table drops.
                                 if(blockEntity instanceof TrialSpawnerBlockEntity && spawnerSettings.getSpawnerLootTable().isEmpty()){
-                                    spawnerSettings.SetLootTable(getTrialSpawnerLootTable(Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner().getNormalConfig().lootTablesToEject()), serverLevel), false);
-                                    spawnerSettings.SetLootTable(getTrialSpawnerLootTable(Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner().getOminousConfig().lootTablesToEject()), serverLevel), true);
+                                    spawnerSettings.SetLootTable(Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner().getNormalConfig().lootTablesToEject()), false);
+                                    spawnerSettings.SetLootTable(Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner().getNormalConfig().lootTablesToEject()), true);
                                 }
 
                                 cobblemonTrialSpawnerConfig = new CobblemonTrialSpawnerConfig(
