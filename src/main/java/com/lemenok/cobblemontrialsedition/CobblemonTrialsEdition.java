@@ -7,11 +7,11 @@ import com.lemenok.cobblemontrialsedition.events.SpawnerReplacementHandler;
 import com.lemenok.cobblemontrialsedition.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.item.ModItems;
 import com.lemenok.cobblemontrialsedition.particle.ModParticles;
-import com.lemenok.cobblemontrialsedition.processors.ConfigProcessor;
 import com.lemenok.cobblemontrialsedition.sound.ModSounds;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
@@ -67,10 +67,6 @@ public class CobblemonTrialsEdition {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-           ConfigProcessor.SetupDefaultConfigs();
-           ConfigProcessor.LoadConfigs();
-        });
     }
 
     // Add the example block item to the building blocks tab
@@ -88,12 +84,23 @@ public class CobblemonTrialsEdition {
                         ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "structures")
                 );
 
+        public static final ResourceKey<Registry<LootTable>> COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY =
+                ResourceKey.createRegistryKey(
+                        ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "loot_table")
+                );
+
         @SubscribeEvent
         public static void addRegistries(DataPackRegistryEvent.NewRegistry event){
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_STRUCTURE_REGISTRY,
                     StructureProperties.CODEC,
                     StructureProperties.CODEC,
+                    builder -> builder.maxId(256)
+            );
+            event.dataPackRegistry(
+                    COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY,
+                    LootTable.DIRECT_CODEC,
+                    LootTable.DIRECT_CODEC,
                     builder -> builder.maxId(256)
             );
         }

@@ -3,9 +3,14 @@ package com.lemenok.cobblemontrialsedition.config;
 import com.cobblemon.mod.common.api.abilities.Abilities;
 import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature;
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature;
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
+import com.cobblemon.mod.common.pokemon.aspects.PokemonAspectsKt;
+import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -15,10 +20,11 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.SpawnData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public record SpawnablePokemonProperties(
         String species,
@@ -56,10 +62,17 @@ public record SpawnablePokemonProperties(
             Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", true).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle)
     ).apply(pokemon, SpawnablePokemonProperties::new));
 
+    private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEdition.MODID);
+
     public SpawnData getPokemonSpawnData(ServerLevel serverLevel, boolean doPokemonSpawnedGlow) {
         
         PokemonProperties newPokemonProperties = getSpawnablePokemonProperties();
         Pokemon newPokemon = newPokemonProperties.create();
+
+        List<SpeciesFeature> speciesFeature = new ArrayList<>();
+        speciesFeature.add(new FlagSpeciesFeature(form,true));
+        newPokemon.setFeatures(speciesFeature);
+
         newPokemon.setScaleModifier(scaleModifier);
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
@@ -174,7 +187,11 @@ public record SpawnablePokemonProperties(
         return ivs;
     }
 
-    private @Nullable String parseTeraType(String teraType) {
-        return TeraTypes.get(teraType).showdownId();
+    private String parseTeraType(String teraType) {
+        if(teraType.isEmpty()){
+            return TeraTypes.random(true).showdownId();
+        }
+
+        return Objects.requireNonNull(TeraTypes.get(teraType)).showdownId();
     }
 }

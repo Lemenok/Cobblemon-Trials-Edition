@@ -1,7 +1,0 @@
-{
-  "structureId": "minecraft:trial_chambers",
-  "spawners": [
-    "spawner-trial-chambers-zombie.json",
-    "spawner-trial-chambers-skeleton.json"
-  ]
-}
