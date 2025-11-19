@@ -5,5 +5,9 @@
 
   "cobblemontrialsedition.configuration.title": "Cobblemon-Trials-Edition Configs",
   "cobblemontrialsedition.configuration.section.cobblemontrialsedition.common.toml": "Cobblemon-Trials-Edition Configs",
-  "cobblemontrialsedition.configuration.section.cobblemontrialsedition.common.toml.title": "Cobblemon-Trials-Edition Configs"
+  "cobblemontrialsedition.configuration.section.cobblemontrialsedition.common.toml.title": "Cobblemon-Trials-Edition Configs",
+  "cobblemontrialsedition.configuration.enableDebugLogs": "Enable Debug Logs",
+  "cobblemontrialsedition.configuration.replaceGeneratedSpawnersWithCobblemonSpawners": "Replace Spawners with Cobblemon Spawners",
+  "cobblemontrialsedition.configuration.replaceSpawnersNotInStructuresWithCobblemonSpawners": "Replace Spawners not in Structures with Cobblemon Spawners",
+  "cobblemontrialsedition.configuration.replaceSpawnersInStructuresWithCobblemonSpawners": "Replace Spawners in Structures with Cobblemon Spawners"
 }

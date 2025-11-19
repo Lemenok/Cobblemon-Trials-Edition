@@ -79,7 +79,7 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
                 } else {
                     int i = cobblemonTrialSpawnerData.countAdditionalPlayers(arg);
                     cobblemonTrialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
-                    if (arg2.isOminous()) {
+                    if (arg2.isOminous() && cobblemonTrialSpawnerConfig.enableOminousSpawnerAttacks()) {
                         this.spawnOminousOminousItemSpawner(arg3, arg, arg2);
                     }
 

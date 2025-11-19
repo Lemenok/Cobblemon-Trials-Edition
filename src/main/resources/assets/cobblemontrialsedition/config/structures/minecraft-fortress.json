@@ -1,6 +1,0 @@
-{
-  "structureId": "minecraft:fortress",
-  "spawners": [
-    "spawner-fortress.json"
-  ]
-}

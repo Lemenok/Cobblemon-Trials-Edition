@@ -1,6 +1,0 @@
-{
-  "EnableDebugLogs": false,
-  "ReplaceGeneratedSpawnersWithCobblemonSpawners": true,
-  "ReplaceSpawnersNotInStructuresWithCobblemonSpawners": true,
-  "ReplaceSpawnersInStructuresWithCobblemonSpawners": true
-}

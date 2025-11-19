@@ -1,6 +1,8 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.annotations.VisibleForTesting;
+import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.particle.ModParticles;
@@ -10,15 +12,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.*;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -186,6 +189,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         RandomSource randomsource = arg.getRandom();
         SpawnData spawndata = this.data.getOrCreateNextSpawnData(this, arg.getRandom());
         CompoundTag compoundtag = spawndata.entityToSpawn();
+        ApplyCobblemonRandomModifiers(arg, compoundtag);
         ListTag listtag = compoundtag.getList("Pos", 6);
         Optional<EntityType<?>> optional = EntityType.by(compoundtag);
         if (optional.isEmpty()) {
@@ -253,8 +257,33 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         }
     }
 
-    public void ejectReward(ServerLevel arg, BlockPos arg2, LootTable arg3) {
-        LootTable loottable = arg3;
+    private void ApplyCobblemonRandomModifiers(ServerLevel serverLevel, CompoundTag compoundtag) {
+        Pokemon pokemon = new Pokemon();
+        pokemon.loadFromNBT(serverLevel.registryAccess(), compoundtag);
+
+        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = isOminous ? ominousConfig: normalConfig;
+    }
+
+    public void ejectReward(ServerLevel arg, BlockPos arg2, ResourceKey<LootTable> arg3) {
+        RegistryAccess registryAccess = arg.registryAccess();
+        ResourceLocation lootTableResourceLocation = arg3.location();
+
+        LootTable loottable;
+        if(lootTableResourceLocation.getNamespace().equals(CobblemonTrialsEdition.MODID)){
+            Optional<Holder.Reference<LootTable>> lootTableReference;
+            lootTableReference = registryAccess.registryOrThrow(CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY)
+                    .getHolder(ResourceKey.create(CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, lootTableResourceLocation));
+
+
+            if (lootTableReference.isPresent()) {
+                Holder.Reference<LootTable> holder = lootTableReference.get();
+                loottable = holder.value(); // or holder.get() depending on mappings
+            } else {
+                loottable = LootTable.EMPTY;
+            }
+        } else
+            loottable = arg.getServer().reloadableRegistries().getLootTable(arg3);
+
         LootParams lootparams = (new LootParams.Builder(arg)).create(LootContextParamSets.EMPTY);
         ObjectArrayList<ItemStack> objectarraylist = loottable.getRandomItems(lootparams);
         if (!objectarraylist.isEmpty()) {
