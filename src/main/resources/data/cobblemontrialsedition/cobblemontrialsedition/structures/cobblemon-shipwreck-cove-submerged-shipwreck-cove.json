@@ -1,0 +1,89 @@
+{
+  "structureId": "cobblemon:shipwreck_coves/submerged_shipwreck_cove",
+  "spawnerProperties": [
+    {
+      "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:guardian"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "ominousSpawnerAttacksEnabled": false,
+      "doPokemonSpawnedGlow": true,
+      "listOfPokemonToSpawn": [{
+        "species": "carvanha",
+        "weight": 80,
+        "form": "normal",
+        "level": 25,
+        "gender": "",
+        "nature": "",
+        "defaultEVs": [],
+        "defaultIVs": [],
+        "ability": "",
+        "dynaMaxLevel": 0,
+        "teraType": "water",
+        "isShiny": false,
+        "scaleModifier": 1,
+        "isUncatchable": false,
+        "mustBeDefeatedInBattle": false
+      }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "sharpedo",
+        "weight": 50,
+        "form": "normal",
+        "level": 50,
+        "gender": "",
+        "nature": "",
+        "defaultEVs": [],
+        "defaultIVs": [],
+        "ability": "",
+        "dynaMaxLevel": 0,
+        "teraType": "water",
+        "isShiny": false,
+        "scaleModifier": 1,
+        "isUncatchable": false,
+        "mustBeDefeatedInBattle": false
+      }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "ominousSpawnerAttacksEnabled": false,
+      "doPokemonSpawnedGlow": true,
+      "listOfPokemonToSpawn": [{
+        "species": "tentacool",
+        "weight": 80,
+        "form": "normal",
+        "level": 25,
+        "gender": "",
+        "nature": "",
+        "defaultEVs": [],
+        "defaultIVs": [],
+        "ability": "",
+        "dynaMaxLevel": 0,
+        "teraType": "poison",
+        "isShiny": false,
+        "scaleModifier": 1,
+        "isUncatchable": false,
+        "mustBeDefeatedInBattle": false
+      }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "tentacruel",
+        "weight": 50,
+        "form": "normal",
+        "level": 50,
+        "gender": "",
+        "nature": "",
+        "defaultEVs": [],
+        "defaultIVs": [],
+        "ability": "",
+        "dynaMaxLevel": 0,
+        "teraType": "poison",
+        "isShiny": false,
+        "scaleModifier": 1,
+        "isUncatchable": false,
+        "mustBeDefeatedInBattle": false
+      }]
+    }
+  ]
+}

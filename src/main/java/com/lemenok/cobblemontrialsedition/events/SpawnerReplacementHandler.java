@@ -19,9 +19,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
-import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -53,7 +51,7 @@ public class SpawnerReplacementHandler {
         if(!(event.getChunk() instanceof LevelChunk chunk)) return;
 
         if (!event.isNewChunk()) return;
-
+        
         List<BlockEntity> listOfBlockEntities = new ArrayList<>();
         for (BlockEntity blockEntity: chunk.getBlockEntities().values()) {
             if (blockEntity instanceof SpawnerBlockEntity || blockEntity instanceof TrialSpawnerBlockEntity){
@@ -76,7 +74,7 @@ public class SpawnerReplacementHandler {
                 if (!serverLevel.isLoaded(blockEntityPosition)) continue;
 
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
-                getListOfFeaturesToModify(chunk);
+                //getListOfFeaturesToModify(chunk);
 
                 // If the there are no structures but still a spawner, this is likely from a Feature.
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
@@ -131,8 +129,6 @@ public class SpawnerReplacementHandler {
                                 CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig;
                                 CobblemonTrialSpawnerConfig cobblemonTrialSpawnerOminousConfig;
 
-                                var lootTableRegistry = level.registryAccess().registryOrThrow(CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY);
-
                                 cobblemonTrialSpawnerConfig = new CobblemonTrialSpawnerConfig(
                                         newSpawner.spawnRange(),
                                         newSpawner.totalNumberOfPokemonPerTrial(),
@@ -175,6 +171,8 @@ public class SpawnerReplacementHandler {
                                 break;
                             }
                         }
+
+                        // Structure is not listed to have its spawner replaced.
                     }
                 }
                 // If there are still structures around the spawner this means that the spawner is in a structure

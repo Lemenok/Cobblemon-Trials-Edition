@@ -14,7 +14,6 @@ public record StructureProperties(
     public static final Codec<StructureProperties> CODEC = RecordCodecBuilder.create(structure -> structure.group(
             ResourceLocation.CODEC.fieldOf("structureId").forGetter(StructureProperties::structureId),
             Codec.list(SpawnerProperties.CODEC).fieldOf("spawnerProperties").forGetter(StructureProperties::spawnerProperties)
-
     ).apply(structure, StructureProperties::new));
 
     public List<SpawnerProperties> getSpawnerPropertiesIfResourceLocationMatches(ResourceLocation resourceLocation){

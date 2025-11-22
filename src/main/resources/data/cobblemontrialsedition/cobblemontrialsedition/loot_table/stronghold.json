@@ -17,7 +17,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:revival_herb",
+          "name": "minecraft:blaze_powder",
           "weight": 3
         },
         {
@@ -33,7 +33,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:energy_root",
+          "name": "minecraft:ghast_tear",
           "weight": 3
         },
         {
@@ -49,7 +49,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:ancient_poke_ball",
+          "name": "cobblemon:heal_powder",
           "weight": 3
         },
         {
@@ -79,6 +79,28 @@
           ],
           "name": "cobblemon:rare_candy",
           "weight": 2
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 5.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:blaze_rod",
+          "weight": 3
         }
       ],
       "rolls": 1.0
