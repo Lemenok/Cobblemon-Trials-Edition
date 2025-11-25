@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    "PBP",
+    "   "
+  ],
+  "key": {
+    "P": {
+      "tag": "minecraft:blaze_powder"
+    },
+    "B": {
+      "item": "create:empty_blaze_burner"
+    }
+  },
+  "result": {
+    "item": "create:blaze_burner",
+    "count": 1
+  }
+}

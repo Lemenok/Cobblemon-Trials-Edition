@@ -10,5 +10,9 @@
   "cobblemontrialsedition.configuration.replaceGeneratedSpawnersWithCobblemonSpawners": "Replace Spawners with Cobblemon Spawners",
   "cobblemontrialsedition.configuration.replaceSpawnersNotInStructuresWithCobblemonSpawners": "Replace Spawners not in Structures with Cobblemon Spawners",
   "cobblemontrialsedition.configuration.replaceSpawnersInStructuresWithCobblemonSpawners": "Replace Spawners in Structures with Cobblemon Spawners",
-  "cobblemontrialsedition.configuration.replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners": "Replace Any Unspecified Spawners with Default Cobblemon Spawners"
+  "cobblemontrialsedition.configuration.replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners": "Replace Any Unspecified Spawners with Default Cobblemon Spawners",
+
+  "item.minecraft.potion.effect.trial_potion": "Trial Potion",
+  "item.minecraft.splash_potion.effect.trial_potion": "Trial Splash Potion",
+  "item.minecraft.lingering_potion.effect.trial_potion": "Trial Lingering Potion"
 }

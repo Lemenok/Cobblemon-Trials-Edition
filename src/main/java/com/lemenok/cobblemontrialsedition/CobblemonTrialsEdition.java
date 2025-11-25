@@ -7,6 +7,7 @@ import com.lemenok.cobblemontrialsedition.events.SpawnerReplacementHandler;
 import com.lemenok.cobblemontrialsedition.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.item.ModItems;
 import com.lemenok.cobblemontrialsedition.particle.ModParticles;
+import com.lemenok.cobblemontrialsedition.potion.ModPotions;
 import com.lemenok.cobblemontrialsedition.sound.ModSounds;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -56,6 +57,7 @@ public class CobblemonTrialsEdition {
         ModBlockEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
+        ModPotions.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
