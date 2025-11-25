@@ -9,5 +9,6 @@
   "cobblemontrialsedition.configuration.enableDebugLogs": "Enable Debug Logs",
   "cobblemontrialsedition.configuration.replaceGeneratedSpawnersWithCobblemonSpawners": "Replace Spawners with Cobblemon Spawners",
   "cobblemontrialsedition.configuration.replaceSpawnersNotInStructuresWithCobblemonSpawners": "Replace Spawners not in Structures with Cobblemon Spawners",
-  "cobblemontrialsedition.configuration.replaceSpawnersInStructuresWithCobblemonSpawners": "Replace Spawners in Structures with Cobblemon Spawners"
+  "cobblemontrialsedition.configuration.replaceSpawnersInStructuresWithCobblemonSpawners": "Replace Spawners in Structures with Cobblemon Spawners",
+  "cobblemontrialsedition.configuration.replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners": "Replace Any Unspecified Spawners with Default Cobblemon Spawners"
 }

@@ -226,7 +226,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                         } else {
                             if (entity instanceof Mob) {
                                 Mob mob = (Mob)entity;
-                                if (!mob.checkSpawnObstruction(arg)) {
+                                if (!arg.isUnobstructed(mob)) {
                                     return Optional.empty();
                                 }
 

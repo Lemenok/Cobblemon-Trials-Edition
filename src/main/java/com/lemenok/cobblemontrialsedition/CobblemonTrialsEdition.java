@@ -12,7 +12,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
@@ -84,6 +83,11 @@ public class CobblemonTrialsEdition {
                         ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "structures")
                 );
 
+        public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY =
+                ResourceKey.createRegistryKey(
+                        ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "default")
+                );
+
         public static final ResourceKey<Registry<LootTable>> COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY =
                 ResourceKey.createRegistryKey(
                         ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "loot_table")
@@ -93,6 +97,12 @@ public class CobblemonTrialsEdition {
         public static void addRegistries(DataPackRegistryEvent.NewRegistry event){
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_STRUCTURE_REGISTRY,
+                    StructureProperties.CODEC,
+                    StructureProperties.CODEC,
+                    builder -> builder.maxId(256)
+            );
+            event.dataPackRegistry(
+                    COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY,
                     StructureProperties.CODEC,
                     StructureProperties.CODEC,
                     builder -> builder.maxId(256)
