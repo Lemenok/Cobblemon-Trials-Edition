@@ -17,7 +17,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:revival_herb",
+          "name": "minecraft:bread",
           "weight": 3
         },
         {
@@ -33,23 +33,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:energy_root",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "cobblemon:ancient_poke_ball",
+          "name": "minecraft:iron_ingot",
           "weight": 3
         },
         {

@@ -11,13 +11,13 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
+                "max": 5.0,
+                "min": 3.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:revival_herb",
+          "name": "minecraft:blaze_powder",
           "weight": 3
         },
         {
@@ -27,13 +27,13 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
+                "max": 5.0,
+                "min": 3.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:energy_root",
+          "name": "minecraft:blaze_rod",
           "weight": 3
         },
         {
@@ -43,13 +43,13 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
+                "max": 5.0,
+                "min": 3.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:ancient_poke_ball",
+          "name": "cobblemon:heal_powder",
           "weight": 3
         },
         {
@@ -59,13 +59,13 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
+                "max": 5.0,
+                "min": 3.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:exp_candy_s",
+          "name": "cobblemon:exp_candy_m",
           "weight": 2
         },
         {
@@ -73,12 +73,34 @@
           "functions": [
             {
               "add": false,
-              "count": 1.0,
+              "count": 2.0,
               "function": "minecraft:set_count"
             }
           ],
           "name": "cobblemon:rare_candy",
           "weight": 2
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:ghast_tear",
+          "weight": 3
         }
       ],
       "rolls": 1.0

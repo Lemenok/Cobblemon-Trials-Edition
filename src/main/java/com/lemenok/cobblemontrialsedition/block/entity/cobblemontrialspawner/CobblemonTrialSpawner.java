@@ -178,18 +178,12 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
 
     public boolean canSpawnInLevel(Level arg) {
         return arg.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
-        /*if (this.overridePeacefulAndMobSpawnRule) {
-            return true;
-        } else {
-            return arg.getDifficulty() == Difficulty.PEACEFUL ? false : arg.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
-        }*/
     }
 
     public Optional<UUID> spawnMob(ServerLevel arg, BlockPos arg2) {
         RandomSource randomsource = arg.getRandom();
         SpawnData spawndata = this.data.getOrCreateNextSpawnData(this, arg.getRandom());
         CompoundTag compoundtag = spawndata.entityToSpawn();
-        ApplyCobblemonRandomModifiers(arg, compoundtag);
         ListTag listtag = compoundtag.getList("Pos", 6);
         Optional<EntityType<?>> optional = EntityType.by(compoundtag);
         if (optional.isEmpty()) {
@@ -226,7 +220,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                         } else {
                             if (entity instanceof Mob) {
                                 Mob mob = (Mob)entity;
-                                if (!mob.checkSpawnObstruction(arg)) {
+                                if (!arg.isUnobstructed(mob)) {
                                     return Optional.empty();
                                 }
 
@@ -255,13 +249,6 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                 }
             }
         }
-    }
-
-    private void ApplyCobblemonRandomModifiers(ServerLevel serverLevel, CompoundTag compoundtag) {
-        Pokemon pokemon = new Pokemon();
-        pokemon.loadFromNBT(serverLevel.registryAccess(), compoundtag);
-
-        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = isOminous ? ominousConfig: normalConfig;
     }
 
     public void ejectReward(ServerLevel arg, BlockPos arg2, ResourceKey<LootTable> arg3) {

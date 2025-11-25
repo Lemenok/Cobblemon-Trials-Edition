@@ -17,7 +17,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:revival_herb",
+          "name": "minecraft:golden_apple",
           "weight": 3
         },
         {
@@ -33,7 +33,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:energy_root",
+          "name": "minecraft:gold_ingot",
           "weight": 3
         },
         {
@@ -49,23 +49,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "cobblemon:ancient_poke_ball",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "count": {
-                "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 1.0
-              },
-              "function": "minecraft:set_count"
-            }
-          ],
-          "name": "cobblemon:exp_candy_s",
+          "name": "cobblemon:exp_candy_m",
           "weight": 2
         },
         {
@@ -73,7 +57,7 @@
           "functions": [
             {
               "add": false,
-              "count": 1.0,
+              "count": 2.0,
               "function": "minecraft:set_count"
             }
           ],
