@@ -11,7 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
-@EventBusSubscriber(modid = CobblemonTrialsEdition.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = CobblemonTrialsEdition.MODID, value = Dist.CLIENT)
 public class ClientModHandler {
 
     @SubscribeEvent

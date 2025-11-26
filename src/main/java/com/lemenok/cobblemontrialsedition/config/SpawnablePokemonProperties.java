@@ -5,12 +5,12 @@ import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature;
-import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures;
+import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
-import com.cobblemon.mod.common.pokemon.aspects.PokemonAspectsKt;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
+import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -22,7 +22,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.SpawnData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -71,18 +70,27 @@ public record SpawnablePokemonProperties(
 
         List<SpeciesFeature> speciesFeature = new ArrayList<>();
         speciesFeature.add(new FlagSpeciesFeature(form,true));
+
+        if(form.equalsIgnoreCase("mega"))
+            speciesFeature.add(new StringSpeciesFeature("mega_evolution","mega"));
+
+        if(form.equalsIgnoreCase("gmax"))
+            speciesFeature.add(new StringSpeciesFeature("dynamax_form","gmax"));
+
         newPokemon.setFeatures(speciesFeature);
 
         newPokemon.setScaleModifier(scaleModifier);
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
-        if(isUncatchable){
-            // Make pokemon uncatchable
-            String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
-            ListTag listTag = new ListTag();
-            for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
-            pokemonNbt.put("PokemonData", listTag);
+        if(!Config.ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE.get()){
+            if(isUncatchable){
+                // Make pokemon uncatchable
+                String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
+                ListTag listTag = new ListTag();
+                for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
+                pokemonNbt.put("PokemonData", listTag);
+            }
         }
 
         CompoundTag entityNbt = new CompoundTag();
@@ -91,9 +99,12 @@ public record SpawnablePokemonProperties(
         entityNbt.putString("PoseType", "WALK");
         if(doPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
 
-        if(mustBeDefeatedInBattle){
-            entityNbt.putBoolean("Invulnerable", true);
+        if(!Config.ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE.get()){
+            if(mustBeDefeatedInBattle){
+                entityNbt.putBoolean("Invulnerable", true);
+            }
         }
+
 
         CompoundTag spawnData = new CompoundTag();
         spawnData.put("entity", entityNbt);

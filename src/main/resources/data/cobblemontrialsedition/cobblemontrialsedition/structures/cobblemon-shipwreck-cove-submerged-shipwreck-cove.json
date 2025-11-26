@@ -22,8 +22,8 @@
         "teraType": "water",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "sharpedo",
@@ -39,8 +39,8 @@
         "teraType": "water",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -64,8 +64,8 @@
         "teraType": "poison",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "tentacruel",
@@ -81,8 +81,8 @@
         "teraType": "poison",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     }
   ]

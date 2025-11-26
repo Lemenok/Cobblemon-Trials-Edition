@@ -73,11 +73,11 @@ public class CobblemonTrialsEdition {
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-            event.accept(ModItems.CHARCADET_TRIAL_KEY);
+            //event.accept(ModItems.CHARCADET_TRIAL_KEY);
         }
     }
 
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = MODID)
     public static class ClientModEvents {
 
         public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_STRUCTURE_REGISTRY =

@@ -13,14 +13,14 @@
   ],
   "key": {
     "P": {
-      "tag": "minecraft:blaze_powder"
+      "item": "minecraft:blaze_powder"
     },
     "B": {
       "item": "create:empty_blaze_burner"
     }
   },
   "result": {
-    "item": "create:blaze_burner",
+    "id": "create:blaze_burner",
     "count": 1
   }
 }

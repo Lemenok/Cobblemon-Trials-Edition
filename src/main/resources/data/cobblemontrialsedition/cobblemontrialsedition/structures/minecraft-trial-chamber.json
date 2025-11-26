@@ -20,8 +20,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "drifblim",
@@ -37,8 +37,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -62,8 +62,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "golurk",
@@ -79,8 +79,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -104,8 +104,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "cofagrigus",
@@ -121,8 +121,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -146,8 +146,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "galvantula",
@@ -163,8 +163,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -188,8 +188,8 @@
           "teraType": "",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "muk",
@@ -205,8 +205,8 @@
           "teraType": "",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }]
     },
     {
@@ -230,8 +230,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "crustle",
@@ -247,8 +247,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -270,8 +270,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "ariados",
@@ -287,8 +287,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -310,8 +310,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "ninetales",
@@ -327,8 +327,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -350,8 +350,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "magneton",
@@ -367,8 +367,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -392,8 +392,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "parasect",
@@ -409,8 +409,8 @@
         "teraType": "",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     }
   ]

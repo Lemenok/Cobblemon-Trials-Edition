@@ -22,8 +22,8 @@
           "teraType": "rock",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "solrock",
@@ -39,8 +39,8 @@
           "teraType": "rock",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "golett",
@@ -56,8 +56,8 @@
           "teraType": "ghost",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }],
       "listOfOminousPokemonToSpawn": [
         {
@@ -74,8 +74,8 @@
           "teraType": "rock",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "solrock",
@@ -91,8 +91,8 @@
           "teraType": "rock",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "golurk",
@@ -108,8 +108,8 @@
           "teraType": "ghost",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }]
     }
   ]
