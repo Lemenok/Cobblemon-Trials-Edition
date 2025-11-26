@@ -22,8 +22,8 @@
           "teraType": "fire",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "falinks",
@@ -39,8 +39,8 @@
           "teraType": "fighting",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "armarouge",
@@ -56,8 +56,8 @@
           "teraType": "psychic",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "ceruledge",
@@ -73,8 +73,8 @@
           "teraType": "ghost",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }]
     }
   ]

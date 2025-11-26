@@ -27,6 +27,18 @@ public class Config {
                     "In default-spawner.json this is the 'Minecraft:Zombie' entity spawner if the entity is not listed.")
             .define("replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners", true);
 
+    public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE = BUILDER
+            .comment("This allows Spawned Pokemon to be Catchable. If set to True, regardless of spawner settings, Pokemon will always be catchable." +
+                    "If set to false whether Spawned Pokemon can be catchable or not is left up to the Spawner's Settings." +
+                    "NOTE: This will only apply to newly created spawners.")
+            .define("allowSpawnedPokemonToBeCatchable", false);
+
+    public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE = BUILDER
+            .comment("This allows Spawned Pokemon to be defeated outside of battle. If set to true, regardless of spawner settings, Pokemon will be required to be defeated in battle." +
+                    "If set to false whether Spawned Pokemon can be defeated in battle or not is left up to the Spawner's Settings." +
+                    "NOTE: This will only apply to newly created spawners.")
+            .define("allowSpawnedPokemonToBeDefeatedInBattle", false);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
 }

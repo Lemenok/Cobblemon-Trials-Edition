@@ -1,8 +1,8 @@
 plugins {
     id("java")
-    id("dev.architectury.loom") version("1.7-SNAPSHOT")
+    id("dev.architectury.loom") version("1.11-SNAPSHOT")
     id("architectury-plugin") version("3.4-SNAPSHOT")
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "2.2.20"
 }
 
 
@@ -30,7 +30,7 @@ repositories {
 dependencies {
     minecraft("net.minecraft:minecraft:1.21.1")
     mappings(loom.officialMojangMappings())
-    neoForge("net.neoforged:neoforge:21.1.66")
+    neoForge("net.neoforged:neoforge:21.1.182")
 
     modImplementation("com.cobblemon:neoforge:1.6.0+1.21.1-SNAPSHOT")
     //Needed for cobblemon

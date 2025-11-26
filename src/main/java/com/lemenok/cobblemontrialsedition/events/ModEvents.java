@@ -9,7 +9,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
 
-@EventBusSubscriber(modid = CobblemonTrialsEdition.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = CobblemonTrialsEdition.MODID)
 public class ModEvents {
 
     @SubscribeEvent

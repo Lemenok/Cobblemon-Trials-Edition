@@ -22,8 +22,8 @@
           "teraType": "fire",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "magmar",
@@ -39,8 +39,8 @@
           "teraType": "fire",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "magcargo",
@@ -56,8 +56,8 @@
           "teraType": "rock",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "magmortar",
@@ -73,8 +73,8 @@
           "teraType": "fire",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }]
     }
   ]

@@ -95,9 +95,9 @@
       "lootTables": [],
       "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
-        "species": "gyarados",
+        "species": "blastoise",
         "weight": 100,
-        "form": "normal",
+        "form": "mega",
         "level": 40,
         "gender": "",
         "nature": "adamant",
@@ -108,13 +108,13 @@
         "teraType": "water",
         "isShiny": true,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "gyarados",
+        "species": "blastoise",
         "weight": 100,
-        "form": "normal",
+        "form": "gmax",
         "level": 80,
         "gender": "",
         "nature": "adamant",
@@ -125,8 +125,8 @@
         "teraType": "water",
         "isShiny": true,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     }
   ]
