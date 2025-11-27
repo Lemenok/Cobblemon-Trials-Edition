@@ -9,6 +9,7 @@ import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
+import com.google.gson.JsonObject;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.serialization.Codec;
@@ -22,6 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.SpawnData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -64,7 +66,11 @@ public record SpawnablePokemonProperties(
     private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEdition.MODID);
 
     public SpawnData getPokemonSpawnData(ServerLevel serverLevel, boolean doPokemonSpawnedGlow) {
-        
+
+        if(Config.ENABLE_DEBUG_LOGS.get()){
+            LOGGER.info("Setting up spawn data for '{}'", this.species);
+        }
+
         PokemonProperties newPokemonProperties = getSpawnablePokemonProperties();
         Pokemon newPokemon = newPokemonProperties.create();
 

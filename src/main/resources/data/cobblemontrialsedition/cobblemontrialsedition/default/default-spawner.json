@@ -22,8 +22,8 @@
           "teraType": "poison",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "sableye",
@@ -39,8 +39,8 @@
           "teraType": "dark",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "drapion",
@@ -56,8 +56,8 @@
           "teraType": "poison",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         },
         {
           "species": "sableye",
@@ -73,8 +73,8 @@
           "teraType": "dark",
           "isShiny": false,
           "scaleModifier": 1,
-          "isUncatchable": false,
-          "mustBeDefeatedInBattle": false
+          "isUncatchable": true,
+          "mustBeDefeatedInBattle": true
         }]
     },
     {
@@ -98,8 +98,8 @@
         "teraType": "ghost",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       },
       {
         "species": "mimikyu",
@@ -115,8 +115,8 @@
         "teraType": "ghost",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "banette",
@@ -132,8 +132,8 @@
         "teraType": "ghost",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       },
       {
         "species": "mimikyu",
@@ -149,8 +149,8 @@
         "teraType": "ghost",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     },
     {
@@ -174,8 +174,8 @@
         "teraType": "ground",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       },
       {
         "species": "geodude",
@@ -191,8 +191,8 @@
         "teraType": "rock",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "marowak",
@@ -208,8 +208,8 @@
         "teraType": "ground",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       },
       {
         "species": "graveler",
@@ -225,8 +225,8 @@
         "teraType": "rock",
         "isShiny": false,
         "scaleModifier": 1,
-        "isUncatchable": false,
-        "mustBeDefeatedInBattle": false
+        "isUncatchable": true,
+        "mustBeDefeatedInBattle": true
       }]
     }
   ]

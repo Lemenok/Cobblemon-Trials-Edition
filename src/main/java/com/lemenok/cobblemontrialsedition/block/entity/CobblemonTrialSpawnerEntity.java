@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.block.entity;
 
+import com.lemenok.cobblemontrialsedition.Config;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.*;
 import com.mojang.logging.LogUtils;
@@ -28,8 +29,9 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
         super(ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(), blockPos, blockState);
         PlayerDetector playerDetector = PlayerDetector.NO_CREATIVE_PLAYERS;
         PlayerDetector.EntitySelector entitySelector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
-        // TODO: Import config settings here.
-        this.cobblemonTrialSpawner = new CobblemonTrialSpawner(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), 1200, 14, this, playerDetector, entitySelector);
+        this.cobblemonTrialSpawner = new CobblemonTrialSpawner(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT,
+                new CobblemonTrialSpawnerData(), 36000, 14,
+                this, playerDetector, entitySelector);
     }
 
     @Override
@@ -40,10 +42,10 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
             nbt.put("ominous_config", compoundTag.merge(nbt.getCompound("ominous_config")));
         }
 
-        DataResult var10000 = this.cobblemonTrialSpawner.codec().parse(NbtOps.INSTANCE, nbt);
-        Logger var10001 = LOGGER;
-        Objects.requireNonNull(var10001);
-        var10000.resultOrPartial(msg -> LOGGER.error(msg.toString())).ifPresent((argx) -> this.cobblemonTrialSpawner = (CobblemonTrialSpawner) argx);
+        DataResult dataResult = this.cobblemonTrialSpawner.codec().parse(NbtOps.INSTANCE, nbt);
+        Logger logger = LOGGER;
+        Objects.requireNonNull(logger);
+        dataResult.resultOrPartial(msg -> LOGGER.error(msg.toString())).ifPresent((object) -> this.cobblemonTrialSpawner = (CobblemonTrialSpawner) object);
         if (this.level != null) {
             this.markUpdated();
         }
@@ -53,7 +55,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
     @Override
     public void saveAdditional(@NotNull CompoundTag nbt, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(nbt, registries);
-        this.cobblemonTrialSpawner.codec().encodeStart(NbtOps.INSTANCE, this.cobblemonTrialSpawner).ifSuccess((arg2x) -> nbt.merge((CompoundTag)arg2x)).ifError((error) -> LOGGER.warn("Failed to encode TrialSpawner {}", error.message()));
+        this.cobblemonTrialSpawner.codec().encodeStart(NbtOps.INSTANCE, this.cobblemonTrialSpawner).ifSuccess((tag) -> nbt.merge((CompoundTag)tag)).ifError((error) -> LOGGER.warn("Failed to encode TrialSpawner {}", error.message()));
     }
 
     @Override
@@ -62,8 +64,8 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider arg) {
-        return this.cobblemonTrialSpawner.getData().getUpdateTag((CobblemonTrialSpawnerState) this.getBlockState().getValue(CobblemonTrialSpawnerBlock.STATE));
+    public CompoundTag getUpdateTag(HolderLookup.@NotNull Provider provider) {
+        return this.cobblemonTrialSpawner.getData().getUpdateTag(this.getBlockState().getValue(CobblemonTrialSpawnerBlock.STATE));
     }
 
     @Override
@@ -71,9 +73,8 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
         return true;
     }
 
-
-    public void setEntityId(EntityType<?> arg, RandomSource arg2) {
-        this.cobblemonTrialSpawner.getData().setEntityId(this.cobblemonTrialSpawner, arg2, arg);
+    public void setEntityId(EntityType<?> entityType, RandomSource randomSource) {
+        this.cobblemonTrialSpawner.getData().setEntityId(this.cobblemonTrialSpawner, randomSource, entityType);
         this.setChanged();
     }
 
@@ -81,20 +82,15 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
         return this.cobblemonTrialSpawner;
     }
 
-    public void setCobblemonTrialSpawner(CobblemonTrialSpawner cobblemonTrialSpawner) {
-        this.cobblemonTrialSpawner = cobblemonTrialSpawner;
-        this.setChanged();
-    }
-
     @Override
     public CobblemonTrialSpawnerState getState() {
-        return !this.getBlockState().hasProperty(CobblemonTrialSpawnerBlock.STATE) ? CobblemonTrialSpawnerState.INACTIVE : (CobblemonTrialSpawnerState)this.getBlockState().getValue(CobblemonTrialSpawnerBlock.STATE);
+        return !this.getBlockState().hasProperty(CobblemonTrialSpawnerBlock.STATE) ? CobblemonTrialSpawnerState.INACTIVE : this.getBlockState().getValue(CobblemonTrialSpawnerBlock.STATE);
     }
 
     @Override
-    public void setState(Level arg, CobblemonTrialSpawnerState arg2) {
+    public void setState(Level level, CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
         this.setChanged();
-        arg.setBlockAndUpdate(this.worldPosition, (BlockState)this.getBlockState().setValue(CobblemonTrialSpawnerBlock.STATE, arg2));
+        level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(CobblemonTrialSpawnerBlock.STATE, cobblemonTrialSpawnerState));
     }
 
     @Override

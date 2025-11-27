@@ -36,11 +36,11 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     public static final BooleanProperty OMINOUS;
 
     @Override
-    public MapCodec<CobblemonTrialSpawnerBlock> codec() { return CODEC; }
+    public @NotNull MapCodec<CobblemonTrialSpawnerBlock> codec() { return CODEC; }
 
     public CobblemonTrialSpawnerBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState((BlockState)((BlockState)((BlockState)this.stateDefinition.any()).setValue(STATE, CobblemonTrialSpawnerState.INACTIVE)).setValue(OMINOUS, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(STATE, CobblemonTrialSpawnerState.INACTIVE).setValue(OMINOUS, false));
     }
 
     @Override
@@ -49,45 +49,40 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
+    protected @NotNull RenderShape getRenderShape(@NotNull BlockState state) { return RenderShape.MODEL; }
 
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) { return new CobblemonTrialSpawnerEntity(blockPos, blockState); }
+    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) { return new CobblemonTrialSpawnerEntity(blockPos, blockState); }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level arg, BlockState arg2, BlockEntityType<T> arg3) {
-        BlockEntityTicker var10000;
-        if (arg instanceof ServerLevel serverLevel) {
-            var10000 = createTickerHelper(arg3, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(), (arg2x, arg3x, arg4, arg5) -> arg5.getCobblemonTrialSpawner().tickServer(serverLevel, arg3x, (Boolean)arg4.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false)));
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, BlockEntityType<T> blockEntityType) {
+        BlockEntityTicker blockEntityTicker;
+        if (level instanceof ServerLevel serverLevel) {
+            blockEntityTicker = createTickerHelper(blockEntityType, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(),
+                    (level1, blockPos, blockState1, cobblemonTrialSpawnerEntity) ->
+                            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().tickServer(serverLevel, blockPos,
+                                    blockState1.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false)));
         } else {
-            var10000 = createTickerHelper(arg3, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(), (argx, arg2x, arg3x, arg4) -> arg4.getCobblemonTrialSpawner().tickClient(argx, arg2x, (Boolean)arg3x.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false)));
+            blockEntityTicker = createTickerHelper(blockEntityType, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(),
+                    (level2, blockPos, blockState1, cobblemonTrialSpawnerEntity) ->
+                            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().tickClient(level2, blockPos,
+                                    blockState1.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false)));
         }
 
-        return var10000;
+        return blockEntityTicker;
     }
 
     @Override
-    public void appendHoverText(ItemStack arg, Item.TooltipContext arg2, List<Component> list, TooltipFlag arg3) {
-        super.appendHoverText(arg, arg2, list, arg3);
-        CobblemonSpawner.appendHoverText(arg, list, "spawn_data");
+    public void appendHoverText(@NotNull ItemStack itemStack, Item.@NotNull TooltipContext tooltipContext,
+                                @NotNull List<Component> list, @NotNull TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, tooltipContext, list, tooltipFlag);
+        CobblemonSpawner.appendHoverText(itemStack, list, "spawn_data");
     }
 
     static {
         STATE = EnumProperty.create("cobblemon_trial_spawner_state", CobblemonTrialSpawnerState.class);
         OMINOUS = BlockStateProperties.OMINOUS;
     }
-
-    /* BLOCK ENTITY */
-
-    /*@Override
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(), CobblemonTrialSpawnerEntity::tick);
-    }*/
-
-
-
-
 }

@@ -15,11 +15,11 @@ public class Config {
 
     public static final ModConfigSpec.BooleanValue REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS = BUILDER
             .comment("Whether to do any spawner replacement in structures. If set to false, this will disable all spawner replacement in structures.")
-            .define("replaceSpawnersNotInStructuresWithCobblemonSpawners", true);
+            .define("replaceSpawnersInStructuresWithCobblemonSpawners", true);
 
     public static final ModConfigSpec.BooleanValue REPLACE_SPAWNERS_OUTSIDE_OF_STRUCTURES_WITH_DEFAULT_COBBLEMON_SPAWNERS = BUILDER
             .comment("Whether to do any spawner replacement outside of structures. If set to false, this will disable the spawner replacement for any spawners outside of structures (eg. Monster_Rooms)")
-            .define("replaceSpawnersInStructuresWithCobblemonSpawners", true);
+            .define("replaceSpawnersNotInStructuresWithCobblemonSpawners", true);
 
     public static final ModConfigSpec.BooleanValue REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = BUILDER
             .comment("Whether to replace any spawners that are not listed in configuration with a default spawner. " +

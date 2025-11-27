@@ -28,12 +28,12 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public enum CobblemonTrialSpawnerState implements StringRepresentable {
-    INACTIVE("inactive", 0, CobblemonTrialSpawnerState.ParticleEmission.NONE, (double)-1.0F, false),
-    WAITING_FOR_PLAYERS("waiting_for_players", 4, ParticleEmission.UNOWN, (double)200.0F, true),
-    ACTIVE("active", 8, ParticleEmission.UNOWN_AND_SPARKS, (double)1000.0F, true),
-    WAITING_FOR_REWARD_EJECTION("waiting_for_reward_ejection", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, (double)-1.0F, false),
-    EJECTING_REWARD("ejecting_reward", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, (double)-1.0F, false),
-    COOLDOWN("cooldown", 0, CobblemonTrialSpawnerState.ParticleEmission.SMOKE_INSIDE_AND_TOP_FACE, (double)-1.0F, false);
+    INACTIVE("inactive", 0, CobblemonTrialSpawnerState.ParticleEmission.NONE, -1.0F, false),
+    WAITING_FOR_PLAYERS("waiting_for_players", 4, ParticleEmission.UNOWN, 200.0F, true),
+    ACTIVE("active", 8, ParticleEmission.UNOWN_AND_SPARKS, 1000.0F, true),
+    WAITING_FOR_REWARD_EJECTION("waiting_for_reward_ejection", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, -1.0F, false),
+    EJECTING_REWARD("ejecting_reward", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, -1.0F, false),
+    COOLDOWN("cooldown", 0, CobblemonTrialSpawnerState.ParticleEmission.SMOKE_INSIDE_AND_TOP_FACE, -1.0F, false);
 
     private static final float DELAY_BEFORE_EJECT_AFTER_KILLING_LAST_MOB = 40.0F;
     private static final int TIME_BETWEEN_EACH_EJECTION = Mth.floor(30.0F);
@@ -43,135 +43,136 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
     private final CobblemonTrialSpawnerState.ParticleEmission particleEmission;
     private final boolean isCapableOfSpawning;
 
-    private CobblemonTrialSpawnerState(String string2, int j, CobblemonTrialSpawnerState.ParticleEmission arg, double d, boolean bl) {
-        this.name = string2;
-        this.lightLevel = j;
-        this.particleEmission = arg;
-        this.spinningMobSpeed = d;
-        this.isCapableOfSpawning = bl;
+    private CobblemonTrialSpawnerState(String state, int lightLevel, CobblemonTrialSpawnerState.ParticleEmission particleEmission, double spinningMobSpeed, boolean isCapableOfSpawning) {
+        this.name = state;
+        this.lightLevel = lightLevel;
+        this.particleEmission = particleEmission;
+        this.spinningMobSpeed = spinningMobSpeed;
+        this.isCapableOfSpawning = isCapableOfSpawning;
     }
 
-    CobblemonTrialSpawnerState tickAndGetNext(BlockPos arg, CobblemonTrialSpawner arg2, ServerLevel arg3) {
-        CobblemonTrialSpawnerData cobblemonTrialSpawnerData = arg2.getData();
-        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = arg2.getConfig();
-        CobblemonTrialSpawnerState var10000;
+    CobblemonTrialSpawnerState tickAndGetNext(BlockPos blockPos, CobblemonTrialSpawner cobblemonTrialSpawner, ServerLevel serverLevel) {
+        CobblemonTrialSpawnerData cobblemonTrialSpawnerData = cobblemonTrialSpawner.getData();
+        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = cobblemonTrialSpawner.getConfig();
+        CobblemonTrialSpawnerState cobblemonTrialSpawnerState;
         switch (this.ordinal()) {
             case 0:
-                var10000 = cobblemonTrialSpawnerData.getOrCreateDisplayEntity(false, arg2, arg3, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
+                cobblemonTrialSpawnerState = cobblemonTrialSpawnerData.getOrCreateDisplayEntity(false, cobblemonTrialSpawner, serverLevel, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
                 break;
             case 1:
-                if (!arg2.canSpawnInLevel(arg3)) {
+                if (!cobblemonTrialSpawner.canSpawnInLevel(serverLevel)) {
                     cobblemonTrialSpawnerData.reset();
-                    var10000 = this;
-                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(arg2, arg3.random)) {
-                    var10000 = INACTIVE;
+                    cobblemonTrialSpawnerState = this;
+                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(cobblemonTrialSpawner, serverLevel.random)) {
+                    cobblemonTrialSpawnerState = INACTIVE;
                 } else {
-                    cobblemonTrialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
-                    var10000 = cobblemonTrialSpawnerData.detectedPlayers.isEmpty() ? this : ACTIVE;
+                    cobblemonTrialSpawnerData.tryDetectPlayers(serverLevel, blockPos, cobblemonTrialSpawner);
+                    cobblemonTrialSpawnerState = cobblemonTrialSpawnerData.detectedPlayers.isEmpty() ? this : ACTIVE;
                 }
                 break;
             case 2:
-                if (!arg2.canSpawnInLevel(arg3)) {
+                if (!cobblemonTrialSpawner.canSpawnInLevel(serverLevel)) {
                     cobblemonTrialSpawnerData.reset();
-                    var10000 = WAITING_FOR_PLAYERS;
-                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(arg2, arg3.random)) {
-                    var10000 = INACTIVE;
+                    cobblemonTrialSpawnerState = WAITING_FOR_PLAYERS;
+                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(cobblemonTrialSpawner, serverLevel.random)) {
+                    cobblemonTrialSpawnerState = INACTIVE;
                 } else {
-                    int i = cobblemonTrialSpawnerData.countAdditionalPlayers(arg);
-                    cobblemonTrialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
-                    if (arg2.isOminous() && cobblemonTrialSpawnerConfig.enableOminousSpawnerAttacks()) {
-                        this.spawnOminousOminousItemSpawner(arg3, arg, arg2);
+                    int i = cobblemonTrialSpawnerData.countAdditionalPlayers(blockPos);
+                    cobblemonTrialSpawnerData.tryDetectPlayers(serverLevel, blockPos, cobblemonTrialSpawner);
+                    if (cobblemonTrialSpawner.isOminous() && cobblemonTrialSpawnerConfig.enableOminousSpawnerAttacks()) {
+                        this.spawnOminousOminousItemSpawner(serverLevel, blockPos, cobblemonTrialSpawner);
                     }
 
                     if (cobblemonTrialSpawnerData.hasFinishedSpawningAllMobs(cobblemonTrialSpawnerConfig, i)) {
                         if (cobblemonTrialSpawnerData.haveAllCurrentMobsDied()) {
-                            cobblemonTrialSpawnerData.cooldownEndsAt = arg3.getGameTime() + (long)arg2.getTargetCooldownLength();
+                            cobblemonTrialSpawnerData.cooldownEndsAt = serverLevel.getGameTime() + (long) cobblemonTrialSpawner.getTargetCooldownLength();
                             cobblemonTrialSpawnerData.totalMobsSpawned = 0;
                             cobblemonTrialSpawnerData.nextMobSpawnsAt = 0L;
-                            var10000 = WAITING_FOR_REWARD_EJECTION;
+                            cobblemonTrialSpawnerState = WAITING_FOR_REWARD_EJECTION;
                             break;
                         }
-                    } else if (cobblemonTrialSpawnerData.isReadyToSpawnNextMob(arg3, cobblemonTrialSpawnerConfig, i)) {
-                        arg2.spawnMob(arg3, arg).ifPresent((uUID) -> {
+                    } else if (cobblemonTrialSpawnerData.isReadyToSpawnNextMob(serverLevel, cobblemonTrialSpawnerConfig, i)) {
+                        cobblemonTrialSpawner.spawnMob(serverLevel, blockPos).ifPresent((uUID) -> {
                             cobblemonTrialSpawnerData.currentMobs.add(uUID);
                             ++cobblemonTrialSpawnerData.totalMobsSpawned;
-                            cobblemonTrialSpawnerData.nextMobSpawnsAt = arg3.getGameTime() + (long) cobblemonTrialSpawnerConfig.ticksBetweenSpawn();
-                            cobblemonTrialSpawnerConfig.spawnPotentialsDefinition().getRandom(arg3.getRandom()).ifPresent((arg3x) -> {
+                            cobblemonTrialSpawnerData.nextMobSpawnsAt = serverLevel.getGameTime() + (long) cobblemonTrialSpawnerConfig.ticksBetweenSpawn();
+                            cobblemonTrialSpawnerConfig.spawnPotentialsDefinition().getRandom(serverLevel.getRandom()).ifPresent((arg3x) -> {
                                 cobblemonTrialSpawnerData.nextSpawnData = Optional.of((SpawnData)arg3x.data());
-                                arg2.markUpdated();
+                                cobblemonTrialSpawner.markUpdated();
                             });
                         });
                     }
 
-                    var10000 = this;
+                    cobblemonTrialSpawnerState = this;
                 }
                 break;
             case 3:
-                if (cobblemonTrialSpawnerData.isReadyToOpenShutter(arg3, 40.0F, arg2.getTargetCooldownLength())) {
-                    arg3.playSound((Player)null, arg, SoundEvents.TRIAL_SPAWNER_OPEN_SHUTTER, SoundSource.BLOCKS);
-                    var10000 = EJECTING_REWARD;
+                if (cobblemonTrialSpawnerData.isReadyToOpenShutter(serverLevel, DELAY_BEFORE_EJECT_AFTER_KILLING_LAST_MOB, cobblemonTrialSpawner.getTargetCooldownLength())) {
+                    serverLevel.playSound(null, blockPos, SoundEvents.TRIAL_SPAWNER_OPEN_SHUTTER, SoundSource.BLOCKS);
+                    cobblemonTrialSpawnerState = EJECTING_REWARD;
                 } else {
-                    var10000 = this;
+                    cobblemonTrialSpawnerState = this;
                 }
                 break;
             case 4:
-                if (!cobblemonTrialSpawnerData.isReadyToEjectItems(arg3, (float)TIME_BETWEEN_EACH_EJECTION, arg2.getTargetCooldownLength())) {
-                    var10000 = this;
+                if (!cobblemonTrialSpawnerData.isReadyToEjectItems(serverLevel, (float)TIME_BETWEEN_EACH_EJECTION, cobblemonTrialSpawner.getTargetCooldownLength())) {
+                    cobblemonTrialSpawnerState = this;
                 } else if (cobblemonTrialSpawnerData.detectedPlayers.isEmpty()) {
-                    arg3.playSound((Player)null, arg, SoundEvents.TRIAL_SPAWNER_CLOSE_SHUTTER, SoundSource.BLOCKS);
+                    serverLevel.playSound(null, blockPos, SoundEvents.TRIAL_SPAWNER_CLOSE_SHUTTER, SoundSource.BLOCKS);
                     cobblemonTrialSpawnerData.ejectingLootTable = Optional.empty();
-                    var10000 = COOLDOWN;
+                    cobblemonTrialSpawnerState = COOLDOWN;
                 } else {
                     if (cobblemonTrialSpawnerData.ejectingLootTable.isEmpty()) {
-                        cobblemonTrialSpawnerData.ejectingLootTable = cobblemonTrialSpawnerConfig.lootTablesToEject().getRandomValue(arg3.getRandom());
+                        cobblemonTrialSpawnerData.ejectingLootTable = cobblemonTrialSpawnerConfig.lootTablesToEject().getRandomValue(serverLevel.getRandom());
                     }
 
-                    cobblemonTrialSpawnerData.ejectingLootTable.ifPresent((arg4) -> arg2.ejectReward(arg3, arg, arg4));
+                    cobblemonTrialSpawnerData.ejectingLootTable.ifPresent((arg4) -> cobblemonTrialSpawner.ejectReward(serverLevel, blockPos, arg4));
                     cobblemonTrialSpawnerData.detectedPlayers.remove(cobblemonTrialSpawnerData.detectedPlayers.iterator().next());
-                    var10000 = this;
+                    cobblemonTrialSpawnerState = this;
                 }
                 break;
             case 5:
-                cobblemonTrialSpawnerData.tryDetectPlayers(arg3, arg, arg2);
+                cobblemonTrialSpawnerData.tryDetectPlayers(serverLevel, blockPos, cobblemonTrialSpawner);
                 if (!cobblemonTrialSpawnerData.detectedPlayers.isEmpty()) {
                     cobblemonTrialSpawnerData.totalMobsSpawned = 0;
                     cobblemonTrialSpawnerData.nextMobSpawnsAt = 0L;
-                    var10000 = ACTIVE;
-                } else if (cobblemonTrialSpawnerData.isCooldownFinished(arg3)) {
-                    arg2.removeOminous(arg3, arg);
+                    cobblemonTrialSpawnerState = ACTIVE;
+                } else if (cobblemonTrialSpawnerData.isCooldownFinished(serverLevel)) {
+                    cobblemonTrialSpawner.removeOminous(serverLevel, blockPos);
                     cobblemonTrialSpawnerData.reset();
-                    var10000 = WAITING_FOR_PLAYERS;
+                    cobblemonTrialSpawnerState = WAITING_FOR_PLAYERS;
                 } else {
-                    var10000 = this;
+                    cobblemonTrialSpawnerState = this;
                 }
                 break;
             default:
-                throw new MatchException((String)null, (Throwable)null);
+                throw new MatchException(null, null);
         }
 
-        return var10000;
+        return cobblemonTrialSpawnerState;
     }
 
-    private void spawnOminousOminousItemSpawner(ServerLevel arg, BlockPos arg2, CobblemonTrialSpawner arg3) {
-        CobblemonTrialSpawnerData trialSpawnerData = arg3.getData();
-        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = arg3.getConfig();
-        ItemStack itemStack = (ItemStack)trialSpawnerData.getDispensingItems(arg, cobblemonTrialSpawnerConfig, arg2).getRandomValue(arg.random).orElse(ItemStack.EMPTY);
+    private void spawnOminousOminousItemSpawner(ServerLevel serverLevel, BlockPos blockPos, CobblemonTrialSpawner cobblemonTrialSpawner) {
+        CobblemonTrialSpawnerData trialSpawnerData = cobblemonTrialSpawner.getData();
+        CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig = cobblemonTrialSpawner.getConfig();
+        ItemStack itemStack = trialSpawnerData.getDispensingItems(serverLevel, cobblemonTrialSpawnerConfig, blockPos).getRandomValue(serverLevel.random).orElse(ItemStack.EMPTY);
         if (!itemStack.isEmpty()) {
-            if (this.timeToSpawnItemSpawner(arg, trialSpawnerData)) {
-                calculatePositionToSpawnSpawner(arg, arg2, arg3, trialSpawnerData).ifPresent((arg5) -> {
-                    OminousItemSpawner ominousItemSpawner = OminousItemSpawner.create(arg, itemStack);
+            if (this.timeToSpawnItemSpawner(serverLevel, trialSpawnerData)) {
+                calculatePositionToSpawnSpawner(serverLevel, blockPos, cobblemonTrialSpawner, trialSpawnerData).ifPresent((arg5) -> {
+                    OminousItemSpawner ominousItemSpawner = OminousItemSpawner.create(serverLevel, itemStack);
                     ominousItemSpawner.moveTo(arg5);
-                    arg.addFreshEntity(ominousItemSpawner);
-                    float f = (arg.getRandom().nextFloat() - arg.getRandom().nextFloat()) * 0.2F + 1.0F;
-                    arg.playSound((Player)null, BlockPos.containing(arg5), SoundEvents.TRIAL_SPAWNER_SPAWN_ITEM_BEGIN, SoundSource.BLOCKS, 1.0F, f);
-                    trialSpawnerData.cooldownEndsAt = arg.getGameTime() + arg3.getOminousConfig().ticksBetweenItemSpawners();
+                    serverLevel.addFreshEntity(ominousItemSpawner);
+                    float f = (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.2F + 1.0F;
+                    serverLevel.playSound(null, BlockPos.containing(arg5), SoundEvents.TRIAL_SPAWNER_SPAWN_ITEM_BEGIN, SoundSource.BLOCKS, 1.0F, f);
+                    trialSpawnerData.cooldownEndsAt = serverLevel.getGameTime() + cobblemonTrialSpawner.getOminousConfig().ticksBetweenItemSpawners();
                 });
             }
 
         }
     }
 
-    private static Optional<Vec3> calculatePositionToSpawnSpawner(ServerLevel serverLevel, BlockPos blockPosition, CobblemonTrialSpawner cobblemonTrialSpawner, CobblemonTrialSpawnerData cobblemonTrialSpawnerData) {
+    private static Optional<Vec3> calculatePositionToSpawnSpawner(ServerLevel serverLevel, BlockPos blockPosition,
+                  CobblemonTrialSpawner cobblemonTrialSpawner, CobblemonTrialSpawnerData cobblemonTrialSpawnerData) {
         List<Player> players = cobblemonTrialSpawnerData.detectedPlayers.stream()
                 .map(serverLevel::getPlayerByUUID)
                 .filter(Objects::nonNull)
@@ -187,13 +188,13 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         return entity == null ? Optional.empty() : calculatePositionAbove(entity, serverLevel);
     }
 
-    private static Optional<Vec3> calculatePositionAbove(Entity arg, ServerLevel arg2) {
-        Vec3 vec3 = arg.position();
-        Vec3 vec32 = vec3.relative(Direction.UP, (double)(arg.getBbHeight() + 2.0F + (float)arg2.random.nextInt(4)));
-        BlockHitResult blockHitResult = arg2.clip(new ClipContext(vec3, vec32, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, CollisionContext.empty()));
-        Vec3 vec33 = blockHitResult.getBlockPos().getCenter().relative(Direction.DOWN, (double)1.0F);
+    private static Optional<Vec3> calculatePositionAbove(Entity entity, ServerLevel serverLevel) {
+        Vec3 vec3 = entity.position();
+        Vec3 vec32 = vec3.relative(Direction.UP, entity.getBbHeight() + 2.0F + (float) serverLevel.random.nextInt(4));
+        BlockHitResult blockHitResult = serverLevel.clip(new ClipContext(vec3, vec32, ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, CollisionContext.empty()));
+        Vec3 vec33 = blockHitResult.getBlockPos().getCenter().relative(Direction.DOWN, 1.0F);
         BlockPos blockPos = BlockPos.containing(vec33);
-        return !arg2.getBlockState(blockPos).getCollisionShape(arg2, blockPos).isEmpty() ? Optional.empty() : Optional.of(vec33);
+        return !serverLevel.getBlockState(blockPos).getCollisionShape(serverLevel, blockPos).isEmpty() ? Optional.empty() : Optional.of(vec33);
     }
 
     @Nullable
@@ -220,8 +221,8 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         }
     }
 
-    private boolean timeToSpawnItemSpawner(ServerLevel arg, CobblemonTrialSpawnerData arg2) {
-        return arg.getGameTime() >= arg2.cooldownEndsAt;
+    private boolean timeToSpawnItemSpawner(ServerLevel serverLevel, CobblemonTrialSpawnerData cobblemonTrialSpawnerData) {
+        return serverLevel.getGameTime() >= cobblemonTrialSpawnerData.cooldownEndsAt;
     }
 
     public int lightLevel() {
@@ -240,8 +241,8 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         return this.isCapableOfSpawning;
     }
 
-    public void emitParticles(Level arg, BlockPos arg2, boolean bl) {
-        this.particleEmission.emit(arg, arg.getRandom(), arg2, bl);
+    public void emitParticles(Level level, BlockPos blockPos, boolean bl) {
+        this.particleEmission.emit(level, level.getRandom(), blockPos, bl);
     }
 
     public String getSerializedName() {
@@ -258,50 +259,50 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
     }
 
     static class SpinningMob {
-        private static final double NONE = (double)-1.0F;
-        private static final double SLOW = (double)200.0F;
-        private static final double FAST = (double)1000.0F;
+        private static final double NONE = -1.0F;
+        private static final double SLOW = 200.0F;
+        private static final double FAST = 1000.0F;
 
         private SpinningMob() {
         }
     }
 
     interface ParticleEmission {
-        CobblemonTrialSpawnerState.ParticleEmission NONE = (arg, arg2, arg3, bl) -> {
+        CobblemonTrialSpawnerState.ParticleEmission NONE = (level, randomSource, blockPos, isCapableOfSpawning) -> {
         };
-        CobblemonTrialSpawnerState.ParticleEmission UNOWN = (arg, arg2, arg3, bl) -> {
-            if (arg2.nextInt(2) == 0) {
-                Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 0.9F);
-                addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
+        CobblemonTrialSpawnerState.ParticleEmission UNOWN = (level, randomSource, blockPos, isCapableOfSpawning) -> {
+            if (randomSource.nextInt(2) == 0) {
+                Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 0.9F);
+                addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, level);
             }
 
         };
-        CobblemonTrialSpawnerState.ParticleEmission UNOWN_AND_SPARKS = (arg, arg2, arg3, bl) -> {
-            Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 1.0F);
-            addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
-            addParticle(bl ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, arg);
+        CobblemonTrialSpawnerState.ParticleEmission UNOWN_AND_SPARKS = (level, randomSource, blockPos, isCapableOfSpawning) -> {
+            Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 1.0F);
+            addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, level);
+            addParticle(isCapableOfSpawning ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, level);
         };
-        CobblemonTrialSpawnerState.ParticleEmission SMOKE_INSIDE_AND_TOP_FACE = (arg, arg2, arg3, bl) -> {
-            Vec3 vec3 = arg3.getCenter().offsetRandom(arg2, 0.9F);
-            if (arg2.nextInt(3) == 0) {
-                addParticle(ParticleTypes.SMOKE, vec3, arg);
+        CobblemonTrialSpawnerState.ParticleEmission SMOKE_INSIDE_AND_TOP_FACE = (level, randomSource, blockPos, isCapableOfSpawning) -> {
+            Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 0.9F);
+            if (randomSource.nextInt(3) == 0) {
+                addParticle(ParticleTypes.SMOKE, vec3, level);
             }
 
-            if (arg.getGameTime() % 20L == 0L) {
-                Vec3 vec32 = arg3.getCenter().add((double)0.0F, (double)0.5F, (double)0.0F);
-                int i = arg.getRandom().nextInt(4) + 20;
+            if (level.getGameTime() % 20L == 0L) {
+                Vec3 vec32 = blockPos.getCenter().add(0.0F, 0.5F, 0.0F);
+                int i = level.getRandom().nextInt(4) + 20;
 
                 for(int j = 0; j < i; ++j) {
-                    addParticle(ParticleTypes.SMOKE, vec32, arg);
+                    addParticle(ParticleTypes.SMOKE, vec32, level);
                 }
             }
 
         };
 
-        private static void addParticle(SimpleParticleType arg, Vec3 arg2, Level arg3) {
-            arg3.addParticle(arg, arg2.x(), arg2.y(), arg2.z(), (double)0.0F, (double)0.0F, (double)0.0F);
+        private static void addParticle(SimpleParticleType simpleParticleType, Vec3 vec3, Level level) {
+            level.addParticle(simpleParticleType, vec3.x(), vec3.y(), vec3.z(), 0.0F, 0.0F, 0.0F);
         }
 
-        void emit(Level arg, RandomSource arg2, BlockPos arg3, boolean bl);
+        void emit(Level level, RandomSource randomSource, BlockPos blockPos, boolean bl);
     }
 }
