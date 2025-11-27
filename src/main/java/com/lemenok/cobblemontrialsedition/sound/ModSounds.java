@@ -1,15 +1,12 @@
 package com.lemenok.cobblemontrialsedition.sound;
 
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
-import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.util.DeferredSoundType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public class ModSounds {

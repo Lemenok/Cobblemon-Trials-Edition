@@ -5,7 +5,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -26,10 +25,12 @@ public interface CobblemonSpawner {
     }
 
     @Nullable
-    static Component getSpawnEntityDisplayName(ItemStack arg, String string) {
-        CompoundTag compoundTag = ((CustomData)arg.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY)).getUnsafe();
+    static Component getSpawnEntityDisplayName(ItemStack itemStack, String string) {
+        CompoundTag compoundTag = itemStack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).copyTag();
         ResourceLocation resourceLocation = getEntityKey(compoundTag, string);
-        return resourceLocation != null ? (Component) BuiltInRegistries.ENTITY_TYPE.getOptional(resourceLocation).map((argx) -> Component.translatable(argx.getDescriptionId()).withStyle(ChatFormatting.GRAY)).orElse((MutableComponent) null) : null;
+        return resourceLocation != null ? BuiltInRegistries.ENTITY_TYPE.getOptional(resourceLocation)
+                .map((entityType) -> Component.translatable(entityType.getDescriptionId())
+                        .withStyle(ChatFormatting.GRAY)).orElse(null) : null;
     }
 
     @Nullable

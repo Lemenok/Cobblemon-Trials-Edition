@@ -72,16 +72,18 @@ public class CobblemonTrialSpawnerData {
         this(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.empty(), Optional.empty());
     }
 
-    public CobblemonTrialSpawnerData(Set<UUID> set, Set<UUID> set2, long l, long m, int i, Optional<SpawnData> optional, Optional<ResourceKey<LootTable>> optional2) {
+    public CobblemonTrialSpawnerData(Set<UUID> setOfDetectedPlayers, Set<UUID> setOfCurrentMobs, long cooldownEndsAt,
+                                     long nextMobSpawnsAt, int totalMobsSpawned, Optional<SpawnData> nextSpawnData,
+                                     Optional<ResourceKey<LootTable>> ejectingLootTable) {
         this.detectedPlayers = new HashSet();
         this.currentMobs = new HashSet();
-        this.detectedPlayers.addAll(set);
-        this.currentMobs.addAll(set2);
-        this.cooldownEndsAt = l;
-        this.nextMobSpawnsAt = m;
-        this.totalMobsSpawned = i;
-        this.nextSpawnData = optional;
-        this.ejectingLootTable = optional2;
+        this.detectedPlayers.addAll(setOfDetectedPlayers);
+        this.currentMobs.addAll(setOfCurrentMobs);
+        this.cooldownEndsAt = cooldownEndsAt;
+        this.nextMobSpawnsAt = nextMobSpawnsAt;
+        this.totalMobsSpawned = totalMobsSpawned;
+        this.nextSpawnData = nextSpawnData;
+        this.ejectingLootTable = ejectingLootTable;
     }
 
     public void reset() {
@@ -93,61 +95,61 @@ public class CobblemonTrialSpawnerData {
         this.nextSpawnData = Optional.empty();
     }
 
-    public boolean hasMobToSpawn(CobblemonTrialSpawner arg, RandomSource arg2) {
-        boolean bl = this.getOrCreateNextSpawnData(arg, arg2).getEntityToSpawn().contains("id", 8);
-        return bl || !arg.getConfig().spawnPotentialsDefinition().isEmpty();
+    public boolean hasMobToSpawn(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource) {
+        boolean isEntityAvailableForSpawn = this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource).getEntityToSpawn().contains("id", 8);
+        return isEntityAvailableForSpawn || !cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition().isEmpty();
     }
 
-    public boolean hasFinishedSpawningAllMobs(CobblemonTrialSpawnerConfig arg, int i) {
-        return this.totalMobsSpawned >= arg.calculateTargetTotalMobs(i);
+    public boolean hasFinishedSpawningAllMobs(CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig, int i) {
+        return this.totalMobsSpawned >= cobblemonTrialSpawnerConfig.calculateTargetTotalMobs(i);
     }
 
     public boolean haveAllCurrentMobsDied() {
         return this.currentMobs.isEmpty();
     }
 
-    public boolean isReadyToSpawnNextMob(ServerLevel arg, CobblemonTrialSpawnerConfig arg2, int i) {
-        return arg.getGameTime() >= this.nextMobSpawnsAt && this.currentMobs.size() < arg2.calculateTargetSimultaneousMobs(i);
+    public boolean isReadyToSpawnNextMob(ServerLevel serverLevel, CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig, int i) {
+        return serverLevel.getGameTime() >= this.nextMobSpawnsAt && this.currentMobs.size() < cobblemonTrialSpawnerConfig.calculateTargetSimultaneousMobs(i);
     }
 
-    public int countAdditionalPlayers(BlockPos arg) {
+    public int countAdditionalPlayers(BlockPos blockPos) {
         if (this.detectedPlayers.isEmpty()) {
-            Util.logAndPauseIfInIde("Trial Spawner at " + String.valueOf(arg) + " has no detected players");
+            Util.logAndPauseIfInIde("Cobblemon Trial Spawner at " + blockPos + " has no detected players");
         }
 
         return Math.max(0, this.detectedPlayers.size() - 1);
     }
 
-    public void tryDetectPlayers(ServerLevel arg, BlockPos arg2, CobblemonTrialSpawner arg3) {
-        boolean bl = (arg2.asLong() + arg.getGameTime()) % 20L != 0L;
+    public void tryDetectPlayers(ServerLevel serverLevel, BlockPos blockPos, CobblemonTrialSpawner cobblemonTrialSpawner) {
+        boolean bl = (blockPos.asLong() + serverLevel.getGameTime()) % 20L != 0L;
         if (!bl) {
-            if (!arg3.getState().equals(CobblemonTrialSpawnerState.COOLDOWN) || !arg3.isOminous()) {
-                List<UUID> list = arg3.getPlayerDetector().detect(arg, arg3.getEntitySelector(), arg2, (double)arg3.getRequiredPlayerRange(), true);
+            if (!cobblemonTrialSpawner.getState().equals(CobblemonTrialSpawnerState.COOLDOWN) || !cobblemonTrialSpawner.isOminous()) {
+                List<UUID> list = cobblemonTrialSpawner.getPlayerDetector().detect(serverLevel, cobblemonTrialSpawner.getEntitySelector(), blockPos, (double) cobblemonTrialSpawner.getRequiredPlayerRange(), true);
                 boolean bl2;
-                if (!arg3.isOminous() && !list.isEmpty()) {
-                    Optional<Pair<Player, Holder<MobEffect>>> optional = findPlayerWithOminousEffect(arg, list);
+                if (!cobblemonTrialSpawner.isOminous() && !list.isEmpty()) {
+                    Optional<Pair<Player, Holder<MobEffect>>> optional = findPlayerWithOminousEffect(serverLevel, list);
                     optional.ifPresent((pair) -> {
                         Player player = (Player)pair.getFirst();
                         if (pair.getSecond() == MobEffects.BAD_OMEN) {
                             transformBadOmenIntoTrialOmen(player);
                         }
 
-                        arg.levelEvent(3020, BlockPos.containing(player.getEyePosition()), 0);
-                        arg3.applyOminous(arg, arg2);
+                        serverLevel.levelEvent(3020, BlockPos.containing(player.getEyePosition()), 0);
+                        cobblemonTrialSpawner.applyOminous(serverLevel, blockPos);
                     });
                     bl2 = optional.isPresent();
                 } else {
                     bl2 = false;
                 }
 
-                if (!arg3.getState().equals(CobblemonTrialSpawnerState.COOLDOWN) || bl2) {
-                    boolean bl3 = arg3.getData().detectedPlayers.isEmpty();
-                    List<UUID> list2 = bl3 ? list : arg3.getPlayerDetector().detect(arg, arg3.getEntitySelector(), arg2, (double)arg3.getRequiredPlayerRange(), false);
+                if (!cobblemonTrialSpawner.getState().equals(CobblemonTrialSpawnerState.COOLDOWN) || bl2) {
+                    boolean bl3 = cobblemonTrialSpawner.getData().detectedPlayers.isEmpty();
+                    List<UUID> list2 = bl3 ? list : cobblemonTrialSpawner.getPlayerDetector().detect(serverLevel, cobblemonTrialSpawner.getEntitySelector(), blockPos, (double) cobblemonTrialSpawner.getRequiredPlayerRange(), false);
                     if (this.detectedPlayers.addAll(list2)) {
-                        this.nextMobSpawnsAt = Math.max(arg.getGameTime() + 40L, this.nextMobSpawnsAt);
+                        this.nextMobSpawnsAt = Math.max(serverLevel.getGameTime() + 40L, this.nextMobSpawnsAt);
                         if (!bl2) {
-                            int i = arg3.isOminous() ? 3019 : 3013;
-                            arg.levelEvent(i, arg2, this.detectedPlayers.size());
+                            int i = cobblemonTrialSpawner.isOminous() ? 3019 : 3013;
+                            serverLevel.levelEvent(i, blockPos, this.detectedPlayers.size());
                         }
                     }
 
@@ -156,11 +158,11 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
-    private static Optional<Pair<Player, Holder<MobEffect>>> findPlayerWithOminousEffect(ServerLevel arg, List<UUID> list) {
+    private static Optional<Pair<Player, Holder<MobEffect>>> findPlayerWithOminousEffect(ServerLevel serverLevel, List<UUID> listOfPlayers) {
         Player player = null;
 
-        for(UUID uUID : list) {
-            Player player2 = arg.getPlayerByUUID(uUID);
+        for(UUID uUID : listOfPlayers) {
+            Player player2 = serverLevel.getPlayerByUUID(uUID);
             if (player2 != null) {
                 Holder<MobEffect> holder = MobEffects.TRIAL_OMEN;
                 if (player2.hasEffect(holder)) {
@@ -173,7 +175,7 @@ public class CobblemonTrialSpawnerData {
             }
         }
 
-        return Optional.ofNullable(player).map((argx) -> Pair.of(argx, MobEffects.BAD_OMEN));
+        return Optional.ofNullable(player).map((playerarg) -> Pair.of(playerarg, MobEffects.BAD_OMEN));
     }
 
     public void resetAfterBecomingOminous(CobblemonTrialSpawner cobblemonTrialSpawner, ServerLevel serverLevel) {
@@ -213,61 +215,61 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
-    public boolean isReadyToOpenShutter(ServerLevel arg, float f, int i) {
+    public boolean isReadyToOpenShutter(ServerLevel serverLevel, float shutterDelay, int cooldownLength) {
+        long l = this.cooldownEndsAt - (long)cooldownLength;
+        return (float) serverLevel.getGameTime() >= (float)l + shutterDelay;
+    }
+
+    public boolean isReadyToEjectItems(ServerLevel serverLevel, float f, int i) {
         long l = this.cooldownEndsAt - (long)i;
-        return (float)arg.getGameTime() >= (float)l + f;
+        return (float)(serverLevel.getGameTime() - l) % f == 0.0F;
     }
 
-    public boolean isReadyToEjectItems(ServerLevel arg, float f, int i) {
-        long l = this.cooldownEndsAt - (long)i;
-        return (float)(arg.getGameTime() - l) % f == 0.0F;
+    public boolean isCooldownFinished(ServerLevel serverLevel) {
+        return serverLevel.getGameTime() >= this.cooldownEndsAt;
     }
 
-    public boolean isCooldownFinished(ServerLevel arg) {
-        return arg.getGameTime() >= this.cooldownEndsAt;
+    public void setEntityId(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, EntityType<?> entityType) {
+        this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource).getEntityToSpawn()
+                .putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(entityType).toString());
     }
 
-    public void setEntityId(CobblemonTrialSpawner arg, RandomSource arg2, EntityType<?> arg3) {
-        this.getOrCreateNextSpawnData(arg, arg2).getEntityToSpawn().putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(arg3).toString());
-    }
-
-    public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner arg, RandomSource arg2) {
+    public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource) {
         if (this.nextSpawnData.isPresent()) {
             //ApplySpawnVariance
-            return (SpawnData)this.nextSpawnData.get();
+            return this.nextSpawnData.get();
         } else {
-            SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = arg.getConfig().spawnPotentialsDefinition();
-            Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(arg2).map(WeightedEntry.Wrapper::data);
-            this.nextSpawnData = Optional.of((SpawnData)optional.orElseGet(SpawnData::new));
-            arg.markUpdated();
-            return (SpawnData)this.nextSpawnData.get();
+            SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition();
+            Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
+            this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
+            cobblemonTrialSpawner.markUpdated();
+            return this.nextSpawnData.get();
         }
     }
 
     @Nullable
-    public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner arg, Level arg2, CobblemonTrialSpawnerState arg3) {
-        if (!arg3.hasSpinningMob()) {
+    public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner cobblemonTrialSpawner,
+                                              Level level, CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
+        if (!cobblemonTrialSpawnerState.hasSpinningMob()) {
             return null;
         } else {
             if (this.displayItem == null) {
-                CompoundTag compoundTag = this.getOrCreateNextSpawnData(arg, arg2.getRandom()).getEntityToSpawn();
+                CompoundTag compoundTag = this.getOrCreateNextSpawnData(cobblemonTrialSpawner, level.getRandom()).getEntityToSpawn();
                 if (compoundTag.contains("id", 8)) {
                     if (isOminous)
                         this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
                     else
                         this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
                 }
-                    //this.displayItem = EntityType.loadEntityRecursive(compoundTag, arg2, Function.identity());
-
             }
 
             return this.displayItem;
         }
     }
 
-    public CompoundTag getUpdateTag(CobblemonTrialSpawnerState arg) {
+    public CompoundTag getUpdateTag(CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
         CompoundTag compoundTag = new CompoundTag();
-        if (arg == CobblemonTrialSpawnerState.ACTIVE) {
+        if (cobblemonTrialSpawnerState == CobblemonTrialSpawnerState.ACTIVE) {
             compoundTag.putLong("next_mob_spawns_at", this.nextMobSpawnsAt);
         }
 
@@ -283,22 +285,23 @@ public class CobblemonTrialSpawnerData {
         return this.oSpin;
     }
 
-    public SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel arg, CobblemonTrialSpawnerConfig arg2, BlockPos arg3) {
+    public SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel serverLevel,
+                                      CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig, BlockPos blockPos) {
         if (this.dispensing != null) {
             return this.dispensing;
         } else {
-            LootTable lootTable = arg.getServer().reloadableRegistries().getLootTable(arg2.itemsToDropWhenOminous());
-            LootParams lootParams = (new LootParams.Builder(arg)).create(LootContextParamSets.EMPTY);
-            long l = lowResolutionPosition(arg, arg3);
-            ObjectArrayList<ItemStack> objectArrayList = lootTable.getRandomItems(lootParams, l);
+            LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(cobblemonTrialSpawnerConfig.itemsToDropWhenOminous());
+            LootParams lootParams = (new LootParams.Builder(serverLevel)).create(LootContextParamSets.EMPTY);
+            long position = lowResolutionPosition(serverLevel, blockPos);
+            ObjectArrayList<ItemStack> objectArrayList = lootTable.getRandomItems(lootParams, position);
             if (objectArrayList.isEmpty()) {
                 return SimpleWeightedRandomList.empty();
             } else {
                 SimpleWeightedRandomList.Builder<ItemStack> builder = new SimpleWeightedRandomList.Builder();
-                ObjectListIterator var10 = objectArrayList.iterator();
+                ObjectListIterator iterator = objectArrayList.iterator();
 
-                while(var10.hasNext()) {
-                    ItemStack itemStack = (ItemStack)var10.next();
+                while(iterator.hasNext()) {
+                    ItemStack itemStack = (ItemStack) iterator.next();
                     builder.add(itemStack.copyWithCount(1), itemStack.getCount());
                 }
 
@@ -308,9 +311,9 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
-    private static long lowResolutionPosition(ServerLevel arg, BlockPos arg2) {
-        BlockPos blockPos = new BlockPos(Mth.floor((float)arg2.getX() / 30.0F), Mth.floor((float)arg2.getY() / 20.0F), Mth.floor((float)arg2.getZ() / 30.0F));
-        return arg.getSeed() + blockPos.asLong();
+    private static long lowResolutionPosition(ServerLevel serverLevel, BlockPos blockPos) {
+        BlockPos lowResolutionBlockPos = new BlockPos(Mth.floor((float) blockPos.getX() / 30.0F), Mth.floor((float) blockPos.getY() / 20.0F), Mth.floor((float) blockPos.getZ() / 30.0F));
+        return serverLevel.getSeed() + lowResolutionBlockPos.asLong();
     }
 
     public Set<UUID> getCurrentMobs() {

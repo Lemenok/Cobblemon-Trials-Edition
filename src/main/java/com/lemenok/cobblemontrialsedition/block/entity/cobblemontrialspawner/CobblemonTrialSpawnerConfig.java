@@ -1,7 +1,6 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
-import com.cobblemon.mod.common.api.pokemon.Natures;
-import com.cobblemon.mod.common.pokemon.Nature;
+import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.Registries;
@@ -10,8 +9,6 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
-
-import java.util.List;
 
 public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float simultaneousMobs,
       float totalMobsAddedPerPlayer, float simultaneousMobsAddedPerPlayer,
@@ -24,11 +21,11 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
     public static final Codec<CobblemonTrialSpawnerConfig> CODEC;
 
     public int calculateTargetTotalMobs(int i) {
-        return (int)Math.floor((double)(this.totalMobs + this.totalMobsAddedPerPlayer * (float)i));
+        return (int)Math.floor(this.totalMobs + this.totalMobsAddedPerPlayer * (float)i);
     }
 
     public int calculateTargetSimultaneousMobs(int i) {
-        return (int)Math.floor((double)(this.simultaneousMobs + this.simultaneousMobsAddedPerPlayer * (float)i));
+        return (int)Math.floor(this.simultaneousMobs + this.simultaneousMobsAddedPerPlayer * (float)i);
     }
 
     public long ticksBetweenItemSpawners() {
@@ -36,8 +33,9 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
     }
 
     static {
-        DEFAULT = new CobblemonTrialSpawnerConfig(4, 6.0F, 2.0F, 2.0F,
-                1.0F, 40, false, SimpleWeightedRandomList.empty(),
+        DEFAULT = new CobblemonTrialSpawnerConfig(14, 6,
+                2, 1, 1,
+                40, false, SimpleWeightedRandomList.empty(),
                 SimpleWeightedRandomList.empty(), BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS);
         CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(Codec.intRange(1, 128).lenientOptionalFieldOf("spawn_range", DEFAULT.spawnRange)
@@ -52,7 +50,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
                                 .forGetter(CobblemonTrialSpawnerConfig::simultaneousMobsAddedPerPlayer),
                         Codec.intRange(0, Integer.MAX_VALUE).lenientOptionalFieldOf("ticks_between_spawn", DEFAULT.ticksBetweenSpawn)
                                 .forGetter(CobblemonTrialSpawnerConfig::ticksBetweenSpawn),
-                        Codec.BOOL.lenientOptionalFieldOf("enable_ominous_spawner_attacks", false)
+                        Codec.BOOL.lenientOptionalFieldOf("enable_ominous_spawner_attacks", DEFAULT.enableOminousSpawnerAttacks)
                                 .forGetter(CobblemonTrialSpawnerConfig::enableOminousSpawnerAttacks),
                         SpawnData.LIST_CODEC.lenientOptionalFieldOf("spawn_potentials", SimpleWeightedRandomList.empty())
                                 .forGetter(CobblemonTrialSpawnerConfig::spawnPotentialsDefinition),

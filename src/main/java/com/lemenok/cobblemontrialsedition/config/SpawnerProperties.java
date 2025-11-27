@@ -1,7 +1,6 @@
 package com.lemenok.cobblemontrialsedition.config;
 
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
-import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
@@ -13,14 +12,11 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public record SpawnerProperties(
         List<ResourceLocation> blockEntityTypesToReplace,
