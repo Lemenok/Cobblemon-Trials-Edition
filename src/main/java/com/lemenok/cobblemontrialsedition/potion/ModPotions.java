@@ -1,6 +1,5 @@
 package com.lemenok.cobblemontrialsedition.potion;
 
-import com.cobblemon.mod.common.api.fishing.FishingBait;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
