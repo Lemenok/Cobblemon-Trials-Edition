@@ -32,7 +32,7 @@ dependencies {
     mappings(loom.officialMojangMappings())
     neoForge("net.neoforged:neoforge:21.1.182")
 
-    modImplementation("com.cobblemon:neoforge:1.6.0+1.21.1-SNAPSHOT")
+    modImplementation("com.cobblemon:neoforge:1.7.0+1.21.1")
     //Needed for cobblemon
     implementation("thedarkcolour:kotlinforforge-neoforge:5.3.0") {
         exclude("net.neoforged.fancymodloader", "loader")
