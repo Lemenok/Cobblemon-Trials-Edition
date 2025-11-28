@@ -1,4 +1,4 @@
-rootProject.name = "Cobblemon-Trials-Edition" //By default, this is how your built jar is called
+rootProject.name = "Cobblemon Trials Edition"
 
 pluginManagement {
     repositories {
@@ -8,3 +8,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+listOf(
+    "common",
+    "neoforge",
+    "fabric"
+).forEach { include(it)}

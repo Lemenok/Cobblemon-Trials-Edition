@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "CobblemonTrialsEdition",
+  "version": "${version}",
+  "name": "Cobblemon Trials Edition",
+  "description": "A Cobblemon mod that replaces Mob Spawners and Trial Spawners with Cobblemon Trial Spawners.",
+  "authors": [
+    "Lemenok"
+  ],
+  "license": "MIT License",
+  "icon": "assets/example/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.lemenok.cobblemontrialsedition"
+    ]
+  },
+  "depends": {
+    "minecraft": "1.21.1",
+    "cobblemon": ">=1.7.0"
+  }
+}
