@@ -12,7 +12,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.lemenok.cobblemontrialsedition"
+      "com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric"
+    ],
+    "client": [
+      "com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionClientFabric"
     ]
   },
   "depends": {
