@@ -1,23 +1,39 @@
-
-Installation information
+Cobblemon Trials Edition
 =======
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+Cobblemon Trials Edition is a mod for Cobblemon that adds a new highly configurable block to replace newly generated Mob Spawners or Trial Spawners in your Structures or World. This mod replaces a list of Default Structures and Spawners (Listed below) and can be configued with a Datapack replace Spawners in Structures from other Mods (See Wiki for more info).
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+Cobblemon Trial Spawners function almost exactly like regular Trial Spawners so players and modpack makers do not have to learn any new mechanics. In addition a new Potion is also added. The "Trial Potion" which after brewing Awkward Potions and Sculk will give you a potion that applys the Trial Omen Effect. Giving an alternative way to activate the Ominous Mode of Cobblemon Trial Spawners.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+Default Features
+=======
+- A Custom Trial Spawner that will replace the Mob Spawners and Trial Spawners for the following Structures:
+  - Minecraft Monster Rooms
+  - Minecraft Abandoned Mineshafts
+  - Minecraft Nether Fortresses
+  - Minecraft Bastion Remnants
+  - Minecraft Trial Chambers
+  - Minecraft Strongholds
+  - Cobblemon Shipwreck Coves
+- A new Trial Potion, allowing access to the Trial Omen effect while playing in Peaceful mode.
+- A few custom recipes for Create and Create Power loader to work with the lack of Blaze Spawners and Ghasts.
+- Peaceful mode Spawning
+- Pokemon Spawned can only be defeated in battle and cannot be captured by Default (This can be changed in Config Settings)
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+Additional Features
+=======
+- Mega Showdown support for Mega and GMax Pokemon.
+- Datapack Support
+  - Almost every aspect of the Spawner is configurable. From Number of Pokemon, Spawn Ticks, Spawner Cooldowns, etc.
+  - Can replace Spawner based on Structure, Spawner Type, and Entity in Spawner
+  - Completely configurable loot tables for Spawners, allowing multiple loot tables if desired or to Inherit the original Loot Tables from the Trial Spawners they replace.
+
+Roadmap (In no particular order)
+=======
+- A Fabric Port
+- Creator Update: A UI that allows in game customization of Cobblemon Trial Spawners, so they can be used in custom maps, structures, or for other mod makers.
+- Fight or Flight / Aggressive Pokemon Support
+- Sculk Shrieker Replacement
 
 Additional Resources: 
 ==========
