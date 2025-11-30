@@ -31,6 +31,7 @@ Additional Features
 Roadmap (In no particular order)
 =======
 - A Fabric Port
+- Rework of the Spawner Replacement to use Structure Processors
 - Creator Update: A UI that allows in game customization of Cobblemon Trial Spawners, so they can be used in custom maps, structures, or for other mod makers.
 - Fight or Flight / Aggressive Pokemon Support
 - Sculk Shrieker Replacement
