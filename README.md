@@ -20,7 +20,7 @@ Default Features
 - Peaceful mode Spawning
 - Pokemon Spawned can only be defeated in battle and cannot be captured by Default (This can be changed in Config Settings)
 
-Additional Features
+Modpack Creator Features
 =======
 - Mega Showdown support for Mega and GMax Pokemon.
 - Datapack Support
@@ -35,6 +35,25 @@ Roadmap (In no particular order)
 - Creator Update: A UI that allows in game customization of Cobblemon Trial Spawners, so they can be used in custom maps, structures, or for other mod makers.
 - Fight or Flight / Aggressive Pokemon Support
 - Sculk Shrieker Replacement
+
+FAQ
+=======
+- Can I Use this mod in my modpack?
+  - Yes, feel free to use this mod in your modpack.
+- Can I Preview or Review your mod?
+  - Of course, as long as you give credit.
+- Will you make minecraft version X?
+  - I only intend to update this mod to the versions Cobblemon supports for 1.7 and forward.
+- I found a bug or have an idea for a feature, where should I post that?
+  - On my Github here: https://github.com/Lemenok/Cobblemon-Trials-Edition/issues
+
+Notes
+=======
+- Do NOT re-host the Cobblemon Trials Edition jar file for redistribution.
+  - I will only host this mod on Curseforge and Modrinth, If you download or find this mod on another site, I have nothing to do with it and you should be cautious.
+- Can I Fork this mod?
+  - Only once I label this mod as "No Longer Supported" and credit is given.
+
 
 Additional Resources: 
 ==========
