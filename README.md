@@ -57,5 +57,7 @@ Notes
 
 Additional Resources: 
 ==========
+Curseforge: TBD
+Modrinth: TBD
 Community Documentation: https://docs.neoforged.net/  
 NeoForged Discord: https://discord.neoforged.net/
