@@ -87,7 +87,7 @@ public class CobblemonTrialsEdition {
 
         public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY =
                 ResourceKey.createRegistryKey(
-                        ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "default")
+                        ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "features")
                 );
 
         public static final ResourceKey<Registry<LootTable>> COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY =
