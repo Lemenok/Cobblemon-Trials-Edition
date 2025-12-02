@@ -40,7 +40,7 @@ public record SpawnablePokemonProperties(
         int dynaMaxLevel,
         String teraType,
         boolean isShiny,
-        int scaleModifier,
+        float scaleModifier,
         boolean isUncatchable,
         boolean mustBeDefeatedInBattle
 )
@@ -58,7 +58,7 @@ public record SpawnablePokemonProperties(
             Codec.INT.optionalFieldOf("dynaMaxLevel", 0).forGetter(SpawnablePokemonProperties::dynaMaxLevel),
             Codec.STRING.optionalFieldOf("teraType", "").forGetter(SpawnablePokemonProperties::teraType),
             Codec.BOOL.optionalFieldOf("isShiny", false).forGetter(SpawnablePokemonProperties::isShiny),
-            Codec.INT.optionalFieldOf("scaleModifier", 0).forGetter(SpawnablePokemonProperties::scaleModifier),
+            Codec.FLOAT.optionalFieldOf("scaleModifier", 1.0f).forGetter(SpawnablePokemonProperties::scaleModifier),
             Codec.BOOL.optionalFieldOf("isUncatchable", true).forGetter(SpawnablePokemonProperties::isUncatchable),
             Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", true).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle)
     ).apply(pokemon, SpawnablePokemonProperties::new));
@@ -149,13 +149,20 @@ public record SpawnablePokemonProperties(
         };
     }
 
-    private Nature parseNature(String nature){
-        return nature.isEmpty() ? Natures.INSTANCE.getRandomNature() : Natures.INSTANCE.getNature(nature);
+    private static Nature parseNature(String nature){
+        Nature pokemonNature = Natures.getNature(nature);
+
+        if(pokemonNature != null) {
+            return pokemonNature;
+        }
+
+        return Natures.getRandomNature();
     }
 
     private void setAbility(PokemonProperties pokemonProperties, String ability){
         if (ability.isEmpty()) return;
-        pokemonProperties.setAbility(Abilities.INSTANCE.getOrException(ability).getName());
+
+        pokemonProperties.setAbility(Abilities.getOrException(ability).getName());
     }
 
     private EVs parseEVs (List<Integer> defaultEVs){
@@ -168,6 +175,14 @@ public record SpawnablePokemonProperties(
         // Ensure Evs are within the possible range to be set.
         for (int ev: this.defaultEVs){
             if(ev < 0 || ev > 252)
+                return evs;
+        }
+
+        // Ensure Ev totals are equal to or less than 510.
+        int evTotal = 0;
+        for (int ev: this.defaultEVs){
+            evTotal = evTotal + ev;
+            if(evTotal > 510)
                 return evs;
         }
 

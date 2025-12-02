@@ -8,37 +8,23 @@
       "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "drifloon",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "loudred",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "drifblim",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "exploud",
+        "weight": 50,
+        "level": 60
       }]
     },
     {
@@ -46,41 +32,25 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
       "lootTables": [],
       "ominousLootTables": [],
-      "ominousSpawnerAttacksEnabled": false,
-      "doPokemonSpawnedGlow": true,
       "listOfPokemonToSpawn": [{
         "species": "golett",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "croagunk",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "golurk",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "toxicroak",
+        "weight": 50,
+        "level": 60
       }]
     },
     {
@@ -88,41 +58,25 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:husk"],
       "lootTables": [],
       "ominousLootTables": [],
-      "ominousSpawnerAttacksEnabled": false,
-      "doPokemonSpawnedGlow": true,
       "listOfPokemonToSpawn": [{
         "species": "yamask",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "spiritomb",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "cofagrigus",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "spiritomb",
+        "weight": 50,
+        "level": 60
       }]
     },
     {
@@ -130,41 +84,25 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
       "lootTables": [],
       "ominousLootTables": [],
-      "ominousSpawnerAttacksEnabled": false,
-      "doPokemonSpawnedGlow": true,
       "listOfPokemonToSpawn": [{
         "species": "joltik",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "tarountula",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "galvantula",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "spidops",
+        "weight": 50,
+        "level": 60
       }]
     },
     {
@@ -172,41 +110,27 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:slime"],
       "lootTables": [],
       "ominousLootTables": [],
-      "ominousSpawnerAttacksEnabled": false,
-      "doPokemonSpawnedGlow": true,
       "listOfPokemonToSpawn": [{
           "species": "grimer",
-          "weight": 100,
-          "form": "normal",
-          "level": 30,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "weight": 50,
+          "level": 30
+        },
+        {
+          "species": "grimer",
+          "weight": 50,
+          "form": "alolan",
+          "level": 30
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "muk",
-          "weight": 100,
-          "form": "normal",
-          "level": 60,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "weight": 50,
+          "level": 60
+        },
+        {
+          "species": "muk",
+          "weight": 50,
+          "form": "alolan",
+          "level": 60
         }]
     },
     {
@@ -214,41 +138,25 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
       "lootTables": [],
       "ominousLootTables": [],
-      "ominousSpawnerAttacksEnabled": false,
-      "doPokemonSpawnedGlow": true,
       "listOfPokemonToSpawn": [{
-        "species": "dwebble",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "species": "wimpod",
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "anorith",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "crustle",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "species": "golisopod",
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "armaldo",
+        "weight": 50,
+        "level": 60
       }]
     },
     {
@@ -258,37 +166,23 @@
       "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "spinarak",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "whirlipede",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "ariados",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "scolipede",
+        "weight": 50,
+        "level": 60
       }]
     },
     {
@@ -300,35 +194,23 @@
         "species": "vulpix",
         "weight": 100,
         "form": "alolan",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 30
+      },
+      {
+        "species": "snorunt",
+        "weight": 100,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "ninetales",
         "weight": 100,
         "form": "alolan",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 60
+      },
+      {
+        "species": "glalie",
+        "weight": 100,
+        "level": 60
       }]
     },
     {
@@ -338,37 +220,23 @@
       "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "magnemite",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "electabuzz",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "magneton",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "electivire",
+        "weight": 50,
+        "level": 60
       }]
     },
     {
@@ -376,41 +244,25 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
       "lootTables": [],
       "ominousLootTables": [],
-      "ominousSpawnerAttacksEnabled": false,
-      "doPokemonSpawnedGlow": true,
       "listOfPokemonToSpawn": [{
         "species": "paras",
-        "weight": 100,
-        "form": "normal",
-        "level": 30,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 30
+      },
+      {
+        "species": "foongus",
+        "weight": 50,
+        "level": 30
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "parasect",
-        "weight": 100,
-        "form": "normal",
-        "level": 60,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "weight": 50,
+        "level": 60
+      },
+      {
+        "species": "amoonguss",
+        "weight": 50,
+        "level": 60
       }]
     }
   ]

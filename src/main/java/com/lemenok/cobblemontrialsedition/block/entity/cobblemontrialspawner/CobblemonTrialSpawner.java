@@ -58,7 +58,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private static final int DEFAULT_PLAYER_SCAN_RANGE = 14;
     private static final int MAX_MOB_TRACKING_DISTANCE = 47;
     private static final int MAX_MOB_TRACKING_DISTANCE_SQR = Mth.square(MAX_MOB_TRACKING_DISTANCE);
-    private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.02F;
+    private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.01F;
     private CobblemonTrialSpawnerConfig normalConfig;
     private CobblemonTrialSpawnerConfig ominousConfig;
     private CobblemonTrialSpawnerData data;
