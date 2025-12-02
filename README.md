@@ -1,4 +1,4 @@
-Welcome to Cobblemon Trials Edition!
+# Welcome to Cobblemon Trials Edition!
 
 Please keep in mind that I am only one person and this is my first mod. So please be patient when it comes to updates.
 Regardless, I sincerely appreciate that you would check out my mod.
@@ -64,5 +64,5 @@ Additional Resources:
 ==========
 Curseforge: https://modrinth.com/mod/cobblemon-trials-edition
 Modrinth: https://legacy.curseforge.com/minecraft/mc-mods/cobblemon-trials-edition
-Community Documentation: https://docs.neoforged.net/  
+Community Documentation: https://docs.neoforged.net/
 NeoForged Discord: https://discord.neoforged.net/
