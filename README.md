@@ -62,7 +62,7 @@ Notes
 
 Additional Resources: 
 ==========
-Curseforge: TBD
-Modrinth: TBD
+Curseforge: https://modrinth.com/mod/cobblemon-trials-edition
+Modrinth: https://legacy.curseforge.com/minecraft/mc-mods/cobblemon-trials-edition
 Community Documentation: https://docs.neoforged.net/  
 NeoForged Discord: https://discord.neoforged.net/
