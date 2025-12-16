@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.block.entity;
 
+import com.lemenok.cobblemontrialsedition.Config;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.*;
 import com.mojang.logging.LogUtils;

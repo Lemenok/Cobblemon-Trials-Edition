@@ -24,7 +24,7 @@ public class Config {
     public static final ModConfigSpec.BooleanValue REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = BUILDER
             .comment("Whether to replace any spawners that are not listed in configuration with a default spawner. " +
                     "This is mostly used to cover the edge cases where a spawner exists inside of a structure range but isn't replaced. " +
-                    "In default-spawner.json this is the 'Minecraft:Zombie' entity spawner if the entity is not listed.")
+                    "In monster-room.json this is the 'Minecraft:Zombie' entity spawner if the entity is not listed.")
             .define("replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners", true);
 
     public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE = BUILDER

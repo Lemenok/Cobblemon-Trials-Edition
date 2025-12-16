@@ -46,7 +46,7 @@ public record SpawnerProperties(
             Codec.INT.optionalFieldOf("spawnRange", 4).forGetter(SpawnerProperties::spawnRange),
             Codec.INT.optionalFieldOf("maximumNumberOfSimultaneousPokemon", 2).forGetter(SpawnerProperties::maximumNumberOfSimultaneousPokemon),
             Codec.INT.optionalFieldOf("maximumNumberOfSimultaneousPokemonAddedPerPlayer", 1).forGetter(SpawnerProperties::maximumNumberOfSimultaneousPokemonAddedPerPlayer),
-            Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrial", 6).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrial),
+            Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrial", 4).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrial),
             Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrialAddedPerPlayer", 1).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrialAddedPerPlayer),
             Codec.list(ResourceLocation.CODEC).fieldOf("lootTables").forGetter(SpawnerProperties::lootTables),
             Codec.list(ResourceLocation.CODEC).fieldOf("ominousLootTables").forGetter(SpawnerProperties::ominousLootTables),
