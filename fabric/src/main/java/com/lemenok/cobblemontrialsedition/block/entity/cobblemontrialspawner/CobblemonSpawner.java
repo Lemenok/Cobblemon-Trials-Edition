@@ -10,6 +10,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public interface CobblemonSpawner {
         }
     }
 
+    @Nullable
     static Component getSpawnEntityDisplayName(ItemStack itemStack, String string) {
         CompoundTag compoundTag = itemStack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).copyTag();
         ResourceLocation resourceLocation = getEntityKey(compoundTag, string);
@@ -31,6 +33,7 @@ public interface CobblemonSpawner {
                         .withStyle(ChatFormatting.GRAY)).orElse(null) : null;
     }
 
+    @Nullable
     private static ResourceLocation getEntityKey(CompoundTag arg, String string) {
         if (arg.contains(string, 10)) {
             String string2 = arg.getCompound(string).getCompound("entity").getString("id");

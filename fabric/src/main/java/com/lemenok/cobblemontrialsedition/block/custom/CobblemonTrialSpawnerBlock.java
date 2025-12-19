@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -37,7 +38,7 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     @Override
     public @NotNull MapCodec<CobblemonTrialSpawnerBlock> codec() { return CODEC; }
 
-    public CobblemonTrialSpawnerBlock(Properties properties) {
+    public CobblemonTrialSpawnerBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(STATE, CobblemonTrialSpawnerState.INACTIVE).setValue(OMINOUS, false));
     }
@@ -59,12 +60,12 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState blockState, BlockEntityType<T> blockEntityType) {
         BlockEntityTicker blockEntityTicker;
         if (level instanceof ServerLevel serverLevel) {
-            blockEntityTicker = createTickerHelper(blockEntityType, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(),
+            blockEntityTicker = createTickerHelper(blockEntityType, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER,
                     (level1, blockPos, blockState1, cobblemonTrialSpawnerEntity) ->
                             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().tickServer(serverLevel, blockPos,
                                     blockState1.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false)));
         } else {
-            blockEntityTicker = createTickerHelper(blockEntityType, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get(),
+            blockEntityTicker = createTickerHelper(blockEntityType, ModBlockEntities.COBBLEMON_TRIAL_SPAWNER,
                     (level2, blockPos, blockState1, cobblemonTrialSpawnerEntity) ->
                             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().tickClient(level2, blockPos,
                                     blockState1.getOptionalValue(BlockStateProperties.OMINOUS).orElse(false)));

@@ -36,6 +36,8 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import org.jetbrains.annotations.Nullable;
+
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -60,7 +62,9 @@ public class CobblemonTrialSpawnerData {
     protected int totalMobsSpawned;
     protected Optional<SpawnData> nextSpawnData;
     protected Optional<ResourceKey<LootTable>> ejectingLootTable;
+    @Nullable
     protected ItemStack displayItem;
+    @Nullable
     private SimpleWeightedRandomList<ItemStack> dispensing;
     protected double spin;
     protected double oSpin;
@@ -244,6 +248,7 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
+    @Nullable
     public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner cobblemonTrialSpawner,
                                               Level level, CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
         if (!cobblemonTrialSpawnerState.hasSpinningMob()) {

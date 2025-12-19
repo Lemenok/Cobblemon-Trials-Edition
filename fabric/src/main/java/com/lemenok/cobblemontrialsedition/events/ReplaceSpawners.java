@@ -81,7 +81,7 @@ public class ReplaceSpawners {
 
                             StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
                             if(defaultStructureProperties == null)
-                                throw new Exception("defaultStructureProperties is null. Ensure the default-spawner.json is setup correctly.");
+                                throw new Exception("defaultStructureProperties is null. Ensure the monster-room.json is setup correctly.");
 
 
                             if (replaceSpawner(serverLevel, chunk, level, EntityType.ZOMBIE, blockEntity,
@@ -102,7 +102,7 @@ public class ReplaceSpawners {
 
                     StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
                     if(defaultStructureProperties == null)
-                        throw new Exception("defaultStructureProperties is null. Ensure the default-spawner.json is setup correctly.");
+                        throw new Exception("defaultStructureProperties is null. Ensure the monster-room.json is setup correctly.");
 
                     EntityType spawnerEntityType = getEntityType(level, blockEntity);
 

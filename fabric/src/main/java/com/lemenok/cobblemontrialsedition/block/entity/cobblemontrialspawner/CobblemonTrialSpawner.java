@@ -11,10 +11,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.*;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -35,7 +32,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.trialspawner.PlayerDetector;
+import net.minecraft.world.level.block.entity.trialspawner.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -45,6 +42,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.neoforged.neoforge.common.extensions.IOwnedSpawner;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -59,13 +58,13 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     private static final int DEFAULT_PLAYER_SCAN_RANGE = 14;
     private static final int MAX_MOB_TRACKING_DISTANCE = 47;
     private static final int MAX_MOB_TRACKING_DISTANCE_SQR = Mth.square(MAX_MOB_TRACKING_DISTANCE);
-    private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.02F;
+    private static final float SPAWNING_AMBIENT_SOUND_CHANCE = 0.01F;
     private CobblemonTrialSpawnerConfig normalConfig;
     private CobblemonTrialSpawnerConfig ominousConfig;
     private CobblemonTrialSpawnerData data;
     private int requiredPlayerRange;
     private int targetCooldownLength;
-    private final StateAccessor stateAccessor;
+    private final CobblemonTrialSpawner.StateAccessor stateAccessor;
     private final PlayerDetector playerDetector;
     private final PlayerDetector.EntitySelector entitySelector;
     private boolean isOminous;
@@ -88,14 +87,14 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                         new CobblemonTrialSpawner(arg, arg2, arg3, integer, integer2, this.stateAccessor, this.playerDetector, this.entitySelector)));
     }
 
-    public CobblemonTrialSpawner(StateAccessor stateAccessor, PlayerDetector playerDetector, PlayerDetector.EntitySelector entitySelector) {
+    public CobblemonTrialSpawner(CobblemonTrialSpawner.StateAccessor stateAccessor, PlayerDetector playerDetector, PlayerDetector.EntitySelector entitySelector) {
         this(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), DEFAULT_TARGET_COOLDOWN_LENGTH, DEFAULT_PLAYER_SCAN_RANGE,
                 stateAccessor, playerDetector, entitySelector);
     }
 
     public CobblemonTrialSpawner(CobblemonTrialSpawnerConfig normalConfig, CobblemonTrialSpawnerConfig ominousConfig,
                                  CobblemonTrialSpawnerData cobblemonTrialSpawnerData, int targetCooldownLength,
-                                 int requiredPlayerRange, StateAccessor stateAccessor,
+                                 int requiredPlayerRange, CobblemonTrialSpawner.StateAccessor stateAccessor,
                                  PlayerDetector playerDetector, PlayerDetector.EntitySelector entitySelector) {
         this.normalConfig = normalConfig;
         this.ominousConfig = ominousConfig;
@@ -416,7 +415,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     }
 
     public @Nullable Either<BlockEntity, Entity> getOwner() {
-        StateAccessor stateAccessor = this.stateAccessor;
+        CobblemonTrialSpawner.StateAccessor stateAccessor = this.stateAccessor;
         if (stateAccessor instanceof CobblemonTrialSpawnerEntity be) {
             return Either.left(be);
         } else {

@@ -12,9 +12,7 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.List;
@@ -48,7 +46,7 @@ public record SpawnerProperties(
             Codec.INT.optionalFieldOf("spawnRange", 4).forGetter(SpawnerProperties::spawnRange),
             Codec.INT.optionalFieldOf("maximumNumberOfSimultaneousPokemon", 2).forGetter(SpawnerProperties::maximumNumberOfSimultaneousPokemon),
             Codec.INT.optionalFieldOf("maximumNumberOfSimultaneousPokemonAddedPerPlayer", 1).forGetter(SpawnerProperties::maximumNumberOfSimultaneousPokemonAddedPerPlayer),
-            Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrial", 6).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrial),
+            Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrial", 4).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrial),
             Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrialAddedPerPlayer", 1).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrialAddedPerPlayer),
             Codec.list(ResourceLocation.CODEC).fieldOf("lootTables").forGetter(SpawnerProperties::lootTables),
             Codec.list(ResourceLocation.CODEC).fieldOf("ominousLootTables").forGetter(SpawnerProperties::ominousLootTables),

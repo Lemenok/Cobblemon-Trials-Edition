@@ -22,27 +22,29 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import org.jetbrains.annotations.Nullable;
+
 
 import java.util.*;
 import java.util.stream.Stream;
 
 public enum CobblemonTrialSpawnerState implements StringRepresentable {
-    INACTIVE("inactive", 0, ParticleEmission.NONE, -1.0F, false),
+    INACTIVE("inactive", 0, CobblemonTrialSpawnerState.ParticleEmission.NONE, -1.0F, false),
     WAITING_FOR_PLAYERS("waiting_for_players", 4, ParticleEmission.UNOWN, 200.0F, true),
     ACTIVE("active", 8, ParticleEmission.UNOWN_AND_SPARKS, 1000.0F, true),
-    WAITING_FOR_REWARD_EJECTION("waiting_for_reward_ejection", 8, ParticleEmission.UNOWN, -1.0F, false),
-    EJECTING_REWARD("ejecting_reward", 8, ParticleEmission.UNOWN, -1.0F, false),
-    COOLDOWN("cooldown", 0, ParticleEmission.SMOKE_INSIDE_AND_TOP_FACE, -1.0F, false);
+    WAITING_FOR_REWARD_EJECTION("waiting_for_reward_ejection", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, -1.0F, false),
+    EJECTING_REWARD("ejecting_reward", 8, CobblemonTrialSpawnerState.ParticleEmission.UNOWN, -1.0F, false),
+    COOLDOWN("cooldown", 0, CobblemonTrialSpawnerState.ParticleEmission.SMOKE_INSIDE_AND_TOP_FACE, -1.0F, false);
 
     private static final float DELAY_BEFORE_EJECT_AFTER_KILLING_LAST_MOB = 40.0F;
     private static final int TIME_BETWEEN_EACH_EJECTION = Mth.floor(30.0F);
     private final String name;
     private final int lightLevel;
     private final double spinningMobSpeed;
-    private final ParticleEmission particleEmission;
+    private final CobblemonTrialSpawnerState.ParticleEmission particleEmission;
     private final boolean isCapableOfSpawning;
 
-    private CobblemonTrialSpawnerState(String state, int lightLevel, ParticleEmission particleEmission, double spinningMobSpeed, boolean isCapableOfSpawning) {
+    private CobblemonTrialSpawnerState(String state, int lightLevel, CobblemonTrialSpawnerState.ParticleEmission particleEmission, double spinningMobSpeed, boolean isCapableOfSpawning) {
         this.name = state;
         this.lightLevel = lightLevel;
         this.particleEmission = particleEmission;
@@ -196,6 +198,7 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         return !serverLevel.getBlockState(blockPos).getCollisionShape(serverLevel, blockPos).isEmpty() ? Optional.empty() : Optional.of(vec33);
     }
 
+    @Nullable
     private static Entity selectEntityToSpawnItemAbove(List<Player> playerList, Set<UUID> uuidSet, CobblemonTrialSpawner cobblemonTrialSpawner, BlockPos blockPos, ServerLevel serverLevel) {
         Stream<UUID> uuidStream = uuidSet.stream();
         Objects.requireNonNull(serverLevel);
@@ -266,21 +269,21 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
     }
 
     interface ParticleEmission {
-        ParticleEmission NONE = (level, randomSource, blockPos, isCapableOfSpawning) -> {
+        CobblemonTrialSpawnerState.ParticleEmission NONE = (level, randomSource, blockPos, isCapableOfSpawning) -> {
         };
-        ParticleEmission UNOWN = (level, randomSource, blockPos, isCapableOfSpawning) -> {
+        CobblemonTrialSpawnerState.ParticleEmission UNOWN = (level, randomSource, blockPos, isCapableOfSpawning) -> {
             if (randomSource.nextInt(2) == 0) {
                 Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 0.9F);
                 addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, level);
             }
 
         };
-        ParticleEmission UNOWN_AND_SPARKS = (level, randomSource, blockPos, isCapableOfSpawning) -> {
+        CobblemonTrialSpawnerState.ParticleEmission UNOWN_AND_SPARKS = (level, randomSource, blockPos, isCapableOfSpawning) -> {
             Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 1.0F);
             addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, level);
             addParticle(isCapableOfSpawning ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, level);
         };
-        ParticleEmission SMOKE_INSIDE_AND_TOP_FACE = (level, randomSource, blockPos, isCapableOfSpawning) -> {
+        CobblemonTrialSpawnerState.ParticleEmission SMOKE_INSIDE_AND_TOP_FACE = (level, randomSource, blockPos, isCapableOfSpawning) -> {
             Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 0.9F);
             if (randomSource.nextInt(3) == 0) {
                 addParticle(ParticleTypes.SMOKE, vec3, level);
