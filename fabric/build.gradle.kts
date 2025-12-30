@@ -24,8 +24,12 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
 
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
     modImplementation(fabricApi.module("fabric-command-api-v2", property("fabric_api_version").toString()))
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${property("fabric_cloth_config")}") {
+        exclude("net.fabricmc.fabric-api") }
+    modApi ("com.terraformersmc:modmenu:${property("fabric_mod_menu")}")
 
     //needed for cobblemon
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin")}")

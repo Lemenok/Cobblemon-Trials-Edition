@@ -14,6 +14,7 @@ import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
@@ -65,7 +66,9 @@ public record SpawnablePokemonProperties(
 
     public SpawnData getPokemonSpawnData(ServerLevel serverLevel, boolean doPokemonSpawnedGlow) {
 
-        if(Config.ENABLE_DEBUG_LOGS.get()){
+        Config modConfig = AutoConfig.getConfigHolder(Config.class).getConfig();
+
+        if(modConfig.ENABLE_DEBUG_LOGS){
             LOGGER.info("Setting up spawn data for '{}'", this.species);
         }
 
@@ -87,7 +90,7 @@ public record SpawnablePokemonProperties(
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
-        if(!Config.ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE.get()){
+        if(!modConfig.ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE){
             if(isUncatchable){
                 // Make pokemon uncatchable
                 String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
@@ -103,7 +106,7 @@ public record SpawnablePokemonProperties(
         entityNbt.putString("PoseType", "WALK");
         if(doPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
 
-        if(!Config.ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE.get()){
+        if(!modConfig.ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE){
             if(mustBeDefeatedInBattle){
                 entityNbt.putBoolean("Invulnerable", true);
             }

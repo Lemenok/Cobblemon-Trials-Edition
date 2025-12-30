@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "CobblemonTrialsEdition",
+  "id": "cobblemontrialsedition",
   "version": "${version}",
   "name": "Cobblemon Trials Edition",
   "description": "A Cobblemon mod that replaces Mob Spawners and Trial Spawners with Cobblemon Trial Spawners.",
@@ -16,6 +16,9 @@
     ],
     "client": [
       "com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionClientFabric"
+    ],
+    "modmenu": [
+      "com.lemenok.cobblemontrialsedition.ModMenuIntegration"
     ]
   },
   "depends": {

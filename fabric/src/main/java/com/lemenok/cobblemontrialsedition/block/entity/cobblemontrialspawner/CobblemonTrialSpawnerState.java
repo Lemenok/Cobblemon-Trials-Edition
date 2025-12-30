@@ -274,14 +274,14 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
         CobblemonTrialSpawnerState.ParticleEmission UNOWN = (level, randomSource, blockPos, isCapableOfSpawning) -> {
             if (randomSource.nextInt(2) == 0) {
                 Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 0.9F);
-                addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, level);
+                addParticle(ModParticles.UNOWN_PARTICLES, vec3, level);
             }
 
         };
         CobblemonTrialSpawnerState.ParticleEmission UNOWN_AND_SPARKS = (level, randomSource, blockPos, isCapableOfSpawning) -> {
             Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 1.0F);
-            addParticle(ModParticles.UNOWN_PARTICLES.get(), vec3, level);
-            addParticle(isCapableOfSpawning ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES.get(), vec3, level);
+            addParticle(ModParticles.UNOWN_PARTICLES, vec3, level);
+            addParticle(isCapableOfSpawning ? ParticleTypes.ELECTRIC_SPARK : ModParticles.UNOWN_PARTICLES, vec3, level);
         };
         CobblemonTrialSpawnerState.ParticleEmission SMOKE_INSIDE_AND_TOP_FACE = (level, randomSource, blockPos, isCapableOfSpawning) -> {
             Vec3 vec3 = blockPos.getCenter().offsetRandom(randomSource, 0.9F);

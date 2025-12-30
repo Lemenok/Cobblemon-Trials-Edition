@@ -7,6 +7,7 @@ import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEnti
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -40,6 +41,8 @@ public class ReplaceSpawners {
 
     public static void Process(ServerLevel serverLevel, LevelChunk chunk, List<BlockEntity> listOfBlockEntities, StructureManager structureManager, Level level, Registry<Structure> structureRegistry) {
 
+        Config modConfig = AutoConfig.getConfigHolder(Config.class).getConfig();
+
         for (BlockEntity blockEntity : listOfBlockEntities) {
             try {
                 BlockPos blockEntityPosition = blockEntity.getBlockPos();
@@ -48,9 +51,9 @@ public class ReplaceSpawners {
 
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
 
-                if(!allStructuresAtPosition.isEmpty() && Config.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS.get()) {
+                if(!allStructuresAtPosition.isEmpty() && modConfig.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS) {
 
-                    List<StructureProperties> listOfStructuresToModify = getStructuresToModify(level, CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_STRUCTURE_REGISTRY);
+                    List<StructureProperties> listOfStructuresToModify = getStructuresToModify(level, CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_STRUCTURE_REGISTRY);
 
                     for (Structure structure: allStructuresAtPosition.keySet()){
                         ResourceLocation resourceAtPosition = structureRegistry.getKey(structure);
@@ -68,7 +71,7 @@ public class ReplaceSpawners {
 
                         if(spawnerPropertiesForStructure != null) {
                             if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity, spawnerPropertiesForStructure, blockEntityPosition)) {
-                                if(Config.ENABLE_DEBUG_LOGS.get())
+                                if(modConfig.ENABLE_DEBUG_LOGS)
                                     LOGGER.info("Replaced: '{}' Spawner at Location '{}', Structure: '{}'.", spawnerEntityType, blockEntityPosition, resourceAtPosition);
                                 break;
                             }
@@ -77,9 +80,9 @@ public class ReplaceSpawners {
                         // This is to cover edge cases where spawners from monster rooms and features are in chunks with structures and were not being replaced.
                         // This logic will replace them with a default cobblemon spawner that is set to zombie.
                         // If I can ever figure out how to do StructureProcessors this would not be necessary.
-                        if(Config.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS.get()){
+                        if(modConfig.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS){
 
-                            StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
+                            StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
                             if(defaultStructureProperties == null)
                                 throw new Exception("defaultStructureProperties is null. Ensure the monster-room.json is setup correctly.");
 
@@ -87,7 +90,7 @@ public class ReplaceSpawners {
                             if (replaceSpawner(serverLevel, chunk, level, EntityType.ZOMBIE, blockEntity,
                                     defaultStructureProperties.getSpawnerPropertiesIfResourceLocationMatches(defaultStructureProperties.structureId()),
                                     blockEntityPosition)) {
-                                if(Config.ENABLE_DEBUG_LOGS.get()) {
+                                if(modConfig.ENABLE_DEBUG_LOGS) {
                                     LOGGER.info("Replaced: '{}' Spawner at Location '{}', Default Spawner.", EntityType.ZOMBIE, blockEntityPosition);
                                 }
                                 break;
@@ -98,9 +101,9 @@ public class ReplaceSpawners {
 
                 // If the there are no structures but still a spawner, this is likely from a Feature.
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
-                if (allStructuresAtPosition.isEmpty() && Config.REPLACE_SPAWNERS_OUTSIDE_OF_STRUCTURES_WITH_DEFAULT_COBBLEMON_SPAWNERS.get()) {
+                if (allStructuresAtPosition.isEmpty() && modConfig.REPLACE_SPAWNERS_OUTSIDE_OF_STRUCTURES_WITH_DEFAULT_COBBLEMON_SPAWNERS) {
 
-                    StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
+                    StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
                     if(defaultStructureProperties == null)
                         throw new Exception("defaultStructureProperties is null. Ensure the monster-room.json is setup correctly.");
 
@@ -109,7 +112,7 @@ public class ReplaceSpawners {
                     if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity,
                             defaultStructureProperties.getSpawnerPropertiesIfResourceLocationMatches(defaultStructureProperties.structureId()),
                             blockEntityPosition)) {
-                        if(Config.ENABLE_DEBUG_LOGS.get()) {
+                        if(modConfig.ENABLE_DEBUG_LOGS) {
                             LOGGER.info("Replaced: '{}' Spawner at Location '{}', No structure.", spawnerEntityType, blockEntityPosition);
                         }
                         break;
@@ -166,7 +169,7 @@ public class ReplaceSpawners {
             );
 
             CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(
-                    blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get().defaultBlockState());
+                    blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.defaultBlockState());
 
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerConfig, false);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
@@ -178,6 +181,9 @@ public class ReplaceSpawners {
 
             chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
             serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
+            //chunk.setBlockEntity(cobblemonTrialSpawnerEntity);
+            //chunk.setBlockState(blockEntityPosition, cobblemonTrialSpawnerEntity.getBlockState(),false);
+
 
             return true;
         }

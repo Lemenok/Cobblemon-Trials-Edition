@@ -119,7 +119,7 @@ public record SpawnerProperties(
 
         for (ResourceLocation resourceLocation : lootTables) {
             if(resourceLocation.getNamespace().equals(CobblemonTrialsEditionFabric.MODID))
-                lootTableResourceKey = ResourceKey.create(CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, resourceLocation);
+                lootTableResourceKey = ResourceKey.create(CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, resourceLocation);
             else
                 lootTableResourceKey = ResourceKey.create(Registries.LOOT_TABLE, resourceLocation);
 

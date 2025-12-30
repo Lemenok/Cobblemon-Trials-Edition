@@ -42,15 +42,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.neoforged.neoforge.common.extensions.IOwnedSpawner;
-import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CobblemonTrialSpawner implements IOwnedSpawner {
+public class CobblemonTrialSpawner {
     public static final String NORMAL_CONFIG_TAG_NAME = "normal_config";
     public static final String OMINOUS_CONFIG_TAG_NAME = "ominous_config";
     public static final int DETECT_PLAYER_SPAWN_BUFFER = 40;
@@ -239,8 +237,10 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                                     return Optional.empty();
                                 }
 
-                                boolean flag = spawndata.getEntityToSpawn().size() == 1 && spawndata.getEntityToSpawn().contains("id", 8);
-                                EventHooks.finalizeMobSpawnSpawner(mob, serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.TRIAL_SPAWNER, (SpawnGroupData)null, this, flag);
+                                boolean bl = spawndata.getEntityToSpawn().size() == 1 && spawndata.getEntityToSpawn().contains("id", 8);
+                                if (bl) {
+                                    mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.TRIAL_SPAWNER, (SpawnGroupData)null);
+                                }
                                 mob.setPersistenceRequired();
                                 Optional optionalEquipmentTable = spawndata.getEquipment();
                                 Objects.requireNonNull(mob);
@@ -272,8 +272,8 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         LootTable loottable;
         if(lootTableResourceLocation.getNamespace().equals(CobblemonTrialsEditionFabric.MODID)){
             Optional<Holder.Reference<LootTable>> lootTableReference;
-            lootTableReference = registryAccess.registryOrThrow(CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY)
-                    .getHolder(ResourceKey.create(CobblemonTrialsEditionFabric.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, lootTableResourceLocation));
+            lootTableReference = registryAccess.registryOrThrow(CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY)
+                    .getHolder(ResourceKey.create(CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, lootTableResourceLocation));
 
 
             if (lootTableReference.isPresent()) {
@@ -335,7 +335,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
         if (trialspawnerstate.isCapableOfSpawning()) {
             RandomSource randomsource = level.getRandom();
             if (randomsource.nextFloat() <= SPAWNING_AMBIENT_SOUND_CHANCE) {
-                SoundEvent soundevent = isOminous ? ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT_OMINOUS.get() : ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT.get();
+                SoundEvent soundevent = isOminous ? ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT_OMINOUS : ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT;
                 level.playLocalSound(blockPos, soundevent, SoundSource.BLOCKS, 1f, 1f, false);
             }
         }
@@ -372,7 +372,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
             double d1 = (double) blockPos.getY() + (double)0.5F + (randomSource.nextDouble() - (double)0.5F) * (double)2.0F;
             double d2 = (double) blockPos.getZ() + (double)0.5F + (randomSource.nextDouble() - (double)0.5F) * (double)2.0F;
             level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0F, 0.0F, 0.0F);
-            level.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, 0.0F, 0.0F, 0.0F);
+            level.addParticle(ModParticles.UNOWN_PARTICLES, d0, d1, d2, 0.0F, 0.0F, 0.0F);
         }
     }
 
@@ -384,7 +384,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
             double d3 = randomSource.nextGaussian() * 0.02;
             double d4 = randomSource.nextGaussian() * 0.02;
             double d5 = randomSource.nextGaussian() * 0.02;
-            level.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, d3, d4, d5);
+            level.addParticle(ModParticles.UNOWN_PARTICLES, d0, d1, d2, d3, d4, d5);
         }
     }
 
@@ -408,7 +408,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
             double d3 = randomSource.nextGaussian() * 0.02;
             double d4 = randomSource.nextGaussian() * 0.02;
             double d5 = randomSource.nextGaussian() * 0.02;
-            level.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, d3, d4, d5 * (double)0.25F);
+            level.addParticle(ModParticles.UNOWN_PARTICLES, d0, d1, d2, d3, d4, d5 * (double)0.25F);
             level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, d3, d4, d5);
         }
 

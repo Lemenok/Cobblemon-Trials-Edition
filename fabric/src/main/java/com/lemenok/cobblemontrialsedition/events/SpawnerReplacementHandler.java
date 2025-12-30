@@ -2,6 +2,7 @@ package com.lemenok.cobblemontrialsedition.events;
 
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric;
 import com.lemenok.cobblemontrialsedition.Config;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -11,8 +12,6 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.level.ChunkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,20 +21,20 @@ import java.util.List;
 public class SpawnerReplacementHandler {
     private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEditionFabric.MODID);
 
-    @SubscribeEvent
-    public void onChunkLoad(ChunkEvent.Load event) {
+    public void processNewChunk(ServerLevel world, LevelChunk chunk) {
 
-        if(!Config.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS.get())
+        Config modConfig = AutoConfig.getConfigHolder(Config.class).getConfig();
+
+        if(!modConfig.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS)
             return;
 
-        Level level = (Level) event.getLevel();
+        Level level = chunk.getLevel();
 
         // Verify that the events are chunk events.
         if(!(level instanceof ServerLevel serverLevel)) return;
-        if(!(event.getChunk() instanceof LevelChunk chunk)) return;
 
-        if (!event.isNewChunk()) return;
-        
+        if (chunk.getInhabitedTime() != 0) return;
+
         List<BlockEntity> listOfBlockEntities = new ArrayList<>();
         for (BlockEntity blockEntity: chunk.getBlockEntities().values()) {
             if (blockEntity instanceof SpawnerBlockEntity || blockEntity instanceof TrialSpawnerBlockEntity){

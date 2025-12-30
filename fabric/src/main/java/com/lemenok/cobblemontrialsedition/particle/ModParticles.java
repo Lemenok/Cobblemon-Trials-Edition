@@ -1,22 +1,23 @@
 package com.lemenok.cobblemontrialsedition.particle;
 
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric;
-import net.minecraft.core.particles.ParticleType;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.resources.ResourceLocation;
 
-import java.util.function.Supplier;
 
 public class ModParticles {
-    public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
-            DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, CobblemonTrialsEditionFabric.MODID);
 
-    public static final Supplier<SimpleParticleType> UNOWN_PARTICLES =
-            PARTICLE_TYPES.register("unown_particles", () -> new SimpleParticleType(true));
+    public static final SimpleParticleType UNOWN_PARTICLES =
+            registerParticle("unown_particles", FabricParticleTypes.simple());
 
-    public static void register(IEventBus eventBus) {
-        PARTICLE_TYPES.register(eventBus);
+    private static SimpleParticleType registerParticle(String name, SimpleParticleType particleType) {
+        return Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEditionFabric.MODID, name), particleType);
+    }
+
+    public static void registerParticles() {
+        CobblemonTrialsEditionFabric.LOGGER.info("Registering Particles for " + CobblemonTrialsEditionFabric.MODID);
     }
 }
