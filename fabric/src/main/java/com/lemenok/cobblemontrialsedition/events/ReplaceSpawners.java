@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.apache.logging.log4j.LogManager;
@@ -180,9 +181,9 @@ public class ReplaceSpawners {
             cobblemonTrialSpawnerEntity.markUpdated();
 
             chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
-            serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
-            //chunk.setBlockEntity(cobblemonTrialSpawnerEntity);
-            //chunk.setBlockState(blockEntityPosition, cobblemonTrialSpawnerEntity.getBlockState(),false);
+            chunk.removeBlockEntity(blockEntityPosition);
+            chunk.addAndRegisterBlockEntity(cobblemonTrialSpawnerEntity);
+            serverLevel.getChunkSource().blockChanged(blockEntityPosition);
 
 
             return true;

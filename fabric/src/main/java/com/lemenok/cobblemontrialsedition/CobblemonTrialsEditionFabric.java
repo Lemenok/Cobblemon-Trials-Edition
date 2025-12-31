@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -69,7 +70,8 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
         DynamicRegistries.register(COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, LootTable.DIRECT_CODEC);
 
         // Handle Chunk Load Events
-        ServerChunkEvents.CHUNK_GENERATE.register(SPAWNER_REPLACEMENT_HANDLER::processNewChunk);
+        ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->
+                world.getServer().execute(() -> SPAWNER_REPLACEMENT_HANDLER.processNewChunk(world, chunk)));
     }
 
     /*

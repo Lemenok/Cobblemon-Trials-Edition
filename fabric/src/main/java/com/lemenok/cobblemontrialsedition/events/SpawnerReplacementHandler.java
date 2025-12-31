@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +22,7 @@ import java.util.List;
 public class SpawnerReplacementHandler {
     private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEditionFabric.MODID);
 
-    public void processNewChunk(ServerLevel world, LevelChunk chunk) {
+    public void processNewChunk(ServerLevel serverLevel, LevelChunk chunk) {
 
         Config modConfig = AutoConfig.getConfigHolder(Config.class).getConfig();
 
@@ -29,9 +30,6 @@ public class SpawnerReplacementHandler {
             return;
 
         Level level = chunk.getLevel();
-
-        // Verify that the events are chunk events.
-        if(!(level instanceof ServerLevel serverLevel)) return;
 
         if (chunk.getInhabitedTime() != 0) return;
 
