@@ -14,15 +14,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,33 +70,4 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->
                 world.getServer().execute(() -> SPAWNER_REPLACEMENT_HANDLER.processNewChunk(world, chunk)));
     }
-
-    /*
-    @EventBusSubscriber(modid = MODID)
-    public static class ClientModEvents {
-
-
-
-        @SubscribeEvent
-        public static void addRegistries(DataPackRegistryEvent.NewRegistry event){
-            event.dataPackRegistry(
-                    COBBLEMON_TRIALS_STRUCTURE_REGISTRY,
-                    StructureProperties.CODEC,
-                    StructureProperties.CODEC,
-                    builder -> builder.maxId(256)
-            );
-            event.dataPackRegistry(
-                    COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY,
-                    StructureProperties.CODEC,
-                    StructureProperties.CODEC,
-                    builder -> builder.maxId(256)
-            );
-            event.dataPackRegistry(
-                    COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY,
-                    LootTable.DIRECT_CODEC,
-                    LootTable.DIRECT_CODEC,
-                    builder -> builder.maxId(256)
-            );
-        }
-    }*/
 }

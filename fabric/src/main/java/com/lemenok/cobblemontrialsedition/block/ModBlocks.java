@@ -13,9 +13,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
-
-import java.util.function.Supplier;
-
 public class ModBlocks {
 
     public static final Block COBBLEMON_TRIAL_SPAWNER = registerBlock(

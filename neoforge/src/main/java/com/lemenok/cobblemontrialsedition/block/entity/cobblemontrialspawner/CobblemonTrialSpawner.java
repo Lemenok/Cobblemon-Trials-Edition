@@ -192,7 +192,7 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
     }
 
     public boolean canSpawnInLevel(Level arg) {
-        return arg.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING);
+        return true;
     }
 
     public Optional<UUID> spawnMob(ServerLevel serverLevel, BlockPos blockPos) {

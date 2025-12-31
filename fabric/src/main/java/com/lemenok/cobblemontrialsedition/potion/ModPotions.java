@@ -3,7 +3,6 @@ package com.lemenok.cobblemontrialsedition.potion;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;

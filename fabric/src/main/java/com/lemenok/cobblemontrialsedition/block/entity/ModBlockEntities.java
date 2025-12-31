@@ -12,8 +12,6 @@ public class ModBlockEntities {
             Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEditionFabric.MODID,"cobblemon_trial_spawner"),
                     BlockEntityType.Builder.of(CobblemonTrialSpawnerEntity::new, ModBlocks.COBBLEMON_TRIAL_SPAWNER).build(null));
 
-
-
     public static void registerBlockEntities() {
         CobblemonTrialsEditionFabric.LOGGER.info("Registering Block Entities for " + CobblemonTrialsEditionFabric.MODID);
     }

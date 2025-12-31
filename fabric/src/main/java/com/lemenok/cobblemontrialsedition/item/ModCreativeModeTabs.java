@@ -2,7 +2,6 @@ package com.lemenok.cobblemontrialsedition.item;
 
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric;
 import com.lemenok.cobblemontrialsedition.block.ModBlocks;
-import com.lemenok.cobblemontrialsedition.potion.ModPotions;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 
 public class ModCreativeModeTabs {
     public static final CreativeModeTab COBBLEMON_TRIALS_EDITION_GROUP = Registry.register(
