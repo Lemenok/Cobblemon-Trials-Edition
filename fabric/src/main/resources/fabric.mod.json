@@ -8,7 +8,7 @@
     "Lemenok"
   ],
   "license": "MIT License",
-  "icon": "assets/example/icon.png",
+  "icon": "assets/cobblemontrialsedition/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
