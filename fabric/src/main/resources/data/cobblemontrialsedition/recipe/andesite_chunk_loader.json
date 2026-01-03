@@ -1,0 +1,28 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create_power_loader"
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GPG",
+    "   "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:ghast_tear"
+    },
+    "P": {
+      "item": "create_power_loader:empty_andesite_chunk_loader"
+    }
+  },
+  "result": {
+    "id": "create_power_loader:andesite_chunk_loader",
+    "count": 1
+  }
+}

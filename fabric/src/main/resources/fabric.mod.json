@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "cobblemontrialsedition",
+  "version": "${version}",
+  "name": "Cobblemon Trials Edition",
+  "description": "A Cobblemon mod that replaces Mob Spawners and Trial Spawners with Cobblemon Trial Spawners.",
+  "authors": [
+    "Lemenok"
+  ],
+  "license": "MIT License",
+  "icon": "assets/cobblemontrialsedition/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric"
+    ],
+    "client": [
+      "com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionClientFabric"
+    ],
+    "modmenu": [
+      "com.lemenok.cobblemontrialsedition.ModMenuIntegration"
+    ]
+  },
+  "depends": {
+    "minecraft": "1.21.1",
+    "cobblemon": ">=1.7.1",
+    "cloth-config": ">=15.0.140"
+  },
+  "suggests": {
+    "modmenu": ">=11.0.3"
+  }
+}

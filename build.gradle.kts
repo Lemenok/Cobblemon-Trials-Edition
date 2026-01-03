@@ -1,54 +1,35 @@
 plugins {
     id("java")
-    id("dev.architectury.loom") version("1.11-SNAPSHOT")
-    id("architectury-plugin") version("3.4-SNAPSHOT")
-    kotlin("jvm") version "2.2.20"
+    id("java-library")
+    kotlin("jvm") version("2.2.20")
+
+    id("dev.architectury.loom") version("1.11-SNAPSHOT") apply false
+    id("architectury-plugin") version("3.4-SNAPSHOT") apply false
 }
 
+allprojects {
+    apply(plugin = "java")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
 
-group = "com.lemenok.cobblemontrialsedition"
-version = "1.0.0"
+    version = project.properties["mod_version"]!!
+    group = project.properties["maven_group"]!!
 
-architectury {
-    platformSetupLoomIde()
-    neoForge()
-}
-
-loom {
-    silentMojangMappingsLicense()
-}
-
-repositories {
-    mavenCentral()
-    maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
-    maven("https://maven.impactdev.net/repository/development/")
-    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
-    maven("https://thedarkcolour.github.io/KotlinForForge/")
-    maven("https://maven.neoforged.net")
-}
-
-dependencies {
-    minecraft("net.minecraft:minecraft:1.21.1")
-    mappings(loom.officialMojangMappings())
-    neoForge("net.neoforged:neoforge:21.1.182")
-
-    modImplementation("com.cobblemon:neoforge:1.7.1+1.21.1")
-    //Needed for cobblemon
-    implementation("thedarkcolour:kotlinforforge-neoforge:5.3.0") {
-        exclude("net.neoforged.fancymodloader", "loader")
+    repositories {
+        mavenCentral()
+        maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+        maven("https://maven.impactdev.net/repository/development/")
+        maven("https://maven.neoforged.net/releases")
+        maven("https://thedarkcolour.github.io/KotlinForForge/")
+        maven("https://maven.shedaniel.me/")
+        maven("https://maven.terraformersmc.com/releases/")
     }
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
-}
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
-}
+    tasks.getByName<Test>("test") {
+        useJUnitPlatform()
+    }
 
-tasks.processResources {
-    inputs.property("version", project.version)
-
-    filesMatching("META-INF/neoforge.mods.toml") {
-        expand(project.properties)
+    java {
+        withSourcesJar()
     }
 }
+

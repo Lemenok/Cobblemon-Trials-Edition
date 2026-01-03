@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "ominous=false,cobblemon_trial_spawner_state=active": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_active"
+    },
+    "ominous=false,cobblemon_trial_spawner_state=cooldown": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner"
+    },
+    "ominous=false,cobblemon_trial_spawner_state=ejecting_reward": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_ejecting_reward"
+    },
+    "ominous=false,cobblemon_trial_spawner_state=inactive": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner"
+    },
+    "ominous=false,cobblemon_trial_spawner_state=waiting_for_players": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_active"
+    },
+    "ominous=false,cobblemon_trial_spawner_state=waiting_for_reward_ejection": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_active"
+    },
+    "ominous=true,cobblemon_trial_spawner_state=active": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_active_ominous"
+    },
+    "ominous=true,cobblemon_trial_spawner_state=cooldown": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_inactive_ominous"
+    },
+    "ominous=true,cobblemon_trial_spawner_state=ejecting_reward": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_ejecting_reward_ominous"
+    },
+    "ominous=true,cobblemon_trial_spawner_state=inactive": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_inactive_ominous"
+    },
+    "ominous=true,cobblemon_trial_spawner_state=waiting_for_players": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_active_ominous"
+    },
+    "ominous=true,cobblemon_trial_spawner_state=waiting_for_reward_ejection": {
+      "model": "cobblemontrialsedition:block/cobblemon_trial_spawner_active_ominous"
+    }
+  }
+}

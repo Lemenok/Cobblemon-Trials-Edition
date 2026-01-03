@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+#issueTrackerURL = "A valid URL to your issue tracker where people can open bug tickets"
+license = "MIT License"
+
+[[mods]]
+modId = "cobblemontrialsedition"
+version = "${version}"
+displayName = "Cobblemon Trials Edition"
+authors = "Lemenok"
+description = '''
+A Cobblemon mod that replaces Mob Spawners and Trial Spawners with Cobblemon Trial Spawners.
+'''
+#logoFile = ""
+
+[[dependencies.cobblemontrialsedition]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.21.1]"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.cobblemontrialsedition]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[21.1.66,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.cobblemontrialsedition]]
+modId = "cobblemon"
+mandatory = true
+versionRange = "[1.7.1,)"
+ordering = "AFTER"
+side = "BOTH"
