@@ -23,6 +23,10 @@
   },
   "depends": {
     "minecraft": "1.21.1",
-    "cobblemon": ">=1.7.1"
+    "cobblemon": ">=1.7.1",
+    "cloth-config": ">=15.0.140"
+  },
+  "suggests": {
+    "modmenu": ">=11.0.3"
   }
 }

@@ -50,7 +50,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CobblemonTrialSpawner implements IOwnedSpawner {
+public class CobblemonTrialSpawner {
     public static final String NORMAL_CONFIG_TAG_NAME = "normal_config";
     public static final String OMINOUS_CONFIG_TAG_NAME = "ominous_config";
     public static final int DETECT_PLAYER_SPAWN_BUFFER = 40;
@@ -239,8 +239,10 @@ public class CobblemonTrialSpawner implements IOwnedSpawner {
                                     return Optional.empty();
                                 }
 
-                                boolean flag = spawndata.getEntityToSpawn().size() == 1 && spawndata.getEntityToSpawn().contains("id", 8);
-                                EventHooks.finalizeMobSpawnSpawner(mob, serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.TRIAL_SPAWNER, (SpawnGroupData)null, this, flag);
+                                boolean bl = spawndata.getEntityToSpawn().size() == 1 && spawndata.getEntityToSpawn().contains("id", 8);
+                                if (bl) {
+                                    mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.TRIAL_SPAWNER, (SpawnGroupData)null);
+                                }
                                 mob.setPersistenceRequired();
                                 Optional optionalEquipmentTable = spawndata.getEquipment();
                                 Objects.requireNonNull(mob);
