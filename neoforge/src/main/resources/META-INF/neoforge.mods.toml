@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Cobblemon Trials Edition"
 authors = "Lemenok"
 description = '''
-A very cool multi-line description!
+A Cobblemon mod that replaces Mob Spawners and Trial Spawners with Cobblemon Trial Spawners.
 '''
 #logoFile = ""
 
