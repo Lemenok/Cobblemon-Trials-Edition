@@ -21,13 +21,11 @@ public class Config implements ConfigData {
     public boolean REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS = true;
 
     @ConfigEntry.Gui.Tooltip
-    @Comment("Whether to do any spawner replacement outside of structures. If set to false, this will disable the spawner replacement for any spawners outside of structures (eg. Monster_Rooms)")
-    public boolean REPLACE_SPAWNERS_OUTSIDE_OF_STRUCTURES_WITH_DEFAULT_COBBLEMON_SPAWNERS = true;
+    @Comment("Whether to do any spawner replacement in Features. If set to false, this will disable the spawner replacement for any spawners in features (eg. Monster_Rooms)")
+    public boolean REPLACE_SPAWNERS_IN_FEATURES = true;
 
     @ConfigEntry.Gui.Tooltip
-    @Comment("Whether to replace any spawners that are not listed in configuration with a default spawner. \" +\n" +
-            "\"This is mostly used to cover the edge cases where a spawner exists inside of a structure range but isn't replaced. \" +\n" +
-            "\"In monster-room.json this is the 'Minecraft:Zombie' entity spawner if the entity is not listed.")
+    @Comment("Whether to replace any spawners that are not listed in configuration with a default spawner. If set to false, this will leave spawners that do not have custom spawn data created.")
     public boolean REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = true;
 
     @ConfigEntry.Gui.Tooltip

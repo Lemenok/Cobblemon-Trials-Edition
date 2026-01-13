@@ -74,55 +74,47 @@ public class ReplaceSpawners {
                             }
                         }
 
-                        // This is to cover edge cases where spawners from monster rooms and features are in chunks with structures and were not being replaced.
-                        // This logic will replace them with a default cobblemon spawner that is set to zombie.
+                        // This uses the Default json files under "defaults"
                         // If I can ever figure out how to do StructureProcessors this would not be necessary.
                         if(Config.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS.get()){
 
-                            StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
-                            if(defaultStructureProperties == null)
-                                throw new Exception("defaultStructureProperties is null. Ensure the monster-room.json is setup correctly.");
-
-
-                            if (replaceSpawner(serverLevel, chunk, level, EntityType.ZOMBIE, blockEntity,
-                                    defaultStructureProperties.getSpawnerPropertiesIfResourceLocationMatches(defaultStructureProperties.structureId()),
-                                    blockEntityPosition)) {
-                                if(Config.ENABLE_DEBUG_LOGS.get()) {
-                                    LOGGER.info("Replaced: '{}' Spawner at Location '{}', Default Spawner.", EntityType.ZOMBIE, blockEntityPosition);
-                                }
+                            if (replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType, blockEntityPosition, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY))
                                 break;
-                            }
                         }
                     }
                 }
 
                 // If the there are no structures but still a spawner, this is likely from a Feature.
                 // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
-                if (allStructuresAtPosition.isEmpty() && Config.REPLACE_SPAWNERS_OUTSIDE_OF_STRUCTURES_WITH_DEFAULT_COBBLEMON_SPAWNERS.get()) {
-
-                    StructureProperties defaultStructureProperties = getStructuresToModify(level, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY).getFirst();
-                    if(defaultStructureProperties == null)
-                        throw new Exception("defaultStructureProperties is null. Ensure the monster-room.json is setup correctly.");
+                if (allStructuresAtPosition.isEmpty() && Config.REPLACE_SPAWNERS_IN_FEATURES.get()) {
 
                     EntityType spawnerEntityType = getEntityType(level, blockEntity);
 
-                    if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity,
-                            defaultStructureProperties.getSpawnerPropertiesIfResourceLocationMatches(defaultStructureProperties.structureId()),
-                            blockEntityPosition)) {
-                        if(Config.ENABLE_DEBUG_LOGS.get()) {
-                            LOGGER.info("Replaced: '{}' Spawner at Location '{}', No structure.", spawnerEntityType, blockEntityPosition);
-                        }
+                    if (replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType, blockEntityPosition, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_FEATURES_REGISTRY))
                         break;
-                    }
                 }
-
-                // If there are still structures around the spawner this means that the spawner is in a structure
-                // that the user has defined they WANT to leave the default spawner. So we do nothing.
 
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
         }
+    }
+
+    private static boolean replaceWithDefaultSpawner(ServerLevel serverLevel, LevelChunk chunk, Level level, BlockEntity blockEntity, EntityType spawnerEntityType, BlockPos blockEntityPosition, ResourceKey<Registry<StructureProperties>> registryResourceKey) throws Exception {
+        StructureProperties defaultSpawnerProperties = getStructuresToModify(level, registryResourceKey).getFirst();
+        if(defaultSpawnerProperties == null)
+            throw new Exception("No Default Spawners file detected.");
+
+
+        if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity,
+                defaultSpawnerProperties.getSpawnerPropertiesIfResourceLocationMatches(defaultSpawnerProperties.structureId()),
+                blockEntityPosition)) {
+            if(Config.ENABLE_DEBUG_LOGS.get()) {
+                LOGGER.info("Replaced: '{}' Spawner at Location '{}', Default.", spawnerEntityType, blockEntityPosition);
+            }
+            return true;
+        }
+        return false;
     }
 
     private static boolean replaceSpawner(ServerLevel serverLevel, LevelChunk chunk, Level level, EntityType spawnerEntityType, BlockEntity blockEntity, List<SpawnerProperties> spawnerPropertiesForStructure, BlockPos blockEntityPosition) {

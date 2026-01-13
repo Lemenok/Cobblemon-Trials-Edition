@@ -83,6 +83,10 @@ public record SpawnablePokemonProperties(
         if(form.equalsIgnoreCase("gmax"))
             speciesFeature.add(new StringSpeciesFeature("dynamax_form","gmax"));
 
+        // Handle Rotom Forms.
+        if(species.equalsIgnoreCase("rotom"))
+            speciesFeature.add(new StringSpeciesFeature("appliance",form));
+
         newPokemon.setFeatures(speciesFeature);
 
         newPokemon.setScaleModifier(scaleModifier);
