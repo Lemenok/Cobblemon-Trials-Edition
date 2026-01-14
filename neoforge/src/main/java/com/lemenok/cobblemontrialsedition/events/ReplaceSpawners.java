@@ -8,6 +8,7 @@ import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.Cob
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -53,7 +54,7 @@ public class ReplaceSpawners {
                     List<StructureProperties> listOfStructuresToModify = getStructuresToModify(level, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_STRUCTURE_REGISTRY);
 
                     for (Structure structure: allStructuresAtPosition.keySet()){
-                        ResourceLocation resourceAtPosition = structureRegistry.getKey(structure);
+                        Holder<Structure> resourceAtPosition = structureRegistry.wrapAsHolder(structure);
 
                         // Check if Structure Exists to have its spawners swapped.
                         List<SpawnerProperties> spawnerPropertiesForStructure = new ArrayList<>();
@@ -101,13 +102,14 @@ public class ReplaceSpawners {
     }
 
     private static boolean replaceWithDefaultSpawner(ServerLevel serverLevel, LevelChunk chunk, Level level, BlockEntity blockEntity, EntityType spawnerEntityType, BlockPos blockEntityPosition, ResourceKey<Registry<StructureProperties>> registryResourceKey) throws Exception {
-        StructureProperties defaultSpawnerProperties = getStructuresToModify(level, registryResourceKey).getFirst();
+
+        List<SpawnerProperties> defaultSpawnerProperties = getStructuresToModify(level, registryResourceKey).getFirst().spawnerProperties();
+
         if(defaultSpawnerProperties == null)
             throw new Exception("No Default Spawners file detected.");
 
-
         if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity,
-                defaultSpawnerProperties.getSpawnerPropertiesIfResourceLocationMatches(defaultSpawnerProperties.structureId()),
+                defaultSpawnerProperties,
                 blockEntityPosition)) {
             if(Config.ENABLE_DEBUG_LOGS.get()) {
                 LOGGER.info("Replaced: '{}' Spawner at Location '{}', Default.", spawnerEntityType, blockEntityPosition);

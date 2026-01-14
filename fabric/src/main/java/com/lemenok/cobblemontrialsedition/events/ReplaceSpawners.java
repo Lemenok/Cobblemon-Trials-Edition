@@ -9,6 +9,7 @@ import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -56,7 +57,7 @@ public class ReplaceSpawners {
                     List<StructureProperties> listOfStructuresToModify = getStructuresToModify(level, CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_STRUCTURE_REGISTRY);
 
                     for (Structure structure: allStructuresAtPosition.keySet()){
-                        ResourceLocation resourceAtPosition = structureRegistry.getKey(structure);
+                        Holder<Structure> resourceAtPosition = structureRegistry.wrapAsHolder(structure);
 
                         // Check if Structure Exists to have its spawners swapped.
                         List<SpawnerProperties> spawnerPropertiesForStructure = new ArrayList<>();
@@ -87,8 +88,8 @@ public class ReplaceSpawners {
                     }
                 }
 
-                // If the there are no structures but still a spawner, this is likely from a Feature.
-                // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
+                // If the there are no structureId but still a spawner, this is likely from a Feature.
+                // Check if the user has Default Spawners turned on and no structureId, if both are true replace the spawner.
                 if (allStructuresAtPosition.isEmpty() && modConfig.REPLACE_SPAWNERS_IN_FEATURES) {
 
                     EntityType spawnerEntityType = getEntityType(level, blockEntity);
@@ -103,13 +104,14 @@ public class ReplaceSpawners {
     }
 
     private static boolean replaceWithDefaultSpawner(ServerLevel serverLevel, LevelChunk chunk, Level level, BlockEntity blockEntity, EntityType spawnerEntityType, BlockPos blockEntityPosition, Config modConfig, ResourceKey<Registry<StructureProperties>> registryResourceKey) throws Exception {
-        StructureProperties defaultSpawnerProperties = getStructuresToModify(level, registryResourceKey).getFirst();
+
+        List<SpawnerProperties> defaultSpawnerProperties = getStructuresToModify(level, registryResourceKey).getFirst().spawnerProperties();
+
         if(defaultSpawnerProperties == null)
             throw new Exception("No Default Spawners file detected.");
 
-
         if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity,
-                defaultSpawnerProperties.getSpawnerPropertiesIfResourceLocationMatches(defaultSpawnerProperties.structureId()),
+                defaultSpawnerProperties,
                 blockEntityPosition)) {
             if(modConfig.ENABLE_DEBUG_LOGS) {
                 LOGGER.info("Replaced: '{}' Spawner at Location '{}'", spawnerEntityType, blockEntityPosition);
