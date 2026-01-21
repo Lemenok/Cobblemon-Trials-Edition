@@ -33,3 +33,6 @@ mandatory = true
 versionRange = "[1.7.1,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[mixins]]
+config = "cobblemon_trials_edition.mixin.json"

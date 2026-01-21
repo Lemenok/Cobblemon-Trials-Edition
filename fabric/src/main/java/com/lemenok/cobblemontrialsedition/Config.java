@@ -39,5 +39,11 @@ public class Config implements ConfigData {
             "\"If set to false whether Spawned Pokemon can be defeated in battle or not is left up to the Spawner's Settings.\" +\n" +
             "\"NOTE: This will only apply to newly created spawners.")
     public boolean ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE = false;
+
+    @ConfigEntry.Gui.Tooltip
+    @Comment("This allows Spawned Pokemon to be Aggressive and attack players when spawned.\" +\n" +
+            "\"If set to true whether Spawned Pokemon can be aggressive or not is left up to the Pokemon's Settings.\" +\n" +
+            "\"NOTE: This will only apply to newly created spawners.")
+    public boolean ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = true;
 }
 

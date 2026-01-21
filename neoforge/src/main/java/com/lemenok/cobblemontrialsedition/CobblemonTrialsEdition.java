@@ -104,27 +104,19 @@ public class CobblemonTrialsEdition {
         public static void addRegistries(DataPackRegistryEvent.NewRegistry event){
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_STRUCTURE_REGISTRY,
-                    StructureProperties.CODEC,
-                    StructureProperties.CODEC,
-                    builder -> builder.maxId(256)
+                    StructureProperties.CODEC
             );
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_FEATURES_REGISTRY,
-                    StructureProperties.CODEC,
-                    StructureProperties.CODEC,
-                    builder -> builder.maxId(256)
+                    StructureProperties.CODEC
             );
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY,
-                    StructureProperties.CODEC,
-                    StructureProperties.CODEC,
-                    builder -> builder.maxId(256)
+                    StructureProperties.CODEC
             );
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY,
-                    LootTable.DIRECT_CODEC,
-                    LootTable.DIRECT_CODEC,
-                    builder -> builder.maxId(256)
+                    LootTable.DIRECT_CODEC
             );
         }
     }

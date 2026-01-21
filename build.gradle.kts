@@ -22,6 +22,7 @@ allprojects {
         maven("https://thedarkcolour.github.io/KotlinForForge/")
         maven("https://maven.shedaniel.me/")
         maven("https://maven.terraformersmc.com/releases/")
+        maven("https://api.modrinth.com/maven")
     }
 
     tasks.getByName<Test>("test") {

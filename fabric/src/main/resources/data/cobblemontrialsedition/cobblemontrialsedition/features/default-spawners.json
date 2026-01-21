@@ -1,5 +1,5 @@
 {
-  "structureId": "minecraft:fortress",
+  "structureId": "minecraft:village_plains",
   "spawnerProperties": [
     {
       "blockEntityTypesToReplace": ["minecraft:mob_spawner"],

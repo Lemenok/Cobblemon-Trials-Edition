@@ -42,7 +42,8 @@ public record SpawnablePokemonProperties(
         boolean isShiny,
         float scaleModifier,
         boolean isUncatchable,
-        boolean mustBeDefeatedInBattle
+        boolean mustBeDefeatedInBattle,
+        boolean isAggressive
 )
 {
     public static final Codec<SpawnablePokemonProperties> CODEC = RecordCodecBuilder.create(pokemon -> pokemon.group(
@@ -60,7 +61,8 @@ public record SpawnablePokemonProperties(
             Codec.BOOL.optionalFieldOf("isShiny", false).forGetter(SpawnablePokemonProperties::isShiny),
             Codec.FLOAT.optionalFieldOf("scaleModifier", 1.0f).forGetter(SpawnablePokemonProperties::scaleModifier),
             Codec.BOOL.optionalFieldOf("isUncatchable", true).forGetter(SpawnablePokemonProperties::isUncatchable),
-            Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", true).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle)
+            Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", true).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle),
+            Codec.BOOL.optionalFieldOf("isAggressive", true).forGetter(SpawnablePokemonProperties::isAggressive)
     ).apply(pokemon, SpawnablePokemonProperties::new));
 
     private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEdition.MODID);
@@ -90,6 +92,10 @@ public record SpawnablePokemonProperties(
         newPokemon.setFeatures(speciesFeature);
 
         newPokemon.setScaleModifier(scaleModifier);
+
+        if(Config.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE.get()) {
+            newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_is_aggressive", isAggressive);
+        }
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 

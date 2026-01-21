@@ -37,6 +37,12 @@ public class Config {
                     "NOTE: This will only apply to newly created spawners.")
             .define("allowSpawnedPokemonToBeDefeatedInBattle", false);
 
+    public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = BUILDER
+            .comment("This allows Spawned Pokemon to be Aggressive and attack players when spawned." +
+                    "If set to true whether Spawned Pokemon can be aggressive or not is left up to the Pokemon's Settings." +
+                    "NOTE: This will only apply to newly created spawners.")
+            .define("allowSpawnedPokemonToBeAggressive", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
 }

@@ -92,6 +92,10 @@ public record SpawnablePokemonProperties(
 
         newPokemon.setScaleModifier(scaleModifier);
 
+        if(modConfig.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE) {
+            newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_is_aggressive", true);
+        }
+
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
         if(!modConfig.ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE){

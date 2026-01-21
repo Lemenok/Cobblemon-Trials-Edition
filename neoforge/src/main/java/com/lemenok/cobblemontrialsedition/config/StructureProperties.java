@@ -6,16 +6,13 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.RegistryFileCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.List;
 
 public record StructureProperties(
     HolderSet<Structure> structureId,
-    List<SpawnerProperties> spawnerProperties
-)
+    List<SpawnerProperties> spawnerProperties)
 {
     public static final Codec<StructureProperties> CODEC = RecordCodecBuilder.create(structure -> structure.group(
             RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("structureId").forGetter(StructureProperties::structureId),

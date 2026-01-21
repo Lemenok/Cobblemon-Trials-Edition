@@ -28,5 +28,8 @@
   },
   "suggests": {
     "modmenu": ">=11.0.3"
-  }
+  },
+  "mixins": [
+    "cobblemon_trials_edition.mixin.json"
+  ]
 }
