@@ -21,13 +21,11 @@ public class Config implements ConfigData {
     public boolean REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS = true;
 
     @ConfigEntry.Gui.Tooltip
-    @Comment("Whether to do any spawner replacement outside of structures. If set to false, this will disable the spawner replacement for any spawners outside of structures (eg. Monster_Rooms)")
-    public boolean REPLACE_SPAWNERS_OUTSIDE_OF_STRUCTURES_WITH_DEFAULT_COBBLEMON_SPAWNERS = true;
+    @Comment("Whether to do any spawner replacement in Features. If set to false, this will disable the spawner replacement for any spawners in features (eg. Monster_Rooms)")
+    public boolean REPLACE_SPAWNERS_IN_FEATURES = true;
 
     @ConfigEntry.Gui.Tooltip
-    @Comment("Whether to replace any spawners that are not listed in configuration with a default spawner. \" +\n" +
-            "\"This is mostly used to cover the edge cases where a spawner exists inside of a structure range but isn't replaced. \" +\n" +
-            "\"In monster-room.json this is the 'Minecraft:Zombie' entity spawner if the entity is not listed.")
+    @Comment("Whether to replace any spawners that are not listed in configuration with a default spawner. If set to false, this will leave spawners that do not have custom spawn data created.")
     public boolean REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = true;
 
     @ConfigEntry.Gui.Tooltip
@@ -41,5 +39,11 @@ public class Config implements ConfigData {
             "\"If set to false whether Spawned Pokemon can be defeated in battle or not is left up to the Spawner's Settings.\" +\n" +
             "\"NOTE: This will only apply to newly created spawners.")
     public boolean ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE = false;
+
+    @ConfigEntry.Gui.Tooltip
+    @Comment("This allows Spawned Pokemon to be Aggressive and attack players when spawned.\" +\n" +
+            "\"If set to true whether Spawned Pokemon can be aggressive or not is left up to the Pokemon's Settings.\" +\n" +
+            "\"NOTE: This will only apply to newly created spawners.")
+    public boolean ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = true;
 }
 

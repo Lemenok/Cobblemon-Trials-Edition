@@ -84,9 +84,17 @@ public record SpawnablePokemonProperties(
         if(form.equalsIgnoreCase("gmax"))
             speciesFeature.add(new StringSpeciesFeature("dynamax_form","gmax"));
 
+        // Handle Rotom Forms.
+        if(species.equalsIgnoreCase("rotom"))
+            speciesFeature.add(new StringSpeciesFeature("appliance",form));
+
         newPokemon.setFeatures(speciesFeature);
 
         newPokemon.setScaleModifier(scaleModifier);
+
+        if(modConfig.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE) {
+            newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_is_aggressive", true);
+        }
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 

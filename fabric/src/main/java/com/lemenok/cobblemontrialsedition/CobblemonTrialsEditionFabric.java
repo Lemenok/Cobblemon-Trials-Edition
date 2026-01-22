@@ -35,9 +35,14 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
                     ResourceLocation.fromNamespaceAndPath(MODID, "structures")
             );
 
-    public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY =
+    public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_FEATURES_REGISTRY =
             ResourceKey.createRegistryKey(
                     ResourceLocation.fromNamespaceAndPath(MODID, "features")
+            );
+
+    public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY =
+            ResourceKey.createRegistryKey(
+                    ResourceLocation.fromNamespaceAndPath(MODID, "defaults")
             );
 
     public static final ResourceKey<Registry<LootTable>> COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY =
@@ -64,6 +69,7 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
 
         // Register Datapacks
         DynamicRegistries.register(COBBLEMON_TRIALS_STRUCTURE_REGISTRY, StructureProperties.CODEC);
+        DynamicRegistries.register(COBBLEMON_TRIALS_FEATURES_REGISTRY, StructureProperties.CODEC);
         DynamicRegistries.register(COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY, StructureProperties.CODEC);
         DynamicRegistries.register(COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, LootTable.DIRECT_CODEC);
 
