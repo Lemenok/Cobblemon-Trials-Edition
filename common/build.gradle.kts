@@ -15,8 +15,8 @@ dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
     mappings(loom.officialMojangMappings())
     modImplementation("com.cobblemon:mod:${property("cobblemon_version")}") { isTransitive = false }
-    modImplementation("maven.modrinth:cobblemon-fight-or-flight-reborn:${property("fof_version")}")
 
+    compileOnly("maven.modrinth:cobblemon-fight-or-flight-reborn:${property("fof_version")}")
     compileOnly("org.spongepowered:mixin:${property("spongepowered_version")}")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")

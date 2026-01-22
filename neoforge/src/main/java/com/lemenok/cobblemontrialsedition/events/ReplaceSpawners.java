@@ -7,6 +7,7 @@ import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEnti
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -29,10 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReplaceSpawners {
@@ -53,36 +51,9 @@ public class ReplaceSpawners {
 
                     List<StructureProperties> listOfStructuresToModify = getStructuresToModify(level, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_STRUCTURE_REGISTRY);
 
-                    for (Structure structure: allStructuresAtPosition.keySet()){
-                        Holder<Structure> resourceAtPosition = structureRegistry.wrapAsHolder(structure);
+                    EntityType spawnerEntityType = getEntityType(level, blockEntity);
 
-                        // Check if Structure Exists to have its spawners swapped.
-                        List<SpawnerProperties> spawnerPropertiesForStructure = new ArrayList<>();
-                        for(StructureProperties properties: listOfStructuresToModify){
-                            spawnerPropertiesForStructure = properties.getSpawnerPropertiesIfResourceLocationMatches(resourceAtPosition);
-                            // Break early if found.
-                            if(spawnerPropertiesForStructure != null)
-                                break;
-                        }
-
-                        EntityType spawnerEntityType = getEntityType(level, blockEntity);
-
-                        if(spawnerPropertiesForStructure != null) {
-                            if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity, spawnerPropertiesForStructure, blockEntityPosition)) {
-                                if(Config.ENABLE_DEBUG_LOGS.get())
-                                    LOGGER.info("Replaced: '{}' Spawner at Location '{}', Structure: '{}'.", spawnerEntityType, blockEntityPosition, resourceAtPosition);
-                                break;
-                            }
-                        }
-
-                        // This uses the Default json files under "defaults"
-                        // If I can ever figure out how to do StructureProcessors this would not be necessary.
-                        if(Config.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS.get()){
-
-                            if (replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType, blockEntityPosition, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY))
-                                break;
-                        }
-                    }
+                    ReplaceSpawnerWithStructureConfig(serverLevel, chunk, level, structureRegistry, blockEntity, allStructuresAtPosition, listOfStructuresToModify, spawnerEntityType, blockEntityPosition);
                 }
 
                 // If the there are no structures but still a spawner, this is likely from a Feature.
@@ -97,6 +68,38 @@ public class ReplaceSpawners {
 
             } catch (Exception ex) {
                 LOGGER.error(ex);
+            }
+        }
+    }
+
+    private static void ReplaceSpawnerWithStructureConfig(ServerLevel serverLevel, LevelChunk chunk, Level level, Registry<Structure> structureRegistry, BlockEntity blockEntity, Map<Structure, LongSet> allStructuresAtPosition, List<StructureProperties> listOfStructuresToModify, EntityType spawnerEntityType, BlockPos blockEntityPosition) throws Exception {
+        for (Structure structure: allStructuresAtPosition.keySet()){
+            Holder<Structure> resourceAtPosition = structureRegistry.wrapAsHolder(structure);
+
+            // Check if Structure Exists to have its spawners swapped.
+            List<SpawnerProperties> spawnerPropertiesForStructure = new ArrayList<>();
+            for(StructureProperties properties: listOfStructuresToModify){
+                spawnerPropertiesForStructure = properties.getSpawnerPropertiesIfResourceLocationMatches(resourceAtPosition);
+                // Break early if found.
+                if(spawnerPropertiesForStructure != null)
+                    break;
+            }
+
+
+
+            if(spawnerPropertiesForStructure != null) {
+                if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity, spawnerPropertiesForStructure, blockEntityPosition)) {
+                    if(Config.ENABLE_DEBUG_LOGS.get())
+                        LOGGER.info("Replaced: '{}' Spawner at Location '{}', Structure: '{}'.", spawnerEntityType, blockEntityPosition, resourceAtPosition);
+                    return;
+                }
+            }
+
+            // This uses the Default json files under "defaults"
+            // If I can ever figure out how to do StructureProcessors this would not be necessary.
+            if(Config.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS.get()){
+                replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType,
+                        blockEntityPosition, CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY);
             }
         }
     }
