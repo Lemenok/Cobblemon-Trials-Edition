@@ -24,6 +24,8 @@ Default Features
 - A few custom recipes for Create and Create Power loader to work with the lack of Blaze Spawners and Ghasts.
 - Peaceful mode Spawning
 - Pokemon Spawned can only be defeated in battle and cannot be captured by Default (This can be changed in Config Settings)
+- Percentage based spawner replacement, allowing users to decide how much of the spawners should be replaced.
+- Fight or Flight integration
 
 Modpack Creator Features
 =======
@@ -37,7 +39,6 @@ Roadmap (In no particular order)
 =======
 - Rework of the Spawner Replacement to use Structure Processors
 - Creator Update: A UI that allows in game customization of Cobblemon Trial Spawners, so they can be used in custom maps, structures, or for other mod makers. This also includes the Cobblemon Trial Spawner to emit redstone to be used in fun ways.
-- Fight or Flight / Aggressive Pokemon Support
 - Sculk Shrieker Replacement
 
 FAQ
