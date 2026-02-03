@@ -45,6 +45,9 @@ public class ReplaceSpawners {
 
                 if (!serverLevel.isLoaded(blockEntityPosition)) continue;
 
+                if(ShouldSpawnerBeReplaced(blockEntity))
+                    continue;
+
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
 
                 if(!allStructuresAtPosition.isEmpty() && Config.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS.get()) {
@@ -70,6 +73,25 @@ public class ReplaceSpawners {
                 LOGGER.error(ex);
             }
         }
+    }
+
+    private static boolean ShouldSpawnerBeReplaced(BlockEntity blockEntity) {
+        if(blockEntity instanceof SpawnerBlockEntity && Config.REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE.get()){
+            if(Config.MOB_SPAWNER_REPLACEMENT_PERCENTAGE.get() <= Math.random()) {
+                if (Config.ENABLE_DEBUG_LOGS.get())
+                    LOGGER.info("Skipped replacement of Mob Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+        else if(blockEntity instanceof TrialSpawnerBlockEntity && Config.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE.get()){
+            if(Config.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE.get() <= Math.random()){
+                if(Config.ENABLE_DEBUG_LOGS.get())
+                    LOGGER.info("Skipped replacement of Trial Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void ReplaceSpawnerWithStructureConfig(ServerLevel serverLevel, LevelChunk chunk, Level level, Registry<Structure> structureRegistry, BlockEntity blockEntity, Map<Structure, LongSet> allStructuresAtPosition, List<StructureProperties> listOfStructuresToModify, EntityType spawnerEntityType, BlockPos blockEntityPosition) throws Exception {

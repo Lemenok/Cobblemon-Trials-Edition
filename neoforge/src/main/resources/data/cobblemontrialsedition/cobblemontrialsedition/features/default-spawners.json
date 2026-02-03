@@ -1007,6 +1007,58 @@
     },
     {
       "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:pig"],
+      "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
+      "listOfPokemonToSpawn": [{
+        "species": "spoink",
+        "weight": 50,
+        "level": 20
+      },
+        {
+          "species": "lechonk",
+          "weight": 50,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "grumpig",
+        "weight": 50,
+        "level": 40
+      },
+        {
+          "species": "oinkologne",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:pig"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+        "species": "spoink",
+        "weight": 50,
+        "level": 20
+      },
+        {
+          "species": "lechonk",
+          "weight": 50,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "grumpig",
+        "weight": 50,
+        "level": 40
+      },
+        {
+          "species": "oinkologne",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:piglin"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1531,6 +1583,58 @@
     },
     {
       "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:strider"],
+      "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
+      "listOfPokemonToSpawn": [{
+        "species": "larvesta",
+        "weight": 50,
+        "level": 20
+      },
+        {
+          "species": "turtonator",
+          "weight": 50,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "volcarona",
+        "weight": 50,
+        "level": 40
+      },
+        {
+          "species": "turtonator",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:strider"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+        "species": "larvesta",
+        "weight": 50,
+        "level": 20
+      },
+        {
+          "species": "turtonator",
+          "weight": 50,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "volcarona",
+        "weight": 50,
+        "level": 40
+      },
+        {
+          "species": "turtonator",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:vex"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1741,6 +1845,58 @@
       },
         {
           "species": "ceruledge",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:zoglin"],
+      "lootTables": ["cobblemontrialsedition:monster-room"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "listOfPokemonToSpawn": [{
+        "species": "tauros",
+        "weight": 80,
+        "level": 20
+      },
+        {
+          "species": "Teddiursa",
+          "weight": 20,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "tauros",
+        "weight": 50,
+        "level": 40
+      },
+        {
+          "species": "ursaring",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:zoglin"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+        "species": "tauros",
+        "weight": 80,
+        "level": 20
+      },
+        {
+          "species": "Teddiursa",
+          "weight": 20,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "tauros",
+        "weight": 50,
+        "level": 40
+      },
+        {
+          "species": "ursaring",
           "weight": 50,
           "level": 40
         }]
@@ -1793,6 +1949,62 @@
       },
         {
           "species": "parasect",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:zombified_piglin"],
+      "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
+      "listOfPokemonToSpawn": [{
+        "species": "slowbro",
+        "weight": 50,
+        "form": "galarian",
+        "level": 20
+      },
+        {
+          "species": "croagunk",
+          "weight": 50,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "slowking",
+        "weight": 50,
+        "form": "galarian",
+        "level": 40
+      },
+        {
+          "species": "toxicroak",
+          "weight": 50,
+          "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:zombified_piglin"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+        "species": "slowbro",
+        "weight": 50,
+        "form": "galarian",
+        "level": 20
+      },
+        {
+          "species": "croagunk",
+          "weight": 50,
+          "level": 20
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "slowking",
+        "weight": 50,
+        "form": "galarian",
+        "level": 40
+      },
+        {
+          "species": "toxicroak",
           "weight": 50,
           "level": 40
         }]

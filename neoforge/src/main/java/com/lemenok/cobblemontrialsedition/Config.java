@@ -43,6 +43,28 @@ public class Config {
                     "NOTE: This will only apply to newly created spawners.")
             .define("allowSpawnedPokemonToBeAggressive", true);
 
+    public static final ModConfigSpec.BooleanValue REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE = BUILDER
+            .comment("This allows Percentage based control of mob spawner replacement." +
+                    "If set to true this will use the Mob Spawner Replacement Percentage to determine how often a mob spawner should be replaced." +
+                    "NOTE: This will only apply in newly generated chunks.")
+            .define("replaceMobSpawnersBasedOnPercentage", false);
+
+    public static final ModConfigSpec.DoubleValue MOB_SPAWNER_REPLACEMENT_PERCENTAGE = BUILDER
+            .comment("This is what percentage (0.0 - 1.0) Mob Spawners will be replaced, eg: .75 will mean 75% of the mob spawners on average will be replaced." +
+                    "NOTE: This will only apply in newly generated chunks.")
+            .defineInRange("mobSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
+
+    public static final ModConfigSpec.BooleanValue REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE = BUILDER
+            .comment("This allows Percentage based control of trial spawner replacement." +
+                    "If set to true this will use the Trial Spawner Replacement Percentage to determine how often a trial spawner should be replaced." +
+                    "NOTE: This will only apply in newly generated chunks.")
+            .define("replaceTrialSpawnersBasedOnPercentage", false);
+
+    public static final ModConfigSpec.DoubleValue TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = BUILDER
+            .comment("This is what percentage (0.0 - 1.0) Trial Spawners will be replaced, eg: .75 will mean 75% of the trial spawners on average will be replaced." +
+                    "NOTE: This will only apply in newly generated chunks.")
+            .defineInRange("trialSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
 }

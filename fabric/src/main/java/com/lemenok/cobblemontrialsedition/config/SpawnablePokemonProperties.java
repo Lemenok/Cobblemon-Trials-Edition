@@ -59,7 +59,7 @@ public record SpawnablePokemonProperties(
             Codec.BOOL.optionalFieldOf("isShiny", false).forGetter(SpawnablePokemonProperties::isShiny),
             Codec.FLOAT.optionalFieldOf("scaleModifier", 1.0f).forGetter(SpawnablePokemonProperties::scaleModifier),
             Codec.BOOL.optionalFieldOf("isUncatchable", true).forGetter(SpawnablePokemonProperties::isUncatchable),
-            Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", true).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle)
+            Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", false).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle)
     ).apply(pokemon, SpawnablePokemonProperties::new));
 
     private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEditionFabric.MODID);

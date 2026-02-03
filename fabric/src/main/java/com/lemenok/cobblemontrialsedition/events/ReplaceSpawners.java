@@ -21,6 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
@@ -33,6 +34,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.cobblemon.mod.relocations.oracle.truffle.js.builtins.math.MathBuiltins.Math.random;
 
 public class ReplaceSpawners {
 
@@ -47,6 +50,9 @@ public class ReplaceSpawners {
                 BlockPos blockEntityPosition = blockEntity.getBlockPos();
 
                 if (!serverLevel.isLoaded(blockEntityPosition)) continue;
+
+                if(ShouldSpawnerBeReplaced(modConfig, blockEntity))
+                    continue;
 
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
 
@@ -72,6 +78,25 @@ public class ReplaceSpawners {
                 LOGGER.error(ex);
             }
         }
+    }
+
+    private static boolean ShouldSpawnerBeReplaced(Config modConfig, BlockEntity blockEntity) {
+        if(blockEntity instanceof SpawnerBlockEntity && modConfig.REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE){
+            if(modConfig.MOB_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()) {
+                if (modConfig.ENABLE_DEBUG_LOGS)
+                    LOGGER.info("Skipped replacement of Mob Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+        else if(blockEntity instanceof TrialSpawnerBlockEntity && modConfig.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
+            if(modConfig.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()){
+                if(modConfig.ENABLE_DEBUG_LOGS)
+                    LOGGER.info("Skipped replacement of Trial Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void ReplaceSpawnerWithStructureConfig(ServerLevel serverLevel, LevelChunk chunk, Level level, Registry<Structure> structureRegistry, BlockEntity blockEntity, Map<Structure, LongSet> allStructuresAtPosition, List<StructureProperties> listOfStructuresToModify, EntityType spawnerEntityType, BlockPos blockEntityPosition, Config modConfig) throws Exception {
