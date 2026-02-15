@@ -12,6 +12,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -221,14 +223,50 @@ public class ReplaceSpawners {
     private static @Nullable EntityType getEntityType(Level level, BlockEntity blockEntity) {
         EntityType spawnerEntityType = null;
 
-        // Grab Entity in spawner to specify which spawner to replace.
-        if(blockEntity instanceof SpawnerBlockEntity){
-            spawnerEntityType = Objects.requireNonNull(((SpawnerBlockEntity) blockEntity).getSpawner().getOrCreateDisplayEntity(level, blockEntity.getBlockPos())).getType();
+        try {
+            // Grab Entity in spawner to specify which spawner to replace.
+            if(blockEntity instanceof SpawnerBlockEntity spawner){
+                CompoundTag nbt = spawner.saveWithId(level.registryAccess());
+                if (!hasEntityData(nbt)) {
+                    LOGGER.info("Empty spawner at {}, defaulting to zombie", blockEntity.getBlockPos());
+                    return EntityType.ZOMBIE; // Return default entity
+                }
+                var displayEntity = spawner.getSpawner().getOrCreateDisplayEntity(level, blockEntity.getBlockPos());
+                if (displayEntity != null) {
+                    return displayEntity.getType();
+                }
+            }
+
+            if(blockEntity instanceof TrialSpawnerBlockEntity){
+                spawnerEntityType = getEntityTypeFromTrialSpawner(Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner()));
+            }
+        } catch (Exception e) {
+            LOGGER.error("Entity extraction failed", e);
         }
-        if (blockEntity instanceof TrialSpawnerBlockEntity){
-            spawnerEntityType = getEntityTypeFromTrialSpawner(Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner()));
-        }
+    
         return spawnerEntityType;
+    }
+
+    private static boolean hasEntityData(CompoundTag nbt) {
+        // Check if the spawner has any entity data at all
+        if (nbt.contains("SpawnData", CompoundTag.TAG_COMPOUND)) {
+            CompoundTag spawnData = nbt.getCompound("SpawnData");
+
+            // Check various possible entity locations
+            if (spawnData.contains("entity", CompoundTag.TAG_COMPOUND)) {
+                return !spawnData.getCompound("entity").isEmpty();
+            }
+            if (spawnData.contains("id", CompoundTag.TAG_STRING)) {
+                return !spawnData.getString("id").isEmpty();
+            }
+        }
+
+        if (nbt.contains("SpawnPotentials", CompoundTag.TAG_LIST)) {
+            ListTag potentials = nbt.getList("SpawnPotentials", CompoundTag.TAG_COMPOUND);
+            return !potentials.isEmpty();
+        }
+
+        return false;
     }
 
     private static EntityType getEntityTypeFromTrialSpawner(TrialSpawner trialSpawner) {
