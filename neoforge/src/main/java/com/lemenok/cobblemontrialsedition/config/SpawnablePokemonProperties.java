@@ -9,7 +9,6 @@ import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
-import com.google.gson.JsonObject;
 import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.serialization.Codec;
@@ -23,7 +22,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.SpawnData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -60,7 +58,7 @@ public record SpawnablePokemonProperties(
             Codec.STRING.optionalFieldOf("teraType", "").forGetter(SpawnablePokemonProperties::teraType),
             Codec.BOOL.optionalFieldOf("isShiny", false).forGetter(SpawnablePokemonProperties::isShiny),
             Codec.FLOAT.optionalFieldOf("scaleModifier", 1.0f).forGetter(SpawnablePokemonProperties::scaleModifier),
-            Codec.BOOL.optionalFieldOf("isUncatchable", true).forGetter(SpawnablePokemonProperties::isUncatchable),
+            Codec.BOOL.optionalFieldOf("isUncatchable", false).forGetter(SpawnablePokemonProperties::isUncatchable),
             Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", false).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle),
             Codec.BOOL.optionalFieldOf("isAggressive", true).forGetter(SpawnablePokemonProperties::isAggressive)
     ).apply(pokemon, SpawnablePokemonProperties::new));
@@ -99,14 +97,12 @@ public record SpawnablePokemonProperties(
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
-        if(!Config.ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE.get()){
-            if(isUncatchable){
-                // Make pokemon uncatchable
-                String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
-                ListTag listTag = new ListTag();
-                for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
-                pokemonNbt.put("PokemonData", listTag);
-            }
+        if(Config.SPAWNED_POKEMON_ARE_UNCATCHABLE.get() || isUncatchable){
+            // Make pokemon uncatchable
+            String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
+            ListTag listTag = new ListTag();
+            for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
+            pokemonNbt.put("PokemonData", listTag);
         }
 
         CompoundTag entityNbt = new CompoundTag();
@@ -115,12 +111,9 @@ public record SpawnablePokemonProperties(
         entityNbt.putString("PoseType", "WALK");
         if(doPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
 
-        if(!Config.ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE.get()){
-            if(mustBeDefeatedInBattle){
-                entityNbt.putBoolean("Invulnerable", true);
-            }
+        if(Config.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE.get() || mustBeDefeatedInBattle){
+            entityNbt.putBoolean("Invulnerable", true);
         }
-
 
         CompoundTag spawnData = new CompoundTag();
         spawnData.put("entity", entityNbt);
