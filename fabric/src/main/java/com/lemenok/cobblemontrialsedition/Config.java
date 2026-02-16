@@ -32,13 +32,13 @@ public class Config implements ConfigData {
     @Comment("This allows Spawned Pokemon to be Catchable. If set to True, regardless of spawner settings, Pokemon will always be catchable.\" +\n" +
             "\"If set to false whether Spawned Pokemon can be catchable or not is left up to the Spawner's Settings.\" +\n" +
             "\"NOTE: This will only apply to newly created spawners.")
-    public boolean ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE = false;
+    public boolean SPAWNED_POKEMON_ARE_UNCATCHABLE = true;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This allows Spawned Pokemon to be defeated outside of battle. If set to true, regardless of spawner settings, Pokemon will be required to be defeated in battle.\" +\n" +
             "\"If set to false whether Spawned Pokemon can be defeated in battle or not is left up to the Spawner's Settings.\" +\n" +
             "\"NOTE: This will only apply to newly created spawners.")
-    public boolean ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE = false;
+    public boolean SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE = true;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This allows Spawned Pokemon to be Aggressive and attack players when spawned.\" +\n" +

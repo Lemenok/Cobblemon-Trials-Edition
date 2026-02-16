@@ -25,17 +25,17 @@ public class Config {
             .comment("Whether to replace any spawners that are not listed in configuration with a default spawner. If set to false, this will leave spawners that do not have custom spawn data created.")
             .define("replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners", true);
 
-    public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_CATCHABLE = BUILDER
+    public static final ModConfigSpec.BooleanValue SPAWNED_POKEMON_ARE_UNCATCHABLE = BUILDER
             .comment("This allows Spawned Pokemon to be Catchable. If set to True, regardless of spawner settings, Pokemon will always be catchable." +
                     "If set to false whether Spawned Pokemon can be catchable or not is left up to the Spawner's Settings." +
                     "NOTE: This will only apply to newly created spawners.")
-            .define("allowSpawnedPokemonToBeCatchable", false);
+            .define("spawnedPokemonAreUncatchable", true);
 
-    public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_DEFEATED_OUTSIDE_OF_BATTLE = BUILDER
+    public static final ModConfigSpec.BooleanValue SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE = BUILDER
             .comment("This allows Spawned Pokemon to be defeated outside of battle. If set to true, regardless of spawner settings, Pokemon will be required to be defeated in battle." +
                     "If set to false whether Spawned Pokemon can be defeated in battle or not is left up to the Spawner's Settings." +
                     "NOTE: This will only apply to newly created spawners.")
-            .define("allowSpawnedPokemonToBeDefeatedInBattle", false);
+            .define("spawnedPokemonMustBeDefeatedInBattle", true);
 
     public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = BUILDER
             .comment("This allows Spawned Pokemon to be Aggressive and attack players when spawned." +
