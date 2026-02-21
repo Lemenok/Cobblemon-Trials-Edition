@@ -19,70 +19,22 @@
       "listOfPokemonToSpawn": [{
           "species": "slugma",
           "weight": 80,
-          "form": "normal",
-          "level": 30,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "fire",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 30
         },
         {
           "species": "magmar",
           "weight": 20,
-          "form": "normal",
-          "level": 30,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "fire",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 30
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "magcargo",
           "weight": 80,
-          "form": "normal",
-          "level": 60,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "rock",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 60
         },
         {
           "species": "magmortar",
           "weight": 20,
-          "form": "normal",
-          "level": 60,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "fire",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 60
         }]
     }
   ]

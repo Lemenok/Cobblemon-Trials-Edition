@@ -19,70 +19,22 @@
       "listOfPokemonToSpawn": [{
           "species": "charcadet",
           "weight": 80,
-          "form": "normal",
-          "level": 25,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 25
         },
         {
           "species": "falinks",
           "weight": 20,
-          "form": "normal",
-          "level": 25,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "fighting",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 25
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "armarouge",
           "weight": 50,
-          "form": "normal",
-          "level": 50,
-          "gender": "MALE",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "psychic",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 50
         },
         {
           "species": "ceruledge",
           "weight": 50,
-          "form": "normal",
-          "level": 50,
-          "gender": "FEMALE",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "ghost",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 50
         }]
     }
   ]

@@ -19,70 +19,22 @@
       "listOfPokemonToSpawn": [{
           "species": "spinarak",
           "weight": 80,
-          "form": "normal",
-          "level": 20,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "bug",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 20
         },
         {
           "species": "joltik",
           "weight": 20,
-          "form": "normal",
-          "level": 20,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "bug",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 20
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "ariados",
           "weight": 80,
-          "form": "normal",
-          "level": 40,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "poison",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 40
         },
         {
           "species": "galvantula",
           "weight": 20,
-          "form": "normal",
-          "level": 40,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "poison",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 40
         }]
     }
   ]
