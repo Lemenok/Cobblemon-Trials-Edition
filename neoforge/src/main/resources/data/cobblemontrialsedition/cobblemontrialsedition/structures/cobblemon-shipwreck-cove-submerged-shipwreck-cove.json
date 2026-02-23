@@ -19,36 +19,12 @@
       "listOfPokemonToSpawn": [{
         "species": "carvanha",
         "weight": 80,
-        "form": "normal",
-        "level": 25,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 25
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "sharpedo",
         "weight": 50,
-        "form": "normal",
-        "level": 50,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 50
       }]
     },
     {
@@ -69,36 +45,12 @@
       "listOfPokemonToSpawn": [{
         "species": "tentacool",
         "weight": 80,
-        "form": "normal",
-        "level": 25,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "poison",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 25
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "tentacruel",
         "weight": 50,
-        "form": "normal",
-        "level": 50,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "poison",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 50
       }]
     }
   ]

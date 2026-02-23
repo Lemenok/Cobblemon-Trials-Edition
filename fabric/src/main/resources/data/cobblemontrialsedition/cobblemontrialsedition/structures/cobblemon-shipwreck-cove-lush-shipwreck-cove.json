@@ -19,36 +19,12 @@
       "listOfPokemonToSpawn": [{
           "species": "wingull",
           "weight": 80,
-          "form": "normal",
-          "level": 25,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "flying",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 25
         }],
       "listOfOminousPokemonToSpawn": [{
           "species": "pelipper",
           "weight": 50,
-          "form": "normal",
-          "level": 50,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "flying",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 50
         }]
     },
     {
@@ -69,36 +45,12 @@
       "listOfPokemonToSpawn": [{
         "species": "krabby",
         "weight": 80,
-        "form": "normal",
-        "level": 25,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 25
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "kingler",
         "weight": 50,
-        "form": "normal",
-        "level": 50,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 50
       }]
     },
     {
@@ -119,36 +71,12 @@
       "listOfPokemonToSpawn": [{
         "species": "dewpider",
         "weight": 80,
-        "form": "normal",
-        "level": 25,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 25
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "araquanid",
         "weight": 50,
-        "form": "normal",
-        "level": 50,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 50
       }]
     },
     {
@@ -169,36 +97,12 @@
       "listOfPokemonToSpawn": [{
         "species": "psyduck",
         "weight": 80,
-        "form": "normal",
-        "level": 25,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 25
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "golduck",
         "weight": 50,
-        "form": "normal",
-        "level": 50,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "water",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 50
       }]
     },
     {
@@ -219,36 +123,12 @@
       "listOfPokemonToSpawn": [{
         "species": "zubat",
         "weight": 80,
-        "form": "normal",
-        "level": 25,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "poison",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 25
       }],
       "listOfOminousPokemonToSpawn": [{
         "species": "golbat",
         "weight": 50,
-        "form": "normal",
-        "level": 50,
-        "gender": "",
-        "nature": "",
-        "defaultEVs": [],
-        "defaultIVs": [],
-        "ability": "",
-        "dynaMaxLevel": 0,
-        "teraType": "poison",
-        "isShiny": false,
-        "scaleModifier": 1,
-        "isUncatchable": true,
-        "mustBeDefeatedInBattle": true
+        "level": 50
       }]
     }
   ]

@@ -19,105 +19,33 @@
       "listOfPokemonToSpawn": [{
           "species": "lunatone",
           "weight": 40,
-          "form": "normal",
-          "level": 40,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "rock",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 40
         },
         {
           "species": "solrock",
           "weight": 40,
-          "form": "normal",
-          "level": 40,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "rock",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 40
         },
         {
           "species": "golett",
           "weight": 20,
-          "form": "normal",
-          "level": 40,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "ghost",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 40
         }],
       "listOfOminousPokemonToSpawn": [
         {
           "species": "lunatone",
           "weight": 40,
-          "form": "normal",
-          "level": 80,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "rock",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 80
         },
         {
           "species": "solrock",
           "weight": 40,
-          "form": "normal",
-          "level": 80,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "rock",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 80
         },
         {
           "species": "golurk",
           "weight": 50,
-          "form": "normal",
-          "level": 80,
-          "gender": "",
-          "nature": "",
-          "defaultEVs": [],
-          "defaultIVs": [],
-          "ability": "",
-          "dynaMaxLevel": 0,
-          "teraType": "ghost",
-          "isShiny": false,
-          "scaleModifier": 1,
-          "isUncatchable": true,
-          "mustBeDefeatedInBattle": true
+          "level": 80
         }]
     }
   ]
