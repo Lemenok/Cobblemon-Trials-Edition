@@ -56,13 +56,11 @@ Notes
 =======
 - Do NOT re-host the Cobblemon Trials Edition jar file for redistribution.
   - I will only host this mod on Curseforge and Modrinth, If you download or find this mod on another site, I have nothing to do with it and you should be cautious.
-- Can I Fork this mod?
-  - Only once I label this mod as "No Longer Supported" and credit is given.
 
 
 Additional Resources: 
 ==========
-Curseforge: https://modrinth.com/mod/cobblemon-trials-edition
-Modrinth: https://legacy.curseforge.com/minecraft/mc-mods/cobblemon-trials-edition
-Community Documentation: https://docs.neoforged.net/
-NeoForged Discord: https://discord.neoforged.net/
+Curseforge: https://modrinth.com/mod/cobblemon-trials-edition  
+Modrinth: https://legacy.curseforge.com/minecraft/mc-mods/cobblemon-trials-edition  
+Community Documentation: https://docs.neoforged.net/  
+NeoForged Discord: https://discord.neoforged.net/  
