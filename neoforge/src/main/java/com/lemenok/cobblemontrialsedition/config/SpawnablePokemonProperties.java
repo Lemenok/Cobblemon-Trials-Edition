@@ -95,10 +95,6 @@ public record SpawnablePokemonProperties(
             newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_is_aggressive", isAggressive);
         }
 
-        if(Config.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE.get() || mustBeDefeatedInBattle){
-            newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_must_be_defeated_in_battle", true);
-        }
-
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
         if(Config.SPAWNED_POKEMON_ARE_UNCATCHABLE.get() || isUncatchable){
@@ -114,6 +110,10 @@ public record SpawnablePokemonProperties(
         entityNbt.putString("id", "cobblemon:pokemon");
         entityNbt.putString("PoseType", "WALK");
         if(doPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
+
+        if(Config.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE.get() || mustBeDefeatedInBattle){
+            entityNbt.putBoolean("Invulnerable", true);
+        }
 
         CompoundTag spawnData = new CompoundTag();
         spawnData.put("entity", entityNbt);
