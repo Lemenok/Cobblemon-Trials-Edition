@@ -15,6 +15,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -232,7 +233,7 @@ public class ReplaceSpawners {
 
         try {
             // Grab Entity in spawner to specify which spawner to replace.
-            if(blockEntity instanceof SpawnerBlockEntity spawner){
+             if(blockEntity instanceof SpawnerBlockEntity spawner){
                 CompoundTag nbt = spawner.saveWithId(level.registryAccess());
                 if (!hasEntityData(nbt)) {
                     LOGGER.info("Empty spawner at {}, defaulting to zombie", blockEntity.getBlockPos());
@@ -270,7 +271,16 @@ public class ReplaceSpawners {
 
         if (nbt.contains("SpawnPotentials", CompoundTag.TAG_LIST)) {
             ListTag potentials = nbt.getList("SpawnPotentials", CompoundTag.TAG_COMPOUND);
-            return !potentials.isEmpty();
+
+            for(int i = 0; i < potentials.size(); i++) {
+                CompoundTag entry = potentials.getCompound(i);
+                CompoundTag data = entry.getCompound("data");
+                CompoundTag entity = data.getCompound("entity");
+
+                if (entity.contains("id", Tag.TAG_STRING)) {
+                    return true;
+                }
+            }
         }
 
         return false;
