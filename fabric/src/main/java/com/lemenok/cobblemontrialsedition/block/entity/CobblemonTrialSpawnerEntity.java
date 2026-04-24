@@ -9,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -73,7 +74,9 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
     }
 
     public void setEntityId(EntityType<?> entityType, RandomSource randomSource) {
-        this.cobblemonTrialSpawner.getData().setEntityId(this.cobblemonTrialSpawner, randomSource, entityType);
+        if(this.level instanceof ServerLevel serverLevel)
+
+        this.cobblemonTrialSpawner.getData().setEntityId(this.cobblemonTrialSpawner, randomSource, entityType, serverLevel);
         this.setChanged();
     }
 

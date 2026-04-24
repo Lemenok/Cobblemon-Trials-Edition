@@ -1,0 +1,52 @@
+{
+  "structureId": "minecraft:ancient_city",
+  "spawnerProperties": [
+    {
+      "blockEntityTypesToReplace": ["minecraft:sculk_shrieker"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:warden"],
+      "ticksBetweenSpawnAttempts": 40,
+      "spawnerCooldown": 36000,
+      "playerDetectionRange": 14,
+      "spawnRange": 4,
+      "maximumNumberOfSimultaneousPokemon": 2,
+      "maximumNumberOfSimultaneousPokemonAddedPerPlayer": 1,
+      "totalNumberOfPokemonPerTrial": 4,
+      "totalNumberOfPokemonPerTrialAddedPerPlayer": 1,
+      "lootTables": ["cobblemontrialsedition:stronghold"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-stronghold"],
+      "ominousSpawnerAttacksEnabled": false,
+      "doPokemonSpawnedGlow": true,
+      "listOfPokemonToSpawn": [{
+          "species": "lunatone",
+          "weight": 40,
+          "level": 40
+        },
+        {
+          "species": "solrock",
+          "weight": 40,
+          "level": 40
+        },
+        {
+          "species": "golett",
+          "weight": 20,
+          "level": 40
+        }],
+      "listOfOminousPokemonToSpawn": [
+        {
+          "species": "lunatone",
+          "weight": 40,
+          "level": 80
+        },
+        {
+          "species": "solrock",
+          "weight": 40,
+          "level": 80
+        },
+        {
+          "species": "golurk",
+          "weight": 50,
+          "level": 80
+        }]
+    }
+  ]
+}

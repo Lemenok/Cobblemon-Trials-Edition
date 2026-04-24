@@ -23,10 +23,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
-import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -91,10 +88,18 @@ public class ReplaceSpawners {
                 return true;
             }
         }
-        else if(blockEntity instanceof TrialSpawnerBlockEntity && modConfig.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
+        if(blockEntity instanceof TrialSpawnerBlockEntity && modConfig.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
             if(modConfig.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()){
                 if(modConfig.ENABLE_DEBUG_LOGS)
                     LOGGER.info("Skipped replacement of Trial Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+
+        if(blockEntity instanceof SculkShriekerBlockEntity && modConfig.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE){
+            if(modConfig.SHRIEKER_REPLACEMENT_PERCENTAGE <= Math.random()) {
+                if (modConfig.ENABLE_DEBUG_LOGS)
+                    LOGGER.info("Skipped replacement of Sculk Shrieker at: {}", blockEntity.getBlockPos());
                 return true;
             }
         }
@@ -198,7 +203,7 @@ public class ReplaceSpawners {
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setTargetCooldownLength(newSpawnerProperties.spawnerCooldown());
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setRequiredPlayerRange(newSpawnerProperties.playerDetectionRange());
-            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
+            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create(), serverLevel);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().markUpdated();
             cobblemonTrialSpawnerEntity.markUpdated();
 
@@ -243,6 +248,10 @@ public class ReplaceSpawners {
                 if (displayEntity != null) {
                     return displayEntity.getType();
                 }
+            }
+
+            if(blockEntity instanceof SculkShriekerBlockEntity){
+                spawnerEntityType = EntityType.WARDEN;
             }
 
             if(blockEntity instanceof TrialSpawnerBlockEntity){

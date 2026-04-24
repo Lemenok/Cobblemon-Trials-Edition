@@ -195,7 +195,7 @@ public class CobblemonTrialSpawner {
 
     public Optional<UUID> spawnMob(ServerLevel serverLevel, BlockPos blockPos) {
         RandomSource randomsource = serverLevel.getRandom();
-        SpawnData spawndata = this.data.getOrCreateNextSpawnData(this, serverLevel.getRandom());
+        SpawnData spawndata = this.data.getOrCreateNextSpawnData(this, serverLevel.getRandom(), serverLevel);
         CompoundTag compoundtag = spawndata.entityToSpawn();
         ListTag listtag = compoundtag.getList("Pos", 6);
         Optional<EntityType<?>> optional = EntityType.by(compoundtag);

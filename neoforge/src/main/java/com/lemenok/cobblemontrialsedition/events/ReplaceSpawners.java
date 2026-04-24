@@ -20,9 +20,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SculkShriekerBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
@@ -236,6 +238,10 @@ public class ReplaceSpawners {
                 if (displayEntity != null) {
                     return displayEntity.getType();
                 }
+            }
+
+            if(blockEntity instanceof SculkShriekerBlockEntity shrieker){
+                spawnerEntityType = EntityType.WARDEN;
             }
 
             if(blockEntity instanceof TrialSpawnerBlockEntity){
