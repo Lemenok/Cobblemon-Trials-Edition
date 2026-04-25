@@ -63,7 +63,7 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
                 if (!cobblemonTrialSpawner.canSpawnInLevel(serverLevel)) {
                     cobblemonTrialSpawnerData.reset();
                     cobblemonTrialSpawnerState = this;
-                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(cobblemonTrialSpawner, serverLevel.random)) {
+                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(cobblemonTrialSpawner, serverLevel.random, serverLevel)) {
                     cobblemonTrialSpawnerState = INACTIVE;
                 } else {
                     cobblemonTrialSpawnerData.tryDetectPlayers(serverLevel, blockPos, cobblemonTrialSpawner);
@@ -74,7 +74,7 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
                 if (!cobblemonTrialSpawner.canSpawnInLevel(serverLevel)) {
                     cobblemonTrialSpawnerData.reset();
                     cobblemonTrialSpawnerState = WAITING_FOR_PLAYERS;
-                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(cobblemonTrialSpawner, serverLevel.random)) {
+                } else if (!cobblemonTrialSpawnerData.hasMobToSpawn(cobblemonTrialSpawner, serverLevel.random, serverLevel)) {
                     cobblemonTrialSpawnerState = INACTIVE;
                 } else {
                     int i = cobblemonTrialSpawnerData.countAdditionalPlayers(blockPos);

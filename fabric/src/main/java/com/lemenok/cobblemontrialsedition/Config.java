@@ -81,7 +81,7 @@ public class Config implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")
-    public boolean ENABLE_POKEMON_LEVEL_ADJUSTMENT = true;
+    public boolean ENABLE_POKEMON_LEVEL_ADJUSTMENT = false;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This will determine the type of level adjustment the pokemon will have. Valid values are AVERAGE or MEDIAN. These values are calculated from \" +\n" +

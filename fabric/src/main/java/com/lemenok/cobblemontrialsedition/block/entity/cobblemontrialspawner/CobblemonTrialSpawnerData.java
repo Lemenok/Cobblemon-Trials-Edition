@@ -76,7 +76,7 @@ public class CobblemonTrialSpawnerData {
     private SimpleWeightedRandomList<ItemStack> dispensing;
     protected double spin;
     protected double oSpin;
-    private Config modConfig;
+    private final Config modConfig;
 
     public CobblemonTrialSpawnerData() {
         this(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.empty(), Optional.empty());
@@ -245,20 +245,6 @@ public class CobblemonTrialSpawnerData {
                 .putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(entityType).toString());
     }
 
-    /*public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource) {
-        if (this.nextSpawnData.isPresent()) {
-            //ApplySpawnVariance
-            return this.nextSpawnData.get();
-        } else {
-            SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition();
-            Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
-            this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
-
-            cobblemonTrialSpawner.markUpdated();
-            return this.nextSpawnData.get();
-        }
-    }*/
-
     public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, ServerLevel level) {
         if (this.nextSpawnData.isPresent()) {
             if(modConfig.ENABLE_POKEMON_LEVEL_ADJUSTMENT){
@@ -295,6 +281,11 @@ public class CobblemonTrialSpawnerData {
 
         for(UUID uuid : detectedPlayers) {
             ServerPlayer serverPlayer = serverLevel.getServer().getPlayerList().getPlayer(uuid);
+
+            if(serverPlayer == null){
+                return this.nextSpawnData;
+            }
+
             PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(serverPlayer);
 
             party.spliterator().forEachRemaining(pokemon -> {
@@ -350,18 +341,10 @@ public class CobblemonTrialSpawnerData {
     @Nullable
     public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner cobblemonTrialSpawner,
                                               Level level, CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
-        if (!cobblemonTrialSpawnerState.hasSpinningMob()) {
-            return null;
-        } else {
-            if (this.displayItem == null) {
-                if (isOminous)
-                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
-                else
-                    this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
-            }
-
-            return this.displayItem;
-        }
+        if (isOminous)
+            return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
+        else
+            return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
     }
 
     public CompoundTag getUpdateTag(CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {

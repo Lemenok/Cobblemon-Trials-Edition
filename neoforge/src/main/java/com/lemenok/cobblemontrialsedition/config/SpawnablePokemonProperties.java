@@ -74,6 +74,8 @@ public record SpawnablePokemonProperties(
         PokemonProperties newPokemonProperties = getSpawnablePokemonProperties();
         Pokemon newPokemon = newPokemonProperties.create();
 
+        newPokemon.getPersistentData().putBoolean("is_spawned_from_trial_spawner", true);
+
         List<SpeciesFeature> speciesFeature = new ArrayList<>();
         speciesFeature.add(new FlagSpeciesFeature(form,true));
 

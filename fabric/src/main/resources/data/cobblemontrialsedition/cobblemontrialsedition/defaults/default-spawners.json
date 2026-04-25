@@ -2064,27 +2064,27 @@
     {
       "blockEntityTypesToReplace": ["minecraft:sculk_shrieker"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:warden"],
-      "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
+      "lootTables": ["cobblemontrialsedition:shrieker-default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-shrieker-default-mob-spawner"],
       "listOfPokemonToSpawn": [{
-        "species": "zubat",
+        "species": "golett",
         "weight": 50,
-        "level": 20
+        "level": 50
       },
         {
-          "species": "woobat",
+          "species": "misdreavus",
           "weight": 50,
-          "level": 20
+          "level": 50
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "golbat",
+        "species": "golurk",
         "weight": 50,
-        "level": 40
+        "level": 75
       },
         {
-          "species": "swoobat",
+          "species": "mismagius",
           "weight": 50,
-          "level": 40
+          "level": 75
         }]
     }
   ]

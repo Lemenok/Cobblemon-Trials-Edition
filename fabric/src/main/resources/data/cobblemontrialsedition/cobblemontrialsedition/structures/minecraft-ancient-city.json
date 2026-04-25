@@ -6,39 +6,39 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:warden"],
       "ticksBetweenSpawnAttempts": 40,
       "spawnerCooldown": 36000,
-      "playerDetectionRange": 14,
+      "playerDetectionRange": 7,
       "spawnRange": 4,
       "maximumNumberOfSimultaneousPokemon": 2,
       "maximumNumberOfSimultaneousPokemonAddedPerPlayer": 1,
       "totalNumberOfPokemonPerTrial": 4,
       "totalNumberOfPokemonPerTrialAddedPerPlayer": 1,
-      "lootTables": ["cobblemontrialsedition:stronghold"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-stronghold"],
+      "lootTables": ["cobblemontrialsedition:ancient-city"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-ancient-city"],
       "ominousSpawnerAttacksEnabled": false,
       "doPokemonSpawnedGlow": true,
       "listOfPokemonToSpawn": [{
-          "species": "lunatone",
+          "species": "spiritomb",
           "weight": 40,
-          "level": 40
+          "level": 55
         },
         {
-          "species": "solrock",
+          "species": "noibat",
           "weight": 40,
-          "level": 40
+          "level": 55
         },
         {
           "species": "golett",
-          "weight": 20,
-          "level": 40
+          "weight": 50,
+          "level": 55
         }],
       "listOfOminousPokemonToSpawn": [
         {
-          "species": "lunatone",
+          "species": "spiritomb",
           "weight": 40,
           "level": 80
         },
         {
-          "species": "solrock",
+          "species": "noivern",
           "weight": 40,
           "level": 80
         },

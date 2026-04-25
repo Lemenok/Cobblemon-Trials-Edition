@@ -38,9 +38,9 @@ public class Config {
             .define("spawnedPokemonMustBeDefeatedInBattle", true);
 
     public static final ModConfigSpec.BooleanValue ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = BUILDER
-            .comment("This allows Spawned Pokemon to be Aggressive and attack players when spawned." +
-                    "If set to true whether Spawned Pokemon can be aggressive or not is left up to the Pokemon's Settings." +
-                    "NOTE: This will only apply to newly created spawners.")
+            .comment("This allows Spawned Pokemon to be Aggressive and attack players when spawned.\" +\n" +
+                    "\"Whether Spawned Pokemon can be aggressive or not if Fight or Flight is installed. Both this setting and 'Attack Players Unprovoked' in Fight or Flight must be set to true.\" +\n" +
+                    "\"NOTE: This will only apply to newly created spawners.")
             .define("allowSpawnedPokemonToBeAggressive", true);
 
     public static final ModConfigSpec.BooleanValue REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE = BUILDER
@@ -50,8 +50,8 @@ public class Config {
             .define("replaceMobSpawnersBasedOnPercentage", false);
 
     public static final ModConfigSpec.DoubleValue MOB_SPAWNER_REPLACEMENT_PERCENTAGE = BUILDER
-            .comment("This is what percentage (0.0 - 1.0) Mob Spawners will be replaced, eg: .75 will mean 75% of the mob spawners on average will be replaced." +
-                    "NOTE: This will only apply in newly generated chunks.")
+            .comment("This is what percentage (0.0 - 1.0) Mob Spawners will be replaced, eg: .75 will mean 75% of each trial spawner within a structure will be replaced.\" +\n" +
+                    "\"NOTE: This will only apply in newly generated chunks.")
             .defineInRange("mobSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
 
     public static final ModConfigSpec.BooleanValue REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE = BUILDER
@@ -61,9 +61,29 @@ public class Config {
             .define("replaceTrialSpawnersBasedOnPercentage", false);
 
     public static final ModConfigSpec.DoubleValue TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = BUILDER
-            .comment("This is what percentage (0.0 - 1.0) Trial Spawners will be replaced, eg: .75 will mean 75% of the trial spawners on average will be replaced." +
-                    "NOTE: This will only apply in newly generated chunks.")
+            .comment("This is what percentage (0.0 - 1.0) Trial Spawners will be replaced, eg: .75 will mean 75% of each trial spawner within a structure will be replaced.\" +\n" +
+                    "\"NOTE: This will only apply in newly generated chunks.")
             .defineInRange("trialSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
+
+    public static final ModConfigSpec.BooleanValue REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE = BUILDER
+            .comment("This allows Percentage based control of Sculk Shrieker replacement.\" +\n" +
+                    "\"If set to true this will use the Trial Spawner Replacement Percentage to determine how often a Sculk Shrieker should be replaced.\" +\n" +
+                    "\"NOTE: This will only apply in newly generated chunks.")
+            .define("replaceShriekersBasedOnPercentage", false);
+
+    public static final ModConfigSpec.DoubleValue SHRIEKER_REPLACEMENT_PERCENTAGE = BUILDER
+            .comment("This is what percentage (0.0 - 1.0) Sculk Shriekers will be replaced, eg: .75 will mean 75% of each Sculk Shriekers within a structure will be replaced.\" +\n" +
+                    "\"NOTE: This will only apply in newly generated chunks.")
+            .defineInRange("shriekerReplacementPercentage", 0.0, 0.0, 1.0);
+
+    public static final ModConfigSpec.BooleanValue ENABLE_POKEMON_LEVEL_ADJUSTMENT = BUILDER
+            .comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")
+            .define("enablePokemonLevelAdjustment", false);
+
+    public static final ModConfigSpec.ConfigValue<String> POKEMON_LEVEL_ADJUSTMENT_TYPE = BUILDER
+            .comment("This will determine the type of level adjustment the pokemon will have. Valid values are AVERAGE or MEDIAN. These values are calculated from \" +\n" +
+                    "\"all pokemon in each players party within range of the spawner. Default is AVERAGE, unknown values will default to AVERAGE.")
+            .define("pokemonLevelAdjustmentType", "AVERAGE");
 
     static final ModConfigSpec SPEC = BUILDER.build();
 

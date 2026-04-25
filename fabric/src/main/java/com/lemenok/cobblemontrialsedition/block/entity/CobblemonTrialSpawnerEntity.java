@@ -75,8 +75,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
 
     public void setEntityId(EntityType<?> entityType, RandomSource randomSource) {
         if(this.level instanceof ServerLevel serverLevel)
-
-        this.cobblemonTrialSpawner.getData().setEntityId(this.cobblemonTrialSpawner, randomSource, entityType, serverLevel);
+            this.cobblemonTrialSpawner.getData().setEntityId(this.cobblemonTrialSpawner, randomSource, entityType, serverLevel);
         this.setChanged();
     }
 

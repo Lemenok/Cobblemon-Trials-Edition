@@ -88,10 +88,18 @@ public class ReplaceSpawners {
                 return true;
             }
         }
-        else if(blockEntity instanceof TrialSpawnerBlockEntity && Config.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE.get()){
+
+        if(blockEntity instanceof TrialSpawnerBlockEntity && Config.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE.get()){
             if(Config.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE.get() <= Math.random()){
                 if(Config.ENABLE_DEBUG_LOGS.get())
                     LOGGER.info("Skipped replacement of Trial Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+        if(blockEntity instanceof SculkShriekerBlockEntity && Config.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE.get()){
+            if(Config.SHRIEKER_REPLACEMENT_PERCENTAGE.get() <= Math.random()) {
+                if (Config.ENABLE_DEBUG_LOGS.get())
+                    LOGGER.info("Skipped replacement of Sculk Shrieker at: {}", blockEntity.getBlockPos());
                 return true;
             }
         }
@@ -196,7 +204,7 @@ public class ReplaceSpawners {
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setTargetCooldownLength(newSpawnerProperties.spawnerCooldown());
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setRequiredPlayerRange(newSpawnerProperties.playerDetectionRange());
-            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
+            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create(), serverLevel);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().markUpdated();
             cobblemonTrialSpawnerEntity.markUpdated();
 
