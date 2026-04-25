@@ -48,7 +48,10 @@ public class SpawnerReplacementHandler {
             }
         }
 
-        List<BlockEntity> listOfShriekers = scanChunkForShriekers(chunk);
+        List<BlockEntity> listOfShriekers = new ArrayList<>();
+
+        if(Config.REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS.get())
+            listOfShriekers = scanChunkForShriekers(chunk);
 
         List<BlockEntity> listOfBlockEntities =
                 Stream.concat(listOfSpawnerEntities.stream(),listOfShriekers.stream()).toList();
@@ -89,7 +92,8 @@ public class SpawnerReplacementHandler {
 
                             listOfShriekers.add(new SculkShriekerBlockEntity(foundPos, state));
 
-                            LOGGER.info("Found shrieker at: {}", foundPos);
+                            if(Config.ENABLE_DEBUG_LOGS.get())
+                                LOGGER.info("Found shrieker at: {}", foundPos);
                         }
                     }
                 }

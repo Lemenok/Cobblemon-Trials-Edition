@@ -25,6 +25,10 @@ public class Config {
             .comment("Whether to replace any spawners that are not listed in configuration with a default spawner. If set to false, this will leave spawners that do not have custom spawn data created.")
             .define("replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners", true);
 
+    public static final ModConfigSpec.BooleanValue REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS = BUILDER
+            .comment("Whether to replace any Skulk Shriekers with Cobblemon Trial Spawners.")
+            .define("replaceAnySkulkShriekersWithCobblemonSpawners", true);
+
     public static final ModConfigSpec.BooleanValue SPAWNED_POKEMON_ARE_UNCATCHABLE = BUILDER
             .comment("This allows Spawned Pokemon to be Catchable. If set to True, regardless of spawner settings, Pokemon will always be catchable." +
                     "If set to false whether Spawned Pokemon can be catchable or not is left up to the Spawner's Settings." +
