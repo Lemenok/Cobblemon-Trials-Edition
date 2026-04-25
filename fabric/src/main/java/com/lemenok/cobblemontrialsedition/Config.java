@@ -29,6 +29,10 @@ public class Config implements ConfigData {
     public boolean REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = true;
 
     @ConfigEntry.Gui.Tooltip
+    @Comment("Whether to replace any Skulk Shriekers with Cobblemon Trial Spawners.")
+    public boolean REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS = true;
+
+    @ConfigEntry.Gui.Tooltip
     @Comment("This allows Spawned Pokemon to be Catchable. If set to True, regardless of spawner settings, Pokemon will always be catchable.\" +\n" +
             "\"If set to false whether Spawned Pokemon can be catchable or not is left up to the Spawner's Settings.\" +\n" +
             "\"NOTE: This will only apply to newly created spawners.")
