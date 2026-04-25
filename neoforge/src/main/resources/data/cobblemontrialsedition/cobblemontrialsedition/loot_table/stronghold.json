@@ -25,7 +25,7 @@
               "count": {
                 "type": "minecraft:uniform",
                 "max": 3.0,
-                "min": 1.0
+                "min": 2.0
               },
               "function": "minecraft:set_count"
             }
@@ -38,7 +38,7 @@
           "functions": [
             {
               "add": false,
-              "count": 1.0,
+              "count": 2.0,
               "function": "minecraft:set_count"
             }
           ],
@@ -46,7 +46,7 @@
           "weight": 2
         }
       ],
-      "rolls": 1.0
+      "rolls": 2.0
     },
     {
       "bonus_rolls": 0.0,

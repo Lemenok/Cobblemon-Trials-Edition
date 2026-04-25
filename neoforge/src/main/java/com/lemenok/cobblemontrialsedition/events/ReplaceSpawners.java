@@ -14,14 +14,17 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SculkShriekerBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
@@ -85,10 +88,18 @@ public class ReplaceSpawners {
                 return true;
             }
         }
-        else if(blockEntity instanceof TrialSpawnerBlockEntity && Config.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE.get()){
+
+        if(blockEntity instanceof TrialSpawnerBlockEntity && Config.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE.get()){
             if(Config.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE.get() <= Math.random()){
                 if(Config.ENABLE_DEBUG_LOGS.get())
                     LOGGER.info("Skipped replacement of Trial Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+        if(blockEntity instanceof SculkShriekerBlockEntity && Config.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE.get()){
+            if(Config.SHRIEKER_REPLACEMENT_PERCENTAGE.get() <= Math.random()) {
+                if (Config.ENABLE_DEBUG_LOGS.get())
+                    LOGGER.info("Skipped replacement of Sculk Shrieker at: {}", blockEntity.getBlockPos());
                 return true;
             }
         }
@@ -193,7 +204,7 @@ public class ReplaceSpawners {
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setTargetCooldownLength(newSpawnerProperties.spawnerCooldown());
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setRequiredPlayerRange(newSpawnerProperties.playerDetectionRange());
-            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
+            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create(), serverLevel);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().markUpdated();
             cobblemonTrialSpawnerEntity.markUpdated();
 
@@ -237,6 +248,10 @@ public class ReplaceSpawners {
                 }
             }
 
+            if(blockEntity instanceof SculkShriekerBlockEntity shrieker){
+                spawnerEntityType = EntityType.WARDEN;
+            }
+
             if(blockEntity instanceof TrialSpawnerBlockEntity){
                 spawnerEntityType = getEntityTypeFromTrialSpawner(Objects.requireNonNull(((TrialSpawnerBlockEntity) blockEntity).getTrialSpawner()));
             }
@@ -263,7 +278,16 @@ public class ReplaceSpawners {
 
         if (nbt.contains("SpawnPotentials", CompoundTag.TAG_LIST)) {
             ListTag potentials = nbt.getList("SpawnPotentials", CompoundTag.TAG_COMPOUND);
-            return !potentials.isEmpty();
+
+            for(int i = 0; i < potentials.size(); i++) {
+                CompoundTag entry = potentials.getCompound(i);
+                CompoundTag data = entry.getCompound("data");
+                CompoundTag entity = data.getCompound("entity");
+
+                if (entity.contains("id", Tag.TAG_STRING)) {
+                    return true;
+                }
+            }
         }
 
         return false;

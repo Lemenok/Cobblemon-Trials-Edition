@@ -21,7 +21,12 @@
   "cobblemontrialsedition.configuration.mobSpawnerReplacementPercentage": "Mob Spawner Replacement Percentage",
   "cobblemontrialsedition.configuration.replaceTrialSpawnersBasedOnPercentage": "Replace Trial Spawners Based on Percentage",
   "cobblemontrialsedition.configuration.trialSpawnerReplacementPercentage": "Trial Spawner Replacement Percentage",
+  "cobblemontrialsedition.configuration.replaceShriekersBasedOnPercentage": "Replace Sculk Shriekers Based on Percentage",
+  "cobblemontrialsedition.configuration.shriekerReplacementPercentage": "Sculk Shrieker Replacement Percentage",
+  "cobblemontrialsedition.configuration.enablePokemonLevelAdjustment": "Enable Pokemon Level Adjustment",
+  "cobblemontrialsedition.configuration.pokemonLevelAdjustmentType": "Pokemon Level Adjustment Type",
 
+  "cobblemontrialsedition.configuration.enableDebugLogs.tooltip": "This will show extra information for spawner replacement including the pokemon, location, and types of entity blocks replaced.",
   "cobblemontrialsedition.configuration.replaceGeneratedSpawnersWithCobblemonSpawners.tooltip": "Whether to do any spawner replacement at all. If set to false, this will disable all spawner replacement.",
   "cobblemontrialsedition.configuration.replaceSpawnersInStructuresWithCobblemonSpawners.tooltip": "Whether to do any spawner replacement in structures. If set to false, this will disable all spawner replacement in structures.",
   "cobblemontrialsedition.configuration.replaceSpawnersInFeaturesWithCobblemonSpawners.tooltip": "Whether to do any spawner replacement in Features. If set to false, this will disable the spawner replacement for any spawners in features (eg. Monster_Rooms)",
@@ -33,6 +38,10 @@
   "cobblemontrialsedition.configuration.mobSpawnerReplacementPercentage.tooltip": "This is what percentage (0.0 - 1.0) Mob Spawners will be replaced, eg: .75 will mean 75% of the mob spawners on average will be replaced. NOTE: This will only apply in newly generated chunks.",
   "cobblemontrialsedition.configuration.replaceTrialSpawnersBasedOnPercentage.tooltip": "This allows Percentage based control of trial spawner replacement. If set to true this will use the Trial Spawner Replacement Percentage to determine how often a trial spawner should be replaced. NOTE: This will only apply in newly generated chunks.",
   "cobblemontrialsedition.configuration.trialSpawnerReplacementPercentage.tooltip": "This is what percentage (0.0 - 1.0) Trial Spawners will be replaced, eg: .75 will mean 75% of the trial spawners on average will be replaced. NOTE: This will only apply in newly generated chunks.",
+  "cobblemontrialsedition.configuration.replaceShriekersBasedOnPercentage.tooltip": "This allows Percentage based control of Sculk Shrieker replacement. If set to true this will use the Trial Spawner Replacement Percentage to determine how often a Sculk Shrieker should be replaced. NOTE: This will only apply in newly generated chunks.",
+  "cobblemontrialsedition.configuration.shriekerReplacementPercentage.tooltip": "This is what percentage (0.0 - 1.0) Sculk Shriekers will be replaced, eg: .75 will mean 75% of each Sculk Shriekers within a structure will be replaced. NOTE: This will only apply in newly generated chunks.",
+  "cobblemontrialsedition.configuration.enablePokemonLevelAdjustment.tooltip": "This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.",
+  "cobblemontrialsedition.configuration.pokemonLevelAdjustmentType.tooltip": "This will determine the type of level adjustment the pokemon will have. Valid values are AVERAGE or MEDIAN. These values are calculated from all pokemon in each players party within range of the spawner. Default is AVERAGE, unknown values will default to AVERAGE.",
 
   "item.minecraft.potion.effect.trial_potion": "Trial Potion",
   "item.minecraft.splash_potion.effect.trial_potion": "Trial Splash Potion",

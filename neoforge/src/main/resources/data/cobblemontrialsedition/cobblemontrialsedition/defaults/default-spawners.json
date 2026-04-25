@@ -63,21 +63,21 @@
         "weight": 50,
         "level": 20
       },
-        {
-          "species": "charcadet",
-          "weight": 50,
-          "level": 20
-        }],
+      {
+        "species": "charcadet",
+        "weight": 50,
+        "level": 20
+      }],
       "listOfOminousPokemonToSpawn": [{
         "species": "magmar",
         "weight": 50,
         "level": 40
       },
-        {
-          "species": "armarouge",
-          "weight": 50,
-          "level": 40
-        }]
+      {
+        "species": "armarouge",
+        "weight": 50,
+        "level": 40
+      }]
     },
     {
       "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
@@ -115,21 +115,21 @@
         "weight": 50,
         "level": 20
       },
-        {
-          "species": "foongus",
-          "weight": 50,
-          "level": 20
-        }],
+      {
+        "species": "foongus",
+        "weight": 50,
+        "level": 20
+      }],
       "listOfOminousPokemonToSpawn": [{
         "species": "vileplume",
         "weight": 50,
         "level": 40
       },
-        {
-          "species": "amoonguss",
-          "weight": 50,
-          "level": 40
-        }]
+      {
+        "species": "amoonguss",
+        "weight": 50,
+        "level": 40
+      }]
     },
     {
       "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
@@ -2059,6 +2059,32 @@
           "species": "garbodor",
           "weight": 50,
           "level": 40
+        }]
+    },
+    {
+      "blockEntityTypesToReplace": ["minecraft:sculk_shrieker"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:warden"],
+      "lootTables": ["cobblemontrialsedition:shrieker-default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-shrieker-default-mob-spawner"],
+      "listOfPokemonToSpawn": [{
+        "species": "golett",
+        "weight": 50,
+        "level": 50
+      },
+        {
+          "species": "misdreavus",
+          "weight": 50,
+          "level": 50
+        }],
+      "listOfOminousPokemonToSpawn": [{
+        "species": "golurk",
+        "weight": 50,
+        "level": 75
+      },
+        {
+          "species": "mismagius",
+          "weight": 50,
+          "level": 75
         }]
     }
   ]

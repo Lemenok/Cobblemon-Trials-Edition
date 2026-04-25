@@ -15,6 +15,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -22,10 +23,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
-import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -90,10 +88,18 @@ public class ReplaceSpawners {
                 return true;
             }
         }
-        else if(blockEntity instanceof TrialSpawnerBlockEntity && modConfig.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
+        if(blockEntity instanceof TrialSpawnerBlockEntity && modConfig.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
             if(modConfig.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()){
                 if(modConfig.ENABLE_DEBUG_LOGS)
                     LOGGER.info("Skipped replacement of Trial Spawner at: {}", blockEntity.getBlockPos());
+                return true;
+            }
+        }
+
+        if(blockEntity instanceof SculkShriekerBlockEntity && modConfig.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE){
+            if(modConfig.SHRIEKER_REPLACEMENT_PERCENTAGE <= Math.random()) {
+                if (modConfig.ENABLE_DEBUG_LOGS)
+                    LOGGER.info("Skipped replacement of Sculk Shrieker at: {}", blockEntity.getBlockPos());
                 return true;
             }
         }
@@ -197,7 +203,7 @@ public class ReplaceSpawners {
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setTargetCooldownLength(newSpawnerProperties.spawnerCooldown());
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setRequiredPlayerRange(newSpawnerProperties.playerDetectionRange());
-            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
+            cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create(), serverLevel);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().markUpdated();
             cobblemonTrialSpawnerEntity.markUpdated();
 
@@ -232,7 +238,7 @@ public class ReplaceSpawners {
 
         try {
             // Grab Entity in spawner to specify which spawner to replace.
-            if(blockEntity instanceof SpawnerBlockEntity spawner){
+             if(blockEntity instanceof SpawnerBlockEntity spawner){
                 CompoundTag nbt = spawner.saveWithId(level.registryAccess());
                 if (!hasEntityData(nbt)) {
                     LOGGER.info("Empty spawner at {}, defaulting to zombie", blockEntity.getBlockPos());
@@ -242,6 +248,10 @@ public class ReplaceSpawners {
                 if (displayEntity != null) {
                     return displayEntity.getType();
                 }
+            }
+
+            if(blockEntity instanceof SculkShriekerBlockEntity){
+                spawnerEntityType = EntityType.WARDEN;
             }
 
             if(blockEntity instanceof TrialSpawnerBlockEntity){
@@ -270,7 +280,16 @@ public class ReplaceSpawners {
 
         if (nbt.contains("SpawnPotentials", CompoundTag.TAG_LIST)) {
             ListTag potentials = nbt.getList("SpawnPotentials", CompoundTag.TAG_COMPOUND);
-            return !potentials.isEmpty();
+
+            for(int i = 0; i < potentials.size(); i++) {
+                CompoundTag entry = potentials.getCompound(i);
+                CompoundTag data = entry.getCompound("data");
+                CompoundTag entity = data.getCompound("entity");
+
+                if (entity.contains("id", Tag.TAG_STRING)) {
+                    return true;
+                }
+            }
         }
 
         return false;

@@ -1,6 +1,9 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
+import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.google.common.collect.Sets;
+import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -19,6 +22,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -95,8 +99,8 @@ public class CobblemonTrialSpawnerData {
         this.nextSpawnData = Optional.empty();
     }
 
-    public boolean hasMobToSpawn(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource) {
-        boolean isEntityAvailableForSpawn = this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource).getEntityToSpawn().contains("id", 8);
+    public boolean hasMobToSpawn(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, ServerLevel serverLevel) {
+        boolean isEntityAvailableForSpawn = this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource, serverLevel).getEntityToSpawn().contains("id", 8);
         return isEntityAvailableForSpawn || !cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition().isEmpty();
     }
 
@@ -229,42 +233,111 @@ public class CobblemonTrialSpawnerData {
         return serverLevel.getGameTime() >= this.cooldownEndsAt;
     }
 
-    public void setEntityId(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, EntityType<?> entityType) {
-        this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource).getEntityToSpawn()
+    public void setEntityId(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, EntityType<?> entityType, ServerLevel serverLevel) {
+        this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource, serverLevel).getEntityToSpawn()
                 .putString("id", BuiltInRegistries.ENTITY_TYPE.getKey(entityType).toString());
     }
 
-    public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource) {
+    public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, ServerLevel level) {
         if (this.nextSpawnData.isPresent()) {
-            //ApplySpawnVariance
-            return this.nextSpawnData.get();
+            if(Config.ENABLE_POKEMON_LEVEL_ADJUSTMENT.get()){
+                return CalculateLevelFromNearbyPlayers(this.nextSpawnData, level, cobblemonTrialSpawner).get();
+            }
+            else {
+                return this.nextSpawnData.get();
+            }
+
         } else {
             SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition();
             Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
-            this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
+
+            // Check if we should apply LeveL adjustment based on nearby players.
+            if(Config.ENABLE_POKEMON_LEVEL_ADJUSTMENT.get()){
+                this.nextSpawnData = CalculateLevelFromNearbyPlayers(Optional.of(optional.orElseGet(SpawnData::new)), level, cobblemonTrialSpawner);
+            }
+            else {
+                this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
+            }
+
             cobblemonTrialSpawner.markUpdated();
             return this.nextSpawnData.get();
         }
     }
 
+    private Optional<SpawnData> CalculateLevelFromNearbyPlayers(Optional<SpawnData> nextSpawnData, ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
+        if(serverLevel == null){
+            return this.nextSpawnData;
+        }
+
+        List<Integer> listOfLevels = new ArrayList<>();
+        var detectedPlayers = cobblemonTrialSpawner.getData().detectedPlayers;
+
+        for(UUID uuid : detectedPlayers) {
+            ServerPlayer serverPlayer = serverLevel.getServer().getPlayerList().getPlayer(uuid);
+
+            if(serverPlayer == null){
+                return this.nextSpawnData;
+            }
+
+            PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(serverPlayer);
+
+            party.spliterator().forEachRemaining(pokemon -> {
+                listOfLevels.add(pokemon.getLevel());
+            });
+        }
+
+        // Active Players have no Pokemon in party.
+        if(listOfLevels.isEmpty())
+            return nextSpawnData;
+
+        int calculatedLevel;
+
+        // Calculate Median among all player Pokemon
+        if(Objects.equals(Config.POKEMON_LEVEL_ADJUSTMENT_TYPE.get(), "MEDIAN")) calculatedLevel = CalculateMedian(listOfLevels);
+            // Calculate Average among all player Pokemon
+        else if (Objects.equals(Config.POKEMON_LEVEL_ADJUSTMENT_TYPE.get(), "AVERAGE")) calculatedLevel = CalculateAverage(listOfLevels);
+            // Other Values default to Average.
+        else calculatedLevel = CalculateAverage(listOfLevels);
+
+        // Update spawn data with calculated Pokemon level.
+        nextSpawnData.ifPresent(spawnData -> {
+            CompoundTag nbt = spawnData.entityToSpawn();
+            CompoundTag pokemonTag = nbt.getCompound("Pokemon");
+            pokemonTag.putInt("Level", calculatedLevel);
+            nbt.put("Pokemon", pokemonTag);
+        });
+
+        return nextSpawnData;
+    }
+
+    private int CalculateMedian(List<Integer> listOfLevels) {
+        int size = listOfLevels.size();
+        if (size % 2 != 0) {
+            // If Odd number of elements the middle element
+            return listOfLevels.get(size / 2);
+        } else {
+            // If Even number of elements the average of the two middle elements
+            return (int) ((listOfLevels.get(size / 2 - 1) + listOfLevels.get(size / 2)) / 2.0);
+        }
+    }
+
+    private int CalculateAverage(List<Integer> listOfLevels) {
+        int sum = 0;
+
+        for(int level : listOfLevels){
+            sum += level;
+        }
+
+        return sum / listOfLevels.size();
+    }
+
     @Nullable
     public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner cobblemonTrialSpawner,
                                               Level level, CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
-        if (!cobblemonTrialSpawnerState.hasSpinningMob()) {
-            return null;
-        } else {
-            if (this.displayItem == null) {
-                CompoundTag compoundTag = this.getOrCreateNextSpawnData(cobblemonTrialSpawner, level.getRandom()).getEntityToSpawn();
-                if (compoundTag.contains("id", 8)) {
-                    if (isOminous)
-                        this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
-                    else
-                        this.displayItem = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
-                }
-            }
-
-            return this.displayItem;
-        }
+        if (isOminous)
+            return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
+        else
+            return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_slate_ball")).getDefaultInstance();
     }
 
     public CompoundTag getUpdateTag(CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {

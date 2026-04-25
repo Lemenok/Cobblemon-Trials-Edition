@@ -3,7 +3,8 @@
   "package": "com.lemenok.cobblemontrialsedition.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "FightOrFlightMixin"
+    "FightOrFlightMixin",
+    "CobblemonTrailDespawnMixin"
   ],
   "injectors": {
     "defaultRequire": 1
