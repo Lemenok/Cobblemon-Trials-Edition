@@ -1,19 +1,15 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
 import com.cobblemon.mod.common.Cobblemon;
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.google.common.collect.Sets;
-import com.lemenok.cobblemontrialsedition.Config;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
-import kotlinx.datetime.Ser;
-import me.shedaniel.autoconfig.AutoConfig;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -44,8 +40,6 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import org.jetbrains.annotations.Nullable;
-
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -70,13 +64,10 @@ public class CobblemonTrialSpawnerData {
     protected int totalMobsSpawned;
     protected Optional<SpawnData> nextSpawnData;
     protected Optional<ResourceKey<LootTable>> ejectingLootTable;
-    @Nullable
     protected ItemStack displayItem;
-    @Nullable
     private SimpleWeightedRandomList<ItemStack> dispensing;
     protected double spin;
     protected double oSpin;
-    private final Config modConfig;
 
     public CobblemonTrialSpawnerData() {
         this(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.empty(), Optional.empty());
@@ -94,7 +85,6 @@ public class CobblemonTrialSpawnerData {
         this.totalMobsSpawned = totalMobsSpawned;
         this.nextSpawnData = nextSpawnData;
         this.ejectingLootTable = ejectingLootTable;
-        this.modConfig = AutoConfig.getConfigHolder(Config.class).getConfig();
     }
 
     public void reset() {
@@ -247,8 +237,8 @@ public class CobblemonTrialSpawnerData {
 
     public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, ServerLevel level) {
         if (this.nextSpawnData.isPresent()) {
-            if(modConfig.ENABLE_POKEMON_LEVEL_ADJUSTMENT){
-                 return CalculateLevelFromNearbyPlayers(this.nextSpawnData, level, cobblemonTrialSpawner).get();
+            if(Services.PLATFORM.getCommonConfig().ENABLE_POKEMON_LEVEL_ADJUSTMENT){
+                return CalculateLevelFromNearbyPlayers(this.nextSpawnData, level, cobblemonTrialSpawner).get();
             }
             else {
                 return this.nextSpawnData.get();
@@ -259,7 +249,7 @@ public class CobblemonTrialSpawnerData {
             Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
 
             // Check if we should apply LeveL adjustment based on nearby players.
-            if(modConfig.ENABLE_POKEMON_LEVEL_ADJUSTMENT){
+            if(Services.PLATFORM.getCommonConfig().ENABLE_POKEMON_LEVEL_ADJUSTMENT){
                 this.nextSpawnData = CalculateLevelFromNearbyPlayers(Optional.of(optional.orElseGet(SpawnData::new)), level, cobblemonTrialSpawner);
             }
             else {
@@ -300,10 +290,10 @@ public class CobblemonTrialSpawnerData {
         int calculatedLevel;
 
         // Calculate Median among all player Pokemon
-        if(Objects.equals(modConfig.POKEMON_LEVEL_ADJUSTMENT_TYPE, "MEDIAN")) calculatedLevel = CalculateMedian(listOfLevels);
-        // Calculate Average among all player Pokemon
-        else if (Objects.equals(modConfig.POKEMON_LEVEL_ADJUSTMENT_TYPE, "AVERAGE")) calculatedLevel = CalculateAverage(listOfLevels);
-        // Other Values default to Average.
+        if(Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "MEDIAN")) calculatedLevel = CalculateMedian(listOfLevels);
+            // Calculate Average among all player Pokemon
+        else if (Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "AVERAGE")) calculatedLevel = CalculateAverage(listOfLevels);
+            // Other Values default to Average.
         else calculatedLevel = CalculateAverage(listOfLevels);
 
         // Update spawn data with calculated Pokemon level.
@@ -338,7 +328,6 @@ public class CobblemonTrialSpawnerData {
         return sum / listOfLevels.size();
     }
 
-    @Nullable
     public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner cobblemonTrialSpawner,
                                               Level level, CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
         if (isOminous)

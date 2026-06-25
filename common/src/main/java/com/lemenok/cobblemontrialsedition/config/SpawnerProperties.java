@@ -1,6 +1,6 @@
 package com.lemenok.cobblemontrialsedition.config;
 
-import com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
@@ -12,7 +12,9 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.List;
@@ -118,8 +120,8 @@ public record SpawnerProperties(
         ResourceKey<LootTable> lootTableResourceKey;
 
         for (ResourceLocation resourceLocation : lootTables) {
-            if(resourceLocation.getNamespace().equals(CobblemonTrialsEditionFabric.MODID))
-                lootTableResourceKey = ResourceKey.create(CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, resourceLocation);
+            if(resourceLocation.getNamespace().equals(Services.PLATFORM.getModID()))
+                lootTableResourceKey = ResourceKey.create(Services.PLATFORM.getLootTableRegistry(), resourceLocation);
             else
                 lootTableResourceKey = ResourceKey.create(Registries.LOOT_TABLE, resourceLocation);
 

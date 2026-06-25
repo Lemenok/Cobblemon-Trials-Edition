@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 public class UnownParticles extends TextureSheetParticle {
 
     protected UnownParticles(ClientLevel level, double x, double y, double z, SpriteSet spriteSet,
-                                 double xSpeed, double ySpeed, double zSpeed) {
+                             double xSpeed, double ySpeed, double zSpeed) {
         super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
         this.friction = 0.5f;

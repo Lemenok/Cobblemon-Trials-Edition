@@ -1,14 +1,11 @@
 package com.lemenok.cobblemontrialsedition.events;
 
-import com.lemenok.cobblemontrialsedition.CobblemonTrialsEditionFabric;
-import com.lemenok.cobblemontrialsedition.Config;
-import com.lemenok.cobblemontrialsedition.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import it.unimi.dsi.fastutil.longs.LongSet;
-import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -23,7 +20,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.StructureManager;
-import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SculkShriekerBlockEntity;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -35,15 +35,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.cobblemon.mod.relocations.oracle.truffle.js.builtins.math.MathBuiltins.Math.random;
-
 public class ReplaceSpawners {
 
-    private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEditionFabric.MODID);
+    private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
     public static void Process(ServerLevel serverLevel, LevelChunk chunk, List<BlockEntity> listOfBlockEntities, StructureManager structureManager, Level level, Registry<Structure> structureRegistry) {
-
-        Config modConfig = AutoConfig.getConfigHolder(Config.class).getConfig();
 
         for (BlockEntity blockEntity : listOfBlockEntities) {
             try {
@@ -51,26 +47,27 @@ public class ReplaceSpawners {
 
                 if (!serverLevel.isLoaded(blockEntityPosition)) continue;
 
-                if(ShouldSpawnerBeReplaced(modConfig, blockEntity))
+                if(ShouldSpawnerBeReplaced(blockEntity))
                     continue;
 
                 var allStructuresAtPosition = structureManager.getAllStructuresAt(blockEntityPosition);
 
-                if(!allStructuresAtPosition.isEmpty() && modConfig.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS) {
+                if(!allStructuresAtPosition.isEmpty() && Services.PLATFORM.getCommonConfig().REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS) {
 
-                    List<StructureProperties> listOfStructuresToModify = getStructuresToModify(level, CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_STRUCTURE_REGISTRY);
+                    List<StructureProperties> listOfStructuresToModify = getStructuresToModify(level, Services.PLATFORM.getCobblemonTrialsStructureRegistry());
 
                     EntityType spawnerEntityType = getEntityType(level, blockEntity);
 
-                    ReplaceSpawnerWithStructureConfig(serverLevel, chunk, level, structureRegistry, blockEntity, allStructuresAtPosition, listOfStructuresToModify, spawnerEntityType, blockEntityPosition, modConfig);
+                    ReplaceSpawnerWithStructureConfig(serverLevel, chunk, level, structureRegistry, blockEntity, allStructuresAtPosition, listOfStructuresToModify, spawnerEntityType, blockEntityPosition);
                 }
 
-                // If the there are no structureId but still a spawner, this is likely from a Feature.
-                // Check if the user has Default Spawners turned on and no structureId, if both are true replace the spawner.
-                if (allStructuresAtPosition.isEmpty() && modConfig.REPLACE_SPAWNERS_IN_FEATURES) {
+                // If the there are no structures but still a spawner, this is likely from a Feature.
+                // Check if the user has Default Spawners turned on and no structures, if both are true replace the spawner.
+                if (allStructuresAtPosition.isEmpty() && Services.PLATFORM.getCommonConfig().REPLACE_SPAWNERS_IN_FEATURES) {
 
                     EntityType spawnerEntityType = getEntityType(level, blockEntity);
-                    if (replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType, blockEntityPosition, modConfig, CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_FEATURES_REGISTRY))
+
+                    if (replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType, blockEntityPosition, Services.PLATFORM.getCobblemonTrialsFeaturesRegistry()))
                         break;
                 }
 
@@ -80,25 +77,25 @@ public class ReplaceSpawners {
         }
     }
 
-    private static boolean ShouldSpawnerBeReplaced(Config modConfig, BlockEntity blockEntity) {
-        if(blockEntity instanceof SpawnerBlockEntity && modConfig.REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE){
-            if(modConfig.MOB_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()) {
-                if (modConfig.ENABLE_DEBUG_LOGS)
+    private static boolean ShouldSpawnerBeReplaced(BlockEntity blockEntity) {
+        if(blockEntity instanceof SpawnerBlockEntity && Services.PLATFORM.getCommonConfig().REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE){
+            if(Services.PLATFORM.getCommonConfig().MOB_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()) {
+                if (Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
                     LOGGER.info("Skipped replacement of Mob Spawner at: {}", blockEntity.getBlockPos());
                 return true;
             }
         }
-        if(blockEntity instanceof TrialSpawnerBlockEntity && modConfig.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
-            if(modConfig.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()){
-                if(modConfig.ENABLE_DEBUG_LOGS)
+
+        if(blockEntity instanceof TrialSpawnerBlockEntity && Services.PLATFORM.getCommonConfig().REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
+            if(Services.PLATFORM.getCommonConfig().TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random()){
+                if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
                     LOGGER.info("Skipped replacement of Trial Spawner at: {}", blockEntity.getBlockPos());
                 return true;
             }
         }
-
-        if(blockEntity instanceof SculkShriekerBlockEntity && modConfig.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE){
-            if(modConfig.SHRIEKER_REPLACEMENT_PERCENTAGE <= Math.random()) {
-                if (modConfig.ENABLE_DEBUG_LOGS)
+        if(blockEntity instanceof SculkShriekerBlockEntity && Services.PLATFORM.getCommonConfig().REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE){
+            if(Services.PLATFORM.getCommonConfig().SHRIEKER_REPLACEMENT_PERCENTAGE <= Math.random()) {
+                if (Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
                     LOGGER.info("Skipped replacement of Sculk Shrieker at: {}", blockEntity.getBlockPos());
                 return true;
             }
@@ -107,7 +104,10 @@ public class ReplaceSpawners {
         return false;
     }
 
-    private static void ReplaceSpawnerWithStructureConfig(ServerLevel serverLevel, LevelChunk chunk, Level level, Registry<Structure> structureRegistry, BlockEntity blockEntity, Map<Structure, LongSet> allStructuresAtPosition, List<StructureProperties> listOfStructuresToModify, EntityType spawnerEntityType, BlockPos blockEntityPosition, Config modConfig) throws Exception {
+    private static void ReplaceSpawnerWithStructureConfig(ServerLevel serverLevel, LevelChunk chunk, Level level, Registry<Structure> structureRegistry,
+                                                          BlockEntity blockEntity, Map<Structure, LongSet> allStructuresAtPosition,
+                                                          List<StructureProperties> listOfStructuresToModify, EntityType spawnerEntityType,
+                                                          BlockPos blockEntityPosition) throws Exception {
         for (Structure structure: allStructuresAtPosition.keySet()){
             Holder<Structure> resourceAtPosition = structureRegistry.wrapAsHolder(structure);
 
@@ -120,23 +120,28 @@ public class ReplaceSpawners {
                     break;
             }
 
+
+
             if(spawnerPropertiesForStructure != null) {
                 if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity, spawnerPropertiesForStructure, blockEntityPosition)) {
-                    if(modConfig.ENABLE_DEBUG_LOGS)
+                    if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
                         LOGGER.info("Replaced: '{}' Spawner at Location '{}', Structure: '{}'.", spawnerEntityType, blockEntityPosition, resourceAtPosition);
                     return;
                 }
             }
-        }
 
-        // This uses the Default json files under "defaults"
-        if(modConfig.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS){
-            replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType,
-                    blockEntityPosition, modConfig, CobblemonTrialsEditionFabric.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY);
+            // This uses the Default json files under "defaults"
+            // If I can ever figure out how to do StructureProcessors this would not be necessary.
+            if(Services.PLATFORM.getCommonConfig().REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS){
+                replaceWithDefaultSpawner(serverLevel, chunk, level, blockEntity, spawnerEntityType,
+                        blockEntityPosition, Services.PLATFORM.getCobblemonTrialsDefaultStructureRegistry());
+            }
         }
     }
 
-    private static boolean replaceWithDefaultSpawner(ServerLevel serverLevel, LevelChunk chunk, Level level, BlockEntity blockEntity, EntityType spawnerEntityType, BlockPos blockEntityPosition, Config modConfig, ResourceKey<Registry<StructureProperties>> registryResourceKey) throws Exception {
+    private static boolean replaceWithDefaultSpawner(ServerLevel serverLevel, LevelChunk chunk, Level level, BlockEntity blockEntity,
+                                                     EntityType spawnerEntityType, BlockPos blockEntityPosition,
+                                                     ResourceKey<Registry<StructureProperties>> registryResourceKey) throws Exception {
 
         List<SpawnerProperties> defaultSpawnerProperties = getStructuresToModify(level, registryResourceKey).getFirst().spawnerProperties();
 
@@ -146,13 +151,11 @@ public class ReplaceSpawners {
         if (replaceSpawner(serverLevel, chunk, level, spawnerEntityType, blockEntity,
                 defaultSpawnerProperties,
                 blockEntityPosition)) {
-            if(modConfig.ENABLE_DEBUG_LOGS) {
-                LOGGER.info("Replaced: '{}' Spawner at Location '{}'", spawnerEntityType, blockEntityPosition);
+            if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS) {
+                LOGGER.info("Replaced: '{}' Spawner at Location '{}', Default.", spawnerEntityType, blockEntityPosition);
             }
-
             return true;
         }
-
         return false;
     }
 
@@ -197,7 +200,7 @@ public class ReplaceSpawners {
             );
 
             CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(
-                    blockEntityPosition, ModBlocks.COBBLEMON_TRIAL_SPAWNER.defaultBlockState());
+                    blockEntityPosition, Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState());
 
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerConfig, false);
             cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
@@ -208,10 +211,7 @@ public class ReplaceSpawners {
             cobblemonTrialSpawnerEntity.markUpdated();
 
             chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
-            chunk.removeBlockEntity(blockEntityPosition);
-            chunk.addAndRegisterBlockEntity(cobblemonTrialSpawnerEntity);
-            serverLevel.getChunkSource().blockChanged(blockEntityPosition);
-
+            serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
 
             return true;
         }
@@ -221,13 +221,13 @@ public class ReplaceSpawners {
     private static List<StructureProperties> getStructuresToModify(Level level, ResourceKey<Registry<StructureProperties>> structureRegistry) {
         var ctsstructureRegistry = level.registryAccess().registryOrThrow(structureRegistry);
         Set<String> pathsInNamespace = ctsstructureRegistry.keySet().stream()
-                .filter(resourceLocation -> resourceLocation.getNamespace().equals(CobblemonTrialsEditionFabric.MODID))
+                .filter(resourceLocation -> resourceLocation.getNamespace().equals(Services.PLATFORM.getModID()))
                 .map(ResourceLocation::getPath)
                 .collect(Collectors.toSet());
 
         List<StructureProperties> listOfStructuresToModify = new ArrayList<>();
         for(String path: pathsInNamespace){
-            listOfStructuresToModify.add(ctsstructureRegistry.get(ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEditionFabric.MODID, path)));
+            listOfStructuresToModify.add(ctsstructureRegistry.get(ResourceLocation.fromNamespaceAndPath(Services.PLATFORM.getModID(), path)));
         }
 
         return listOfStructuresToModify;
@@ -238,7 +238,7 @@ public class ReplaceSpawners {
 
         try {
             // Grab Entity in spawner to specify which spawner to replace.
-             if(blockEntity instanceof SpawnerBlockEntity spawner){
+            if(blockEntity instanceof SpawnerBlockEntity spawner){
                 CompoundTag nbt = spawner.saveWithId(level.registryAccess());
                 if (!hasEntityData(nbt)) {
                     LOGGER.info("Empty spawner at {}, defaulting to zombie", blockEntity.getBlockPos());
@@ -250,7 +250,7 @@ public class ReplaceSpawners {
                 }
             }
 
-            if(blockEntity instanceof SculkShriekerBlockEntity){
+            if(blockEntity instanceof SculkShriekerBlockEntity shrieker){
                 spawnerEntityType = EntityType.WARDEN;
             }
 

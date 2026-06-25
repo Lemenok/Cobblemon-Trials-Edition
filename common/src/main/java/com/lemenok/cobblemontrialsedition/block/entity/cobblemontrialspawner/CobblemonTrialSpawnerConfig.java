@@ -1,6 +1,5 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
-import com.lemenok.cobblemontrialsedition.Config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.Registries;
@@ -11,11 +10,11 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float simultaneousMobs,
-      float totalMobsAddedPerPlayer, float simultaneousMobsAddedPerPlayer,
-      int ticksBetweenSpawn, boolean enableOminousSpawnerAttacks,
-      SimpleWeightedRandomList<SpawnData> spawnPotentialsDefinition,
-      SimpleWeightedRandomList<ResourceKey<LootTable>> lootTablesToEject,
-      ResourceKey<LootTable> itemsToDropWhenOminous) {
+                                          float totalMobsAddedPerPlayer, float simultaneousMobsAddedPerPlayer,
+                                          int ticksBetweenSpawn, boolean enableOminousSpawnerAttacks,
+                                          SimpleWeightedRandomList<SpawnData> spawnPotentialsDefinition,
+                                          SimpleWeightedRandomList<ResourceKey<LootTable>> lootTablesToEject,
+                                          ResourceKey<LootTable> itemsToDropWhenOminous) {
 
     public static final CobblemonTrialSpawnerConfig DEFAULT;
     public static final Codec<CobblemonTrialSpawnerConfig> CODEC;

@@ -9,8 +9,7 @@ import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
-import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
-import com.lemenok.cobblemontrialsedition.Config;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -23,7 +22,9 @@ import net.minecraft.world.level.SpawnData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public record SpawnablePokemonProperties(
         String species,
@@ -63,11 +64,11 @@ public record SpawnablePokemonProperties(
             Codec.BOOL.optionalFieldOf("isAggressive", true).forGetter(SpawnablePokemonProperties::isAggressive)
     ).apply(pokemon, SpawnablePokemonProperties::new));
 
-    private static final Logger LOGGER = LogManager.getLogger(CobblemonTrialsEdition.MODID);
+    private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
     public SpawnData getPokemonSpawnData(ServerLevel serverLevel, boolean doPokemonSpawnedGlow) {
 
-        if(Config.ENABLE_DEBUG_LOGS.get()){
+        if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS){
             LOGGER.info("Setting up spawn data for '{}'", this.species);
         }
 
@@ -93,13 +94,13 @@ public record SpawnablePokemonProperties(
 
         newPokemon.setScaleModifier(scaleModifier);
 
-        if(Config.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE.get()) {
+        if(Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE) {
             newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_is_aggressive", isAggressive);
         }
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
-        if(Config.SPAWNED_POKEMON_ARE_UNCATCHABLE.get() || isUncatchable){
+        if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || isUncatchable){
             // Make pokemon uncatchable
             String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
             ListTag listTag = new ListTag();
@@ -113,7 +114,7 @@ public record SpawnablePokemonProperties(
         entityNbt.putString("PoseType", "WALK");
         if(doPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
 
-        if(Config.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE.get() || mustBeDefeatedInBattle){
+        if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || mustBeDefeatedInBattle){
             entityNbt.putBoolean("Invulnerable", true);
         }
 

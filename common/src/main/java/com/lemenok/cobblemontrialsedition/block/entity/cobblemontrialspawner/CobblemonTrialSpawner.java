@@ -1,17 +1,18 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.lemenok.cobblemontrialsedition.CobblemonTrialsEdition;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
-import com.lemenok.cobblemontrialsedition.particle.ModParticles;
-import com.lemenok.cobblemontrialsedition.sound.ModSounds;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -28,11 +29,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.trialspawner.*;
+import net.minecraft.world.level.block.entity.trialspawner.PlayerDetector;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -42,8 +42,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.neoforged.neoforge.common.extensions.IOwnedSpawner;
-import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -64,7 +62,7 @@ public class CobblemonTrialSpawner {
     private CobblemonTrialSpawnerData data;
     private int requiredPlayerRange;
     private int targetCooldownLength;
-    private final CobblemonTrialSpawner.StateAccessor stateAccessor;
+    private final StateAccessor stateAccessor;
     private final PlayerDetector playerDetector;
     private final PlayerDetector.EntitySelector entitySelector;
     private boolean isOminous;
@@ -87,14 +85,14 @@ public class CobblemonTrialSpawner {
                         new CobblemonTrialSpawner(arg, arg2, arg3, integer, integer2, this.stateAccessor, this.playerDetector, this.entitySelector)));
     }
 
-    public CobblemonTrialSpawner(CobblemonTrialSpawner.StateAccessor stateAccessor, PlayerDetector playerDetector, PlayerDetector.EntitySelector entitySelector) {
+    public CobblemonTrialSpawner(StateAccessor stateAccessor, PlayerDetector playerDetector, PlayerDetector.EntitySelector entitySelector) {
         this(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT, new CobblemonTrialSpawnerData(), DEFAULT_TARGET_COOLDOWN_LENGTH, DEFAULT_PLAYER_SCAN_RANGE,
                 stateAccessor, playerDetector, entitySelector);
     }
 
     public CobblemonTrialSpawner(CobblemonTrialSpawnerConfig normalConfig, CobblemonTrialSpawnerConfig ominousConfig,
                                  CobblemonTrialSpawnerData cobblemonTrialSpawnerData, int targetCooldownLength,
-                                 int requiredPlayerRange, CobblemonTrialSpawner.StateAccessor stateAccessor,
+                                 int requiredPlayerRange, StateAccessor stateAccessor,
                                  PlayerDetector playerDetector, PlayerDetector.EntitySelector entitySelector) {
         this.normalConfig = normalConfig;
         this.ominousConfig = ominousConfig;
@@ -272,10 +270,10 @@ public class CobblemonTrialSpawner {
         ResourceLocation lootTableResourceLocation = lootTableResourceKey.location();
 
         LootTable loottable;
-        if(lootTableResourceLocation.getNamespace().equals(CobblemonTrialsEdition.MODID)){
+        if(lootTableResourceLocation.getNamespace().equals(Services.PLATFORM.getModID())){
             Optional<Holder.Reference<LootTable>> lootTableReference;
-            lootTableReference = registryAccess.registryOrThrow(CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY)
-                    .getHolder(ResourceKey.create(CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, lootTableResourceLocation));
+            lootTableReference = registryAccess.registryOrThrow(Services.PLATFORM.getLootTableRegistry())
+                    .getHolder(ResourceKey.create(Services.PLATFORM.getLootTableRegistry(), lootTableResourceLocation));
 
 
             if (lootTableReference.isPresent()) {
@@ -337,7 +335,7 @@ public class CobblemonTrialSpawner {
         if (trialspawnerstate.isCapableOfSpawning()) {
             RandomSource randomsource = level.getRandom();
             if (randomsource.nextFloat() <= SPAWNING_AMBIENT_SOUND_CHANCE) {
-                SoundEvent soundevent = isOminous ? ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT_OMINOUS.get() : ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT.get();
+                SoundEvent soundevent = isOminous ? Services.PLATFORM.getCobblemonTrialSpawnerAmbientOminousSound() : Services.PLATFORM.getCobblemonTrialSpawnerAmbientSound();
                 level.playLocalSound(blockPos, soundevent, SoundSource.BLOCKS, 1f, 1f, false);
             }
         }
@@ -374,7 +372,7 @@ public class CobblemonTrialSpawner {
             double d1 = (double) blockPos.getY() + (double)0.5F + (randomSource.nextDouble() - (double)0.5F) * (double)2.0F;
             double d2 = (double) blockPos.getZ() + (double)0.5F + (randomSource.nextDouble() - (double)0.5F) * (double)2.0F;
             level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0F, 0.0F, 0.0F);
-            level.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, 0.0F, 0.0F, 0.0F);
+            level.addParticle(Services.PLATFORM.getParticles(), d0, d1, d2, 0.0F, 0.0F, 0.0F);
         }
     }
 
@@ -386,7 +384,7 @@ public class CobblemonTrialSpawner {
             double d3 = randomSource.nextGaussian() * 0.02;
             double d4 = randomSource.nextGaussian() * 0.02;
             double d5 = randomSource.nextGaussian() * 0.02;
-            level.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, d3, d4, d5);
+            level.addParticle(Services.PLATFORM.getParticles(), d0, d1, d2, d3, d4, d5);
         }
     }
 
@@ -410,14 +408,14 @@ public class CobblemonTrialSpawner {
             double d3 = randomSource.nextGaussian() * 0.02;
             double d4 = randomSource.nextGaussian() * 0.02;
             double d5 = randomSource.nextGaussian() * 0.02;
-            level.addParticle(ModParticles.UNOWN_PARTICLES.get(), d0, d1, d2, d3, d4, d5 * (double)0.25F);
+            level.addParticle(Services.PLATFORM.getParticles(), d0, d1, d2, d3, d4, d5 * (double)0.25F);
             level.addParticle(ParticleTypes.SMOKE, d0, d1, d2, d3, d4, d5);
         }
 
     }
 
     public @Nullable Either<BlockEntity, Entity> getOwner() {
-        CobblemonTrialSpawner.StateAccessor stateAccessor = this.stateAccessor;
+        StateAccessor stateAccessor = this.stateAccessor;
         if (stateAccessor instanceof CobblemonTrialSpawnerEntity be) {
             return Either.left(be);
         } else {

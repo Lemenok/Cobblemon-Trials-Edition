@@ -2,6 +2,7 @@ package com.lemenok.cobblemontrialsedition.block.entity;
 
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.*;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
 import net.minecraft.core.BlockPos;
@@ -26,7 +27,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
     private CobblemonTrialSpawner cobblemonTrialSpawner;
 
     public CobblemonTrialSpawnerEntity(BlockPos blockPos, BlockState blockState) {
-        super(ModBlockEntities.COBBLEMON_TRIAL_SPAWNER, blockPos, blockState);
+        super(Services.PLATFORM.getCobblemonTrialSpawnerBlockEntity(), blockPos, blockState);
         PlayerDetector playerDetector = PlayerDetector.NO_CREATIVE_PLAYERS;
         PlayerDetector.EntitySelector entitySelector = PlayerDetector.EntitySelector.SELECT_FROM_LEVEL;
         this.cobblemonTrialSpawner = new CobblemonTrialSpawner(CobblemonTrialSpawnerConfig.DEFAULT, CobblemonTrialSpawnerConfig.DEFAULT,
