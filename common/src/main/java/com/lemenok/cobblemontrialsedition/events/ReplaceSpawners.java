@@ -211,7 +211,11 @@ public class ReplaceSpawners {
             cobblemonTrialSpawnerEntity.markUpdated();
 
             chunk.getSection(serverLevel.getSectionIndex(blockEntityPosition.getY())).setBlockState(blockEntityPosition.getX() & 15, blockEntityPosition.getY() & 15, blockEntityPosition.getZ() & 15, cobblemonTrialSpawnerEntity.getBlockState());
-            serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
+            chunk.removeBlockEntity(blockEntityPosition);
+            chunk.addAndRegisterBlockEntity(cobblemonTrialSpawnerEntity);
+            serverLevel.getChunkSource().blockChanged(blockEntityPosition);
+
+            //serverLevel.setBlockEntity(cobblemonTrialSpawnerEntity);
 
             return true;
         }
