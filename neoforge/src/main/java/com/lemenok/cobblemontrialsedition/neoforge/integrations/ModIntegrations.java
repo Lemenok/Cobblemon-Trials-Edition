@@ -1,0 +1,101 @@
+package com.lemenok.cobblemontrialsedition.neoforge.integrations;
+
+import com.lemenok.cobblemontrialsedition.integrations.IModIntegrations;
+import com.lemenok.cobblemontrialsedition.integrations.ModConfigCommon;
+import com.lemenok.cobblemontrialsedition.neoforge.CobblemonTrialsEdition;
+import com.lemenok.cobblemontrialsedition.neoforge.Config;
+import com.lemenok.cobblemontrialsedition.neoforge.block.ModBlocks;
+import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
+import com.lemenok.cobblemontrialsedition.neoforge.block.entity.ModBlockEntities;
+import com.lemenok.cobblemontrialsedition.config.StructureProperties;
+import com.lemenok.cobblemontrialsedition.neoforge.particle.ModParticles;
+import com.lemenok.cobblemontrialsedition.neoforge.sound.ModSounds;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.LootTable;
+import org.slf4j.Logger;
+
+public class ModIntegrations implements IModIntegrations {
+    @Override
+    public String getModID() {
+        return CobblemonTrialsEdition.MODID;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return CobblemonTrialsEdition.LOGGER;
+    }
+
+    @Override
+    public ResourceKey<Registry<LootTable>> getLootTableRegistry() {
+        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY;
+    }
+
+    @Override
+    public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsStructureRegistry() {
+        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_STRUCTURE_REGISTRY;
+    }
+
+    @Override
+    public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsFeaturesRegistry() {
+        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_FEATURES_REGISTRY;
+    }
+
+    @Override
+    public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsDefaultStructureRegistry() {
+        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY;
+    }
+
+    @Override
+    public Block getCobblemonTrialSpawnerBlock() {
+        return ModBlocks.COBBLEMON_TRIAL_SPAWNER.get();
+    }
+
+    @Override
+    public BlockEntityType<CobblemonTrialSpawnerEntity> getCobblemonTrialSpawnerBlockEntity() {
+        return ModBlockEntities.COBBLEMON_TRIAL_SPAWNER.get();
+    }
+
+    @Override
+    public SimpleParticleType getParticles() {
+        return ModParticles.UNOWN_PARTICLES.get();
+    }
+
+    @Override
+    public SoundEvent getCobblemonTrialSpawnerAmbientSound() {
+        return ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT.get();
+    }
+
+    @Override
+    public SoundEvent getCobblemonTrialSpawnerAmbientOminousSound() {
+        return ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT_OMINOUS.get();
+    }
+
+    @Override
+    public ModConfigCommon getCommonConfig() {
+        ModConfigCommon modConfigCommon = new ModConfigCommon();
+        modConfigCommon.ENABLE_DEBUG_LOGS = Config.ENABLE_DEBUG_LOGS.get();
+        modConfigCommon.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS = Config.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS.get();
+        modConfigCommon.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS = Config.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS.get();
+        modConfigCommon.REPLACE_SPAWNERS_IN_FEATURES = Config.REPLACE_SPAWNERS_IN_FEATURES.get();
+        modConfigCommon.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = Config.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS.get();
+        modConfigCommon.REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS = Config.REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS.get();
+        modConfigCommon.SPAWNED_POKEMON_ARE_UNCATCHABLE = Config.SPAWNED_POKEMON_ARE_UNCATCHABLE.get();
+        modConfigCommon.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE = Config.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE.get();
+        modConfigCommon.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = Config.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE.get();
+        modConfigCommon.REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE = Config.REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE.get();
+        modConfigCommon.MOB_SPAWNER_REPLACEMENT_PERCENTAGE = Config.MOB_SPAWNER_REPLACEMENT_PERCENTAGE.get();
+        modConfigCommon.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE = Config.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE.get();
+        modConfigCommon.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = Config.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE.get();
+        modConfigCommon.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE = Config.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE.get();
+        modConfigCommon.SHRIEKER_REPLACEMENT_PERCENTAGE = Config.SHRIEKER_REPLACEMENT_PERCENTAGE.get();
+        modConfigCommon.ENABLE_POKEMON_LEVEL_ADJUSTMENT = Config.ENABLE_POKEMON_LEVEL_ADJUSTMENT.get();
+        modConfigCommon.POKEMON_LEVEL_ADJUSTMENT_TYPE = Config.POKEMON_LEVEL_ADJUSTMENT_TYPE.get();
+
+        return modConfigCommon;
+    }
+}
