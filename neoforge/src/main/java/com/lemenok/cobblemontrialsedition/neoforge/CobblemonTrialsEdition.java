@@ -8,6 +8,7 @@ import com.lemenok.cobblemontrialsedition.neoforge.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.neoforge.item.ModItems;
 import com.lemenok.cobblemontrialsedition.neoforge.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.neoforge.potion.ModPotions;
+import com.lemenok.cobblemontrialsedition.neoforge.processor.ModProcessors;
 import com.lemenok.cobblemontrialsedition.neoforge.sound.ModSounds;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -58,6 +59,7 @@ public class CobblemonTrialsEdition {
         ModSounds.register(modEventBus);
         ModParticles.register(modEventBus);
         ModPotions.register(modEventBus);
+        ModProcessors.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

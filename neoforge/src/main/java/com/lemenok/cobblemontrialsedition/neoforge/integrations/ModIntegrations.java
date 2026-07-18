@@ -9,13 +9,16 @@ import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEnti
 import com.lemenok.cobblemontrialsedition.neoforge.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import com.lemenok.cobblemontrialsedition.neoforge.particle.ModParticles;
+import com.lemenok.cobblemontrialsedition.neoforge.processor.ModProcessors;
 import com.lemenok.cobblemontrialsedition.neoforge.sound.ModSounds;
+import com.lemenok.cobblemontrialsedition.processor.SpawnerReplacementProcessor;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.slf4j.Logger;
 
@@ -73,6 +76,11 @@ public class ModIntegrations implements IModIntegrations {
     @Override
     public SoundEvent getCobblemonTrialSpawnerAmbientOminousSound() {
         return ModSounds.COBBLEMON_TRIAL_SPAWNER_AMBIENT_OMINOUS.get();
+    }
+
+    @Override
+    public StructureProcessorType<SpawnerReplacementProcessor> getSpawnerReplacementProcessor() {
+        return ModProcessors.SPAWNER_REPLACEMENT_PROCESSOR.get();
     }
 
     @Override

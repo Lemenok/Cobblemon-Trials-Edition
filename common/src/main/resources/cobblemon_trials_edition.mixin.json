@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "FightOrFlightMixin",
-    "CobblemonTrailDespawnMixin"
+    "CobblemonTrailDespawnMixin",
+    "StructureTemplateMixin"
   ],
   "injectors": {
     "defaultRequire": 0
