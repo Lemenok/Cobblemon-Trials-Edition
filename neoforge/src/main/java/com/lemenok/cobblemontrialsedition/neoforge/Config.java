@@ -1,6 +1,9 @@
 package com.lemenok.cobblemontrialsedition.neoforge;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
+
+import java.util.List;
 
 public class Config {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -8,6 +11,15 @@ public class Config {
     public static final ModConfigSpec.BooleanValue ENABLE_DEBUG_LOGS = BUILDER
             .comment("Whether to log data regarding the location and data stored when placing cobblemon trial spawners.")
             .define("enableDebugLogs", false);
+
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> BLACKLISTED_STRUCTURE_IDS = BUILDER
+            .comment("A List of structures that will be skipped. Prefix with '#' to denote a structure tag (e.g., '#minecraft:village').")
+            .defineList("blacklistedStructureIds", List::of, obj -> {
+                        if (!(obj instanceof String resourceLocation)) return false;
+
+                        String idToCheck = resourceLocation.startsWith("#") ? resourceLocation.substring(1) : resourceLocation;
+                        return ResourceLocation.tryParse(idToCheck) != null;
+                    });
 
     public static final ModConfigSpec.BooleanValue REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS = BUILDER
             .comment("Whether to do any spawner replacement at all. If set to false, this will disable all spawner replacement.")

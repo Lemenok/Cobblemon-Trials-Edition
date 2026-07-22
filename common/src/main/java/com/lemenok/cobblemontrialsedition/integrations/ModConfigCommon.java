@@ -1,7 +1,10 @@
 package com.lemenok.cobblemontrialsedition.integrations;
 
+import java.util.List;
+
 public class ModConfigCommon {
     public boolean ENABLE_DEBUG_LOGS;
+    public List<? extends String> BLACKLISTED_STRUCTURE_IDS;
     public boolean REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS;
     public boolean REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS;
     public boolean REPLACE_SPAWNERS_IN_FEATURES;

@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.neoforge;
 
+import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
 import com.lemenok.cobblemontrialsedition.neoforge.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.neoforge.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
@@ -13,9 +14,11 @@ import com.lemenok.cobblemontrialsedition.neoforge.sound.ModSounds;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import org.slf4j.Logger;
 
@@ -120,6 +123,16 @@ public class CobblemonTrialsEdition {
                     COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY,
                     LootTable.DIRECT_CODEC
             );
+        }
+    }
+
+    @EventBusSubscriber(modid = MODID)
+    public class ServerEvents {
+        @SubscribeEvent
+        public static void onAddReloadListeners(AddReloadListenerEvent event) {
+            event.addListener((ResourceManagerReloadListener) resourceManager -> {
+                PropertiesCache.rebuild(event.getRegistryAccess());
+            });
         }
     }
 

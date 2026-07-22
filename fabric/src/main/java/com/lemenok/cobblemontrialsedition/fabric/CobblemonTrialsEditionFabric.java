@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.fabric;
 
+import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
 import com.lemenok.cobblemontrialsedition.fabric.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.fabric.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
@@ -12,6 +13,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.core.Registry;
@@ -71,6 +73,19 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
         DynamicRegistries.register(COBBLEMON_TRIALS_FEATURES_REGISTRY, StructureProperties.CODEC);
         DynamicRegistries.register(COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY, StructureProperties.CODEC);
         DynamicRegistries.register(COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, LootTable.DIRECT_CODEC);
+
+        // Build Datapack Cache on server load.
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            PropertiesCache.rebuild(server.registryAccess());
+        });
+
+        // Rebuild whenever a server admin runs /reload
+        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
+            // Only rebuild if the reload didn't fail due to broken JSON
+            if (success) {
+                PropertiesCache.rebuild(server.registryAccess());
+            }
+        });
 
         // Handle Chunk Load Events
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->
