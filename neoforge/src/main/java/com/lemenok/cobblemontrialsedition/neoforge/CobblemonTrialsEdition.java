@@ -52,7 +52,8 @@ public class CobblemonTrialsEdition {
         // Note that this is necessary if and only if we want *this* class (CobblemonTrialsEdition) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
-        NeoForge.EVENT_BUS.register(new SpawnerReplacementHandler());
+        NeoForge.EVENT_BUS.register(new SpawnerReplacementHandler()); // TODO: Remove this.
+        NeoForge.EVENT_BUS.addListener(ServerEvents::onAddReloadListeners);
 
         ModCreativeModeTabs.register(modEventBus);
 
@@ -66,6 +67,7 @@ public class CobblemonTrialsEdition {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(RegistryEvents::addRegistries);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -82,8 +84,7 @@ public class CobblemonTrialsEdition {
         }
     }
 
-    @EventBusSubscriber(modid = MODID)
-    public static class ClientModEvents {
+    public static class RegistryEvents {
 
         public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_STRUCTURE_REGISTRY =
                 ResourceKey.createRegistryKey(
@@ -105,7 +106,6 @@ public class CobblemonTrialsEdition {
                         ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "loot_table")
                 );
 
-        @SubscribeEvent
         public static void addRegistries(DataPackRegistryEvent.NewRegistry event){
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_STRUCTURE_REGISTRY,
@@ -126,7 +126,6 @@ public class CobblemonTrialsEdition {
         }
     }
 
-    @EventBusSubscriber(modid = MODID)
     public class ServerEvents {
         @SubscribeEvent
         public static void onAddReloadListeners(AddReloadListenerEvent event) {

@@ -13,12 +13,14 @@ import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.SpawnData;
+import org.apache.http.annotation.Obsolete;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,6 +68,66 @@ public record SpawnablePokemonProperties(
 
     private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
+    public SpawnData getPokemonSpawnData(RegistryAccess registryAccess, boolean doPokemonSpawnedGlow) {
+
+        if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS){
+            LOGGER.info("Setting up spawn data for '{}'", this.species);
+        }
+
+        PokemonProperties newPokemonProperties = getSpawnablePokemonProperties();
+        Pokemon newPokemon = newPokemonProperties.create();
+
+        newPokemon.getPersistentData().putBoolean("is_spawned_from_trial_spawner", true);
+
+        List<SpeciesFeature> speciesFeature = new ArrayList<>();
+        speciesFeature.add(new FlagSpeciesFeature(form,true));
+
+        if(form.equalsIgnoreCase("mega"))
+            speciesFeature.add(new StringSpeciesFeature("mega_evolution","mega"));
+
+        if(form.equalsIgnoreCase("gmax"))
+            speciesFeature.add(new StringSpeciesFeature("dynamax_form","gmax"));
+
+        // Handle Rotom Forms.
+        if(species.equalsIgnoreCase("rotom"))
+            speciesFeature.add(new StringSpeciesFeature("appliance",form));
+
+        newPokemon.setFeatures(speciesFeature);
+
+        newPokemon.setScaleModifier(scaleModifier);
+
+        if(Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE) {
+            newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_is_aggressive", isAggressive);
+        }
+
+        CompoundTag pokemonNbt = newPokemon.saveToNBT(registryAccess, new CompoundTag());
+
+        if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || isUncatchable){
+            // Make pokemon uncatchable
+            String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
+            ListTag listTag = new ListTag();
+            for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
+            pokemonNbt.put("PokemonData", listTag);
+        }
+
+        CompoundTag entityNbt = new CompoundTag();
+        entityNbt.put("Pokemon", pokemonNbt);
+        entityNbt.putString("id", "cobblemon:pokemon");
+        entityNbt.putString("PoseType", "WALK");
+        if(doPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
+
+        if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || mustBeDefeatedInBattle){
+            entityNbt.putBoolean("Invulnerable", true);
+        }
+
+        CompoundTag spawnData = new CompoundTag();
+        spawnData.put("entity", entityNbt);
+
+        DataResult<SpawnData> result = SpawnData.CODEC.parse(NbtOps.INSTANCE, spawnData);
+        return result.getOrThrow();
+    }
+
+    @Obsolete
     public SpawnData getPokemonSpawnData(ServerLevel serverLevel, boolean doPokemonSpawnedGlow) {
 
         if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS){

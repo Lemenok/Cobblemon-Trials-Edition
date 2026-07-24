@@ -261,6 +261,20 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
+    public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource) {
+        if (this.nextSpawnData.isPresent()) {
+            return this.nextSpawnData.get();
+        } else {
+            SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition();
+            Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
+
+            this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
+
+            cobblemonTrialSpawner.markUpdated();
+            return this.nextSpawnData.get();
+        }
+    }
+
     private Optional<SpawnData> CalculateLevelFromNearbyPlayers(Optional<SpawnData> nextSpawnData, ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
         if(serverLevel == null){
             return this.nextSpawnData;

@@ -35,22 +35,22 @@ public class ModIntegrations implements IModIntegrations {
 
     @Override
     public ResourceKey<Registry<LootTable>> getLootTableRegistry() {
-        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY;
+        return CobblemonTrialsEdition.RegistryEvents.COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY;
     }
 
     @Override
     public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsStructureRegistry() {
-        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_STRUCTURE_REGISTRY;
+        return CobblemonTrialsEdition.RegistryEvents.COBBLEMON_TRIALS_STRUCTURE_REGISTRY;
     }
 
     @Override
     public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsFeaturesRegistry() {
-        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_FEATURES_REGISTRY;
+        return CobblemonTrialsEdition.RegistryEvents.COBBLEMON_TRIALS_FEATURES_REGISTRY;
     }
 
     @Override
     public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsDefaultStructureRegistry() {
-        return CobblemonTrialsEdition.ClientModEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY;
+        return CobblemonTrialsEdition.RegistryEvents.COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY;
     }
 
     @Override

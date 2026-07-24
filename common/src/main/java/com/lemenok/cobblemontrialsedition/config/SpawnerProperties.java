@@ -4,7 +4,11 @@ import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -15,6 +19,7 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.List;
@@ -78,6 +83,23 @@ public record SpawnerProperties(
         return false;
     }
 
+    public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(RegistryAccess registryAccess, boolean isOminous){
+        SimpleWeightedRandomList.Builder<SpawnData> weightedLootTableListBuilder = new SimpleWeightedRandomList.Builder<>();
+
+        if(isOminous){
+            for(SpawnablePokemonProperties spawnablePokemonProperties: listOfOminousPokemonToSpawn){
+                weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow), spawnablePokemonProperties.weight());
+            }
+        } else {
+            for(SpawnablePokemonProperties spawnablePokemonProperties: listOfPokemonToSpawn){
+                weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow), spawnablePokemonProperties.weight());
+            }
+        }
+
+        return weightedLootTableListBuilder.build();
+    }
+
+    @Deprecated
     public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(ServerLevel level, boolean isOminous){
         SimpleWeightedRandomList.Builder<SpawnData> weightedLootTableListBuilder = new SimpleWeightedRandomList.Builder<>();
 
@@ -94,6 +116,45 @@ public record SpawnerProperties(
         return weightedLootTableListBuilder.build();
     }
 
+    public SimpleWeightedRandomList<ResourceKey<LootTable>> getLootTables(StructureTemplate.StructureBlockInfo blockInfo, boolean isOminous){
+
+        SimpleWeightedRandomList.Builder<ResourceKey<LootTable>> builder = SimpleWeightedRandomList.builder();
+
+        if (blockInfo.nbt() == null) {
+            return builder.build(); // Returns an empty weighted list
+        }
+
+        CompoundTag nbt = blockInfo.nbt();
+        String configKey = isOminous ? "ominous_config" : "normal_config";
+
+        if (nbt.contains(configKey, Tag.TAG_COMPOUND)) {
+            CompoundTag config = nbt.getCompound(configKey);
+
+            if (config.contains("loot_tables_to_eject", Tag.TAG_LIST)) {
+                ListTag lootTablesList = config.getList("loot_tables_to_eject", Tag.TAG_COMPOUND);
+
+                for (int i = 0; i < lootTablesList.size(); i++) {
+                    CompoundTag entry = lootTablesList.getCompound(i);
+
+                    // Get the ID and the weight
+                    String lootTableId = entry.getString("data");
+                    int weight = entry.contains("weight", Tag.TAG_INT) ? entry.getInt("weight") : 1;
+
+                    // Safely parse the string into a ResourceLocation (1.21+ uses tryParse or parse)
+                    ResourceLocation location = ResourceLocation.tryParse(lootTableId);
+
+                    if (location != null) {
+                        ResourceKey<LootTable> lootTableKey = ResourceKey.create(Registries.LOOT_TABLE, location);
+                        builder.add(lootTableKey, weight);
+                    }
+                }
+            }
+        }
+
+        return builder.build();
+    }
+
+    @Deprecated
     public SimpleWeightedRandomList<ResourceKey<LootTable>> getLootTables(BlockEntity blockEntity, boolean isOminous){
 
         // If the block entity is a trial spawner and no loot tables are listed, we default to the original Loot table drops.

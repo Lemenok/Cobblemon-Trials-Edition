@@ -6,6 +6,8 @@ import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,19 +26,26 @@ public class PropertiesCache {
         registryAccess.registry(Services.PLATFORM.getCobblemonTrialsStructureRegistry())
                 .ifPresent(registry -> populateCacheFromRegistry(registry, STRUCTURES_CACHE));
 
-        registryAccess.registry(Services.PLATFORM.getCobblemonTrialsStructureRegistry())
+        registryAccess.registry(Services.PLATFORM.getCobblemonTrialsFeaturesRegistry())
                 .ifPresent(registry -> populateCacheFromRegistry(registry, FEATURES_CACHE));
 
-        registryAccess.registry(Services.PLATFORM.getCobblemonTrialsStructureRegistry())
+        registryAccess.registry(Services.PLATFORM.getCobblemonTrialsDefaultStructureRegistry())
                 .ifPresent(registry -> populateCacheFromRegistry(registry, DEFAULTS_CACHE));
     }
 
     private static void populateCacheFromRegistry(Registry<StructureProperties> registry, Map<SpawnerCacheKey, SpawnerProperties> targetCache) {
         // Iterate over each Structure JSON file in the registry.
-        for (StructureProperties structureProperties : registry.stream().toList()) {
+        for (var entry : registry.entrySet()) {
 
-            structureProperties.structureId().unwrapKey().ifPresent(structureKey -> {
-                ResourceLocation structureResourceLocation = structureKey.location();
+            StructureProperties structureProperties = entry.getValue();
+
+            for (net.minecraft.core.Holder<net.minecraft.world.level.levelgen.structure.Structure> holder : structureProperties.structureId()) {
+
+                ResourceLocation structureResourceLocation = holder.unwrapKey()
+                        .map(ResourceKey::location)
+                        .orElse(null);
+
+                if (structureResourceLocation == null) continue;
 
                 // Iterate through each spawner property tied to the structure.
                 for (SpawnerProperties spawnerProperties : structureProperties.spawnerProperties()) {
@@ -51,7 +60,7 @@ public class PropertiesCache {
                         }
                     }
                 }
-            });
+            }
         }
     }
 

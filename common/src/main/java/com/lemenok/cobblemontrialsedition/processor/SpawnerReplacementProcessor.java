@@ -9,15 +9,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -37,20 +36,11 @@ public class SpawnerReplacementProcessor extends StructureProcessor {
                 StructurePlaceSettings settings) {
 
         // Check if block is listed to be replaced from the config.
-        BlockState state = globalBlockInfo.state();
-        ResourceLocation BlockResourceLocation = BuiltInRegistries.BLOCK.getKey(state.getBlock());
-        if(!isBlockListedToBeReplaced(BlockResourceLocation))
+        if(!isBlockListedToBeReplaced(BuiltInRegistries.BLOCK.getKey(globalBlockInfo.state().getBlock())))
             return globalBlockInfo;
 
         // Build block processor depending on the type of block being replaced.
-        IBlockProcessor blockProcessor;
-
-        if(state.is(Blocks.SPAWNER))
-            blockProcessor = new SpawnerProcessor(BlockResourceLocation);
-        else if(state.is(Blocks.TRIAL_SPAWNER))
-            blockProcessor = new TrialSpawnerProcessor(BlockResourceLocation);
-        else
-            blockProcessor = new DefaultProcessor(BlockResourceLocation);
+        IBlockProcessor blockProcessor = getBlockProcessor(globalBlockInfo);
 
         if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
             LOGGER.info("Spawner Found at: {}", globalBlockInfo.pos());
@@ -83,20 +73,23 @@ public class SpawnerReplacementProcessor extends StructureProcessor {
 
         // Check if structure has unique config to be replaced
         if(blockProcessor.doesConfigurationExistForReplacement(CacheType.STRUCTURE)) {
-            return blockProcessor.buildCobblemonTrialSpawnerBlock();
-            // Build Block to replace.
+            return blockProcessor.buildCobblemonTrialSpawnerBlock(level.registryAccess());
         }
 
         // Nothing was found. Return original Block.
         return globalBlockInfo;
+    }
 
+    private static @NotNull IBlockProcessor getBlockProcessor(StructureTemplate.StructureBlockInfo blockInfo) {
+        IBlockProcessor blockProcessor;
 
-        /*
-        return new StructureTemplate.StructureBlockInfo(
-                globalBlockInfo.pos(),
-                Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState(),
-                nbt
-        );*/
+        if(blockInfo.state().is(Blocks.SPAWNER))
+            blockProcessor = new SpawnerProcessor(blockInfo);
+        else if(blockInfo.state().is(Blocks.TRIAL_SPAWNER))
+            blockProcessor = new TrialSpawnerProcessor(blockInfo);
+        else
+            blockProcessor = new DefaultProcessor(blockInfo);
+        return blockProcessor;
     }
 
     private boolean isBlockListedToBeReplaced(ResourceLocation block) {
@@ -104,7 +97,6 @@ public class SpawnerReplacementProcessor extends StructureProcessor {
         // ResourceLocation.fromNamespaceAndPath("farmersdelight", "stove");
         return Objects.equals(block, ResourceLocation.withDefaultNamespace("spawner")) || Objects.equals(block, ResourceLocation.withDefaultNamespace("trial_spawner"));
     }
-
 
     @Override
     protected StructureProcessorType<?> getType() {
