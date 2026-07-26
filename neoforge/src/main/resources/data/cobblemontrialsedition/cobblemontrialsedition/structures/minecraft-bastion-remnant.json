@@ -2,7 +2,7 @@
   "structureId": "minecraft:bastion_remnant",
   "spawnerProperties": [
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:magma_cube"],
       "ticksBetweenSpawnAttempts": 40,
       "spawnerCooldown": 36000,

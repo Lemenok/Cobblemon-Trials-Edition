@@ -2,7 +2,7 @@
   "structureId": "minecraft:mineshaft",
   "spawnerProperties": [
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
       "ticksBetweenSpawnAttempts": 40,
       "spawnerCooldown": 36000,

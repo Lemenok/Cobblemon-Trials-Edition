@@ -6,7 +6,9 @@
     "FightOrFlightMixin",
     "CobblemonTrailDespawnMixin",
     "StructureTemplateMixin",
-    "StructureStartMixin"
+    "StructureStartMixin",
+    "StructureStartMixin",
+    "MonsterRoomFeatureMixin"
   ],
   "injectors": {
     "defaultRequire": 0

@@ -39,25 +39,22 @@ public class PropertiesCache {
 
             StructureProperties structureProperties = entry.getValue();
 
-            for (net.minecraft.core.Holder<net.minecraft.world.level.levelgen.structure.Structure> holder : structureProperties.structureId()) {
+            String[] structureString = structureProperties.structureId().split(":");
 
-                ResourceLocation structureResourceLocation = holder.unwrapKey()
-                        .map(ResourceKey::location)
-                        .orElse(null);
+            ResourceLocation structureResourceLocation = ResourceLocation.fromNamespaceAndPath(structureString[0], structureString[1]);
 
-                if (structureResourceLocation == null) continue;
+            if (structureResourceLocation == null) continue;
 
-                // Iterate through each spawner property tied to the structure.
-                for (SpawnerProperties spawnerProperties : structureProperties.spawnerProperties()) {
+            // Iterate through each spawner property tied to the structure.
+            for (SpawnerProperties spawnerProperties : structureProperties.spawnerProperties()) {
 
-                    // Iterate through each Block/Entity mapping to create the key and data for the hash.
-                    for (ResourceLocation blockType : spawnerProperties.blockEntityTypesToReplace()) {
-                        for (ResourceLocation entity : spawnerProperties.mobEntitiesInSpawnerToReplace()) {
+                // Iterate through each Block/Entity mapping to create the key and data for the hash.
+                for (ResourceLocation blockType : spawnerProperties.blockEntityTypesToReplace()) {
+                    for (ResourceLocation entity : spawnerProperties.mobEntitiesInSpawnerToReplace()) {
 
-                            // Store key in Hash with the SpawnerProperties.
-                            SpawnerCacheKey key = new SpawnerCacheKey(structureResourceLocation, blockType, entity);
-                            targetCache.put(key, spawnerProperties);
-                        }
+                        // Store key in Hash with the SpawnerProperties.
+                        SpawnerCacheKey key = new SpawnerCacheKey(structureResourceLocation, blockType, entity);
+                        targetCache.put(key, spawnerProperties);
                     }
                 }
             }

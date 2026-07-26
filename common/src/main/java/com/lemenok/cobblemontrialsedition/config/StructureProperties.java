@@ -11,15 +11,18 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import java.util.List;
 
 public record StructureProperties(
-    HolderSet<Structure> structureId,
+    //HolderSet<Structure> structureId,
+    String structureId,
     List<SpawnerProperties> spawnerProperties)
 {
     public static final Codec<StructureProperties> CODEC = RecordCodecBuilder.create(structure -> structure.group(
-            RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("structureId").forGetter(StructureProperties::structureId),
+            Codec.STRING.fieldOf("structureId").forGetter(StructureProperties::structureId),
+            //RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("structureId").forGetter(StructureProperties::structureId),
             Codec.list(SpawnerProperties.CODEC).fieldOf("spawnerProperties").forGetter(StructureProperties::spawnerProperties)
     ).apply(structure, StructureProperties::new));
 
+    /*
     public List<SpawnerProperties> getSpawnerPropertiesIfResourceLocationMatches(Holder<Structure> structureHolder){
         return structureId.contains(structureHolder) ? spawnerProperties : null;
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
 package com.lemenok.cobblemontrialsedition.integrations;
 
 import com.lemenok.cobblemontrialsedition.platform.Services;
-import com.lemenok.cobblemontrialsedition.processor.IBlockProcessor;
+import com.lemenok.cobblemontrialsedition.builder.IBlockBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -12,7 +12,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class ModConfigHelper {
 
     private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
-    public static boolean isStructureBlacklisted(LevelReader level, IBlockProcessor blockProcessor) {
+    public static boolean isStructureBlacklisted(LevelReader level, IBlockBuilder blockProcessor) {
 
         Registry<Structure> structureRegistry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         ResourceKey<Structure> structureKey = ResourceKey.create(Registries.STRUCTURE, blockProcessor.getStructureId());

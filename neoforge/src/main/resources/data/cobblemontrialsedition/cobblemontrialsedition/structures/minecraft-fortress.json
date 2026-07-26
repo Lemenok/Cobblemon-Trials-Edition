@@ -2,7 +2,7 @@
   "structureId": "minecraft:fortress",
   "spawnerProperties": [
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
       "ticksBetweenSpawnAttempts": 40,
       "spawnerCooldown": 36000,

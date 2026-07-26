@@ -1,5 +1,10 @@
 package com.lemenok.cobblemontrialsedition.processor;
 
+import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
+import com.lemenok.cobblemontrialsedition.builder.DefaultBuilder;
+import com.lemenok.cobblemontrialsedition.builder.IBlockBuilder;
+import com.lemenok.cobblemontrialsedition.builder.SpawnerBuilder;
+import com.lemenok.cobblemontrialsedition.builder.TrialSpawnerBuilder;
 import com.lemenok.cobblemontrialsedition.caches.CacheType;
 import com.lemenok.cobblemontrialsedition.integrations.ModConfigHelper;
 import com.lemenok.cobblemontrialsedition.platform.Services;
@@ -7,9 +12,11 @@ import com.lemenok.cobblemontrialsedition.threads.ActiveStructureTracker;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
@@ -40,60 +47,66 @@ public class SpawnerReplacementProcessor extends StructureProcessor {
             return globalBlockInfo;
 
         // Build block processor depending on the type of block being replaced.
-        IBlockProcessor blockProcessor = getBlockProcessor(globalBlockInfo);
+        IBlockBuilder blockBuilder = getBlockProcessor(globalBlockInfo);
 
         if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
             LOGGER.info("Spawner Found at: {}", globalBlockInfo.pos());
 
         // Set StructureId for processor
-        blockProcessor.setStructureId(ActiveStructureTracker.get());
+        blockBuilder.setStructureId(ActiveStructureTracker.get());
 
         if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS){
-            if (blockProcessor.getStructureId() != null) {
-                LOGGER.info("Spawner is inside structure: {}", blockProcessor.getStructureId());
+            if (blockBuilder.getStructureId() != null) {
+                LOGGER.info("Spawner is inside structure: {}", blockBuilder.getStructureId());
             } else {
                 LOGGER.info("Spawner placed outside of natural generation.");
             }
         }
 
-        blockProcessor.setEntityid(globalBlockInfo.nbt());
+        blockBuilder.setEntityid(globalBlockInfo.nbt());
         if (Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
-            LOGGER.info("Entity to be replaced: {}", blockProcessor.getEntityId());
+            LOGGER.info("Entity to be replaced: {}", blockBuilder.getEntityId());
 
         // Check if structure is blacklisted
-        if(ModConfigHelper.isStructureBlacklisted(level, blockProcessor))
+        if(ModConfigHelper.isStructureBlacklisted(level, blockBuilder))
             return globalBlockInfo;
 
         // Check if Spawner or Block should be replaced based on Percentages
-        if(!blockProcessor.shouldBlockBeReplaced()){
+        if(!blockBuilder.shouldBlockBeReplaced()){
             if (Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
                 LOGGER.info("Skipped replacement of Mob Spawner at: {}", globalBlockInfo.pos());
             return globalBlockInfo;
         }
 
         // Check if structure has unique config to be replaced
-        if(blockProcessor.doesConfigurationExistForReplacement(CacheType.STRUCTURE)) {
-            return blockProcessor.buildCobblemonTrialSpawnerBlock(level.registryAccess());
+        if(blockBuilder.doesConfigurationExistForReplacement(CacheType.STRUCTURE)) {
+            BlockState newBlockState = Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState();
+            CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = blockBuilder.buildCobblemonTrialSpawnerBlock(level.registryAccess());
+
+            // Serialize the fully configured BlockEntity into an NBT tag
+            CompoundTag newNbt = cobblemonTrialSpawnerEntity.saveWithFullMetadata(level.registryAccess());
+
+            return new StructureTemplate.StructureBlockInfo(blockBuilder.getBlockPosition(), newBlockState, newNbt);
         }
 
         // Nothing was found. Return original Block.
         return globalBlockInfo;
     }
 
-    private static @NotNull IBlockProcessor getBlockProcessor(StructureTemplate.StructureBlockInfo blockInfo) {
-        IBlockProcessor blockProcessor;
+    public static @NotNull IBlockBuilder getBlockProcessor(StructureTemplate.StructureBlockInfo blockInfo) {
+        IBlockBuilder blockProcessor;
 
         if(blockInfo.state().is(Blocks.SPAWNER))
-            blockProcessor = new SpawnerProcessor(blockInfo);
+            blockProcessor = new SpawnerBuilder(blockInfo);
         else if(blockInfo.state().is(Blocks.TRIAL_SPAWNER))
-            blockProcessor = new TrialSpawnerProcessor(blockInfo);
+            blockProcessor = new TrialSpawnerBuilder(blockInfo);
         else
-            blockProcessor = new DefaultProcessor(blockInfo);
+            blockProcessor = new DefaultBuilder(blockInfo);
         return blockProcessor;
     }
 
     private boolean isBlockListedToBeReplaced(ResourceLocation block) {
-        // Add check for config.
+        // TODO: Add check for config.
         // ResourceLocation.fromNamespaceAndPath("farmersdelight", "stove");
         return Objects.equals(block, ResourceLocation.withDefaultNamespace("spawner")) || Objects.equals(block, ResourceLocation.withDefaultNamespace("trial_spawner"));
     }

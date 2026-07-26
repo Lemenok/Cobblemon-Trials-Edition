@@ -1,12 +1,15 @@
 package com.lemenok.cobblemontrialsedition.mixin;
 
+import com.lemenok.cobblemontrialsedition.processor.SpawnerReplacementHelper;
 import com.lemenok.cobblemontrialsedition.threads.ActiveStructureTracker;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -40,6 +43,16 @@ public abstract class StructureStartMixin {
     private void onPlaceInChunkEnd(WorldGenLevel worldGenLevel, StructureManager structureManager,
                                    ChunkGenerator chunkGenerator, RandomSource randomSource,
                                    BoundingBox boundingBox, ChunkPos chunkPos, CallbackInfo callbackInfo) {
+
+        // TODO: Change to check for blocks that should be replaced.
+        // Catch any raw/hardcoded spawners placed directly in this chunk's structure piece bounds (e.g., Mineshafts)
+        BlockPos.betweenClosedStream(boundingBox).forEach(pos -> {
+            if (worldGenLevel.getBlockState(pos).is(Blocks.SPAWNER)) {
+                ResourceLocation structureId = ActiveStructureTracker.get();
+                SpawnerReplacementHelper.processLiveSpawner(worldGenLevel, pos.immutable(), structureId);
+            }
+        });
+
         // Clean up the thread.
         ActiveStructureTracker.clear();
     }

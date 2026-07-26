@@ -1,4 +1,4 @@
-package com.lemenok.cobblemontrialsedition.processor;
+package com.lemenok.cobblemontrialsedition.builder;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.caches.CacheType;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-public class SpawnerProcessor implements IBlockProcessor {
+public class DefaultBuilder implements IBlockBuilder {
 
     private ResourceLocation ENTITY_ID;
     private ResourceLocation STRUCTURE_ID;
@@ -22,9 +22,9 @@ public class SpawnerProcessor implements IBlockProcessor {
     private final LootTable LOOT_TABLE = null;
     private final BlockPos BLOCK_POSITION;
 
-    private SpawnerProperties SPAWNERPROPERTY = null;
+    private SpawnerProperties SPAWNERPROPERTY;
 
-    public SpawnerProcessor(StructureTemplate.StructureBlockInfo blockInfo) {
+    public DefaultBuilder(StructureTemplate.StructureBlockInfo blockInfo) {
         STRUCTURE_BLOCK_INFO = blockInfo;
         BLOCK_POSITION = blockInfo.pos();
     }
@@ -74,8 +74,9 @@ public class SpawnerProcessor implements IBlockProcessor {
 
     @Override
     public boolean shouldBlockBeReplaced() {
-        if(Services.PLATFORM.getCommonConfig().REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE){
-            return Services.PLATFORM.getCommonConfig().MOB_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random();
+        // TODO: Change from Shriekers to Random block Percentage
+        if(Services.PLATFORM.getCommonConfig().REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE){
+            return Services.PLATFORM.getCommonConfig().SHRIEKER_REPLACEMENT_PERCENTAGE <= Math.random();
         }
         return true;
     }
@@ -88,13 +89,7 @@ public class SpawnerProcessor implements IBlockProcessor {
     }
 
     @Override
-    public StructureTemplate.StructureBlockInfo buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess) {
-        BlockState newBlockState = Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState();
-        CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = BuildSpawner.create(registryAccess, BLOCK_POSITION, this);
-
-        // Serialize the fully configured BlockEntity into an NBT tag
-        CompoundTag newNbt = cobblemonTrialSpawnerEntity.saveWithFullMetadata(registryAccess);
-
-        return new StructureTemplate.StructureBlockInfo(getBlockPosition(), newBlockState, newNbt);
+    public CobblemonTrialSpawnerEntity buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess) {
+        return BuildSpawner.create(registryAccess, BLOCK_POSITION, this);
     }
 }

@@ -2,7 +2,7 @@
   "structureId": "minecraft:stronghold",
   "spawnerProperties": [
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
       "ticksBetweenSpawnAttempts": 40,
       "spawnerCooldown": 36000,

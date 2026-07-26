@@ -1,4 +1,4 @@
-package com.lemenok.cobblemontrialsedition.processor;
+package com.lemenok.cobblemontrialsedition.builder;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.caches.CacheType;
@@ -9,21 +9,22 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.storage.loot.LootTable;
 
-public class TrialSpawnerProcessor implements IBlockProcessor{
+public class SpawnerBuilder implements IBlockBuilder {
 
     private ResourceLocation ENTITY_ID;
     private ResourceLocation STRUCTURE_ID;
     private final StructureTemplate.StructureBlockInfo STRUCTURE_BLOCK_INFO;
+    private final LootTable LOOT_TABLE = null;
     private final BlockPos BLOCK_POSITION;
 
-    private SpawnerProperties SPAWNERPROPERTY;
+    private SpawnerProperties SPAWNERPROPERTY = null;
 
-    public TrialSpawnerProcessor(StructureTemplate.StructureBlockInfo blockInfo) {
+    public SpawnerBuilder(StructureTemplate.StructureBlockInfo blockInfo) {
         STRUCTURE_BLOCK_INFO = blockInfo;
         BLOCK_POSITION = blockInfo.pos();
     }
@@ -40,19 +41,9 @@ public class TrialSpawnerProcessor implements IBlockProcessor{
 
     @Override
     public void setEntityid(CompoundTag nbt) {
-        if (nbt.contains("normal_config")) {
-            CompoundTag normalConfig = nbt.getCompound("normal_config");
-            if (normalConfig.contains("spawn_potentials")) {
-                ListTag spawnPotentials = normalConfig.getList("spawn_potentials", ListTag.TAG_COMPOUND);
-                for (int i = 0; i < spawnPotentials.size(); i++) {
-                    CompoundTag entry = spawnPotentials.getCompound(i);
-
-                    CompoundTag dataTag = entry.getCompound("data");
-                    CompoundTag entityTag = dataTag.getCompound("entity");
-
-                    ENTITY_ID = ResourceLocation.parse(entityTag.getString("id"));
-                }
-            }
+        if (nbt.contains("SpawnData", 10)) {
+            CompoundTag entityData = nbt.getCompound("SpawnData").getCompound("entity");
+            ENTITY_ID = ResourceLocation.parse(entityData.getString("id"));
         }
     }
 
@@ -83,8 +74,8 @@ public class TrialSpawnerProcessor implements IBlockProcessor{
 
     @Override
     public boolean shouldBlockBeReplaced() {
-        if(Services.PLATFORM.getCommonConfig().REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE){
-            return Services.PLATFORM.getCommonConfig().TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random();
+        if(Services.PLATFORM.getCommonConfig().REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE){
+            return Services.PLATFORM.getCommonConfig().MOB_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random();
         }
         return true;
     }
@@ -97,13 +88,7 @@ public class TrialSpawnerProcessor implements IBlockProcessor{
     }
 
     @Override
-    public StructureTemplate.StructureBlockInfo buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess) {
-        BlockState newBlockState = Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState();
-        CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = BuildSpawner.create(registryAccess, BLOCK_POSITION, this);
-
-        // Serialize the fully configured BlockEntity into an NBT tag
-        CompoundTag newNbt = cobblemonTrialSpawnerEntity.saveWithFullMetadata(registryAccess);
-
-        return new StructureTemplate.StructureBlockInfo(getBlockPosition(), newBlockState, newNbt);
+    public CobblemonTrialSpawnerEntity buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess) {
+        return BuildSpawner.create(registryAccess, BLOCK_POSITION, this);
     }
 }

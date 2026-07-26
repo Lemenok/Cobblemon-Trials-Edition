@@ -114,7 +114,7 @@ public class ReplaceSpawners {
             // Check if Structure Exists to have its spawners swapped.
             List<SpawnerProperties> spawnerPropertiesForStructure = new ArrayList<>();
             for(StructureProperties properties: listOfStructuresToModify){
-                spawnerPropertiesForStructure = properties.getSpawnerPropertiesIfResourceLocationMatches(resourceAtPosition);
+                //spawnerPropertiesForStructure = properties.getSpawnerPropertiesIfResourceLocationMatches(resourceAtPosition);
                 // Break early if found.
                 if(spawnerPropertiesForStructure != null)
                     break;

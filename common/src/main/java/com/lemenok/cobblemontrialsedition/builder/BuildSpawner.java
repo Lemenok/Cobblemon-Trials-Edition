@@ -1,4 +1,4 @@
-package com.lemenok.cobblemontrialsedition.processor;
+package com.lemenok.cobblemontrialsedition.builder;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
@@ -10,7 +10,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 public class BuildSpawner {
-    public static CobblemonTrialSpawnerEntity create(RegistryAccess registryAccess, BlockPos blockPosition, IBlockProcessor blockProcessor) {
+    public static CobblemonTrialSpawnerEntity create(RegistryAccess registryAccess, BlockPos blockPosition, IBlockBuilder blockProcessor) {
 
         SpawnerProperties newSpawnerProperties = blockProcessor.getSpawnerProperties();
 
