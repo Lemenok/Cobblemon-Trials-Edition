@@ -4,7 +4,6 @@ import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
 import com.lemenok.cobblemontrialsedition.neoforge.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.neoforge.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
-import com.lemenok.cobblemontrialsedition.neoforge.events.SpawnerReplacementHandler;
 import com.lemenok.cobblemontrialsedition.neoforge.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.neoforge.item.ModItems;
 import com.lemenok.cobblemontrialsedition.neoforge.particle.ModParticles;
@@ -16,7 +15,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
@@ -52,7 +50,6 @@ public class CobblemonTrialsEdition {
         // Note that this is necessary if and only if we want *this* class (CobblemonTrialsEdition) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
-        NeoForge.EVENT_BUS.register(new SpawnerReplacementHandler()); // TODO: Remove this.
         NeoForge.EVENT_BUS.addListener(ServerEvents::onAddReloadListeners);
 
         ModCreativeModeTabs.register(modEventBus);
@@ -91,11 +88,6 @@ public class CobblemonTrialsEdition {
                         ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "structures")
                 );
 
-        public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_FEATURES_REGISTRY =
-                ResourceKey.createRegistryKey(
-                        ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "features")
-                );
-
         public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY =
                 ResourceKey.createRegistryKey(
                         ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEdition.MODID, "defaults")
@@ -109,10 +101,6 @@ public class CobblemonTrialsEdition {
         public static void addRegistries(DataPackRegistryEvent.NewRegistry event){
             event.dataPackRegistry(
                     COBBLEMON_TRIALS_STRUCTURE_REGISTRY,
-                    StructureProperties.CODEC
-            );
-            event.dataPackRegistry(
-                    COBBLEMON_TRIALS_FEATURES_REGISTRY,
                     StructureProperties.CODEC
             );
             event.dataPackRegistry(

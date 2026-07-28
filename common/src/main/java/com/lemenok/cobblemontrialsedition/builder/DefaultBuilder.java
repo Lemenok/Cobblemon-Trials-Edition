@@ -10,16 +10,13 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.storage.loot.LootTable;
 
 public class DefaultBuilder implements IBlockBuilder {
 
     private ResourceLocation ENTITY_ID;
     private ResourceLocation STRUCTURE_ID;
     private final StructureTemplate.StructureBlockInfo STRUCTURE_BLOCK_INFO;
-    private final LootTable LOOT_TABLE = null;
     private final BlockPos BLOCK_POSITION;
 
     private SpawnerProperties SPAWNERPROPERTY;
@@ -74,9 +71,8 @@ public class DefaultBuilder implements IBlockBuilder {
 
     @Override
     public boolean shouldBlockBeReplaced() {
-        // TODO: Change from Shriekers to Random block Percentage
-        if(Services.PLATFORM.getCommonConfig().REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE){
-            return Services.PLATFORM.getCommonConfig().SHRIEKER_REPLACEMENT_PERCENTAGE <= Math.random();
+        if(Services.PLATFORM.getCommonConfig().REPLACE_BLOCKS_BASED_ON_PERCENTAGE){
+            return Services.PLATFORM.getCommonConfig().BLOCK_REPLACEMENT_PERCENTAGE <= Math.random();
         }
         return true;
     }

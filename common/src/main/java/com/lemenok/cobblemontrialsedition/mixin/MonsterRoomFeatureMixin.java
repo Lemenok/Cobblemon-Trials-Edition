@@ -1,6 +1,6 @@
 package com.lemenok.cobblemontrialsedition.mixin;
 
-import com.lemenok.cobblemontrialsedition.processor.SpawnerReplacementHelper;
+import com.lemenok.cobblemontrialsedition.processor.StructureSpawnerReplacementProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.WorldGenLevel;
@@ -16,15 +16,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MonsterRoomFeatureMixin {
 
     @Inject(method = "place", at = @At("RETURN"))
-    private void onPlaceDungeon(FeaturePlaceContext<NoneFeatureConfiguration> context, CallbackInfoReturnable<Boolean> cir) {
-        // If the dungeon successfully generated
-        if (cir.getReturnValue()) {
-            WorldGenLevel level = context.level();
-            BlockPos origin = context.origin(); // The spawner is placed at the exact origin pos
+    private void onPlaceDungeon(FeaturePlaceContext<NoneFeatureConfiguration> featurePlaceContext, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
+        // Check if the Monster room is successfully generated.
+        if (callbackInfoReturnable.getReturnValue()) {
+            WorldGenLevel level = featurePlaceContext.level();
+            BlockPos origin = featurePlaceContext.origin();
 
-            // Verify the spawner is actually there (it should be)
+            // Verify the spawner exists
             if (level.getBlockState(origin).is(net.minecraft.world.level.block.Blocks.SPAWNER)) {
-                SpawnerReplacementHelper.processLiveSpawner(level, origin, ResourceLocation.withDefaultNamespace("monster_room"));
+                StructureSpawnerReplacementProcessor.processSpawner(level, origin, ResourceLocation.withDefaultNamespace("monster_room"));
             }
         }
     }

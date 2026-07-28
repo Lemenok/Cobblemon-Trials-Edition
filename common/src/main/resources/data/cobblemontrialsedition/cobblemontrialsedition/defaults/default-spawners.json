@@ -1,8 +1,8 @@
 {
-  "structureId": "minecraft:village_plains",
+  "structureId": "cobblemontrialsedition:default",
   "spawnerProperties": [
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bat"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -54,7 +54,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -63,21 +63,21 @@
         "weight": 50,
         "level": 20
       },
-        {
-          "species": "charcadet",
-          "weight": 50,
-          "level": 20
-        }],
+      {
+        "species": "charcadet",
+        "weight": 50,
+        "level": 20
+      }],
       "listOfOminousPokemonToSpawn": [{
         "species": "magmar",
         "weight": 50,
         "level": 40
       },
-        {
-          "species": "armarouge",
-          "weight": 50,
-          "level": 40
-        }]
+      {
+        "species": "armarouge",
+        "weight": 50,
+        "level": 40
+      }]
     },
     {
       "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
@@ -106,7 +106,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -115,21 +115,21 @@
         "weight": 50,
         "level": 20
       },
-        {
-          "species": "foongus",
-          "weight": 50,
-          "level": 20
-        }],
+      {
+        "species": "foongus",
+        "weight": 50,
+        "level": 20
+      }],
       "listOfOminousPokemonToSpawn": [{
         "species": "vileplume",
         "weight": 50,
         "level": 40
       },
-        {
-          "species": "amoonguss",
-          "weight": 50,
-          "level": 40
-        }]
+      {
+        "species": "amoonguss",
+        "weight": 50,
+        "level": 40
+      }]
     },
     {
       "blockEntityTypesToReplace": ["minecraft:trial_spawner"],
@@ -158,7 +158,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -214,7 +214,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -266,7 +266,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:creeper"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -318,7 +318,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -370,7 +370,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:elder_guardian"],
       "maximumNumberOfSimultaneousPokemon": 1,
       "totalNumberOfPokemonPerTrial": 1,
@@ -434,7 +434,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:enderman"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -486,7 +486,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:endermite"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -538,7 +538,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:evoker"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -590,7 +590,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:ghast"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -642,7 +642,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:guardian"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -694,7 +694,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:hoglin"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -746,7 +746,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:husk"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -798,7 +798,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:illusioner"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -850,7 +850,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:iron_golem"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -902,7 +902,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:magma_cube"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -954,7 +954,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:phantom"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1006,7 +1006,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:pig"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1058,7 +1058,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:piglin"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1110,7 +1110,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:piglin_brute"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1162,7 +1162,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:pillager"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1214,7 +1214,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:ravager"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1266,7 +1266,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:shulker"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1318,7 +1318,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1370,27 +1370,27 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "lootTables": ["cobblemontrialsedition:monster-room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
       "listOfPokemonToSpawn": [{
-        "species": "cubone",
+        "species": "duskull",
         "weight": 50,
         "level": 20
       },
         {
-          "species": "geodude",
+          "species": "dartrix",
           "weight": 50,
           "level": 20
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "marowak",
+        "species": "dusclops",
         "weight": 50,
         "level": 40
       },
         {
-          "species": "graveler",
+          "species": "decidueye",
           "weight": 50,
           "level": 40
         }]
@@ -1422,7 +1422,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:slime"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1478,27 +1478,27 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
-      "lootTables": ["cobblemontrialsedition:monster-room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
       "listOfPokemonToSpawn": [{
-        "species": "skorupi",
-        "weight": 80,
+        "species": "tarountula",
+        "weight": 50,
         "level": 20
       },
         {
-          "species": "sableye",
-          "weight": 20,
+          "species": "dewpider",
+          "weight": 50,
           "level": 20
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "drapion",
+        "species": "spidops",
         "weight": 50,
         "level": 40
       },
         {
-          "species": "sableye",
+          "species": "araquanid",
           "weight": 50,
           "level": 40
         }]
@@ -1530,7 +1530,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:stray"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1582,7 +1582,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:strider"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1634,7 +1634,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:vex"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1686,7 +1686,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:vindicator"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1738,7 +1738,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:witch"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1794,7 +1794,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:wither_skeleton"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -1850,7 +1850,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zoglin"],
       "lootTables": ["cobblemontrialsedition:monster-room"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
@@ -1902,27 +1902,27 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
-      "lootTables": ["cobblemontrialsedition:monster-room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
       "listOfPokemonToSpawn": [{
-        "species": "shuppet",
-        "weight": 80,
+        "species": "carnivine",
+        "weight": 50,
         "level": 20
       },
         {
-          "species": "mimikyu",
-          "weight": 20,
+          "species": "paras",
+          "weight": 50,
           "level": 20
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "banette",
+        "species": "carnivine",
         "weight": 50,
         "level": 40
       },
         {
-          "species": "mimikyu",
+          "species": "parasect",
           "weight": 50,
           "level": 40
         }]
@@ -1954,7 +1954,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombified_piglin"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],
@@ -2010,7 +2010,7 @@
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:mob_spawner"],
+      "blockEntityTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie_villager"],
       "lootTables": ["cobblemontrialsedition:default-mob-spawner"],
       "ominousLootTables": ["cobblemontrialsedition:ominous-default-mob-spawner"],

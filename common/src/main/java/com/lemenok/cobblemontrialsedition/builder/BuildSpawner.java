@@ -26,7 +26,7 @@ public class BuildSpawner {
                 newSpawnerProperties.ticksBetweenSpawnAttempts(),
                 newSpawnerProperties.ominousSpawnerAttacksEnabled(),
                 newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, false),
-                newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), false),
+                newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), false, registryAccess),
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
         );
         cobblemonTrialSpawnerOminousConfig = new CobblemonTrialSpawnerConfig(
@@ -38,7 +38,7 @@ public class BuildSpawner {
                 newSpawnerProperties.ticksBetweenSpawnAttempts(),
                 newSpawnerProperties.ominousSpawnerAttacksEnabled(),
                 newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, true),
-                newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), true),
+                newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), true, registryAccess),
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
         );
 

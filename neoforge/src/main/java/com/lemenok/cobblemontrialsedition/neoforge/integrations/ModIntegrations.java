@@ -11,7 +11,7 @@ import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import com.lemenok.cobblemontrialsedition.neoforge.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.neoforge.processor.ModProcessors;
 import com.lemenok.cobblemontrialsedition.neoforge.sound.ModSounds;
-import com.lemenok.cobblemontrialsedition.processor.SpawnerReplacementProcessor;
+import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
@@ -41,11 +41,6 @@ public class ModIntegrations implements IModIntegrations {
     @Override
     public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsStructureRegistry() {
         return CobblemonTrialsEdition.RegistryEvents.COBBLEMON_TRIALS_STRUCTURE_REGISTRY;
-    }
-
-    @Override
-    public ResourceKey<Registry<StructureProperties>> getCobblemonTrialsFeaturesRegistry() {
-        return CobblemonTrialsEdition.RegistryEvents.COBBLEMON_TRIALS_FEATURES_REGISTRY;
     }
 
     @Override
@@ -79,7 +74,7 @@ public class ModIntegrations implements IModIntegrations {
     }
 
     @Override
-    public StructureProcessorType<SpawnerReplacementProcessor> getSpawnerReplacementProcessor() {
+    public StructureProcessorType<JigsawSpawnerReplacementProcessor> getSpawnerReplacementProcessor() {
         return ModProcessors.SPAWNER_REPLACEMENT_PROCESSOR.get();
     }
 
@@ -92,7 +87,6 @@ public class ModIntegrations implements IModIntegrations {
         modConfigCommon.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS = Config.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS.get();
         modConfigCommon.REPLACE_SPAWNERS_IN_FEATURES = Config.REPLACE_SPAWNERS_IN_FEATURES.get();
         modConfigCommon.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = Config.REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS.get();
-        modConfigCommon.REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS = Config.REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS.get();
         modConfigCommon.SPAWNED_POKEMON_ARE_UNCATCHABLE = Config.SPAWNED_POKEMON_ARE_UNCATCHABLE.get();
         modConfigCommon.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE = Config.SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE.get();
         modConfigCommon.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = Config.ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE.get();
@@ -100,8 +94,8 @@ public class ModIntegrations implements IModIntegrations {
         modConfigCommon.MOB_SPAWNER_REPLACEMENT_PERCENTAGE = Config.MOB_SPAWNER_REPLACEMENT_PERCENTAGE.get();
         modConfigCommon.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE = Config.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE.get();
         modConfigCommon.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = Config.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE.get();
-        modConfigCommon.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE = Config.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE.get();
-        modConfigCommon.SHRIEKER_REPLACEMENT_PERCENTAGE = Config.SHRIEKER_REPLACEMENT_PERCENTAGE.get();
+        modConfigCommon.REPLACE_BLOCKS_BASED_ON_PERCENTAGE = Config.REPLACE_BLOCKS_ON_PERCENTAGE.get();
+        modConfigCommon.BLOCK_REPLACEMENT_PERCENTAGE = Config.BLOCK_REPLACEMENT_PERCENTAGE.get();
         modConfigCommon.ENABLE_POKEMON_LEVEL_ADJUSTMENT = Config.ENABLE_POKEMON_LEVEL_ADJUSTMENT.get();
         modConfigCommon.POKEMON_LEVEL_ADJUSTMENT_TYPE = Config.POKEMON_LEVEL_ADJUSTMENT_TYPE.get();
 

@@ -1,7 +1,7 @@
 package com.lemenok.cobblemontrialsedition.mixin;
 
 import com.lemenok.cobblemontrialsedition.platform.Services;
-import com.lemenok.cobblemontrialsedition.processor.SpawnerReplacementProcessor;
+import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -24,6 +24,6 @@ public class StructureTemplateMixin {
             at = @At("HEAD")
     )
     private void injectCustomProcessors(ServerLevelAccessor serverLevel, BlockPos offset, BlockPos pos, StructurePlaceSettings settings, RandomSource random, int flags, CallbackInfoReturnable<Boolean> cir) {
-        settings.addProcessor(new SpawnerReplacementProcessor());
+        settings.addProcessor(new JigsawSpawnerReplacementProcessor());
     }
 }

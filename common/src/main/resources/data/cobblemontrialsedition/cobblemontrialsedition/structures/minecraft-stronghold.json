@@ -19,17 +19,26 @@
       "listOfPokemonToSpawn": [{
           "species": "lunatone",
           "weight": 40,
-          "level": 40
+          "spawnablePokemonStats": {
+              "level": 40,
+              "moves": ["zapcannon"]
+          }
         },
         {
           "species": "solrock",
           "weight": 40,
-          "level": 40
+          "spawnablePokemonStats": {
+            "level": 40,
+            "moves": ["zapcannon"]
+          }
         },
         {
           "species": "golett",
           "weight": 20,
-          "level": 40
+          "spawnablePokemonStats": {
+            "level": 40,
+            "moves": ["zapcannon"]
+          }
         }],
       "listOfOminousPokemonToSpawn": [
         {

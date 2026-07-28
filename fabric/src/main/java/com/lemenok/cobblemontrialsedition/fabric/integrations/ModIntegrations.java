@@ -10,7 +10,7 @@ import com.lemenok.cobblemontrialsedition.fabric.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
 import com.lemenok.cobblemontrialsedition.integrations.IModIntegrations;
 import com.lemenok.cobblemontrialsedition.integrations.ModConfigCommon;
-import com.lemenok.cobblemontrialsedition.processor.SpawnerReplacementProcessor;
+import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -79,7 +79,7 @@ public class ModIntegrations implements IModIntegrations {
     }
 
     @Override
-    public StructureProcessorType<SpawnerReplacementProcessor> getSpawnerReplacementProcessor() {
+    public StructureProcessorType<JigsawSpawnerReplacementProcessor> getSpawnerReplacementProcessor() {
         return null;
     }
 
@@ -102,7 +102,7 @@ public class ModIntegrations implements IModIntegrations {
         modConfigCommon.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE = modConfig.REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE;
         modConfigCommon.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = modConfig.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE;
         modConfigCommon.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE = modConfig.REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE;
-        modConfigCommon.SHRIEKER_REPLACEMENT_PERCENTAGE = modConfig.SHRIEKER_REPLACEMENT_PERCENTAGE;
+        modConfigCommon.BLOCK_REPLACEMENT_PERCENTAGE = modConfig.SHRIEKER_REPLACEMENT_PERCENTAGE;
         modConfigCommon.ENABLE_POKEMON_LEVEL_ADJUSTMENT = modConfig.ENABLE_POKEMON_LEVEL_ADJUSTMENT;
         modConfigCommon.POKEMON_LEVEL_ADJUSTMENT_TYPE = modConfig.POKEMON_LEVEL_ADJUSTMENT_TYPE;
 

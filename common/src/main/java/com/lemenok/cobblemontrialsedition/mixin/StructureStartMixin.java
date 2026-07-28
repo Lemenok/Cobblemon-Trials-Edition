@@ -1,6 +1,6 @@
 package com.lemenok.cobblemontrialsedition.mixin;
 
-import com.lemenok.cobblemontrialsedition.processor.SpawnerReplacementHelper;
+import com.lemenok.cobblemontrialsedition.processor.StructureSpawnerReplacementProcessor;
 import com.lemenok.cobblemontrialsedition.threads.ActiveStructureTracker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -49,7 +49,7 @@ public abstract class StructureStartMixin {
         BlockPos.betweenClosedStream(boundingBox).forEach(pos -> {
             if (worldGenLevel.getBlockState(pos).is(Blocks.SPAWNER)) {
                 ResourceLocation structureId = ActiveStructureTracker.get();
-                SpawnerReplacementHelper.processLiveSpawner(worldGenLevel, pos.immutable(), structureId);
+                StructureSpawnerReplacementProcessor.processSpawner(worldGenLevel, pos.immutable(), structureId);
             }
         });
 

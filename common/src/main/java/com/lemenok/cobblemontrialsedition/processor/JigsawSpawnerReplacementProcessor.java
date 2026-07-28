@@ -28,19 +28,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class SpawnerReplacementProcessor extends StructureProcessor {
+// The class that handles the StructureProcessor (Jigsaw placed structures)
+public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
 
-    public static final MapCodec<SpawnerReplacementProcessor> CODEC = MapCodec.unit(SpawnerReplacementProcessor::new);
+    public static final MapCodec<JigsawSpawnerReplacementProcessor> CODEC = MapCodec.unit(JigsawSpawnerReplacementProcessor::new);
     private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
     @Nullable
-    public StructureTemplate.StructureBlockInfo processBlock(
-                LevelReader level,
-                BlockPos offset,
-                BlockPos pos,
-                StructureTemplate.StructureBlockInfo localBlockInfo,
-                StructureTemplate.StructureBlockInfo globalBlockInfo,
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader level, BlockPos offset, BlockPos pos,
+                StructureTemplate.StructureBlockInfo localBlockInfo, StructureTemplate.StructureBlockInfo globalBlockInfo,
                 StructurePlaceSettings settings) {
+
+        // Is Spawner replacement active.
+        if(!Services.PLATFORM.getCommonConfig().REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS)
+            return globalBlockInfo;
 
         // Check if block is listed to be replaced from the config.
         if(!isBlockListedToBeReplaced(BuiltInRegistries.BLOCK.getKey(globalBlockInfo.state().getBlock())))
@@ -74,7 +75,7 @@ public class SpawnerReplacementProcessor extends StructureProcessor {
         // Check if Spawner or Block should be replaced based on Percentages
         if(!blockBuilder.shouldBlockBeReplaced()){
             if (Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
-                LOGGER.info("Skipped replacement of Mob Spawner at: {}", globalBlockInfo.pos());
+                LOGGER.info("Skipped replacement of Spawner at: {} due to Percentage based replacement.", globalBlockInfo.pos());
             return globalBlockInfo;
         }
 

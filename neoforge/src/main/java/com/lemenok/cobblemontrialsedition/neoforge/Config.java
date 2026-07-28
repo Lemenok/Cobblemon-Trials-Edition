@@ -37,10 +37,6 @@ public class Config {
             .comment("Whether to replace any spawners that are not listed in configuration with a default spawner. If set to false, this will leave spawners that do not have custom spawn data created.")
             .define("replaceAnyUnspecifiedSpawnersWithDefaultCobblemonSpawners", true);
 
-    public static final ModConfigSpec.BooleanValue REPLACE_ANY_SKULK_SHRIEKERS_WITH_COBBLEMON_SPAWNERS = BUILDER
-            .comment("Whether to replace any Skulk Shriekers with Cobblemon Trial Spawners.")
-            .define("replaceAnySkulkShriekersWithCobblemonSpawners", true);
-
     public static final ModConfigSpec.BooleanValue SPAWNED_POKEMON_ARE_UNCATCHABLE = BUILDER
             .comment("This allows Spawned Pokemon to be Catchable. If set to True, regardless of spawner settings, Pokemon will always be catchable." +
                     "If set to false whether Spawned Pokemon can be catchable or not is left up to the Spawner's Settings." +
@@ -81,13 +77,13 @@ public class Config {
                     "\"NOTE: This will only apply in newly generated chunks.")
             .defineInRange("trialSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
 
-    public static final ModConfigSpec.BooleanValue REPLACE_SHRIEKERS_BASED_ON_PERCENTAGE = BUILDER
+    public static final ModConfigSpec.BooleanValue REPLACE_BLOCKS_ON_PERCENTAGE = BUILDER
             .comment("This allows Percentage based control of Sculk Shrieker replacement.\" +\n" +
                     "\"If set to true this will use the Trial Spawner Replacement Percentage to determine how often a Sculk Shrieker should be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
             .define("replaceShriekersBasedOnPercentage", false);
 
-    public static final ModConfigSpec.DoubleValue SHRIEKER_REPLACEMENT_PERCENTAGE = BUILDER
+    public static final ModConfigSpec.DoubleValue BLOCK_REPLACEMENT_PERCENTAGE = BUILDER
             .comment("This is what percentage (0.0 - 1.0) Sculk Shriekers will be replaced, eg: .75 will mean 75% of each Sculk Shriekers within a structure will be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
             .defineInRange("shriekerReplacementPercentage", 0.0, 0.0, 1.0);

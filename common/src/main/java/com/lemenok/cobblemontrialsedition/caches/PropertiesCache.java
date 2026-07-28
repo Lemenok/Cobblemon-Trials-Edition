@@ -15,19 +15,14 @@ import java.util.Map;
 public class PropertiesCache {
 
     private static final Map<SpawnerCacheKey, SpawnerProperties> STRUCTURES_CACHE = new HashMap<>();
-    private static final Map<SpawnerCacheKey, SpawnerProperties> FEATURES_CACHE = new HashMap<>();
     private static final Map<SpawnerCacheKey, SpawnerProperties> DEFAULTS_CACHE = new HashMap<>();
 
     public static void rebuild(RegistryAccess registryAccess) {
         STRUCTURES_CACHE.clear();
-        FEATURES_CACHE.clear();
         DEFAULTS_CACHE.clear();
 
         registryAccess.registry(Services.PLATFORM.getCobblemonTrialsStructureRegistry())
                 .ifPresent(registry -> populateCacheFromRegistry(registry, STRUCTURES_CACHE));
-
-        registryAccess.registry(Services.PLATFORM.getCobblemonTrialsFeaturesRegistry())
-                .ifPresent(registry -> populateCacheFromRegistry(registry, FEATURES_CACHE));
 
         registryAccess.registry(Services.PLATFORM.getCobblemonTrialsDefaultStructureRegistry())
                 .ifPresent(registry -> populateCacheFromRegistry(registry, DEFAULTS_CACHE));
@@ -42,8 +37,6 @@ public class PropertiesCache {
             String[] structureString = structureProperties.structureId().split(":");
 
             ResourceLocation structureResourceLocation = ResourceLocation.fromNamespaceAndPath(structureString[0], structureString[1]);
-
-            if (structureResourceLocation == null) continue;
 
             // Iterate through each spawner property tied to the structure.
             for (SpawnerProperties spawnerProperties : structureProperties.spawnerProperties()) {
@@ -65,10 +58,6 @@ public class PropertiesCache {
         return STRUCTURES_CACHE.get(new SpawnerCacheKey(structure, blockEntity, entity));
     }
 
-    public static SpawnerProperties getFeatureProperty(ResourceLocation featureOrStructure, ResourceLocation blockEntity, ResourceLocation entity) {
-        return FEATURES_CACHE.get(new SpawnerCacheKey(featureOrStructure, blockEntity, entity));
-    }
-
     public static SpawnerProperties getDefaultProperty(ResourceLocation structure, ResourceLocation blockEntity, ResourceLocation entity) {
         return DEFAULTS_CACHE.get(new SpawnerCacheKey(structure, blockEntity, entity));
     }
@@ -80,12 +69,9 @@ public class PropertiesCache {
         if(cacheType == CacheType.STRUCTURE)
             result = getStructureProperty(location, blockEntity, entity);
 
-        if(cacheType == CacheType.FEATURE)
-            result = getFeatureProperty(location, blockEntity, entity);
+        if (result == null && Services.PLATFORM.getCommonConfig().REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS)
+            return getDefaultProperty(ResourceLocation.fromNamespaceAndPath("cobblemontrialsedition","default"), blockEntity, entity);
 
-        if (result != null)
-            return result;
-
-        return getDefaultProperty(location, blockEntity, entity);
+        return result;
     }
 }
