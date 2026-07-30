@@ -7,6 +7,10 @@ import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ public record SpawnablePokemonStats(
         List<Integer> defaultIVs,
         String ability,
         List<String> moves,
+        String heldItem,
         int dynaMaxLevel,
         String teraType,
         boolean isShiny
@@ -34,6 +39,7 @@ public record SpawnablePokemonStats(
             Codec.list(Codec.INT).optionalFieldOf("defaultIVs", new ArrayList<>()).forGetter(SpawnablePokemonStats::defaultIVs),
             Codec.STRING.optionalFieldOf("ability", "").forGetter(SpawnablePokemonStats::ability),
             Codec.STRING.listOf().optionalFieldOf("moves", new ArrayList<>()).forGetter(SpawnablePokemonStats::moves),
+            Codec.STRING.optionalFieldOf("heldItem", "").forGetter(SpawnablePokemonStats::heldItem),
             Codec.INT.optionalFieldOf("dynaMaxLevel", 0).forGetter(SpawnablePokemonStats::dynaMaxLevel),
             Codec.STRING.optionalFieldOf("teraType", "").forGetter(SpawnablePokemonStats::teraType),
             Codec.BOOL.optionalFieldOf("isShiny", false).forGetter(SpawnablePokemonStats::isShiny)
@@ -119,6 +125,15 @@ public record SpawnablePokemonStats(
         if (this.ability.isEmpty()) return null;
 
         return Abilities.getOrException(ability).getName();
+    }
+
+    public ItemStack getHeldItem(){
+        ResourceLocation location = ResourceLocation.tryParse(heldItem);
+        if (location != null && BuiltInRegistries.ITEM.containsKey(location)) {
+            return new ItemStack(BuiltInRegistries.ITEM.get(location));
+        }
+
+        return ItemStack.EMPTY;
     }
 
     public String parseTeraType() {

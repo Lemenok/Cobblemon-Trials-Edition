@@ -16,7 +16,7 @@ public class FightOrFlightMixin {
 
         CompoundTag compoundTagOfPokemon = pokemonEntity.getPokemon().getPersistentData();
 
-        if (compoundTagOfPokemon.getBoolean("cobblemon_trials_edition_is_aggressive")) {
+        if (compoundTagOfPokemon.getBoolean("is_aggressive")) {
             callbackInfoReturnable.setReturnValue(100.0F + (double) CobblemonFightOrFlight.commonConfig().aggressive_threshold);
         }
     }

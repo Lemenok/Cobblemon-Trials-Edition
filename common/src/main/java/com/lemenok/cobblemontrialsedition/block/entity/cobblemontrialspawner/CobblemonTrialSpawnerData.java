@@ -1,7 +1,9 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
 import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.collect.Sets;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.datafixers.util.Pair;
@@ -16,9 +18,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -40,6 +40,9 @@ import net.minecraft.world.level.SpawnData;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -68,6 +71,8 @@ public class CobblemonTrialSpawnerData {
     private SimpleWeightedRandomList<ItemStack> dispensing;
     protected double spin;
     protected double oSpin;
+
+    private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
     public CobblemonTrialSpawnerData() {
         this(Collections.emptySet(), Collections.emptySet(), 0L, 0L, 0, Optional.empty(), Optional.empty());
@@ -237,24 +242,13 @@ public class CobblemonTrialSpawnerData {
 
     public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource, ServerLevel level) {
         if (this.nextSpawnData.isPresent()) {
-            if(Services.PLATFORM.getCommonConfig().ENABLE_POKEMON_LEVEL_ADJUSTMENT){
-                return CalculateLevelFromNearbyPlayers(this.nextSpawnData, level, cobblemonTrialSpawner).get();
-            }
-            else {
-                return this.nextSpawnData.get();
-            }
+            return buildSpawnData(this.nextSpawnData, level, cobblemonTrialSpawner).get();
 
         } else {
             SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition();
             Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
 
-            // Check if we should apply LeveL adjustment based on nearby players.
-            if(Services.PLATFORM.getCommonConfig().ENABLE_POKEMON_LEVEL_ADJUSTMENT){
-                this.nextSpawnData = CalculateLevelFromNearbyPlayers(Optional.of(optional.orElseGet(SpawnData::new)), level, cobblemonTrialSpawner);
-            }
-            else {
-                this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
-            }
+            this.nextSpawnData = buildSpawnData(Optional.of(optional.orElseGet(SpawnData::new)), level, cobblemonTrialSpawner);
 
             cobblemonTrialSpawner.markUpdated();
             return this.nextSpawnData.get();
@@ -275,50 +269,121 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
-    private Optional<SpawnData> CalculateLevelFromNearbyPlayers(Optional<SpawnData> nextSpawnData, ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
+    private Optional<SpawnData> buildSpawnData(Optional<SpawnData> nextSpawnData, ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
         if(serverLevel == null){
             return this.nextSpawnData;
         }
 
-        List<Integer> listOfLevels = new ArrayList<>();
-        var detectedPlayers = cobblemonTrialSpawner.getData().detectedPlayers;
+        int calculatedLevel = getCalculatedLevelAdjustment(serverLevel, cobblemonTrialSpawner);
 
-        for(UUID uuid : detectedPlayers) {
-            ServerPlayer serverPlayer = serverLevel.getServer().getPlayerList().getPlayer(uuid);
-
-            if(serverPlayer == null){
-                return this.nextSpawnData;
-            }
-
-            PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(serverPlayer);
-
-            party.spliterator().forEachRemaining(pokemon -> {
-                listOfLevels.add(pokemon.getLevel());
-            });
-        }
-
-        // Active Players have no Pokemon in party.
-        if(listOfLevels.isEmpty())
-            return nextSpawnData;
-
-        int calculatedLevel;
-
-        // Calculate Median among all player Pokemon
-        if(Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "MEDIAN")) calculatedLevel = CalculateMedian(listOfLevels);
-            // Calculate Average among all player Pokemon
-        else if (Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "AVERAGE")) calculatedLevel = CalculateAverage(listOfLevels);
-            // Other Values default to Average.
-        else calculatedLevel = CalculateAverage(listOfLevels);
-
-        // Update spawn data with calculated Pokemon level.
         nextSpawnData.ifPresent(spawnData -> {
             CompoundTag nbt = spawnData.entityToSpawn();
-            CompoundTag pokemonTag = nbt.getCompound("Pokemon");
-            pokemonTag.putInt("Level", calculatedLevel);
-            nbt.put("Pokemon", pokemonTag);
+            CompoundTag oldPokemonTag = nbt.getCompound("Pokemon");
+
+            PokemonProperties pokemonProperties = new PokemonProperties();
+            pokemonProperties.setSpecies(oldPokemonTag.getString("Species"));
+            pokemonProperties.setLevel(calculatedLevel == 0 ? oldPokemonTag.getInt("Level") : calculatedLevel );
+
+            // Check for custom moves.
+            var customMoves = oldPokemonTag.getCompound("PersistentData").getList("custom_moves",Tag.TAG_STRING);
+            if (!customMoves.isEmpty()) {
+                List<String> moveListStrings = new ArrayList<>(customMoves.size());
+                for (int i = 0; i < customMoves.size(); i++) {
+                    moveListStrings.add(customMoves.getString(i));
+                }
+
+                pokemonProperties.setMoves(moveListStrings);
+            }
+
+            Pokemon newPokemon = pokemonProperties.create();
+
+            CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
+
+            oldPokemonTag.putInt("Level", pokemonNbt.getInt("Level"));
+            oldPokemonTag.putInt("Health", pokemonNbt.getInt("Health"));
+            oldPokemonTag.put("MoveSet", pokemonNbt.getList("MoveSet", Tag.TAG_COMPOUND));
+
+            if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS) {
+                LOGGER.info("Spawned Pokemon are Aggressive Config: {}", Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE);
+                LOGGER.info("Spawned Pokemon's Aggressive Config: {}", oldPokemonTag.getCompound("PersistentData").getBoolean("is_aggressive"));
+                LOGGER.info("Aggressive Result: {}", Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_aggressive"));
+            }
+
+            // Check if config is changed for Aggressive Pokemon.
+            oldPokemonTag.getCompound("PersistentData").putBoolean("is_aggressive",
+                    Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_aggressive"));
+
+            if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS) {
+                LOGGER.info("Spawned Pokemon are Uncatchable Config: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE);
+                LOGGER.info("Spawned Pokemon's Uncatchable Config: {}", oldPokemonTag.getCompound("PersistentData").getBoolean("is_uncatchable"));
+                LOGGER.info("Uncatchable Result: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_uncatchable"));
+            }
+
+            // Check if config is changed for Uncatchable Pokemon.
+            if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_uncatchable")){
+                // Make pokemon uncatchable
+                String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
+                ListTag listTag = new ListTag();
+                for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
+                pokemonNbt.put("PokemonData", listTag);
+            }
+
+            nbt.put("Pokemon", oldPokemonTag);
+
+            if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS) {
+                LOGGER.info("Spawned Pokemon are Invulnerable Config: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE);
+                LOGGER.info("Spawned Pokemon's Invulnerable Config: {}", oldPokemonTag.getCompound("PersistentData").getBoolean("is_invulnerable"));
+                LOGGER.info("Invulnerable Result: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_invulnerable"));
+
+            }
+
+            // Check if config is changed for Invulnerable Pokemon.
+            if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_invulnerable")){
+                nbt.putBoolean("Invulnerable", true);
+            }
         });
 
         return nextSpawnData;
+    }
+
+    private @NotNull int getCalculatedLevelAdjustment(ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
+        int calculatedLevel = 0;
+
+        if(Services.PLATFORM.getCommonConfig().ENABLE_POKEMON_LEVEL_ADJUSTMENT) {
+
+            List<Integer> listOfLevels = new ArrayList<>();
+            var detectedPlayers = cobblemonTrialSpawner.getData().detectedPlayers;
+
+            for (UUID uuid : detectedPlayers) {
+                ServerPlayer serverPlayer = serverLevel.getServer().getPlayerList().getPlayer(uuid);
+
+                if (serverPlayer == null) {
+                    return calculatedLevel;
+                }
+
+                PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(serverPlayer);
+
+                party.spliterator().forEachRemaining(pokemon -> {
+                    listOfLevels.add(pokemon.getLevel());
+                });
+            }
+
+            // Active Players have no Pokemon in party.
+            if (listOfLevels.isEmpty()) {
+                return calculatedLevel;
+            }
+
+            // Calculate Median among all player Pokemon
+            if (Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "MEDIAN"))
+                calculatedLevel = CalculateMedian(listOfLevels);
+                // Calculate Average among all player Pokemon
+            else if (Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "AVERAGE"))
+                calculatedLevel = CalculateAverage(listOfLevels);
+                // Other Values default to Average.
+            else calculatedLevel = CalculateAverage(listOfLevels);
+        }
+
+        return calculatedLevel;
     }
 
     private int CalculateMedian(List<Integer> listOfLevels) {
@@ -369,7 +434,7 @@ public class CobblemonTrialSpawnerData {
     }
 
     public SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel serverLevel,
-                                      CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig, BlockPos blockPos) {
+                                                                  CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig, BlockPos blockPos) {
         if (this.dispensing != null) {
             return this.dispensing;
         } else {

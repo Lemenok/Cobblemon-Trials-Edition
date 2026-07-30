@@ -20,24 +20,27 @@
           "species": "lunatone",
           "weight": 40,
           "spawnablePokemonStats": {
-              "level": 40,
-              "moves": ["zapcannon"]
+              "level": 1,
+              "moves": ["zapcannon"],
+              "heldItem": "cobblemon:master_ball"
           }
         },
         {
           "species": "solrock",
           "weight": 40,
           "spawnablePokemonStats": {
-            "level": 40,
-            "moves": ["zapcannon"]
+            "level": 1,
+            "moves": ["zapcannon"],
+            "heldItem": "cobblemon:master_ball"
           }
         },
         {
           "species": "golett",
           "weight": 20,
           "spawnablePokemonStats": {
-            "level": 40,
-            "moves": ["zapcannon"]
+            "level": 1,
+            "moves": ["zapcannon"],
+            "heldItem": "cobblemon:master_ball"
           }
         }],
       "listOfOminousPokemonToSpawn": [

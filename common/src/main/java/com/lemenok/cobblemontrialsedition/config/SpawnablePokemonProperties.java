@@ -1,13 +1,9 @@
 package com.lemenok.cobblemontrialsedition.config;
 
-import com.cobblemon.mod.common.api.abilities.Abilities;
-import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature;
 import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature;
-import com.cobblemon.mod.common.api.pokemon.stats.Stats;
-import com.cobblemon.mod.common.api.types.tera.TeraTypes;
 import com.cobblemon.mod.common.pokemon.*;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
@@ -18,9 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.SpawnData;
-import org.apache.http.annotation.Obsolete;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,10 +37,10 @@ public record SpawnablePokemonProperties(
             Codec.FLOAT.optionalFieldOf("scaleModifier", 1.0f).forGetter(SpawnablePokemonProperties::scaleModifier),
             Codec.BOOL.optionalFieldOf("isUncatchable", false).forGetter(SpawnablePokemonProperties::isUncatchable),
             Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", false).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle),
-            Codec.BOOL.optionalFieldOf("isAggressive", true).forGetter(SpawnablePokemonProperties::isAggressive),
+            Codec.BOOL.optionalFieldOf("isAggressive", false).forGetter(SpawnablePokemonProperties::isAggressive),
             Codec.STRING.listOf().optionalFieldOf("aspects", new ArrayList<>()).forGetter(SpawnablePokemonProperties::aspects),
             SpawnablePokemonStats.CODEC.optionalFieldOf("spawnablePokemonStats",
-                    new SpawnablePokemonStats("normal", 25, "", "", new ArrayList<>(), new ArrayList<>(), "", new ArrayList<>(), 0, "", false)
+                    new SpawnablePokemonStats("normal", 25, "", "", new ArrayList<>(), new ArrayList<>(), "", new ArrayList<>(), "", 0, "", false)
             ).forGetter(SpawnablePokemonProperties::spawnablePokemonStats)
     ).apply(pokemon, SpawnablePokemonProperties::new));
 
@@ -58,11 +52,17 @@ public record SpawnablePokemonProperties(
             LOGGER.info("Setting up spawn data for '{}'", species);
         }
 
+        return buildSpawnData(registryAccess, doPokemonSpawnedGlow);
+    }
+
+    private SpawnData buildSpawnData(RegistryAccess registryAccess, Boolean doPokemonSpawnedGlow) {
         PokemonProperties newPokemonProperties = getSpawnablePokemonProperties();
         Pokemon newPokemon = newPokemonProperties.create();
 
         // Set aspects from players
         newPokemon.setForcedAspects(new HashSet<>(aspects));
+
+        newPokemon.setHeldItem$common(spawnablePokemonStats.getHeldItem());
 
         newPokemon.getPersistentData().putBoolean("is_spawned_from_trial_spawner", true);
 
@@ -75,29 +75,26 @@ public record SpawnablePokemonProperties(
 
         newPokemon.setScaleModifier(scaleModifier);
 
-        if(Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE) {
-            newPokemon.getPersistentData().putBoolean("cobblemon_trials_edition_is_aggressive", isAggressive);
+        newPokemon.getPersistentData().putBoolean("is_aggressive", isAggressive);
+
+        newPokemon.getPersistentData().putBoolean("is_uncatchable", isUncatchable);
+
+        newPokemon.getPersistentData().putBoolean("is_invulnerable", mustBeDefeatedInBattle);
+
+        if(!spawnablePokemonStats.moves().isEmpty()){
+            // Setup Custom Moves
+            ListTag moveListTag = new ListTag();
+            for (String stringData : spawnablePokemonStats.moves()) { moveListTag.add(StringTag.valueOf(stringData)); }
+            newPokemon.getPersistentData().put("custom_moves", moveListTag);
         }
 
         CompoundTag pokemonNbt = newPokemon.saveToNBT(registryAccess, new CompoundTag());
-
-        if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || isUncatchable){
-            // Make pokemon uncatchable
-            String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
-            ListTag listTag = new ListTag();
-            for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
-            pokemonNbt.put("PokemonData", listTag);
-        }
 
         CompoundTag entityNbt = new CompoundTag();
         entityNbt.put("Pokemon", pokemonNbt);
         entityNbt.putString("id", "cobblemon:pokemon");
         entityNbt.putString("PoseType", "WALK");
         if(doPokemonSpawnedGlow) entityNbt.putByte("Glowing", (byte) 1);
-
-        if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || mustBeDefeatedInBattle){
-            entityNbt.putBoolean("Invulnerable", true);
-        }
 
         CompoundTag spawnData = new CompoundTag();
         spawnData.put("entity", entityNbt);
@@ -127,7 +124,6 @@ public record SpawnablePokemonProperties(
         pokemonProperties.setNature(spawnablePokemonStats.parseNature().getDisplayName());
         pokemonProperties.setEvs(spawnablePokemonStats.parseEVs());
         pokemonProperties.setIvs(spawnablePokemonStats.parseIVs());
-        pokemonProperties.setMoves(spawnablePokemonStats.moves());
         pokemonProperties.setShiny(spawnablePokemonStats.isShiny());
         pokemonProperties.setDmaxLevel(spawnablePokemonStats.dynaMaxLevel());
         pokemonProperties.setTeraType(spawnablePokemonStats.parseTeraType());
