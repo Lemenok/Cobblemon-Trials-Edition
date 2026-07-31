@@ -14,7 +14,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -81,8 +83,16 @@ public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
 
         // Check if structure has unique config to be replaced
         if(blockBuilder.doesConfigurationExistForReplacement(CacheType.STRUCTURE)) {
+            ServerLevel serverLevel = null;
+            if (level instanceof ServerLevel sl) {
+                serverLevel = sl;
+            } else if (level instanceof WorldGenLevel wgl) {
+                serverLevel = wgl.getLevel();
+            }
+
+
             BlockState newBlockState = Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState();
-            CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = blockBuilder.buildCobblemonTrialSpawnerBlock(level.registryAccess());
+            CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = blockBuilder.buildCobblemonTrialSpawnerBlock(level.registryAccess(), serverLevel);
 
             // Serialize the fully configured BlockEntity into an NBT tag
             CompoundTag newNbt = cobblemonTrialSpawnerEntity.saveWithFullMetadata(level.registryAccess());

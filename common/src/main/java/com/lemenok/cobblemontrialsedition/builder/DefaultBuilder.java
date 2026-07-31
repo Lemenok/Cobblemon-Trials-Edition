@@ -10,6 +10,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
 public class DefaultBuilder implements IBlockBuilder {
@@ -85,7 +86,7 @@ public class DefaultBuilder implements IBlockBuilder {
     }
 
     @Override
-    public CobblemonTrialSpawnerEntity buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess) {
-        return BuildSpawner.create(registryAccess, BLOCK_POSITION, this);
+    public CobblemonTrialSpawnerEntity buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess, ServerLevel serverLevel) {
+        return BuildSpawner.create(registryAccess, BLOCK_POSITION, this, serverLevel);
     }
 }

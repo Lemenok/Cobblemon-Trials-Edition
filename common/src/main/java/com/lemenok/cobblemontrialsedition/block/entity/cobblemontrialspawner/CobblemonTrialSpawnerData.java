@@ -255,91 +255,71 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
-    public SpawnData getOrCreateNextSpawnData(CobblemonTrialSpawner cobblemonTrialSpawner, RandomSource randomSource) {
-        if (this.nextSpawnData.isPresent()) {
-            return this.nextSpawnData.get();
-        } else {
-            SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition();
-            Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
-
-            this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
-
-            cobblemonTrialSpawner.markUpdated();
-            return this.nextSpawnData.get();
-        }
-    }
-
     private Optional<SpawnData> buildSpawnData(Optional<SpawnData> nextSpawnData, ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
         if(serverLevel == null){
-            return this.nextSpawnData;
+            return nextSpawnData;
         }
-
-        int calculatedLevel = getCalculatedLevelAdjustment(serverLevel, cobblemonTrialSpawner);
 
         nextSpawnData.ifPresent(spawnData -> {
             CompoundTag nbt = spawnData.entityToSpawn();
             CompoundTag oldPokemonTag = nbt.getCompound("Pokemon");
 
+            CompoundTag persistentData = oldPokemonTag.contains("PersistentData", Tag.TAG_COMPOUND)
+                    ? oldPokemonTag.getCompound("PersistentData")
+                    : new CompoundTag();
+
+            int calculatedLevel = getCalculatedLevelAdjustment(serverLevel, cobblemonTrialSpawner);
+
             PokemonProperties pokemonProperties = new PokemonProperties();
             pokemonProperties.setSpecies(oldPokemonTag.getString("Species"));
-            pokemonProperties.setLevel(calculatedLevel == 0 ? oldPokemonTag.getInt("Level") : calculatedLevel );
+            pokemonProperties.setLevel(calculatedLevel == 0 ? oldPokemonTag.getInt("Level") : calculatedLevel);
 
-            // Check for custom moves.
-            var customMoves = oldPokemonTag.getCompound("PersistentData").getList("custom_moves",Tag.TAG_STRING);
+            // Check for custom moves
+            var customMoves = persistentData.getList("custom_moves", Tag.TAG_STRING);
             if (!customMoves.isEmpty()) {
                 List<String> moveListStrings = new ArrayList<>(customMoves.size());
                 for (int i = 0; i < customMoves.size(); i++) {
                     moveListStrings.add(customMoves.getString(i));
                 }
-
                 pokemonProperties.setMoves(moveListStrings);
             }
 
             Pokemon newPokemon = pokemonProperties.create();
-
             CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
             oldPokemonTag.putInt("Level", pokemonNbt.getInt("Level"));
             oldPokemonTag.putInt("Health", pokemonNbt.getInt("Health"));
             oldPokemonTag.put("MoveSet", pokemonNbt.getList("MoveSet", Tag.TAG_COMPOUND));
 
-            if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS) {
-                LOGGER.info("Spawned Pokemon are Aggressive Config: {}", Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE);
-                LOGGER.info("Spawned Pokemon's Aggressive Config: {}", oldPokemonTag.getCompound("PersistentData").getBoolean("is_aggressive"));
-                LOGGER.info("Aggressive Result: {}", Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_aggressive"));
-            }
+            // Evaluate Aggressive
+            boolean isAggressive = Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE || persistentData.getBoolean("is_aggressive");
+            persistentData.putBoolean("is_aggressive", isAggressive);
 
-            // Check if config is changed for Aggressive Pokemon.
-            oldPokemonTag.getCompound("PersistentData").putBoolean("is_aggressive",
-                    Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_aggressive"));
-
-            if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS) {
-                LOGGER.info("Spawned Pokemon are Uncatchable Config: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE);
-                LOGGER.info("Spawned Pokemon's Uncatchable Config: {}", oldPokemonTag.getCompound("PersistentData").getBoolean("is_uncatchable"));
-                LOGGER.info("Uncatchable Result: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_uncatchable"));
-            }
-
-            // Check if config is changed for Uncatchable Pokemon.
-            if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_uncatchable")){
-                // Make pokemon uncatchable
+            // Evaluate Uncatchable
+            boolean isUncatchable = Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || persistentData.getBoolean("is_uncatchable");
+            if (isUncatchable) {
                 String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
                 ListTag listTag = new ListTag();
-                for (String stringData : data) { listTag.add(StringTag.valueOf(stringData)); }
-                pokemonNbt.put("PokemonData", listTag);
+                for (String stringData : data) {
+                    listTag.add(StringTag.valueOf(stringData));
+                }
+                oldPokemonTag.put("PokemonData", listTag);
+            } else {
+                oldPokemonTag.remove("PokemonData");
             }
 
+            // 2. Explicitly attach the PersistentData tag back to oldPokemonTag
+            oldPokemonTag.put("PersistentData", persistentData);
+
+            // Save the finalized Pokemon data to the root Entity tag
             nbt.put("Pokemon", oldPokemonTag);
 
-            if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS) {
-                LOGGER.info("Spawned Pokemon are Invulnerable Config: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE);
-                LOGGER.info("Spawned Pokemon's Invulnerable Config: {}", oldPokemonTag.getCompound("PersistentData").getBoolean("is_invulnerable"));
-                LOGGER.info("Invulnerable Result: {}", Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_invulnerable"));
-
-            }
-
-            // Check if config is changed for Invulnerable Pokemon.
-            if(Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || oldPokemonTag.getCompound("PersistentData").getBoolean("is_invulnerable")){
+            // Evaluate Invulnerable
+            boolean isInvulnerable = Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || persistentData.getBoolean("is_invulnerable");
+            if (isInvulnerable) {
                 nbt.putBoolean("Invulnerable", true);
+            } else {
+                nbt.remove("Invulnerable");
             }
         });
 

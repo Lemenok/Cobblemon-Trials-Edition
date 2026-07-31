@@ -7,6 +7,7 @@ import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -54,7 +55,14 @@ public class StructureSpawnerReplacementProcessor {
 
         if (blockBuilder.doesConfigurationExistForReplacement(CacheType.STRUCTURE)) {
 
-            CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = blockBuilder.buildCobblemonTrialSpawnerBlock(worldGenLevel.registryAccess());
+            ServerLevel serverLevel = null;
+            if (worldGenLevel instanceof ServerLevel sl) {
+                serverLevel = sl;
+            } else if (worldGenLevel instanceof WorldGenLevel wgl) {
+                serverLevel = wgl.getLevel();
+            }
+
+            CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = blockBuilder.buildCobblemonTrialSpawnerBlock(worldGenLevel.registryAccess(), serverLevel);
             BlockState newState = cobblemonTrialSpawnerEntity.getBlockState();
 
             // Remove the existing block, then set the new Spawner.

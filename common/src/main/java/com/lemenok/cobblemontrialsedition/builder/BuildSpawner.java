@@ -6,11 +6,13 @@ import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import org.jetbrains.annotations.Nullable;
 
 public class BuildSpawner {
-    public static CobblemonTrialSpawnerEntity create(RegistryAccess registryAccess, BlockPos blockPosition, IBlockBuilder blockProcessor) {
+    public static CobblemonTrialSpawnerEntity create(RegistryAccess registryAccess, BlockPos blockPosition, IBlockBuilder blockProcessor, @Nullable ServerLevel serverLevel) {
 
         SpawnerProperties newSpawnerProperties = blockProcessor.getSpawnerProperties();
 
@@ -49,7 +51,7 @@ public class BuildSpawner {
         cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);
         cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setTargetCooldownLength(newSpawnerProperties.spawnerCooldown());
         cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setRequiredPlayerRange(newSpawnerProperties.playerDetectionRange());
-        cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create());
+        cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner(), RandomSource.create(), serverLevel);
         cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().markUpdated();
         cobblemonTrialSpawnerEntity.markUpdated();
 

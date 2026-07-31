@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
 public interface IBlockBuilder {
@@ -21,7 +22,7 @@ public interface IBlockBuilder {
 
     public boolean shouldBlockBeReplaced();
     public boolean doesConfigurationExistForReplacement(CacheType cacheType);
-    public CobblemonTrialSpawnerEntity buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess);
+    public CobblemonTrialSpawnerEntity buildCobblemonTrialSpawnerBlock(RegistryAccess registryAccess, ServerLevel serverLevel);
 
 
 }
