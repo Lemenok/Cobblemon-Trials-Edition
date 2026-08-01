@@ -3,22 +3,14 @@ package com.lemenok.cobblemontrialsedition.config;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -27,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 public record SpawnerProperties(
-        List<ResourceLocation> blockEntityTypesToReplace,
+        List<ResourceLocation> blockTypesToReplace,
         List<ResourceLocation> mobEntitiesInSpawnerToReplace,
         int ticksBetweenSpawnAttempts,
         int spawnerCooldown,
@@ -46,7 +38,7 @@ public record SpawnerProperties(
 )
 {
     public static final Codec<SpawnerProperties> CODEC = RecordCodecBuilder.create(spawner -> spawner.group(
-            Codec.list(ResourceLocation.CODEC).fieldOf("blockEntityTypesToReplace").forGetter(SpawnerProperties::blockEntityTypesToReplace),
+            Codec.list(ResourceLocation.CODEC).fieldOf("blockEntityTypesToReplace").forGetter(SpawnerProperties::blockTypesToReplace),
             Codec.list(ResourceLocation.CODEC).fieldOf("mobEntitiesInSpawnerToReplace").forGetter(SpawnerProperties::mobEntitiesInSpawnerToReplace),
             Codec.INT.optionalFieldOf("ticksBetweenSpawnAttempts", 40).forGetter(SpawnerProperties::ticksBetweenSpawnAttempts),
             Codec.INT.optionalFieldOf("spawnerCooldown", 36000).forGetter(SpawnerProperties::spawnerCooldown),

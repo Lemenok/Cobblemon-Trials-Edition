@@ -5,6 +5,7 @@ import com.lemenok.cobblemontrialsedition.builder.IBlockBuilder;
 import com.lemenok.cobblemontrialsedition.caches.CacheType;
 import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
+import com.lemenok.cobblemontrialsedition.integrations.ModConfigHelper;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,7 +19,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// The class that handles all other types of Structures outside of features. (Mineshaft, Strongholds, Fortresses, etc.)
+// The class that handles all other types of Structures not included in Jigsaws. (Mineshaft, Strongholds, Fortresses, Sculk Patches etc.)
 public class StructureSpawnerReplacementProcessor {
 
     private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
@@ -53,6 +54,10 @@ public class StructureSpawnerReplacementProcessor {
             LOGGER.info("Block/Spawner is inside structure: {}", structureId);
 
         blockBuilder.setStructureId(structureId);
+
+        // Check if structure is blacklisted
+        if(ModConfigHelper.isStructureBlacklisted(worldGenLevel.getLevel(), blockBuilder))
+            return;
 
         if (nbt != null) blockBuilder.setEntityid(nbt);
 

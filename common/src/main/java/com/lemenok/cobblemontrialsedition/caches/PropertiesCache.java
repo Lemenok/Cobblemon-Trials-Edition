@@ -6,8 +6,6 @@ import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.TagKey;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +45,7 @@ public class PropertiesCache {
             for (SpawnerProperties spawnerProperties : structureProperties.spawnerProperties()) {
 
                 // Iterate through each Block/Entity mapping to create the key and data for the hash.
-                for (ResourceLocation blockType : spawnerProperties.blockEntityTypesToReplace()) {
+                for (ResourceLocation blockType : spawnerProperties.blockTypesToReplace()) {
                     for (ResourceLocation entity : spawnerProperties.mobEntitiesInSpawnerToReplace()) {
 
                         // Store key in Hash with the SpawnerProperties.

@@ -98,6 +98,7 @@ public class ModIntegrations implements IModIntegrations {
         modConfigCommon.BLOCK_REPLACEMENT_PERCENTAGE = Config.BLOCK_REPLACEMENT_PERCENTAGE.get();
         modConfigCommon.ENABLE_POKEMON_LEVEL_ADJUSTMENT = Config.ENABLE_POKEMON_LEVEL_ADJUSTMENT.get();
         modConfigCommon.POKEMON_LEVEL_ADJUSTMENT_TYPE = Config.POKEMON_LEVEL_ADJUSTMENT_TYPE.get();
+        ModConfigCommon.TIME_TILL_POKEMON_DESPAWN_IN_TICKS = Config.TIME_TILL_POKEMON_DESPAWN_IN_TICKS.get();
 
         return modConfigCommon;
     }

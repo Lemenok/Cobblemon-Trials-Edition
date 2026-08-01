@@ -21,4 +21,5 @@ public class ModConfigCommon {
     public double BLOCK_REPLACEMENT_PERCENTAGE;
     public boolean ENABLE_POKEMON_LEVEL_ADJUSTMENT;
     public String POKEMON_LEVEL_ADJUSTMENT_TYPE;
+    public static int TIME_TILL_POKEMON_DESPAWN_IN_TICKS;
 }

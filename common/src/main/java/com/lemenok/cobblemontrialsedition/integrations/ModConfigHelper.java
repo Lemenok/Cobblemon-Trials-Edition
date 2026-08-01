@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ModConfigHelper {
 
@@ -21,25 +22,29 @@ public class ModConfigHelper {
 
     public static boolean isStructureBlacklisted(LevelReader level, IBlockBuilder blockProcessor) {
 
+        ResourceLocation targetId = blockProcessor.getStructureId();
         Registry<Structure> structureRegistry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         ResourceKey<Structure> structureKey = ResourceKey.create(Registries.STRUCTURE, blockProcessor.getStructureId());
-        Holder.Reference<Structure> structureHolder = structureRegistry.getHolderOrThrow(structureKey);
+
+        Optional<Holder.Reference<Structure>> optionalStructureHolder = structureRegistry.getHolder(structureKey);
 
         List<String> blacklistedItems = (List<String>) Services.PLATFORM.getCommonConfig().BLACKLISTED_STRUCTURE_IDS;
 
         for (String entry : blacklistedItems) {
             if (entry.startsWith("#")) {
-                ResourceLocation tagId = ResourceLocation.parse(entry.substring(1));
-                TagKey<Structure> structureTag = TagKey.create(Registries.STRUCTURE, tagId);
+                if (optionalStructureHolder.isPresent()) {
+                    ResourceLocation tagId = ResourceLocation.parse(entry.substring(1));
+                    TagKey<Structure> structureTag = TagKey.create(Registries.STRUCTURE, tagId);
 
-                if (structureHolder.is(structureTag)) {
-                    LOGGER.info("Structure Tag is Blacklisted: #{}:{}", tagId.getNamespace(),tagId.getPath());
-                    return true;
+                    if (optionalStructureHolder.get().is(structureTag)) {
+                        LOGGER.info("Structure Tag is Blacklisted: #{}:{}", tagId.getNamespace(), tagId.getPath());
+                        return true;
+                    }
                 }
             } else {
                 ResourceLocation structureId = ResourceLocation.parse(entry);
 
-                if (structureHolder.is(structureId)) {
+                if (targetId.equals(structureId)) {
                     LOGGER.info("Structure is Blacklisted: {}:{}", structureId.getNamespace(),structureId.getPath());
                     return true;
                 }

@@ -78,15 +78,15 @@ public class Config {
             .defineInRange("trialSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
 
     public static final ModConfigSpec.BooleanValue REPLACE_BLOCKS_ON_PERCENTAGE = BUILDER
-            .comment("This allows Percentage based control of Sculk Shrieker replacement.\" +\n" +
-                    "\"If set to true this will use the Trial Spawner Replacement Percentage to determine how often a Sculk Shrieker should be replaced.\" +\n" +
+            .comment("This allows Percentage based control of specified Block replacement.\" +\n" +
+                    "\"If set to true this will use the Block Replacement Percentage to determine how often a Block should be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
-            .define("replaceShriekersBasedOnPercentage", false);
+            .define("replaceBlocksBasedOnPercentage", false);
 
     public static final ModConfigSpec.DoubleValue BLOCK_REPLACEMENT_PERCENTAGE = BUILDER
-            .comment("This is what percentage (0.0 - 1.0) Sculk Shriekers will be replaced, eg: .75 will mean 75% of each Sculk Shriekers within a structure will be replaced.\" +\n" +
+            .comment("This is what percentage (0.0 - 1.0) Blocks will be replaced, eg: .75 will mean 75% of each Blocks within a structure will be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
-            .defineInRange("shriekerReplacementPercentage", 0.0, 0.0, 1.0);
+            .defineInRange("BlockReplacementPercentage", 0.0, 0.0, 1.0);
 
     public static final ModConfigSpec.BooleanValue ENABLE_POKEMON_LEVEL_ADJUSTMENT = BUILDER
             .comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")
@@ -96,6 +96,11 @@ public class Config {
             .comment("This will determine the type of level adjustment the pokemon will have. Valid values are AVERAGE or MEDIAN. These values are calculated from \" +\n" +
                     "\"all pokemon in each players party within range of the spawner. Default is AVERAGE, unknown values will default to AVERAGE.")
             .define("pokemonLevelAdjustmentType", "AVERAGE");
+
+    public static final ModConfigSpec.ConfigValue<Integer> TIME_TILL_POKEMON_DESPAWN_IN_TICKS = BUILDER
+            .comment("This will determine how long pokemon spawned from Trial Spawners will remain until they despawn. \" +\n" +
+                    "\"The time only matters when the cobblemon are loaded.")
+            .define("timeTillPokemonDespawnInTicks", 6000);
 
     static final ModConfigSpec SPEC = BUILDER.build();
 

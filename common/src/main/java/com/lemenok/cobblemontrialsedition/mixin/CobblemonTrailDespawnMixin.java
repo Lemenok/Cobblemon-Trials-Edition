@@ -1,6 +1,7 @@
 package com.lemenok.cobblemontrialsedition.mixin;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,9 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class CobblemonTrailDespawnMixin extends LivingEntity {
 
     private static final Logger LOGGER = LogManager.getLogger("cobblemontrialsedition");
-    // TODO: Make Timeout configurable.
-    private static final int FIVE_MINUTES_IN_TICKS = 6000;
-
     protected CobblemonTrailDespawnMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
     }
@@ -31,7 +29,7 @@ public abstract class CobblemonTrailDespawnMixin extends LivingEntity {
             CompoundTag data = pokemon.getPokemon().getPersistentData();
 
             if (data.getBoolean("is_spawned_from_trial_spawner")){
-                if (this.tickCount >= FIVE_MINUTES_IN_TICKS) {
+                if (this.tickCount >= Services.PLATFORM.getCommonConfig().TIME_TILL_POKEMON_DESPAWN_IN_TICKS) {
                     LOGGER.info("Removed Trial Spawner Pokemon: {}, Timed out after 5 minutes.", pokemon.getName().getString());
                     this.discard();
                 }

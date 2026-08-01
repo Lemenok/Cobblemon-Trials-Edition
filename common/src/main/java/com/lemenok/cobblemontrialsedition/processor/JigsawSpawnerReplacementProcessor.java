@@ -138,7 +138,7 @@ public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
     }
 
     @Override
-    protected StructureProcessorType<?> getType() {
+    protected @NotNull StructureProcessorType<?> getType() {
         return Services.PLATFORM.getSpawnerReplacementProcessor();
     }
 }
