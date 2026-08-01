@@ -6,6 +6,8 @@ import com.lemenok.cobblemontrialsedition.builder.IBlockBuilder;
 import com.lemenok.cobblemontrialsedition.builder.SpawnerBuilder;
 import com.lemenok.cobblemontrialsedition.builder.TrialSpawnerBuilder;
 import com.lemenok.cobblemontrialsedition.caches.CacheType;
+import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
+import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import com.lemenok.cobblemontrialsedition.integrations.ModConfigHelper;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.lemenok.cobblemontrialsedition.threads.ActiveStructureTracker;
@@ -45,18 +47,33 @@ public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
         if(!Services.PLATFORM.getCommonConfig().REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS)
             return globalBlockInfo;
 
-        // Check if block is listed to be replaced from the config.
-        if(!isBlockListedToBeReplaced(BuiltInRegistries.BLOCK.getKey(globalBlockInfo.state().getBlock())))
+        ResourceLocation currentBlockId = BuiltInRegistries.BLOCK.getKey(globalBlockInfo.state().getBlock());
+        ResourceLocation structureId = ActiveStructureTracker.get();
+
+        // Check if it's in the custom Replacement Blocks dictionary
+        ResourceLocation mappedEntityId = null;
+        if (structureId != null) {
+            // Retrieve the StructureProperties for the active structure.
+            StructureProperties structureProperties = PropertiesCache.getStructureProperties(structureId);
+
+            if (structureProperties != null && structureProperties.uniqueReplacementBlocks() != null && structureProperties.uniqueReplacementBlocks().containsKey(currentBlockId)) {
+                mappedEntityId = structureProperties.uniqueReplacementBlocks().get(currentBlockId);
+            }
+        }
+
+        // If it's neither a standard spawner nor a mapped custom block, skip it
+        if (!isBlockSpawner(currentBlockId) && mappedEntityId == null) {
             return globalBlockInfo;
+        }
 
         // Build block processor depending on the type of block being replaced.
-        IBlockBuilder blockBuilder = getBlockProcessor(globalBlockInfo);
+        IBlockBuilder blockBuilder = getBlockProcessor(globalBlockInfo, mappedEntityId);
 
         if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
-            LOGGER.info("Spawner Found at: {}", globalBlockInfo.pos());
+            LOGGER.info("Block Replacement Found at: {}", globalBlockInfo.pos());
 
         // Set StructureId for processor
-        blockBuilder.setStructureId(ActiveStructureTracker.get());
+        blockBuilder.setStructureId(structureId);
 
         if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS){
             if (blockBuilder.getStructureId() != null) {
@@ -83,13 +100,13 @@ public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
 
         // Check if structure has unique config to be replaced
         if(blockBuilder.doesConfigurationExistForReplacement(CacheType.STRUCTURE)) {
+
             ServerLevel serverLevel = null;
             if (level instanceof ServerLevel sl) {
                 serverLevel = sl;
             } else if (level instanceof WorldGenLevel wgl) {
                 serverLevel = wgl.getLevel();
             }
-
 
             BlockState newBlockState = Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState();
             CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = blockBuilder.buildCobblemonTrialSpawnerBlock(level.registryAccess(), serverLevel);
@@ -104,7 +121,7 @@ public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
         return globalBlockInfo;
     }
 
-    public static @NotNull IBlockBuilder getBlockProcessor(StructureTemplate.StructureBlockInfo blockInfo) {
+    public static @NotNull IBlockBuilder getBlockProcessor(StructureTemplate.StructureBlockInfo blockInfo, ResourceLocation mappedEntityId) {
         IBlockBuilder blockProcessor;
 
         if(blockInfo.state().is(Blocks.SPAWNER))
@@ -112,13 +129,11 @@ public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
         else if(blockInfo.state().is(Blocks.TRIAL_SPAWNER))
             blockProcessor = new TrialSpawnerBuilder(blockInfo);
         else
-            blockProcessor = new DefaultBuilder(blockInfo);
+            blockProcessor = new DefaultBuilder(blockInfo, mappedEntityId);
         return blockProcessor;
     }
 
-    private boolean isBlockListedToBeReplaced(ResourceLocation block) {
-        // TODO: Add check for config.
-        // ResourceLocation.fromNamespaceAndPath("farmersdelight", "stove");
+    private boolean isBlockSpawner(ResourceLocation block) {
         return Objects.equals(block, ResourceLocation.withDefaultNamespace("spawner")) || Objects.equals(block, ResourceLocation.withDefaultNamespace("trial_spawner"));
     }
 

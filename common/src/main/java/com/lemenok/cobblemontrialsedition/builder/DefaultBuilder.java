@@ -22,9 +22,10 @@ public class DefaultBuilder implements IBlockBuilder {
 
     private SpawnerProperties SPAWNERPROPERTY;
 
-    public DefaultBuilder(StructureTemplate.StructureBlockInfo blockInfo) {
+    public DefaultBuilder(StructureTemplate.StructureBlockInfo blockInfo, ResourceLocation mappedEntityId) {
         STRUCTURE_BLOCK_INFO = blockInfo;
         BLOCK_POSITION = blockInfo.pos();
+        this.ENTITY_ID = mappedEntityId;
     }
 
     @Override
@@ -39,10 +40,7 @@ public class DefaultBuilder implements IBlockBuilder {
 
     @Override
     public void setEntityid(CompoundTag nbt) {
-        if (nbt.contains("SpawnData", 10)) {
-            CompoundTag entityData = nbt.getCompound("SpawnData").getCompound("entity");
-            ENTITY_ID = ResourceLocation.parse(entityData.getString("id"));
-        }
+        // Not implemented, this is set on via constructor.
     }
 
     @Override

@@ -6,18 +6,23 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.List;
+import java.util.Map;
 
 public record StructureProperties(
-    //HolderSet<Structure> structureId,
-    String structureId,
-    List<SpawnerProperties> spawnerProperties)
+        //HolderSet<Structure> structureId,
+        String structureId,
+        Map<ResourceLocation, ResourceLocation> uniqueReplacementBlocks,
+        List<SpawnerProperties> spawnerProperties)
 {
     public static final Codec<StructureProperties> CODEC = RecordCodecBuilder.create(structure -> structure.group(
             Codec.STRING.fieldOf("structureId").forGetter(StructureProperties::structureId),
-            //RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("structureId").forGetter(StructureProperties::structureId),
+            Codec.unboundedMap(ResourceLocation.CODEC, ResourceLocation.CODEC)
+                    .optionalFieldOf("uniqueReplacementBlocks", Map.of())
+                    .forGetter(StructureProperties::uniqueReplacementBlocks),
             Codec.list(SpawnerProperties.CODEC).fieldOf("spawnerProperties").forGetter(StructureProperties::spawnerProperties)
     ).apply(structure, StructureProperties::new));
 

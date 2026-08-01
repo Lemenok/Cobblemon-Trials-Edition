@@ -1,12 +1,12 @@
 {
-  "structureId": "minecraft:ancient_city",
+  "structureId": "minecraft:sculk_patch",
   "uniqueReplacementBlocks": {
-    "minecraft:sculk_shrieker": "minecraft:warden"
+    "minecraft:sculk_shrieker": "minecraft:skeleton"
   },
   "spawnerProperties": [
     {
       "blockEntityTypesToReplace": ["minecraft:sculk_shrieker"],
-      "mobEntitiesInSpawnerToReplace": ["minecraft:warden"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
       "ticksBetweenSpawnAttempts": 40,
       "spawnerCooldown": 36000,
       "playerDetectionRange": 7,
@@ -23,31 +23,11 @@
           "species": "spiritomb",
           "weight": 40,
           "level": 55
-        },
-        {
-          "species": "noibat",
-          "weight": 40,
-          "level": 55
-        },
-        {
-          "species": "golett",
-          "weight": 50,
-          "level": 55
         }],
       "listOfOminousPokemonToSpawn": [
         {
           "species": "spiritomb",
           "weight": 40,
-          "level": 80
-        },
-        {
-          "species": "noivern",
-          "weight": 40,
-          "level": 80
-        },
-        {
-          "species": "golurk",
-          "weight": 50,
           "level": 80
         }]
     }

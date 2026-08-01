@@ -16,10 +16,13 @@ public class PropertiesCache {
 
     private static final Map<SpawnerCacheKey, SpawnerProperties> STRUCTURES_CACHE = new HashMap<>();
     private static final Map<SpawnerCacheKey, SpawnerProperties> DEFAULTS_CACHE = new HashMap<>();
+    private static final Map<ResourceLocation, StructureProperties> STRUCTURE_PROPERTIES_CACHE = new HashMap<>();
+
 
     public static void rebuild(RegistryAccess registryAccess) {
         STRUCTURES_CACHE.clear();
         DEFAULTS_CACHE.clear();
+        STRUCTURE_PROPERTIES_CACHE.clear();
 
         registryAccess.registry(Services.PLATFORM.getCobblemonTrialsStructureRegistry())
                 .ifPresent(registry -> populateCacheFromRegistry(registry, STRUCTURES_CACHE));
@@ -35,8 +38,10 @@ public class PropertiesCache {
             StructureProperties structureProperties = entry.getValue();
 
             String[] structureString = structureProperties.structureId().split(":");
-
             ResourceLocation structureResourceLocation = ResourceLocation.fromNamespaceAndPath(structureString[0], structureString[1]);
+
+            // Store the top-level StructureProperties for unique Block lookups.
+            STRUCTURE_PROPERTIES_CACHE.put(structureResourceLocation, structureProperties);
 
             // Iterate through each spawner property tied to the structure.
             for (SpawnerProperties spawnerProperties : structureProperties.spawnerProperties()) {
@@ -52,6 +57,10 @@ public class PropertiesCache {
                 }
             }
         }
+    }
+
+    public static StructureProperties getStructureProperties(ResourceLocation structureId) {
+        return STRUCTURE_PROPERTIES_CACHE.get(structureId);
     }
 
     public static SpawnerProperties getStructureProperty(ResourceLocation structure, ResourceLocation blockEntity, ResourceLocation entity) {

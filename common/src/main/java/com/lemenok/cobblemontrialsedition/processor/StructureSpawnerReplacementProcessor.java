@@ -3,8 +3,11 @@ package com.lemenok.cobblemontrialsedition.processor;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.builder.IBlockBuilder;
 import com.lemenok.cobblemontrialsedition.caches.CacheType;
+import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
+import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -26,18 +29,28 @@ public class StructureSpawnerReplacementProcessor {
         if(!Services.PLATFORM.getCommonConfig().REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS)
             return;
 
-        if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
-            LOGGER.info("Spawner Found at: {}", blockPos);
-
-        if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
-            LOGGER.info("Spawner is inside structure: {}", structureId);
-
         BlockState state = worldGenLevel.getBlockState(blockPos);
-        BlockEntity blockEntity = worldGenLevel.getBlockEntity(blockPos);
+        ResourceLocation currentBlockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 
+        ResourceLocation mappedEntityId = null;
+        if (structureId != null) {
+            StructureProperties structureProperties = PropertiesCache.getStructureProperties(structureId);
+            if (structureProperties != null && structureProperties.uniqueReplacementBlocks() != null && structureProperties.uniqueReplacementBlocks().containsKey(currentBlockId)) {
+                mappedEntityId = structureProperties.uniqueReplacementBlocks().get(currentBlockId);
+            }
+        }
+
+        BlockEntity blockEntity = worldGenLevel.getBlockEntity(blockPos);
         CompoundTag nbt = blockEntity != null ? blockEntity.saveWithFullMetadata(worldGenLevel.registryAccess()) : null;
         StructureTemplate.StructureBlockInfo globalBlockInfo = new StructureTemplate.StructureBlockInfo(blockPos, state, nbt);
-        IBlockBuilder blockBuilder = JigsawSpawnerReplacementProcessor.getBlockProcessor(globalBlockInfo);
+
+        IBlockBuilder blockBuilder = JigsawSpawnerReplacementProcessor.getBlockProcessor(globalBlockInfo, mappedEntityId);
+
+        if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
+            LOGGER.info("Block/Spawner Found at: {}", blockPos);
+
+        if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS)
+            LOGGER.info("Block/Spawner is inside structure: {}", structureId);
 
         blockBuilder.setStructureId(structureId);
 

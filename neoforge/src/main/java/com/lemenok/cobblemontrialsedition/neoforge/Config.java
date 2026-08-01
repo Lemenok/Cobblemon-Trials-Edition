@@ -90,7 +90,7 @@ public class Config {
 
     public static final ModConfigSpec.BooleanValue ENABLE_POKEMON_LEVEL_ADJUSTMENT = BUILDER
             .comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")
-            .define("enablePokemonLevelAdjustment", false);
+            .define("enablePokemonLevelAdjustment", true);
 
     public static final ModConfigSpec.ConfigValue<String> POKEMON_LEVEL_ADJUSTMENT_TYPE = BUILDER
             .comment("This will determine the type of level adjustment the pokemon will have. Valid values are AVERAGE or MEDIAN. These values are calculated from \" +\n" +
