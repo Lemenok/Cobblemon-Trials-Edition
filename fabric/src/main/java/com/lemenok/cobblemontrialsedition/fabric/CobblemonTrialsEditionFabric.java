@@ -4,10 +4,10 @@ import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
 import com.lemenok.cobblemontrialsedition.fabric.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.fabric.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
-import com.lemenok.cobblemontrialsedition.fabric.events.SpawnerReplacementHandler;
 import com.lemenok.cobblemontrialsedition.fabric.item.ModCreativeModeTabs;
 import com.lemenok.cobblemontrialsedition.fabric.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.fabric.potion.ModPotions;
+import com.lemenok.cobblemontrialsedition.fabric.processors.ModProcessors;
 import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
@@ -29,16 +29,10 @@ import org.slf4j.LoggerFactory;
 public class CobblemonTrialsEditionFabric implements ModInitializer {
     public static final String MODID = "cobblemontrialsedition";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
-    public static final SpawnerReplacementHandler SPAWNER_REPLACEMENT_HANDLER = new SpawnerReplacementHandler();
 
     public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_STRUCTURE_REGISTRY =
             ResourceKey.createRegistryKey(
                     ResourceLocation.fromNamespaceAndPath(MODID, "structures")
-            );
-
-    public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_FEATURES_REGISTRY =
-            ResourceKey.createRegistryKey(
-                    ResourceLocation.fromNamespaceAndPath(MODID, "features")
             );
 
     public static final ResourceKey<Registry<StructureProperties>> COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY =
@@ -60,6 +54,7 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
         ModPotions.registerPotions();
         ModSounds.registerSounds();
         ModCreativeModeTabs.registerItemGroups();
+        ModProcessors.register();
 
         AutoConfig.register(Config.class, Toml4jConfigSerializer::new);
 
@@ -70,7 +65,6 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
 
         // Register Datapacks
         DynamicRegistries.register(COBBLEMON_TRIALS_STRUCTURE_REGISTRY, StructureProperties.CODEC);
-        DynamicRegistries.register(COBBLEMON_TRIALS_FEATURES_REGISTRY, StructureProperties.CODEC);
         DynamicRegistries.register(COBBLEMON_TRIALS_DEFAULT_STRUCTURE_REGISTRY, StructureProperties.CODEC);
         DynamicRegistries.register(COBBLEMON_TRIALS_LOOT_TABLE_REGISTRY, LootTable.DIRECT_CODEC);
 
@@ -86,9 +80,5 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
                 PropertiesCache.rebuild(server.registryAccess());
             }
         });
-
-        // Handle Chunk Load Events
-        ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->
-                world.getServer().execute(() -> SPAWNER_REPLACEMENT_HANDLER.processNewChunk(world, chunk)));
     }
 }
