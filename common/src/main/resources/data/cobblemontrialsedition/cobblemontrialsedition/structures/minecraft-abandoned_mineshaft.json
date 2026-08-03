@@ -1,57 +1,57 @@
 {
-  "structureId": "minecraft:fortress",
+  "structureId": "minecraft:mineshaft",
   "spawnerProperties": [
     {
       "blockTypesToReplace": ["minecraft:spawner"],
-      "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
-      "lootTables": ["cobblemontrialsedition:fortress"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_fortress"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
+      "lootTables": ["cobblemontrialsedition:abandoned_mineshaft"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_abandoned_mineshaft"],
       "listOfPokemonToSpawn": [{
-          "species": "charcadet",
+          "species": "spinarak",
           "spawnablePokemonStats": {
-            "level": 25
+            "level": 20
           }
         },
         {
-          "species": "falinks",
+          "species": "joltik",
           "spawnablePokemonStats": {
-            "level": 25
+            "level": 20
           }
         },
         {
-          "species": "houndour",
+          "species": "timburr",
           "spawnablePokemonStats": {
-            "level": 25
+            "level": 20
           }
         },
         {
-          "species": "darmanitan",
+          "species": "carbink",
           "spawnablePokemonStats": {
-            "level": 25
+            "level": 20
           }
         }],
       "listOfOminousPokemonToSpawn": [{
-          "species": "armarouge",
+          "species": "ariados",
           "spawnablePokemonStats": {
-          "level": 50
+            "level": 40
           }
         },
         {
-          "species": "ceruledge",
+          "species": "galvantula",
           "spawnablePokemonStats": {
-            "level": 50
+            "level": 40
           }
         },
         {
-          "species": "houndoom",
+          "species": "gurdurr",
           "spawnablePokemonStats": {
-            "level": 50
+            "level": 40
           }
         },
         {
-          "species": "darmanitan",
+          "species": "carbink",
           "spawnablePokemonStats": {
-            "level": 50
+            "level": 40
           }
         }]
     }

@@ -5,8 +5,8 @@
   "mixins": [
     "FightOrFlightMixin",
     "CobblemonTrailDespawnMixin",
+    "PokemonUtilsMixin",
     "StructureTemplateMixin",
-    "StructureStartMixin",
     "StructureStartMixin",
     "MonsterRoomFeatureMixin",
     "SculkPatchFeatureMixin"

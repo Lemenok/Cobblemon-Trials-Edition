@@ -19,5 +19,8 @@ public class FightOrFlightMixin {
         if (compoundTagOfPokemon.getBoolean("is_aggressive")) {
             callbackInfoReturnable.setReturnValue(100.0F + (double) CobblemonFightOrFlight.commonConfig().aggressive_threshold);
         }
+        else {
+            callbackInfoReturnable.setReturnValue(0.0);
+        }
     }
 }

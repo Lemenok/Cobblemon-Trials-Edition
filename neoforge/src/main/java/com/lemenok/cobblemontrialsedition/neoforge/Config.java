@@ -86,7 +86,7 @@ public class Config {
     public static final ModConfigSpec.DoubleValue BLOCK_REPLACEMENT_PERCENTAGE = BUILDER
             .comment("This is what percentage (0.0 - 1.0) Blocks will be replaced, eg: .75 will mean 75% of each Blocks within a structure will be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
-            .defineInRange("BlockReplacementPercentage", 0.0, 0.0, 1.0);
+            .defineInRange("blockReplacementPercentage", 0.0, 0.0, 1.0);
 
     public static final ModConfigSpec.BooleanValue ENABLE_POKEMON_LEVEL_ADJUSTMENT = BUILDER
             .comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")

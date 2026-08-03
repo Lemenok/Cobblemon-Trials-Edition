@@ -33,7 +33,7 @@ public record SpawnablePokemonProperties(
 {
     public static final Codec<SpawnablePokemonProperties> CODEC = RecordCodecBuilder.create(pokemon -> pokemon.group(
             Codec.STRING.fieldOf("species").forGetter(SpawnablePokemonProperties::species),
-            Codec.INT.fieldOf("weight").forGetter(SpawnablePokemonProperties::weight),
+            Codec.INT.optionalFieldOf("weight", 10).forGetter(SpawnablePokemonProperties::weight),
             Codec.FLOAT.optionalFieldOf("scaleModifier", 1.0f).forGetter(SpawnablePokemonProperties::scaleModifier),
             Codec.BOOL.optionalFieldOf("isUncatchable", false).forGetter(SpawnablePokemonProperties::isUncatchable),
             Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", false).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle),

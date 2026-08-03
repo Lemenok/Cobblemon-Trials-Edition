@@ -38,7 +38,7 @@ public record SpawnerProperties(
 )
 {
     public static final Codec<SpawnerProperties> CODEC = RecordCodecBuilder.create(spawner -> spawner.group(
-            Codec.list(ResourceLocation.CODEC).fieldOf("blockEntityTypesToReplace").forGetter(SpawnerProperties::blockTypesToReplace),
+            Codec.list(ResourceLocation.CODEC).fieldOf("blockTypesToReplace").forGetter(SpawnerProperties::blockTypesToReplace),
             Codec.list(ResourceLocation.CODEC).fieldOf("mobEntitiesInSpawnerToReplace").forGetter(SpawnerProperties::mobEntitiesInSpawnerToReplace),
             Codec.INT.optionalFieldOf("ticksBetweenSpawnAttempts", 40).forGetter(SpawnerProperties::ticksBetweenSpawnAttempts),
             Codec.INT.optionalFieldOf("spawnerCooldown", 36000).forGetter(SpawnerProperties::spawnerCooldown),

@@ -5,30 +5,58 @@
   },
   "spawnerProperties": [
     {
-      "blockEntityTypesToReplace": ["minecraft:sculk_shrieker"],
+      "blockTypesToReplace": ["minecraft:sculk_shrieker"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "ticksBetweenSpawnAttempts": 40,
-      "spawnerCooldown": 36000,
-      "playerDetectionRange": 7,
-      "spawnRange": 4,
-      "maximumNumberOfSimultaneousPokemon": 2,
-      "maximumNumberOfSimultaneousPokemonAddedPerPlayer": 1,
-      "totalNumberOfPokemonPerTrial": 4,
-      "totalNumberOfPokemonPerTrialAddedPerPlayer": 1,
-      "lootTables": ["cobblemontrialsedition:ancient-city"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-ancient-city"],
-      "ominousSpawnerAttacksEnabled": false,
-      "doPokemonSpawnedGlow": true,
+      "lootTables": ["cobblemontrialsedition:sculk_patch"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_sculk_patch"],
       "listOfPokemonToSpawn": [{
-          "species": "spiritomb",
-          "weight": 40,
-          "level": 55
+          "species": "dusclops",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "lampent",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "morgrem",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "absol",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
         }],
       "listOfOminousPokemonToSpawn": [
         {
-          "species": "spiritomb",
-          "weight": 40,
-          "level": 80
+          "species": "dusknoir",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
+        },
+        {
+          "species": "chandelure",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
+        },
+        {
+          "species": "grimmsnarl",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
+        },
+        {
+          "species": "absol",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
         }]
     }
   ]

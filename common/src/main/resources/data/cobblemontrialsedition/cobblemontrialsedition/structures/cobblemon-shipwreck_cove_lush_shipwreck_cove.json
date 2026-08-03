@@ -1,0 +1,275 @@
+{
+  "structureId": "cobblemon:shipwreck_coves/lush_shipwreck_cove",
+  "spawnerProperties": [
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:phantom"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+          "species": "wingull",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "murkrow",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "chatot",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "ducklett",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "pelipper",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "honchkrow",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "chatot",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "swanna",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    },
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+          "species": "krabby",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "corphish",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "lombre",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "wimpod",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "kingler",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "crawdaunt",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "ludicolo",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "golisopod",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    },
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+          "species": "dewpider",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "relicanth",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "seadra",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "skrelp",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "araquanid",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "relicanth",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "kingdra",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "dragalge",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    },
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+          "species": "psyduck",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "gloom",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "weepinbell",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "tangela",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "golduck",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "vileplume",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "victreebel",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "tangrowth",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    },
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+          "species": "zubat",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "noibat",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "swablu",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "skiploom",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "golbat",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "altaria",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "noivern",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "jumpluff",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    }
+  ]
+}

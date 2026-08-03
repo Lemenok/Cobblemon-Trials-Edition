@@ -2,107 +2,219 @@
   "structureId": "minecraft:monster_room",
   "spawnerProperties": [
     {
-      "blockEntityTypesToReplace": ["minecraft:spawner"],
+      "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
-      "lootTables": ["cobblemontrialsedition:monster-room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "lootTables": ["cobblemontrialsedition:monster_room"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
       "listOfPokemonToSpawn": [{
-        "species": "shuppet",
-        "weight": 80,
-        "level": 20
-      },
+          "species": "shuppet",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
         {
           "species": "mimikyu",
-          "weight": 20,
-          "level": 20
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "baltoy",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "wobbuffet",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "banette",
-        "weight": 50,
-        "level": 40
-      },
+          "species": "banette",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
         {
           "species": "mimikyu",
-          "weight": 50,
-          "level": 40
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "claydol",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "wobbuffet",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:spawner"],
+      "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "lootTables": ["cobblemontrialsedition:monster-room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "lootTables": ["cobblemontrialsedition:monster_room"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
       "listOfPokemonToSpawn": [{
-        "species": "cubone",
-        "weight": 50,
-        "level": 20
-      },
+          "species": "cubone",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
         {
           "species": "geodude",
-          "weight": 50,
-          "level": 20
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "dunsparce",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "diglet",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "marowak",
-        "weight": 50,
-        "level": 40
-      },
+          "species": "marowak",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
         {
           "species": "graveler",
-          "weight": 50,
-          "level": 40
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "dunsparce",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "dugtrio",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:spawner"],
+      "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
-      "lootTables": ["cobblemontrialsedition:monster-room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "lootTables": ["cobblemontrialsedition:monster_room"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
       "listOfPokemonToSpawn": [{
-        "species": "skorupi",
-        "weight": 80,
-        "level": 20
-      },
+          "species": "skorupi",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "koffing",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
         {
           "species": "sableye",
-          "weight": 20,
-          "level": 20
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "boldore",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "drapion",
-        "weight": 50,
-        "level": 40
-      },
+          "species": "drapion",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "weezing",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
         {
           "species": "sableye",
-          "weight": 50,
-          "level": 40
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "gigalith",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
         }]
     },
     {
-      "blockEntityTypesToReplace": ["minecraft:spawner"],
+      "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zoglin"],
-      "lootTables": ["cobblemontrialsedition:monster-room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous-monster-room"],
+      "lootTables": ["cobblemontrialsedition:monster_room"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
       "listOfPokemonToSpawn": [{
-        "species": "tauros",
-        "weight": 80,
-        "level": 20
-      },
+          "species": "tauros",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "salandit",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
         {
           "species": "Teddiursa",
-          "weight": 20,
-          "level": 20
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "turtonator",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
         }],
       "listOfOminousPokemonToSpawn": [{
-        "species": "tauros",
-        "weight": 50,
-        "level": 40
-      },
+          "species": "tauros",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "salazzle",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
         {
           "species": "ursaring",
-          "weight": 50,
-          "level": 40
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "turtonator",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
         }]
     }
   ]

@@ -1,0 +1,114 @@
+{
+  "structureId": "cobblemon:shipwreck_coves/submerged_shipwreck_cove",
+  "spawnerProperties": [
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:guardian"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+          "species": "carvanha",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "octillery",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "basculin",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "arrokuda",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }
+      ],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "sharpedo",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "octillery",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "basculegion",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "barraskewda",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    },
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
+      "lootTables": [],
+      "ominousLootTables": [],
+      "listOfPokemonToSpawn": [{
+          "species": "tentacool",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "shellos",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "frillish",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "mareanie",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "tentacruel",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "gastrodon",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "jellicent",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "toxapex",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    }
+  ]
+}

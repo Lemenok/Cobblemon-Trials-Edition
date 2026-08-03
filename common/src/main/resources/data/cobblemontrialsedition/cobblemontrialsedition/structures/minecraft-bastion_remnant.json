@@ -1,0 +1,59 @@
+{
+  "structureId": "minecraft:bastion_remnant",
+  "spawnerProperties": [
+    {
+      "blockTypesToReplace": ["minecraft:spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:magma_cube"],
+      "lootTables": ["cobblemontrialsedition:bastion_remnant"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_bastion_remnant"],
+      "listOfPokemonToSpawn": [{
+          "species": "slugma",
+          "spawnablePokemonStats": {
+            "level": 30
+          }
+        },
+        {
+          "species": "magmar",
+          "spawnablePokemonStats": {
+            "level": 30
+          }
+        },
+        {
+          "species": "gurdurr",
+          "spawnablePokemonStats": {
+            "level": 30
+          }
+        },
+        {
+          "species": "turtonator",
+          "spawnablePokemonStats": {
+            "level": 30
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "magcargo",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
+        },
+        {
+          "species": "magmortar",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
+        },
+        {
+          "species": "conkeldurr",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
+        },
+        {
+          "species": "turtonator",
+          "spawnablePokemonStats": {
+            "level": 60
+          }
+        }]
+    }
+  ]
+}

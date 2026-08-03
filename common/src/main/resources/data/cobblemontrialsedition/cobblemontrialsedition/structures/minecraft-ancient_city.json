@@ -1,44 +1,47 @@
 {
-  "structureId": "minecraft:stronghold",
+  "structureId": "minecraft:ancient_city",
+  "uniqueReplacementBlocks": {
+    "minecraft:sculk_shrieker": "minecraft:warden"
+  },
   "spawnerProperties": [
     {
-      "blockTypesToReplace": ["minecraft:spawner"],
-      "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
-      "lootTables": ["cobblemontrialsedition:stronghold"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_stronghold"],
+      "blockTypesToReplace": ["minecraft:sculk_shrieker"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:warden"],
+      "lootTables": ["cobblemontrialsedition:ancient_city"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_ancient_city"],
       "listOfPokemonToSpawn": [{
-          "species": "lunatone",
+          "species": "spiritomb",
           "spawnablePokemonStats": {
-              "level": 40
+            "level": 55
           }
         },
         {
-          "species": "solrock",
+          "species": "noibat",
           "spawnablePokemonStats": {
-            "level": 40
+            "level": 55
           }
         },
         {
           "species": "golett",
           "spawnablePokemonStats": {
-            "level": 40
+            "level": 55
           }
         },
         {
-          "species": "doublade",
+          "species": "zweilous",
           "spawnablePokemonStats": {
-            "level": 40
+            "level": 55
           }
         }],
       "listOfOminousPokemonToSpawn": [
         {
-          "species": "lunatone",
+          "species": "spiritomb",
           "spawnablePokemonStats": {
             "level": 80
           }
         },
         {
-          "species": "solrock",
+          "species": "noivern",
           "spawnablePokemonStats": {
             "level": 80
           }
@@ -50,7 +53,7 @@
           }
         },
         {
-          "species": "aegislash",
+          "species": "hydreigon",
           "spawnablePokemonStats": {
             "level": 80
           }
