@@ -9,6 +9,9 @@ architectury {
 
 loom {
     silentMojangMappingsLicense()
+    mixin {
+        defaultRefmapName.set("cobblemon_trials_edition.refmap.json")
+    }
 }
 
 dependencies {

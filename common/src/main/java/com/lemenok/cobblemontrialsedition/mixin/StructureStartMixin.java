@@ -23,7 +23,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(StructureStart.class)
 public abstract class StructureStartMixin {
 
-    @Shadow public abstract Structure getStructure();
 
     @Inject(method = "placeInChunk", at = @At("HEAD"))
     private void onPlaceInChunkStart(WorldGenLevel worldGenLevel, StructureManager structureManager,
@@ -31,7 +30,7 @@ public abstract class StructureStartMixin {
                                      BoundingBox boundingBox, ChunkPos chunkPos, CallbackInfo callbackInfo) {
 
         // Get the Id of the current Structure being generated.
-        Structure structure = this.getStructure();
+        Structure structure = ((StructureStart) (Object) this).getStructure();
         ResourceLocation structureId = worldGenLevel.registryAccess()
                 .registryOrThrow(Registries.STRUCTURE)
                 .getKey(structure);

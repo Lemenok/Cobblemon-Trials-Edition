@@ -19,10 +19,7 @@ public class StructureTemplateMixin {
 
     private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
-    @Inject(
-            method = "placeInWorld(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;Lnet/minecraft/util/RandomSource;I)Z",
-            at = @At("HEAD")
-    )
+    @Inject(method = "placeInWorld", at = @At("HEAD"))
     private void injectCustomProcessors(ServerLevelAccessor serverLevel, BlockPos offset, BlockPos pos, StructurePlaceSettings settings, RandomSource random, int flags, CallbackInfoReturnable<Boolean> cir) {
         settings.addProcessor(new JigsawSpawnerReplacementProcessor());
     }
