@@ -72,10 +72,10 @@ public class SpawnerBuilder implements IBlockBuilder {
 
     @Override
     public boolean shouldBlockBeReplaced() {
-        if(Services.PLATFORM.getCommonConfig().REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE){
-            return Services.PLATFORM.getCommonConfig().MOB_SPAWNER_REPLACEMENT_PERCENTAGE <= Math.random();
+        if(Services.PLATFORM.getCommonConfig().REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS) {
+            return Services.PLATFORM.getCommonConfig().MOB_SPAWNER_REPLACEMENT_PERCENTAGE >= Math.random();
         }
-        return true;
+        return false;
     }
 
     @Override

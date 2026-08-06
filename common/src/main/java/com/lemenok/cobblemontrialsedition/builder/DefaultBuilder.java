@@ -70,10 +70,10 @@ public class DefaultBuilder implements IBlockBuilder {
 
     @Override
     public boolean shouldBlockBeReplaced() {
-        if(Services.PLATFORM.getCommonConfig().REPLACE_BLOCKS_BASED_ON_PERCENTAGE){
-            return Services.PLATFORM.getCommonConfig().BLOCK_REPLACEMENT_PERCENTAGE <= Math.random();
+        if(Services.PLATFORM.getCommonConfig().REPLACE_ANY_BLOCKS_WITH_COBBLEMON_SPAWNERS){
+            return Services.PLATFORM.getCommonConfig().BLOCK_REPLACEMENT_PERCENTAGE >= Math.random();
         }
-        return true;
+        return false;
     }
 
     @Override

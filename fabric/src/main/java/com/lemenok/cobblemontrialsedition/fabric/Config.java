@@ -32,7 +32,7 @@ public class Config implements ConfigData {
     public boolean REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = true;
 
     @ConfigEntry.Gui.Tooltip
-    @Comment("Whether to replace any Skulk Shriekers with Cobblemon Trial Spawners.")
+    @Comment("Whether to replace any Block specific requests like Shriekers with Cobblemon Trial Spawners.")
     public boolean REPLACE_ANY_BLOCKS_WITH_COBBLEMON_SPAWNERS = true;
 
     @ConfigEntry.Gui.Tooltip
@@ -54,37 +54,19 @@ public class Config implements ConfigData {
     public boolean ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE = true;
 
     @ConfigEntry.Gui.Tooltip
-    @Comment("This allows Percentage based control of mob spawner replacement.\" +\n" +
-            "\"If set to true this will use the Mob Spawner Replacement Percentage to determine how often a mob spawner should be replaced.\" +\n" +
-            "\"NOTE: This will only apply in newly generated chunks.")
-    public boolean REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE = false;
-
-    @ConfigEntry.Gui.Tooltip
     @Comment("This is what percentage (0.0 - 1.0) Mob Spawners will be replaced, eg: .75 will mean 75% of each trial spawner within a structure will be replaced.\" +\n" +
             "\"NOTE: This will only apply in newly generated chunks.")
-    public double MOB_SPAWNER_REPLACEMENT_PERCENTAGE = 0.0;
-
-    @ConfigEntry.Gui.Tooltip
-    @Comment("This allows Percentage based control of trial spawner replacement.\" +\n" +
-            "\"If set to true this will use the Trial Spawner Replacement Percentage to determine how often a trial spawner should be replaced.\" +\n" +
-            "\"NOTE: This will only apply in newly generated chunks.")
-    public boolean REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE = false;
+    public double MOB_SPAWNER_REPLACEMENT_PERCENTAGE = 1.0;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This is what percentage (0.0 - 1.0) Trial Spawners will be replaced, eg: .75 will mean 75% of each trial spawner within a structure will be replaced.\" +\n" +
             "\"NOTE: This will only apply in newly generated chunks.")
-    public double TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = 0.0;
-
-    @ConfigEntry.Gui.Tooltip
-    @Comment("This allows Percentage based control of Sculk Shrieker replacement.\" +\n" +
-            "\"If set to true this will use the Trial Spawner Replacement Percentage to determine how often a Sculk Shrieker should be replaced.\" +\n" +
-            "\"NOTE: This will only apply in newly generated chunks.")
-    public boolean REPLACE_BLOCKS_BASED_ON_PERCENTAGE = false;
+    public double TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = 1.0;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This is what percentage (0.0 - 1.0) Sculk Shriekers will be replaced, eg: .75 will mean 75% of each Sculk Shriekers within a structure will be replaced.\" +\n" +
             "\"NOTE: This will only apply in newly generated chunks.")
-    public double BLOCK_REPLACEMENT_PERCENTAGE = 0.0;
+    public double BLOCK_REPLACEMENT_PERCENTAGE = 1.0;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")

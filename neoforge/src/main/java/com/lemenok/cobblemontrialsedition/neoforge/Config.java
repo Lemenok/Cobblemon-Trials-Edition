@@ -29,9 +29,9 @@ public class Config {
             .comment("Whether to do any spawner replacement in structures. If set to false, this will disable all spawner replacement in structures.")
             .define("replaceSpawnersInStructuresWithCobblemonSpawners", true);
 
-    public static final ModConfigSpec.BooleanValue REPLACE_SPAWNERS_IN_FEATURES = BUILDER
-            .comment("Whether to do any spawner replacement in Features. If set to false, this will disable the spawner replacement for any spawners in features (eg. Monster_Rooms)")
-            .define("replaceSpawnersInFeaturesWithCobblemonSpawners", true);
+    public static final ModConfigSpec.BooleanValue REPLACE_ANY_BLOCKS_WITH_COBBLEMON_SPAWNERS = BUILDER
+            .comment("Whether to replace any Block specific requests like Shriekers with Cobblemon Trial Spawners.")
+            .define("replaceAnyBlocksWithCobblemonSpawners", true);
 
     public static final ModConfigSpec.BooleanValue REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS = BUILDER
             .comment("Whether to replace any spawners that are not listed in configuration with a default spawner. If set to false, this will leave spawners that do not have custom spawn data created.")
@@ -55,38 +55,20 @@ public class Config {
                     "\"NOTE: This will only apply to newly created spawners.")
             .define("allowSpawnedPokemonToBeAggressive", true);
 
-    public static final ModConfigSpec.BooleanValue REPLACE_MOB_SPAWNERS_BASED_ON_PERCENTAGE = BUILDER
-            .comment("This allows Percentage based control of mob spawner replacement." +
-                    "If set to true this will use the Mob Spawner Replacement Percentage to determine how often a mob spawner should be replaced." +
-                    "NOTE: This will only apply in newly generated chunks.")
-            .define("replaceMobSpawnersBasedOnPercentage", false);
-
     public static final ModConfigSpec.DoubleValue MOB_SPAWNER_REPLACEMENT_PERCENTAGE = BUILDER
             .comment("This is what percentage (0.0 - 1.0) Mob Spawners will be replaced, eg: .75 will mean 75% of each trial spawner within a structure will be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
-            .defineInRange("mobSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
-
-    public static final ModConfigSpec.BooleanValue REPLACE_TRIAL_SPAWNERS_BASED_ON_PERCENTAGE = BUILDER
-            .comment("This allows Percentage based control of trial spawner replacement." +
-                    "If set to true this will use the Trial Spawner Replacement Percentage to determine how often a trial spawner should be replaced." +
-                    "NOTE: This will only apply in newly generated chunks.")
-            .define("replaceTrialSpawnersBasedOnPercentage", false);
+            .defineInRange("mobSpawnerReplacementPercentage", 1.0, 0.0, 1.0);
 
     public static final ModConfigSpec.DoubleValue TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = BUILDER
             .comment("This is what percentage (0.0 - 1.0) Trial Spawners will be replaced, eg: .75 will mean 75% of each trial spawner within a structure will be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
-            .defineInRange("trialSpawnerReplacementPercentage", 0.0, 0.0, 1.0);
-
-    public static final ModConfigSpec.BooleanValue REPLACE_BLOCKS_ON_PERCENTAGE = BUILDER
-            .comment("This allows Percentage based control of specified Block replacement.\" +\n" +
-                    "\"If set to true this will use the Block Replacement Percentage to determine how often a Block should be replaced.\" +\n" +
-                    "\"NOTE: This will only apply in newly generated chunks.")
-            .define("replaceBlocksBasedOnPercentage", false);
+            .defineInRange("trialSpawnerReplacementPercentage", 1.0, 0.0, 1.0);
 
     public static final ModConfigSpec.DoubleValue BLOCK_REPLACEMENT_PERCENTAGE = BUILDER
             .comment("This is what percentage (0.0 - 1.0) Blocks will be replaced, eg: .75 will mean 75% of each Blocks within a structure will be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
-            .defineInRange("blockReplacementPercentage", 0.0, 0.0, 1.0);
+            .defineInRange("blockReplacementPercentage", 1.0, 0.0, 1.0);
 
     public static final ModConfigSpec.BooleanValue ENABLE_POKEMON_LEVEL_ADJUSTMENT = BUILDER
             .comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")
