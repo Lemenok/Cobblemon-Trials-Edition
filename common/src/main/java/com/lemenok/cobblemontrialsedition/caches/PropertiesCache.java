@@ -1,0 +1,84 @@
+package com.lemenok.cobblemontrialsedition.caches;
+
+import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
+import com.lemenok.cobblemontrialsedition.config.StructureProperties;
+import com.lemenok.cobblemontrialsedition.platform.Services;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class PropertiesCache {
+
+    private static final Map<SpawnerCacheKey, SpawnerProperties> STRUCTURES_CACHE = new HashMap<>();
+    private static final Map<SpawnerCacheKey, SpawnerProperties> DEFAULTS_CACHE = new HashMap<>();
+    private static final Map<ResourceLocation, StructureProperties> STRUCTURE_PROPERTIES_CACHE = new HashMap<>();
+
+
+    public static void rebuild(RegistryAccess registryAccess) {
+        STRUCTURES_CACHE.clear();
+        DEFAULTS_CACHE.clear();
+        STRUCTURE_PROPERTIES_CACHE.clear();
+
+        registryAccess.registry(Services.PLATFORM.getCobblemonTrialsStructureRegistry())
+                .ifPresent(registry -> populateCacheFromRegistry(registry, STRUCTURES_CACHE));
+
+        registryAccess.registry(Services.PLATFORM.getCobblemonTrialsDefaultStructureRegistry())
+                .ifPresent(registry -> populateCacheFromRegistry(registry, DEFAULTS_CACHE));
+    }
+
+    private static void populateCacheFromRegistry(Registry<StructureProperties> registry, Map<SpawnerCacheKey, SpawnerProperties> targetCache) {
+        // Iterate over each Structure JSON file in the registry.
+        for (var entry : registry.entrySet()) {
+
+            StructureProperties structureProperties = entry.getValue();
+
+            String[] structureString = structureProperties.structureId().split(":");
+            ResourceLocation structureResourceLocation = ResourceLocation.fromNamespaceAndPath(structureString[0], structureString[1]);
+
+            // Store the top-level StructureProperties for unique Block lookups.
+            STRUCTURE_PROPERTIES_CACHE.put(structureResourceLocation, structureProperties);
+
+            // Iterate through each spawner property tied to the structure.
+            for (SpawnerProperties spawnerProperties : structureProperties.spawnerProperties()) {
+
+                // Iterate through each Block/Entity mapping to create the key and data for the hash.
+                for (ResourceLocation blockType : spawnerProperties.blockTypesToReplace()) {
+                    for (ResourceLocation entity : spawnerProperties.mobEntitiesInSpawnerToReplace()) {
+
+                        // Store key in Hash with the SpawnerProperties.
+                        SpawnerCacheKey key = new SpawnerCacheKey(structureResourceLocation, blockType, entity);
+                        targetCache.put(key, spawnerProperties);
+                    }
+                }
+            }
+        }
+    }
+
+    public static StructureProperties getStructureProperties(ResourceLocation structureId) {
+        return STRUCTURE_PROPERTIES_CACHE.get(structureId);
+    }
+
+    public static SpawnerProperties getStructureProperty(ResourceLocation structure, ResourceLocation blockEntity, ResourceLocation entity) {
+        return STRUCTURES_CACHE.get(new SpawnerCacheKey(structure, blockEntity, entity));
+    }
+
+    public static SpawnerProperties getDefaultProperty(ResourceLocation structure, ResourceLocation blockEntity, ResourceLocation entity) {
+        return DEFAULTS_CACHE.get(new SpawnerCacheKey(structure, blockEntity, entity));
+    }
+
+    public static SpawnerProperties getSpawnerPropertiesFromLocationEntityBlock(ResourceLocation location, ResourceLocation blockEntity, ResourceLocation entity, CacheType cacheType) {
+
+        SpawnerProperties result = null;
+
+        if(cacheType == CacheType.STRUCTURE)
+            result = getStructureProperty(location, blockEntity, entity);
+
+        if (result == null && Services.PLATFORM.getCommonConfig().REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS)
+            return getDefaultProperty(ResourceLocation.fromNamespaceAndPath("cobblemontrialsedition","default"), blockEntity, entity);
+
+        return result;
+    }
+}

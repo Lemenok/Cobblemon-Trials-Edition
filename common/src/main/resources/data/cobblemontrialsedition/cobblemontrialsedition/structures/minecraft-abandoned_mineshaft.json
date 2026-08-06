@@ -1,0 +1,59 @@
+{
+  "structureId": "minecraft:mineshaft",
+  "spawnerProperties": [
+    {
+      "blockTypesToReplace": ["minecraft:spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
+      "lootTables": ["cobblemontrialsedition:abandoned_mineshaft"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_abandoned_mineshaft"],
+      "listOfPokemonToSpawn": [{
+          "species": "spinarak",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "joltik",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "timburr",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        },
+        {
+          "species": "carbink",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "ariados",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "galvantula",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "gurdurr",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "carbink",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        }]
+    }
+  ]
+}

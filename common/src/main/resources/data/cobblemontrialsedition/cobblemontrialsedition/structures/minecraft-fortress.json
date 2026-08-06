@@ -1,0 +1,59 @@
+{
+  "structureId": "minecraft:fortress",
+  "spawnerProperties": [
+    {
+      "blockTypesToReplace": ["minecraft:spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
+      "lootTables": ["cobblemontrialsedition:fortress"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_fortress"],
+      "listOfPokemonToSpawn": [{
+          "species": "charcadet",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "falinks",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "houndour",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        },
+        {
+          "species": "darmanitan",
+          "spawnablePokemonStats": {
+            "level": 25
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [{
+          "species": "armarouge",
+          "spawnablePokemonStats": {
+          "level": 50
+          }
+        },
+        {
+          "species": "ceruledge",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "houndoom",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        },
+        {
+          "species": "darmanitan",
+          "spawnablePokemonStats": {
+            "level": 50
+          }
+        }]
+    }
+  ]
+}

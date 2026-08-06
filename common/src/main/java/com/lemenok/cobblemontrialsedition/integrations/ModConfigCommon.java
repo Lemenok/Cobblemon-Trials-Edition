@@ -1,0 +1,21 @@
+package com.lemenok.cobblemontrialsedition.integrations;
+
+import java.util.List;
+
+public class ModConfigCommon {
+    public boolean ENABLE_DEBUG_LOGS;
+    public List<? extends String> BLACKLISTED_STRUCTURE_IDS;
+    public boolean REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS;
+    public boolean REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS;
+    public boolean REPLACE_ANY_UNSPECIFIED_SPAWNERS_WITH_DEFAULT_COBBLEMON_SPAWNERS;
+    public boolean REPLACE_ANY_BLOCKS_WITH_COBBLEMON_SPAWNERS;
+    public boolean SPAWNED_POKEMON_ARE_UNCATCHABLE;
+    public boolean SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE;
+    public boolean ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE;
+    public double MOB_SPAWNER_REPLACEMENT_PERCENTAGE;
+    public double TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE;
+    public double BLOCK_REPLACEMENT_PERCENTAGE;
+    public boolean ENABLE_POKEMON_LEVEL_ADJUSTMENT;
+    public String POKEMON_LEVEL_ADJUSTMENT_TYPE;
+    public static int TIME_TILL_POKEMON_DESPAWN_IN_TICKS;
+}

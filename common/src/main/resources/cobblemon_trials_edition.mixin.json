@@ -2,9 +2,14 @@
   "required": true,
   "package": "com.lemenok.cobblemontrialsedition.mixin",
   "compatibilityLevel": "JAVA_21",
+  "refmap": "cobblemon_trials_edition.refmap.json",
   "mixins": [
     "FightOrFlightMixin",
-    "CobblemonTrailDespawnMixin"
+    "CobblemonTrailDespawnMixin",
+    "StructureTemplateMixin",
+    "StructureStartMixin",
+    "MonsterRoomFeatureMixin",
+    "SculkPatchFeatureMixin"
   ],
   "injectors": {
     "defaultRequire": 0

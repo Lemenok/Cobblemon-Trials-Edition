@@ -1,0 +1,60 @@
+{
+  "structureId": "minecraft:stronghold",
+  "spawnerProperties": [
+    {
+      "blockTypesToReplace": ["minecraft:spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
+      "lootTables": ["cobblemontrialsedition:stronghold"],
+      "ominousLootTables": ["cobblemontrialsedition:ominous_stronghold"],
+      "listOfPokemonToSpawn": [{
+          "species": "lunatone",
+          "spawnablePokemonStats": {
+              "level": 40
+          }
+        },
+        {
+          "species": "solrock",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "golett",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        },
+        {
+          "species": "doublade",
+          "spawnablePokemonStats": {
+            "level": 40
+          }
+        }],
+      "listOfOminousPokemonToSpawn": [
+        {
+          "species": "lunatone",
+          "spawnablePokemonStats": {
+            "level": 80
+          }
+        },
+        {
+          "species": "solrock",
+          "spawnablePokemonStats": {
+            "level": 80
+          }
+        },
+        {
+          "species": "golurk",
+          "spawnablePokemonStats": {
+            "level": 80
+          }
+        },
+        {
+          "species": "aegislash",
+          "spawnablePokemonStats": {
+            "level": 80
+          }
+        }]
+    }
+  ]
+}
