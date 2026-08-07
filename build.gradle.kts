@@ -23,6 +23,10 @@ allprojects {
         maven("https://maven.shedaniel.me/")
         maven("https://maven.terraformersmc.com/releases/")
         maven("https://api.modrinth.com/maven")
+        maven {
+            name = "cobblemonSnapshots"
+            url = uri("https://artefacts.cobblemon.com/snapshots")
+        }
     }
 
     tasks.getByName<Test>("test") {

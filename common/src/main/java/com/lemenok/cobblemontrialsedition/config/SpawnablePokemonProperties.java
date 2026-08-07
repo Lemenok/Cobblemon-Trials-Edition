@@ -27,6 +27,7 @@ public record SpawnablePokemonProperties(
         boolean isUncatchable,
         boolean mustBeDefeatedInBattle,
         boolean isAggressive,
+        boolean isAlwaysAlpha,
         List<String> aspects,
         SpawnablePokemonStats spawnablePokemonStats
 )
@@ -38,6 +39,7 @@ public record SpawnablePokemonProperties(
             Codec.BOOL.optionalFieldOf("isUncatchable", false).forGetter(SpawnablePokemonProperties::isUncatchable),
             Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", false).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle),
             Codec.BOOL.optionalFieldOf("isAggressive", false).forGetter(SpawnablePokemonProperties::isAggressive),
+            Codec.BOOL.optionalFieldOf("isAlwaysAlpha", false).forGetter(SpawnablePokemonProperties::isAlwaysAlpha),
             Codec.STRING.listOf().optionalFieldOf("aspects", new ArrayList<>()).forGetter(SpawnablePokemonProperties::aspects),
             SpawnablePokemonStats.CODEC.optionalFieldOf("spawnablePokemonStats",
                     new SpawnablePokemonStats("normal", 25, "", "", new ArrayList<>(), new ArrayList<>(), "", new ArrayList<>(), "", 0, "", false)
@@ -80,6 +82,8 @@ public record SpawnablePokemonProperties(
         newPokemon.getPersistentData().putBoolean("is_uncatchable", isUncatchable);
 
         newPokemon.getPersistentData().putBoolean("is_invulnerable", mustBeDefeatedInBattle);
+
+        newPokemon.getPersistentData().putBoolean("is_always_alpha", isAlwaysAlpha);
 
         if(!spawnablePokemonStats.moves().isEmpty()){
             // Setup Custom Moves

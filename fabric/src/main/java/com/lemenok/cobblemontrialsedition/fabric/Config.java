@@ -64,9 +64,13 @@ public class Config implements ConfigData {
     public double TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = 1.0;
 
     @ConfigEntry.Gui.Tooltip
-    @Comment("This is what percentage (0.0 - 1.0) Sculk Shriekers will be replaced, eg: .75 will mean 75% of each Sculk Shriekers within a structure will be replaced.\" +\n" +
+    @Comment("This is what percentage (0.0 - 1.0) Blocks will be replaced, eg: .75 will mean 75% of each Blocks within a structure will be replaced.\" +\n" +
             "\"NOTE: This will only apply in newly generated chunks.")
     public double BLOCK_REPLACEMENT_PERCENTAGE = 1.0;
+
+    @ConfigEntry.Gui.Tooltip
+    @Comment("This is what percentage (0.0 - 1.0) Pokemon spawned will be Alpha Pokemon. eg: .75 will mean there is a 75% chance a pokemon spawned will be an alpha.")
+    public double ALPHA_POKEMON_PERCENTAGE = 0.5;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")

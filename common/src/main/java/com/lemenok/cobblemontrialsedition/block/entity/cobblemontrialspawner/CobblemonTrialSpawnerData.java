@@ -308,8 +308,12 @@ public class CobblemonTrialSpawnerData {
                 oldPokemonTag.remove("PokemonData");
             }
 
-            // 2. Explicitly attach the PersistentData tag back to oldPokemonTag
+            // Explicitly attach the PersistentData tag back to oldPokemonTag
             oldPokemonTag.put("PersistentData", persistentData);
+
+            // Check if Pokemon should be Alpha.
+            if(Services.PLATFORM.getCommonConfig().ALPHA_POKEMON_PERCENTAGE >= Math.random() || persistentData.getBoolean("is_always_alpha"))
+                setAlphaMark(oldPokemonTag);
 
             // Save the finalized Pokemon data to the root Entity tag
             nbt.put("Pokemon", oldPokemonTag);
@@ -324,6 +328,18 @@ public class CobblemonTrialSpawnerData {
         });
 
         return nextSpawnData;
+    }
+
+    private static void setAlphaMark(CompoundTag oldPokemonTag) {
+        ListTag marksList = new ListTag();
+
+        // Add Mark to make Pokemon Alpha.
+        marksList.add(StringTag.valueOf("cobblemon:mark_alpha"));
+        oldPokemonTag.put("Marks", marksList);
+
+        // Assign the active mark and flip the overarching Alpha boolean flag
+        oldPokemonTag.putString("ActiveMark", "cobblemon:mark_alpha");
+        oldPokemonTag.putBoolean("Alpha", true);
     }
 
     private @NotNull int getCalculatedLevelAdjustment(ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
