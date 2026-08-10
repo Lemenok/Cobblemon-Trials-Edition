@@ -314,6 +314,11 @@ public class CobblemonTrialSpawnerData {
             // Check if Pokemon should be Alpha.
             if(Services.PLATFORM.getCommonConfig().ALPHA_POKEMON_PERCENTAGE >= Math.random() || persistentData.getBoolean("is_always_alpha"))
                 setAlphaMark(oldPokemonTag);
+            else {
+                oldPokemonTag.remove("Marks");
+                oldPokemonTag.remove("ActiveMark");
+                oldPokemonTag.remove("Alpha");
+            }
 
             // Save the finalized Pokemon data to the root Entity tag
             nbt.put("Pokemon", oldPokemonTag);

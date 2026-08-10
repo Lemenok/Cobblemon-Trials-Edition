@@ -72,7 +72,7 @@ public class Config {
 
     public static final ModConfigSpec.DoubleValue ALPHA_POKEMON_PERCENTAGE = BUILDER
             .comment("This is what percentage (0.0 - 1.0) Pokemon spawned will be Alpha Pokemon. eg: .75 will mean there is a 75% chance a pokemon spawned will be an alpha.")
-            .defineInRange("alphaPokemonPercentage", 0.5, 0.0, 1.0);
+            .defineInRange("alphaPokemonPercentage", 0.1, 0.0, 1.0);
 
     public static final ModConfigSpec.BooleanValue ENABLE_POKEMON_LEVEL_ADJUSTMENT = BUILDER
             .comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 public record SpawnablePokemonStats(
-        String form,
+        List<String> form,
         int level,
         String gender,
         String nature,
@@ -31,7 +31,7 @@ public record SpawnablePokemonStats(
         boolean isShiny
 ) {
     public static final Codec<SpawnablePokemonStats> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.STRING.optionalFieldOf("form", "normal").forGetter(SpawnablePokemonStats::form),
+            Codec.list(Codec.STRING).optionalFieldOf("form", new ArrayList<>()).forGetter(SpawnablePokemonStats::form),
             Codec.INT.optionalFieldOf("level", 25).forGetter(SpawnablePokemonStats::level),
             Codec.STRING.optionalFieldOf("gender", "").forGetter(SpawnablePokemonStats::gender),
             Codec.STRING.optionalFieldOf("nature", "").forGetter(SpawnablePokemonStats::nature),

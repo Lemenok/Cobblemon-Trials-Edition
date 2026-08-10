@@ -70,7 +70,7 @@ public class Config implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This is what percentage (0.0 - 1.0) Pokemon spawned will be Alpha Pokemon. eg: .75 will mean there is a 75% chance a pokemon spawned will be an alpha.")
-    public double ALPHA_POKEMON_PERCENTAGE = 0.5;
+    public double ALPHA_POKEMON_PERCENTAGE = 0.1;
 
     @ConfigEntry.Gui.Tooltip
     @Comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")

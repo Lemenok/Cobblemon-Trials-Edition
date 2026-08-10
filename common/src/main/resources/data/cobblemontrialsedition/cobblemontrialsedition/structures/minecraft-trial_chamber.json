@@ -231,7 +231,7 @@
         {
           "species": "grimer",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 30
           }
         },
@@ -256,7 +256,7 @@
         {
           "species": "muk",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 60
           }
         },
@@ -389,7 +389,7 @@
       "listOfPokemonToSpawn": [{
         "species": "vulpix",
         "spawnablePokemonStats": {
-          "form": "alolan",
+          "form": ["alolan"],
           "level": 30
         }
       },
@@ -414,7 +414,7 @@
       "listOfOminousPokemonToSpawn": [{
         "species": "ninetales",
         "spawnablePokemonStats": {
-          "form": "alolan",
+          "form": ["alolan"],
           "level": 60
         }
       },
