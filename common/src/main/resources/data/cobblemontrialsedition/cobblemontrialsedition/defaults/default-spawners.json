@@ -345,7 +345,7 @@
       "listOfPokemonToSpawn": [{
           "species": "rotom",
           "spawnablePokemonStats": {
-            "form": "fan",
+            "form": ["fan"],
             "level": 20
           }
         },
@@ -370,7 +370,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "rotom",
           "spawnablePokemonStats": {
-            "form": "fan",
+            "form": ["fan"],
             "level": 40
           }
         },
@@ -401,7 +401,7 @@
       "listOfPokemonToSpawn": [{
         "species": "rotom",
         "spawnablePokemonStats": {
-          "form": "fan",
+          "form": ["fan"],
           "level": 20
         }
       },
@@ -426,7 +426,7 @@
       "listOfOminousPokemonToSpawn": [{
         "species": "rotom",
         "spawnablePokemonStats": {
-          "form": "fan",
+          "form": ["fan"],
           "level": 40
         }
       },
@@ -811,7 +811,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "blastoise",
           "spawnablePokemonStats": {
-            "form": "mega",
+            "form": ["mega"],
             "level": 60,
             "isShiny": true
           }
@@ -819,7 +819,7 @@
         {
           "species": "gyarados",
           "spawnablePokemonStats": {
-            "form": "mega",
+            "form": ["mega"],
             "level": 60,
             "isShiny": true
           }
@@ -847,7 +847,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "blastoise",
           "spawnablePokemonStats": {
-            "form": "mega",
+            "form": ["mega"],
             "level": 60,
             "isShiny": true
           }
@@ -855,7 +855,7 @@
         {
           "species": "gyarados",
           "spawnablePokemonStats": {
-            "form": "mega",
+            "form": ["mega"],
             "level": 60,
             "isShiny": true
           }
@@ -2825,7 +2825,7 @@
         {
           "species": "cubone",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 20
           }
         },
@@ -2850,7 +2850,7 @@
         {
           "species": "marowak",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 40
           }
         },
@@ -2881,7 +2881,7 @@
         {
           "species": "cubone",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 20
           }
         },
@@ -2906,7 +2906,7 @@
         {
           "species": "marowak",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 40
           }
         },
@@ -3573,7 +3573,7 @@
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 20
           }
         },
@@ -3598,7 +3598,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "slowking",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 40
           }
         },
@@ -3629,7 +3629,7 @@
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 20
           }
         },
@@ -3654,7 +3654,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "slowking",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 40
           }
         },
@@ -3685,7 +3685,7 @@
       "listOfPokemonToSpawn": [{
           "species": "cubone",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 20
           }
         },
@@ -3710,7 +3710,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "marowak",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 40
           }
         },
@@ -3741,7 +3741,7 @@
       "listOfPokemonToSpawn": [{
           "species": "cubone",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 20
           }
         },
@@ -3766,7 +3766,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "marowak",
           "spawnablePokemonStats": {
-            "form": "alolan",
+            "form": ["alolan"],
             "level": 40
           }
         },
@@ -4013,7 +4013,7 @@
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 20
           }
         },
@@ -4038,7 +4038,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "slowking",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 40
           }
         },
@@ -4069,7 +4069,7 @@
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 20
           }
         },
@@ -4094,7 +4094,7 @@
       "listOfOminousPokemonToSpawn": [{
           "species": "slowking",
           "spawnablePokemonStats": {
-            "form": "galarian",
+            "form": ["galarian"],
             "level": 40
           }
         },

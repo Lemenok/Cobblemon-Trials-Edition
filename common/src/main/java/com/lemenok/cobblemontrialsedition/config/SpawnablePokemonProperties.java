@@ -27,6 +27,7 @@ public record SpawnablePokemonProperties(
         boolean isUncatchable,
         boolean mustBeDefeatedInBattle,
         boolean isAggressive,
+        boolean isAlwaysAlpha,
         List<String> aspects,
         SpawnablePokemonStats spawnablePokemonStats
 )
@@ -38,9 +39,10 @@ public record SpawnablePokemonProperties(
             Codec.BOOL.optionalFieldOf("isUncatchable", false).forGetter(SpawnablePokemonProperties::isUncatchable),
             Codec.BOOL.optionalFieldOf("mustBeDefeatedInBattle", false).forGetter(SpawnablePokemonProperties::mustBeDefeatedInBattle),
             Codec.BOOL.optionalFieldOf("isAggressive", false).forGetter(SpawnablePokemonProperties::isAggressive),
+            Codec.BOOL.optionalFieldOf("isAlwaysAlpha", false).forGetter(SpawnablePokemonProperties::isAlwaysAlpha),
             Codec.STRING.listOf().optionalFieldOf("aspects", new ArrayList<>()).forGetter(SpawnablePokemonProperties::aspects),
             SpawnablePokemonStats.CODEC.optionalFieldOf("spawnablePokemonStats",
-                    new SpawnablePokemonStats("normal", 25, "", "", new ArrayList<>(), new ArrayList<>(), "", new ArrayList<>(), "", 0, "", false)
+                    new SpawnablePokemonStats(new ArrayList<>(), 25, "", "", new ArrayList<>(), new ArrayList<>(), "", new ArrayList<>(), "", 0, "", false)
             ).forGetter(SpawnablePokemonProperties::spawnablePokemonStats)
     ).apply(pokemon, SpawnablePokemonProperties::new));
 
@@ -67,9 +69,12 @@ public record SpawnablePokemonProperties(
         newPokemon.getPersistentData().putBoolean("is_spawned_from_trial_spawner", true);
 
         List<SpeciesFeature> speciesFeature = new ArrayList<>();
-        speciesFeature.add(new FlagSpeciesFeature(spawnablePokemonStats.form(),true));
 
-        manageForms(speciesFeature);
+        for(String form: spawnablePokemonStats.form()){
+            speciesFeature.add(new FlagSpeciesFeature(form,true));
+
+            manageForms(speciesFeature, form);
+        }
 
         newPokemon.setFeatures(speciesFeature);
 
@@ -80,6 +85,8 @@ public record SpawnablePokemonProperties(
         newPokemon.getPersistentData().putBoolean("is_uncatchable", isUncatchable);
 
         newPokemon.getPersistentData().putBoolean("is_invulnerable", mustBeDefeatedInBattle);
+
+        newPokemon.getPersistentData().putBoolean("is_always_alpha", isAlwaysAlpha);
 
         if(!spawnablePokemonStats.moves().isEmpty()){
             // Setup Custom Moves
@@ -103,22 +110,21 @@ public record SpawnablePokemonProperties(
         return result.getOrThrow();
     }
 
-    private void manageForms(List<SpeciesFeature> speciesFeature) {
-        if(spawnablePokemonStats.form().equalsIgnoreCase("mega"))
-            speciesFeature.add(new StringSpeciesFeature("mega_evolution","mega"));
+    private void manageForms(List<SpeciesFeature> speciesFeature, String form) {
+        if(form.contains("mega"))
+            speciesFeature.add(new StringSpeciesFeature("mega_evolution",form));
 
-        if(spawnablePokemonStats.form().equalsIgnoreCase("gmax"))
+        if(form.equalsIgnoreCase("gmax"))
             speciesFeature.add(new StringSpeciesFeature("dynamax_form","gmax"));
 
         // Handle Rotom Forms.
         if(species.equalsIgnoreCase("rotom"))
-            speciesFeature.add(new StringSpeciesFeature("appliance",spawnablePokemonStats.form()));
+            speciesFeature.add(new StringSpeciesFeature("appliance",form));
     }
 
     private PokemonProperties getSpawnablePokemonProperties() {
         PokemonProperties pokemonProperties = new PokemonProperties();
         pokemonProperties.setSpecies(species);
-        pokemonProperties.setForm(spawnablePokemonStats.form());
         pokemonProperties.setLevel(spawnablePokemonStats.level());
         pokemonProperties.setGender(spawnablePokemonStats.parseGender());
         pokemonProperties.setNature(spawnablePokemonStats.parseNature().getDisplayName());

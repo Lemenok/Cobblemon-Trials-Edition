@@ -12,6 +12,10 @@ public class Config {
             .comment("Whether to log data regarding the location and data stored when placing cobblemon trial spawners.")
             .define("enableDebugLogs", false);
 
+    public static final ModConfigSpec.BooleanValue ENABLE_TRIAL_POTION_RECIPE = BUILDER
+            .comment("Whether to enable or disable the custom recipe for Trial Potions.")
+            .define("enableTrialPotionRecipe", true);
+
     public static final ModConfigSpec.ConfigValue<List<? extends String>> BLACKLISTED_STRUCTURE_IDS = BUILDER
             .comment("A List of structures that will be skipped. Prefix with '#' to denote a structure tag (e.g., '#minecraft:village').")
             .defineList("blacklistedStructureIds", List::of, obj -> {
@@ -69,6 +73,10 @@ public class Config {
             .comment("This is what percentage (0.0 - 1.0) Blocks will be replaced, eg: .75 will mean 75% of each Blocks within a structure will be replaced.\" +\n" +
                     "\"NOTE: This will only apply in newly generated chunks.")
             .defineInRange("blockReplacementPercentage", 1.0, 0.0, 1.0);
+
+    public static final ModConfigSpec.DoubleValue ALPHA_POKEMON_PERCENTAGE = BUILDER
+            .comment("This is what percentage (0.0 - 1.0) Pokemon spawned will be Alpha Pokemon. eg: .75 will mean there is a 75% chance a pokemon spawned will be an alpha.")
+            .defineInRange("alphaPokemonPercentage", 0.1, 0.0, 1.0);
 
     public static final ModConfigSpec.BooleanValue ENABLE_POKEMON_LEVEL_ADJUSTMENT = BUILDER
             .comment("This is if the Pokemon spawned from Cobblemon Trial Spawners will adjust their level based on the players parties around them.")

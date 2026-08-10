@@ -4,6 +4,7 @@ import java.util.List;
 
 public class ModConfigCommon {
     public boolean ENABLE_DEBUG_LOGS;
+    public boolean ENABLE_TRIAL_POTION_RECIPE;
     public List<? extends String> BLACKLISTED_STRUCTURE_IDS;
     public boolean REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS;
     public boolean REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS;
@@ -15,6 +16,7 @@ public class ModConfigCommon {
     public double MOB_SPAWNER_REPLACEMENT_PERCENTAGE;
     public double TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE;
     public double BLOCK_REPLACEMENT_PERCENTAGE;
+    public double ALPHA_POKEMON_PERCENTAGE;
     public boolean ENABLE_POKEMON_LEVEL_ADJUSTMENT;
     public String POKEMON_LEVEL_ADJUSTMENT_TYPE;
     public static int TIME_TILL_POKEMON_DESPAWN_IN_TICKS;

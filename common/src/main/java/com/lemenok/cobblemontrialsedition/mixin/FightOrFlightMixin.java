@@ -16,11 +16,13 @@ public class FightOrFlightMixin {
 
         CompoundTag compoundTagOfPokemon = pokemonEntity.getPokemon().getPersistentData();
 
-        if (compoundTagOfPokemon.getBoolean("is_aggressive")) {
-            callbackInfoReturnable.setReturnValue(100.0F + (double) CobblemonFightOrFlight.commonConfig().aggressive_threshold);
-        }
-        else {
-            callbackInfoReturnable.setReturnValue(-100.0);
+        // Is aggressive tag explicitly shows it is from a spawner.
+        if (compoundTagOfPokemon.contains("is_aggressive")) {
+            if (compoundTagOfPokemon.getBoolean("is_aggressive")) {
+                callbackInfoReturnable.setReturnValue(100.0F + (double) CobblemonFightOrFlight.commonConfig().aggressive_threshold);
+            } else {
+                callbackInfoReturnable.setReturnValue(-100.0);
+            }
         }
     }
 }

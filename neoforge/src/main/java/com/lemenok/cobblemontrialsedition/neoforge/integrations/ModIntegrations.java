@@ -82,6 +82,7 @@ public class ModIntegrations implements IModIntegrations {
     public ModConfigCommon getCommonConfig() {
         ModConfigCommon modConfigCommon = new ModConfigCommon();
         modConfigCommon.ENABLE_DEBUG_LOGS = Config.ENABLE_DEBUG_LOGS.get();
+        modConfigCommon.ENABLE_TRIAL_POTION_RECIPE = Config.ENABLE_TRIAL_POTION_RECIPE.get();
         modConfigCommon.BLACKLISTED_STRUCTURE_IDS = Config.BLACKLISTED_STRUCTURE_IDS.get();
         modConfigCommon.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS = Config.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS.get();
         modConfigCommon.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS = Config.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS.get();
@@ -93,6 +94,7 @@ public class ModIntegrations implements IModIntegrations {
         modConfigCommon.MOB_SPAWNER_REPLACEMENT_PERCENTAGE = Config.MOB_SPAWNER_REPLACEMENT_PERCENTAGE.get();
         modConfigCommon.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE = Config.TRIAL_SPAWNER_REPLACEMENT_PERCENTAGE.get();
         modConfigCommon.BLOCK_REPLACEMENT_PERCENTAGE = Config.BLOCK_REPLACEMENT_PERCENTAGE.get();
+        modConfigCommon.ALPHA_POKEMON_PERCENTAGE = Config.ALPHA_POKEMON_PERCENTAGE.get();
         modConfigCommon.ENABLE_POKEMON_LEVEL_ADJUSTMENT = Config.ENABLE_POKEMON_LEVEL_ADJUSTMENT.get();
         modConfigCommon.POKEMON_LEVEL_ADJUSTMENT_TYPE = Config.POKEMON_LEVEL_ADJUSTMENT_TYPE.get();
         ModConfigCommon.TIME_TILL_POKEMON_DESPAWN_IN_TICKS = Config.TIME_TILL_POKEMON_DESPAWN_IN_TICKS.get();
