@@ -16,6 +16,10 @@ public class Config implements ConfigData {
     public boolean ENABLE_DEBUG_LOGS = false;
 
     @ConfigEntry.Gui.Tooltip
+    @Comment("Whether to enable or disable the custom recipe for Trial Potions.")
+    public boolean ENABLE_TRIAL_POTION_RECIPE = true;
+
+    @ConfigEntry.Gui.Tooltip
     @Comment("A List of structures that will be skipped. Prefix with '#' to denote a structure tag (e.g., '#minecraft:village').")
     public List<String> BLACKLISTED_STRUCTURE_IDS = new ArrayList<>();
 

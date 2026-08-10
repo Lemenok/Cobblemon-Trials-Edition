@@ -84,6 +84,7 @@ public class ModIntegrations implements IModIntegrations {
 
         ModConfigCommon modConfigCommon = new ModConfigCommon();
         modConfigCommon.ENABLE_DEBUG_LOGS = modConfig.ENABLE_DEBUG_LOGS;
+        modConfigCommon.ENABLE_TRIAL_POTION_RECIPE = modConfig.ENABLE_TRIAL_POTION_RECIPE;
         modConfigCommon.BLACKLISTED_STRUCTURE_IDS = modConfig.BLACKLISTED_STRUCTURE_IDS;
         modConfigCommon.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS = modConfig.REPLACE_GENERATED_SPAWNERS_WITH_COBBLEMON_SPAWNERS;
         modConfigCommon.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS = modConfig.REPLACE_SPAWNERS_IN_STRUCTURES_WITH_COBBLEMON_SPAWNERS;

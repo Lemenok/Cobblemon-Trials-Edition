@@ -12,6 +12,10 @@ public class Config {
             .comment("Whether to log data regarding the location and data stored when placing cobblemon trial spawners.")
             .define("enableDebugLogs", false);
 
+    public static final ModConfigSpec.BooleanValue ENABLE_TRIAL_POTION_RECIPE = BUILDER
+            .comment("Whether to enable or disable the custom recipe for Trial Potions.")
+            .define("enableTrialPotionRecipe", true);
+
     public static final ModConfigSpec.ConfigValue<List<? extends String>> BLACKLISTED_STRUCTURE_IDS = BUILDER
             .comment("A List of structures that will be skipped. Prefix with '#' to denote a structure tag (e.g., '#minecraft:village').")
             .defineList("blacklistedStructureIds", List::of, obj -> {

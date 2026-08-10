@@ -56,12 +56,14 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
         ModCreativeModeTabs.registerItemGroups();
         ModProcessors.register();
 
-        AutoConfig.register(Config.class, Toml4jConfigSerializer::new);
+        Config config = AutoConfig.register(Config.class, Toml4jConfigSerializer::new).getConfig();
 
         // Register Potion Recipe
-        FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
-            builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.SCULK), ModPotions.TRIAL_POTION);
-        });
+        if (config.ENABLE_TRIAL_POTION_RECIPE) {
+            FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
+                builder.registerPotionRecipe(Potions.AWKWARD, Ingredient.of(Items.SCULK), ModPotions.TRIAL_POTION);
+            });
+        }
 
         // Register Datapacks
         DynamicRegistries.register(COBBLEMON_TRIALS_STRUCTURE_REGISTRY, StructureProperties.CODEC);
