@@ -410,6 +410,10 @@ public class CobblemonTrialSpawnerData {
 
     public ItemStack getOrCreateDisplayEntity(boolean isOminous, CobblemonTrialSpawner cobblemonTrialSpawner,
                                               Level level, CobblemonTrialSpawnerState cobblemonTrialSpawnerState) {
+        if (level instanceof ServerLevel serverLevel && !this.hasMobToSpawn(cobblemonTrialSpawner, level.getRandom(), serverLevel)) {
+            return null;
+        }
+
         if (isOminous)
             return BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("cobblemon","ancient_gigaton_ball")).getDefaultInstance();
         else
