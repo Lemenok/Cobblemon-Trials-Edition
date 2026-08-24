@@ -4,13 +4,14 @@ import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEnti
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonSpawner;
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerState;
 import com.lemenok.cobblemontrialsedition.client.ClientScreenHelper;
-import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.platform.Services;
+import com.lemenok.cobblemontrialsedition.screen.SpawnerNbtParser;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,7 +24,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -34,7 +34,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
@@ -88,6 +87,7 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
         CobblemonSpawner.appendHoverText(itemStack, list, "spawn_data");
     }
 
+    /*
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         // Only open the screen on the logical client
@@ -119,11 +119,49 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
                 );
 
                 // 3. Open the screen safely
-                ClientScreenHelper.openTrialSpawnerScreen(emptySpawnerProps);
+                ClientScreenHelper.openTrialSpawnerScreen(pos, emptySpawnerProps);
             }
         }
 
         // Return SUCCESS to consume the right-click action
+        return InteractionResult.SUCCESS;
+    }*/
+
+    @Override
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            // Validate permissions (optional, but recommended so standard players can't open it)
+            if (!serverPlayer.hasPermissions(2)) {
+                return InteractionResult.PASS;
+            }
+
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+
+            if (blockEntity instanceof CobblemonTrialSpawnerEntity spawnerEntity) {
+                try {
+                    CompoundTag fullNbt = blockEntity.saveWithFullMetadata(level.registryAccess());
+                    var properties = SpawnerNbtParser.parse(spawnerEntity.getCobblemonTrialSpawner(), fullNbt);
+                    BlockPos blockPos = new BlockPos(fullNbt.getInt("x"),fullNbt.getInt("y"),fullNbt.getInt("z"));
+
+                    Services.PLATFORM.sendSpawnerConfigPacket(serverPlayer, blockPos, properties);
+
+                    ClientScreenHelper.openTrialSpawnerScreen(blockPos, properties);
+
+                    // Send your packet here
+                    // e.g., PacketDistributor.sendToPlayer(serverPlayer, new OpenSpawnerConfigS2CPacket(pos, properties));
+                } catch (Exception e) {
+                    System.out.println("SERVER: Failed to parse NBT or send packet!");
+                    e.printStackTrace();
+                }
+
+                // 3. Send packet to the specific player who clicked
+                // Implement your modding API's packet sending here (e.g., NeoForge/Fabric specific)
+                // PacketDistributor.sendToPlayer(serverPlayer, new OpenSpawnerConfigS2CPacket(pos, properties));
+            }
+            return InteractionResult.SUCCESS; // SERVER SUCCESS
+        }
+
+        // On the server side, just return SUCCESS so the animation triggers properly
         return InteractionResult.SUCCESS;
     }
 

@@ -9,12 +9,14 @@ import com.lemenok.cobblemontrialsedition.fabric.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.fabric.potion.ModPotions;
 import com.lemenok.cobblemontrialsedition.fabric.processors.ModProcessors;
 import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
+import com.lemenok.cobblemontrialsedition.screen.OpenSpawnerConfigS2CPacket;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -82,5 +84,11 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
                 PropertiesCache.rebuild(server.registryAccess());
             }
         });
+
+        // Event Registry for the CobblemonTrialSpawner Edit Screen.
+        PayloadTypeRegistry.playS2C().register(
+                OpenSpawnerConfigS2CPacket.TYPE,
+                OpenSpawnerConfigS2CPacket.STREAM_CODEC
+        );
     }
 }

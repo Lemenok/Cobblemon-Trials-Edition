@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.fabric.integrations;
 
+import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.fabric.CobblemonTrialsEditionFabric;
 import com.lemenok.cobblemontrialsedition.fabric.Config;
 import com.lemenok.cobblemontrialsedition.fabric.block.ModBlocks;
@@ -11,10 +12,13 @@ import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
 import com.lemenok.cobblemontrialsedition.integrations.IModIntegrations;
 import com.lemenok.cobblemontrialsedition.integrations.ModConfigCommon;
 import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
+import com.lemenok.cobblemontrialsedition.screen.OpenSpawnerConfigS2CPacket;
 import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -76,6 +80,14 @@ public class ModIntegrations implements IModIntegrations {
     @Override
     public StructureProcessorType<JigsawSpawnerReplacementProcessor> getSpawnerReplacementProcessor() {
         return null;
+    }
+
+    @Override
+    public void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties) {
+        net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(
+                player,
+                new OpenSpawnerConfigS2CPacket(pos, properties)
+        );
     }
 
     @Override

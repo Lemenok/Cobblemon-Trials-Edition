@@ -26,7 +26,7 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
         // 1. Species Edit Box
         EditBox speciesBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Species"));
         speciesBox.setValue(poke.species());
-        speciesBox.setResponder(val -> updatePoke(val, poke.weight(), poke.scaleModifier(), poke.isUncatchable(), poke.mustBeDefeatedInBattle(), poke.isAggressive(), poke.isAlwaysAlpha(), poke.aspects(), poke.spawnablePokemonStats()));
+        speciesBox.setResponder(val -> updatePokemon(val, poke.weight(), poke.scaleModifier(), poke.isUncatchable(), poke.mustBeDefeatedInBattle(), poke.isAggressive(), poke.isAlwaysAlpha(), poke.aspects(), poke.spawnablePokemonStats()));
         children.add(speciesBox);
 
         // 2. Level Edit Box
@@ -54,7 +54,7 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
         }).bounds(0, 0, 45, 18).build();
         children.add(editBtn);
 
-        // 34 Delete Button
+        // 4 Delete Button
         Button deleteBtn = Button.builder(Component.literal("Delete"), btn -> {
             // Remove this specific pokemon from the data roster
             roster.remove(this.index);
@@ -90,7 +90,7 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
         }
     }
 
-    private void updatePoke(String species, int weight, float scale, boolean uncatchable, boolean defeated, boolean aggressive, boolean alpha, List<String> aspects, SpawnablePokemonStats stats) {
+    private void updatePokemon(String species, int weight, float scale, boolean uncatchable, boolean defeated, boolean aggressive, boolean alpha, List<String> aspects, SpawnablePokemonStats stats) {
         if (index >= 0 && index < roster.size()) {
             roster.set(index, new SpawnablePokemonProperties(species, weight, scale, uncatchable, defeated, aggressive, alpha, aspects, stats));
         }
@@ -99,7 +99,7 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
     private void updateStats(SpawnablePokemonProperties poke, java.util.function.Function<SpawnablePokemonStats, SpawnablePokemonStats> statUpdater) {
         SpawnablePokemonStats currentStats = poke.spawnablePokemonStats() != null ? poke.spawnablePokemonStats() : createDefaultStats();
         SpawnablePokemonStats newStats = statUpdater.apply(currentStats);
-        updatePoke(poke.species(), poke.weight(), poke.scaleModifier(), poke.isUncatchable(), poke.mustBeDefeatedInBattle(), poke.isAggressive(), poke.isAlwaysAlpha(), poke.aspects(), newStats);
+        updatePokemon(poke.species(), poke.weight(), poke.scaleModifier(), poke.isUncatchable(), poke.mustBeDefeatedInBattle(), poke.isAggressive(), poke.isAlwaysAlpha(), poke.aspects(), newStats);
     }
 
     private SpawnablePokemonStats createDefaultStats() {

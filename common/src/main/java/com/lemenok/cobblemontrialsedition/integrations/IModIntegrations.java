@@ -1,11 +1,14 @@
 package com.lemenok.cobblemontrialsedition.integrations;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
+import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -25,5 +28,6 @@ public interface IModIntegrations {
     SoundEvent getCobblemonTrialSpawnerAmbientSound();
     SoundEvent getCobblemonTrialSpawnerAmbientOminousSound();
     StructureProcessorType<JigsawSpawnerReplacementProcessor> getSpawnerReplacementProcessor();
+    void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties);
     ModConfigCommon getCommonConfig();
 }

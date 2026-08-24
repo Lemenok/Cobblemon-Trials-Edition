@@ -2,10 +2,12 @@ package com.lemenok.cobblemontrialsedition.screen;
 
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.tabs.TabManager;
 import net.minecraft.client.gui.components.tabs.TabNavigationBar;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -14,9 +16,12 @@ import java.util.List;
 
 public class TrialSpawnerConfigScreen extends Screen {
 
+    private final BlockPos pos;
     private final SpawnerProperties originalProperties;
     private final TabManager tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
     private TabNavigationBar tabNavigationBar;
+
+    private Button saveAndCloseButton;
 
     public int ticksBetweenSpawnAttempts;
     public int spawnerCooldown;
@@ -38,10 +43,10 @@ public class TrialSpawnerConfigScreen extends Screen {
     public List<SpawnablePokemonProperties> editableNormalRoster;
     public List<SpawnablePokemonProperties> editableOminousRoster;
 
-    public TrialSpawnerConfigScreen(SpawnerProperties spawnerProperties) {
+    public TrialSpawnerConfigScreen(BlockPos pos, SpawnerProperties spawnerProperties) {
         super(Component.literal("Cobblemon Trial Spawner Config"));
+        this.pos = pos;
         originalProperties = spawnerProperties;
-
 
         this.ticksBetweenSpawnAttempts = spawnerProperties.ticksBetweenSpawnAttempts();
         this.spawnerCooldown = spawnerProperties.spawnerCooldown();
@@ -74,8 +79,33 @@ public class TrialSpawnerConfigScreen extends Screen {
 
         this.addRenderableWidget(this.tabNavigationBar);
 
-        // TODO: Add a "Save & Close" button at the bottom of the screen (e.g., y = this.height - 30)
-        // When clicked, construct a new SpawnerProperties record from the mutable fields and send via network payload.
+        this.saveAndCloseButton = Button.builder(Component.literal("Save & Close"), btn -> {
+            // Reconstruct updated properties record from GUI fields
+            SpawnerProperties updatedProperties = new SpawnerProperties(
+                    this.blockTypesToReplace,
+                    this.mobEntitiesInSpawnerToReplace,
+                    this.ticksBetweenSpawnAttempts,
+                    this.spawnerCooldown,
+                    this.playerDetectionRange,
+                    this.spawnRange,
+                    this.maximumNumberOfSimultaneousPokemon,
+                    this.maximumNumberOfSimultaneousPokemonAddedPerPlayer,
+                    this.totalNumberOfPokemonPerTrial,
+                    this.totalNumberOfPokemonPerTrialAddedPerPlayer,
+                    this.lootTables,
+                    this.ominousLootTables,
+                    this.ominousSpawnerAttacksEnabled,
+                    this.doPokemonSpawnedGlow,
+                    this.editableNormalRoster,
+                    this.editableOminousRoster
+            );
+
+            // Send packet to server
+            //SaveSpawnerC2SPacket.send(this.pos, updatedProperties);
+            this.minecraft.setScreen(null);
+        }).width(200).build();
+
+        this.addRenderableWidget(this.saveAndCloseButton);
 
         this.repositionElements();
         this.tabNavigationBar.selectTab(0, false);
@@ -87,9 +117,16 @@ public class TrialSpawnerConfigScreen extends Screen {
             this.tabNavigationBar.setWidth(this.width);
             this.tabNavigationBar.arrangeElements();
 
+            int footerHeight = 40;
+
+            if (this.saveAndCloseButton != null) {
+                // Position the button centered horizontally, near the bottom edge
+                this.saveAndCloseButton.setPosition((this.width - this.saveAndCloseButton.getWidth()) / 2, this.height - 30);
+            }
+
             // Calculate the screen area directly below the navigation tabs
             int topOffset = this.tabNavigationBar.getRectangle().bottom();
-            ScreenRectangle screenRectangle = new ScreenRectangle(0, topOffset, this.width, this.height - topOffset);
+            ScreenRectangle screenRectangle = new ScreenRectangle(0, topOffset, this.width, this.height - topOffset - footerHeight);
 
             // This is the missing piece that tells the tab where to render and calls doLayout()
             this.tabManager.setTabArea(screenRectangle);
