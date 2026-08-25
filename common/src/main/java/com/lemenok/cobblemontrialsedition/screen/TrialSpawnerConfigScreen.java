@@ -101,7 +101,7 @@ public class TrialSpawnerConfigScreen extends Screen {
             );
 
             // Send packet to server
-            //SaveSpawnerC2SPacket.send(this.pos, updatedProperties);
+            SaveSpawnerC2SPacket.send(this.pos, updatedProperties);
             this.minecraft.setScreen(null);
         }).width(200).build();
 

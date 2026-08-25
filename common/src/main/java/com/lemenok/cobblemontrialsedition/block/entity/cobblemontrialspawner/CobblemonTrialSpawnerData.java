@@ -438,6 +438,10 @@ public class CobblemonTrialSpawnerData {
         return this.oSpin;
     }
 
+    public void setNextSpawnData(Optional<SpawnData> newSpawnData) {
+        this.nextSpawnData = newSpawnData;
+    }
+
     public SimpleWeightedRandomList<ItemStack> getDispensingItems(ServerLevel serverLevel,
                                                                   CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig, BlockPos blockPos) {
         if (this.dispensing != null) {

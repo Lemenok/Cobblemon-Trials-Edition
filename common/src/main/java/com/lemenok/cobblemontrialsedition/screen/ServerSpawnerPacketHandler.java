@@ -18,7 +18,8 @@ public class ServerSpawnerPacketHandler {
 
         // 2. Fetch and update the target Block Entity
         if (level.isLoaded(pos) && level.getBlockEntity(pos) instanceof CobblemonTrialSpawnerEntity spawnerBE) {
-            //spawnerBE.applySpawnerProperties(packet.properties());
+
+            spawnerBE.applySpawnerProperties(packet.properties());
 
             // 3. Persist and sync across clients
             spawnerBE.setChanged();

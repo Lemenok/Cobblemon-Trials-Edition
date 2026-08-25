@@ -53,7 +53,7 @@ public class SpawnerNbtParser {
                 ominousRoster
         );
     }
-    
+
     private static List<SpawnablePokemonProperties> parsePokemonRoster(ListTag potentialsList) {
         List<SpawnablePokemonProperties> roster = new ArrayList<>();
 

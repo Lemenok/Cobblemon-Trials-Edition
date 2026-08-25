@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.storage.loot.LootTable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,8 +39,8 @@ public record SpawnerProperties(
 )
 {
     public static final Codec<SpawnerProperties> CODEC = RecordCodecBuilder.create(spawner -> spawner.group(
-            Codec.list(ResourceLocation.CODEC).fieldOf("blockTypesToReplace").forGetter(SpawnerProperties::blockTypesToReplace),
-            Codec.list(ResourceLocation.CODEC).fieldOf("mobEntitiesInSpawnerToReplace").forGetter(SpawnerProperties::mobEntitiesInSpawnerToReplace),
+            Codec.list(ResourceLocation.CODEC).optionalFieldOf("blockTypesToReplace", new ArrayList<>()).forGetter(SpawnerProperties::blockTypesToReplace),
+            Codec.list(ResourceLocation.CODEC).optionalFieldOf("mobEntitiesInSpawnerToReplace", new ArrayList<>()).forGetter(SpawnerProperties::mobEntitiesInSpawnerToReplace),
             Codec.INT.optionalFieldOf("ticksBetweenSpawnAttempts", 40).forGetter(SpawnerProperties::ticksBetweenSpawnAttempts),
             Codec.INT.optionalFieldOf("spawnerCooldown", 36000).forGetter(SpawnerProperties::spawnerCooldown),
             Codec.INT.optionalFieldOf("playerDetectionRange", 14).forGetter(SpawnerProperties::playerDetectionRange),
@@ -48,12 +49,12 @@ public record SpawnerProperties(
             Codec.INT.optionalFieldOf("maximumNumberOfSimultaneousPokemonAddedPerPlayer", 1).forGetter(SpawnerProperties::maximumNumberOfSimultaneousPokemonAddedPerPlayer),
             Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrial", 4).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrial),
             Codec.INT.optionalFieldOf("totalNumberOfPokemonPerTrialAddedPerPlayer", 1).forGetter(SpawnerProperties::totalNumberOfPokemonPerTrialAddedPerPlayer),
-            Codec.list(ResourceLocation.CODEC).fieldOf("lootTables").forGetter(SpawnerProperties::lootTables),
-            Codec.list(ResourceLocation.CODEC).fieldOf("ominousLootTables").forGetter(SpawnerProperties::ominousLootTables),
+            Codec.list(ResourceLocation.CODEC).optionalFieldOf("lootTables", new ArrayList<>()).forGetter(SpawnerProperties::lootTables),
+            Codec.list(ResourceLocation.CODEC).optionalFieldOf("ominousLootTables", new ArrayList<>()).forGetter(SpawnerProperties::ominousLootTables),
             Codec.BOOL.optionalFieldOf("ominousSpawnerAttacksEnabled", false).forGetter(SpawnerProperties::ominousSpawnerAttacksEnabled),
             Codec.BOOL.optionalFieldOf("doPokemonSpawnedGlow", true).forGetter(SpawnerProperties::doPokemonSpawnedGlow),
-            Codec.list(SpawnablePokemonProperties.CODEC).fieldOf("listOfPokemonToSpawn").forGetter(SpawnerProperties::listOfPokemonToSpawn),
-            Codec.list(SpawnablePokemonProperties.CODEC).fieldOf("listOfOminousPokemonToSpawn").forGetter(SpawnerProperties::listOfOminousPokemonToSpawn)
+            Codec.list(SpawnablePokemonProperties.CODEC).optionalFieldOf("listOfPokemonToSpawn", new ArrayList<>()).forGetter(SpawnerProperties::listOfPokemonToSpawn),
+            Codec.list(SpawnablePokemonProperties.CODEC).optionalFieldOf("listOfOminousPokemonToSpawn", new ArrayList<>()).forGetter(SpawnerProperties::listOfOminousPokemonToSpawn)
 
     ).apply(spawner, SpawnerProperties::new));
 
