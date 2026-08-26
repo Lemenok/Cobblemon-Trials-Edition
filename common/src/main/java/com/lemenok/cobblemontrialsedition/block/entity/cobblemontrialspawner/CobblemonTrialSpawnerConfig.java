@@ -32,7 +32,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
     }
 
     static {
-        DEFAULT = new CobblemonTrialSpawnerConfig(14, 6,
+        DEFAULT = new CobblemonTrialSpawnerConfig(4, 4,
                 2, 1, 1,
                 40, false, SimpleWeightedRandomList.empty(),
                 SimpleWeightedRandomList.empty(), BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS);

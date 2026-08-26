@@ -2,8 +2,8 @@ package com.lemenok.cobblemontrialsedition.neoforge.events;
 
 import com.lemenok.cobblemontrialsedition.client.ClientScreenHelper;
 import com.lemenok.cobblemontrialsedition.neoforge.CobblemonTrialsEdition;
-import com.lemenok.cobblemontrialsedition.screen.OpenSpawnerConfigS2CPacket;
-import com.lemenok.cobblemontrialsedition.screen.SaveSpawnerC2SPacket;
+import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
+import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
 import com.lemenok.cobblemontrialsedition.screen.ServerSpawnerPacketHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;

@@ -13,7 +13,7 @@ import com.lemenok.cobblemontrialsedition.neoforge.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.neoforge.processor.ModProcessors;
 import com.lemenok.cobblemontrialsedition.neoforge.sound.ModSounds;
 import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
-import com.lemenok.cobblemontrialsedition.screen.OpenSpawnerConfigS2CPacket;
+import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;

@@ -12,7 +12,7 @@ import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
 import com.lemenok.cobblemontrialsedition.integrations.IModIntegrations;
 import com.lemenok.cobblemontrialsedition.integrations.ModConfigCommon;
 import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
-import com.lemenok.cobblemontrialsedition.screen.OpenSpawnerConfigS2CPacket;
+import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;

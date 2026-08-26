@@ -1,23 +1,20 @@
-package com.lemenok.cobblemontrialsedition.screen;
+package com.lemenok.cobblemontrialsedition.network;
 
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
-import java.util.Objects;
 
-public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) implements CustomPacketPayload {
-    public static final Type<SaveSpawnerC2SPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("cobblemontrialsedition", "save_spawner"));
+public record OpenSpawnerConfigS2CPacket(BlockPos pos, SpawnerProperties properties) implements CustomPacketPayload {
+    public static final Type<OpenSpawnerConfigS2CPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("cobblemontrialsedition", "open_spawner_config"));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, SaveSpawnerC2SPacket> STREAM_CODEC = StreamCodec.of(
+    public static final StreamCodec<RegistryFriendlyByteBuf, OpenSpawnerConfigS2CPacket> STREAM_CODEC = StreamCodec.of(
             (buf, packet) -> {
                 buf.writeBlockPos(packet.pos());
                 writeProperties(buf, packet.properties());
@@ -25,7 +22,7 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
             buf -> {
                 BlockPos pos = buf.readBlockPos();
                 SpawnerProperties properties = readProperties(buf);
-                return new SaveSpawnerC2SPacket(pos, properties);
+                return new OpenSpawnerConfigS2CPacket(pos, properties);
             }
     );
 
@@ -34,21 +31,14 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         return TYPE;
     }
 
-    public static void send(BlockPos pos, SpawnerProperties properties) {
-        if (Minecraft.getInstance().getConnection() != null) {
-            // Wrap the payload in a ServerboundCustomPayloadPacket
-            Minecraft.getInstance().getConnection().send(
-                    new ServerboundCustomPayloadPacket(new SaveSpawnerC2SPacket(pos, properties))
-            );
-        }
-    }
-
-    // --- Serialization Helpers ---
+// --- Serialization Helpers ---
 
     private static void writeProperties(RegistryFriendlyByteBuf buf, SpawnerProperties props) {
-        buf.writeCollection(Objects.requireNonNullElse(props.blockTypesToReplace(), List.of()), (b, loc) -> b.writeResourceLocation(loc));
-        buf.writeCollection(Objects.requireNonNullElse(props.mobEntitiesInSpawnerToReplace(), List.of()), (b, loc) -> b.writeResourceLocation(loc));
+        // Use explicit lambdas to avoid type inference errors
+        buf.writeCollection(props.blockTypesToReplace(), (b, loc) -> b.writeResourceLocation(loc));
+        buf.writeCollection(props.mobEntitiesInSpawnerToReplace(), (b, loc) -> b.writeResourceLocation(loc));
 
+        // Write integers
         buf.writeInt(props.ticksBetweenSpawnAttempts());
         buf.writeInt(props.spawnerCooldown());
         buf.writeInt(props.playerDetectionRange());
@@ -58,20 +48,17 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         buf.writeInt(props.totalNumberOfPokemonPerTrial());
         buf.writeInt(props.totalNumberOfPokemonPerTrialAddedPerPlayer());
 
-        // TODO: Make it so these have to exist.
-        //buf.writeCollection(props.lootTables(), (b, loc) -> b.writeResourceLocation(loc));
-        //buf.writeCollection(props.ominousLootTables(), (b, loc) -> b.writeResourceLocation(loc));
-        buf.writeCollection(Objects.requireNonNullElse(props.lootTables(), List.of()), (b, loc) -> b.writeResourceLocation(loc));
-        buf.writeCollection(Objects.requireNonNullElse(props.ominousLootTables(), List.of()), (b, loc) -> b.writeResourceLocation(loc));
+        // Write loot tables
+        buf.writeCollection(props.lootTables(), (b, loc) -> b.writeResourceLocation(loc));
+        buf.writeCollection(props.ominousLootTables(), (b, loc) -> b.writeResourceLocation(loc));
 
+        // Write booleans
         buf.writeBoolean(props.ominousSpawnerAttacksEnabled());
         buf.writeBoolean(props.doPokemonSpawnedGlow());
 
-        // TODO: Make it so these have to exist.
-        //writePokemonRoster(buf, props.listOfPokemonToSpawn());
-        //writePokemonRoster(buf, props.listOfOminousPokemonToSpawn());
-        writePokemonRoster(buf, Objects.requireNonNullElse(props.listOfPokemonToSpawn(), List.of()));
-        writePokemonRoster(buf, Objects.requireNonNullElse(props.listOfOminousPokemonToSpawn(), List.of()));
+        // Write complex nested rosters
+        writePokemonRoster(buf, props.listOfPokemonToSpawn());
+        writePokemonRoster(buf, props.listOfOminousPokemonToSpawn());
     }
 
     private static SpawnerProperties readProperties(RegistryFriendlyByteBuf buf) {
@@ -149,18 +136,18 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
             SpawnablePokemonStats stats = null;
             if (b.readBoolean()) {
                 stats = new SpawnablePokemonStats(
-                        b.readList(b2 -> b2.readUtf()),
-                        b.readInt(),
-                        b.readUtf(),
-                        b.readUtf(),
-                        b.readList(b2 -> Integer.valueOf(b2.readUtf())),
-                        b.readList(b2 -> Integer.valueOf(b2.readUtf())),
-                        b.readUtf(),
-                        b.readList(b2 -> b2.readUtf()),
-                        b.readUtf(),
-                        b.readInt(),
-                        b.readUtf(),
-                        b.readBoolean()
+                        b.readList(b2 -> b2.readUtf()), // form
+                        b.readInt(), // level
+                        b.readUtf(), // gender
+                        b.readUtf(), // nature
+                        b.readList(b2 -> Integer.valueOf(b2.readUtf())), // default EVs
+                        b.readList(b2 -> Integer.valueOf(b2.readUtf())), // default IVs
+                        b.readUtf(), // ability
+                        b.readList(b2 -> b2.readUtf()), // moves
+                        b.readUtf(), // heldItem
+                        b.readInt(), // dynaMaxLevel
+                        b.readUtf(), // teraType
+                        b.readBoolean() // isShiny
                 );
             }
 

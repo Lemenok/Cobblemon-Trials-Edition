@@ -2,6 +2,7 @@ package com.lemenok.cobblemontrialsedition.screen;
 
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
+import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.tabs.TabManager;
 import net.minecraft.client.gui.components.tabs.TabNavigationBar;

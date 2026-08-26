@@ -1,6 +1,7 @@
 package com.lemenok.cobblemontrialsedition.screen;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
+import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;

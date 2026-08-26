@@ -6,7 +6,7 @@ import com.lemenok.cobblemontrialsedition.fabric.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.client.renderer.blockentity.CobblemonTrialSpawnerRenderer;
 import com.lemenok.cobblemontrialsedition.fabric.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.particle.UnownParticles;
-import com.lemenok.cobblemontrialsedition.screen.OpenSpawnerConfigS2CPacket;
+import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
