@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
@@ -25,6 +26,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.slf4j.Logger;
+
+import java.util.List;
 
 public class ModIntegrations implements IModIntegrations {
     @Override
@@ -83,10 +86,10 @@ public class ModIntegrations implements IModIntegrations {
     }
 
     @Override
-    public void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties) {
+    public void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties, List<ResourceLocation> availableLootTables) {
         net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(
                 player,
-                new OpenSpawnerConfigS2CPacket(pos, properties)
+                new OpenSpawnerConfigS2CPacket(pos, properties, availableLootTables)
         );
     }
 

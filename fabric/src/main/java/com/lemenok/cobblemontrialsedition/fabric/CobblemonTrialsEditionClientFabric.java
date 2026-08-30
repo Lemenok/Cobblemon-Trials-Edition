@@ -26,7 +26,7 @@ public class CobblemonTrialsEditionClientFabric implements ClientModInitializer 
                 OpenSpawnerConfigS2CPacket.TYPE,
                 (payload, context) -> {
                     context.client().execute(() -> {
-                        ClientScreenHelper.openTrialSpawnerScreen(payload.pos(), payload.properties());
+                        ClientScreenHelper.openTrialSpawnerScreen(payload.pos(), payload.properties(), payload.availableLootTables());
                     });
                 }
         );

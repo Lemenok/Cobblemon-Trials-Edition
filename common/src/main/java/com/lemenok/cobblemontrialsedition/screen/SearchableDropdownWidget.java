@@ -8,26 +8,61 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class SearchableDropdownWidget extends EditBox {
     private final List<String> allOptions;
     private List<String> filteredOptions;
     private boolean isDropdownOpen = false;
+    private Consumer<String> externalResponder = s -> {};
 
-    public SearchableDropdownWidget(int width, int height, Component title, List<ResourceLocation> availableLootTables) {
+    public SearchableDropdownWidget(int width, int height, Component title, List<ResourceLocation> availableOptions) {
         super(Minecraft.getInstance().font, width, height, title);
-        this.allOptions = availableLootTables.stream().map(ResourceLocation::toString).collect(Collectors.toList());
+        this.allOptions = availableOptions.stream().map(ResourceLocation::toString).collect(Collectors.toList());
         this.filteredOptions = this.allOptions;
 
-        // Update suggestions as the user types
-        this.setResponder(query -> {
-            this.isDropdownOpen = !query.isEmpty();
-            this.filteredOptions = allOptions.stream()
-                    .filter(opt -> opt.toLowerCase().contains(query.toLowerCase()))
-                    .limit(5) // Limit to top 5 results to prevent massive dropdowns
-                    .collect(Collectors.toList());
+        super.setResponder(query -> {
+            this.isDropdownOpen = true;
+            this.updateFilter(query);
+            this.externalResponder.accept(query);
         });
+    }
+
+    private void updateFilter(String query) {
+        String currentSearch = query;
+        int lastComma = query.lastIndexOf(',');
+        if (lastComma != -1) {
+            currentSearch = query.substring(lastComma + 1).trim();
+        }
+        String finalSearch = currentSearch.toLowerCase();
+        this.filteredOptions = this.allOptions.stream()
+                .filter(opt -> opt.toLowerCase().contains(finalSearch))
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void setResponder(Consumer<String> responder) {
+        this.externalResponder = responder;
+    }
+
+    @Override
+    public void onClick(double mouseX, double mouseY) {
+        super.onClick(mouseX, mouseY);
+        this.isDropdownOpen = true;
+        this.updateFilter(this.getValue());
+    }
+
+    @Override
+    public void setFocused(boolean focused) {
+        super.setFocused(focused);
+        if (focused) {
+            this.isDropdownOpen = true;
+            this.updateFilter(this.getValue());
+        } else {
+            this.isDropdownOpen = false;
+        }
     }
 
     @Override
@@ -35,32 +70,44 @@ public class SearchableDropdownWidget extends EditBox {
         super.renderWidget(graphics, mouseX, mouseY, partialTick);
 
         if (this.isFocused() && this.isDropdownOpen && !this.filteredOptions.isEmpty()) {
+            // Push pose and translate Z-index so the dropdown draws OVER widgets below it
+            graphics.pose().pushPose();
+            graphics.pose().translate(0, 0, 1000);
+
             int dropDownY = this.getY() + this.getHeight();
 
-            // Draw dropdown background
             graphics.fill(this.getX(), dropDownY, this.getX() + this.getWidth(), dropDownY + (this.filteredOptions.size() * 12), 0xFF000000);
 
-            // Draw suggestions
             for (int i = 0; i < this.filteredOptions.size(); i++) {
                 int textY = dropDownY + (i * 12) + 2;
                 boolean isHovered = mouseX >= this.getX() && mouseX <= this.getX() + this.getWidth() && mouseY >= textY && mouseY < textY + 12;
 
-                int color = isHovered ? 0xFFFFFF00 : 0xFFFFFFFF; // Highlight yellow on hover
+                int color = isHovered ? 0xFFFFFF00 : 0xFFFFFFFF;
                 graphics.drawString(Minecraft.getInstance().font, this.filteredOptions.get(i), this.getX() + 4, textY, color, false);
             }
+
+            graphics.pose().popPose();
         }
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.isFocused() && this.isDropdownOpen) {
+        if (this.isFocused() && this.isDropdownOpen && !this.filteredOptions.isEmpty()) {
             int dropDownY = this.getY() + this.getHeight();
             for (int i = 0; i < this.filteredOptions.size(); i++) {
                 int textY = dropDownY + (i * 12);
                 if (mouseX >= this.getX() && mouseX <= this.getX() + this.getWidth() && mouseY >= textY && mouseY < textY + 12) {
-                    this.setValue(this.filteredOptions.get(i));
+
+                    String currentText = this.getValue();
+                    int lastComma = currentText.lastIndexOf(',');
+                    if (lastComma != -1) {
+                        this.setValue(currentText.substring(0, lastComma + 1) + " " + this.filteredOptions.get(i) + ", ");
+                    } else {
+                        this.setValue(this.filteredOptions.get(i) + ", ");
+                    }
+
                     this.isDropdownOpen = false;
-                    return true; // Consume the click
+                    return true;
                 }
             }
         }

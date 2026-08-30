@@ -118,7 +118,8 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
         spawner.setRequiredPlayerRange(properties.playerDetectionRange());
 
         var spawnerData = spawner.getData();
-        spawnerData.setNextSpawnData(java.util.Optional.empty());
+
+        resetSpawnerData(spawnerData, spawner);
 
         this.getCobblemonTrialSpawner().getData().getOrCreateNextSpawnData(
                 this.getCobblemonTrialSpawner(),
@@ -128,6 +129,33 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
 
         this.getCobblemonTrialSpawner().markUpdated();
         this.markUpdated();
+    }
+
+    private void resetSpawnerData(CobblemonTrialSpawnerData spawnerData, CobblemonTrialSpawner spawner) {
+        if (this.level instanceof ServerLevel serverLevel) {
+            // Despawn existing Pokemon using their tracked UUIDs
+            for (java.util.UUID mobId : spawnerData.getCurrentMobs()) {
+                net.minecraft.world.entity.Entity entity = serverLevel.getEntity(mobId);
+                if (entity != null) {
+                    entity.remove(net.minecraft.world.entity.Entity.RemovalReason.DISCARDED);
+                }
+            }
+
+            // Clear internal data lists (detected players, current mobs, cooldowns)
+            spawnerData.reset();
+
+            // Set state back to WAITING_FOR_PLAYERS
+            this.setState(serverLevel, CobblemonTrialSpawnerState.WAITING_FOR_PLAYERS);
+
+            // Re-initialize the next spawn data cleanly
+            spawnerData.getOrCreateNextSpawnData(
+                    spawner,
+                    this.level.random,
+                    serverLevel
+            );
+        } else {
+            spawnerData.setNextSpawnData(java.util.Optional.empty());
+        }
     }
 
     private SimpleWeightedRandomList<ResourceKey<LootTable>> buildLootTableList(List<ResourceLocation> locations) {

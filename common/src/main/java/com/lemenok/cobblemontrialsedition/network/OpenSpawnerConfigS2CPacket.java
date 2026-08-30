@@ -11,18 +11,20 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public record OpenSpawnerConfigS2CPacket(BlockPos pos, SpawnerProperties properties) implements CustomPacketPayload {
+public record OpenSpawnerConfigS2CPacket(BlockPos pos, SpawnerProperties properties, List<ResourceLocation> availableLootTables) implements CustomPacketPayload {
     public static final Type<OpenSpawnerConfigS2CPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("cobblemontrialsedition", "open_spawner_config"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenSpawnerConfigS2CPacket> STREAM_CODEC = StreamCodec.of(
             (buf, packet) -> {
                 buf.writeBlockPos(packet.pos());
                 writeProperties(buf, packet.properties());
+                buf.writeCollection(packet.availableLootTables(), (b, loc) -> b.writeResourceLocation(loc));
             },
             buf -> {
                 BlockPos pos = buf.readBlockPos();
                 SpawnerProperties properties = readProperties(buf);
-                return new OpenSpawnerConfigS2CPacket(pos, properties);
+                List<ResourceLocation> availableLootTables = buf.readList(b -> b.readResourceLocation());
+                return new OpenSpawnerConfigS2CPacket(pos, properties, availableLootTables);
             }
     );
 

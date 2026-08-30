@@ -40,14 +40,16 @@ public class TrialSpawnerConfigScreen extends Screen {
     public List<ResourceLocation> mobEntitiesInSpawnerToReplace;
     public List<ResourceLocation> lootTables;
     public List<ResourceLocation> ominousLootTables;
+    public List<ResourceLocation> availableLootTables;
 
     public List<SpawnablePokemonProperties> editableNormalRoster;
     public List<SpawnablePokemonProperties> editableOminousRoster;
 
-    public TrialSpawnerConfigScreen(BlockPos pos, SpawnerProperties spawnerProperties) {
+    public TrialSpawnerConfigScreen(BlockPos pos, SpawnerProperties spawnerProperties, List<ResourceLocation> availableLootTables) {
         super(Component.literal("Cobblemon Trial Spawner Config"));
         this.pos = pos;
         originalProperties = spawnerProperties;
+        this.availableLootTables = availableLootTables;
 
         this.ticksBetweenSpawnAttempts = spawnerProperties.ticksBetweenSpawnAttempts();
         this.spawnerCooldown = spawnerProperties.spawnerCooldown();

@@ -10,6 +10,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -143,9 +144,25 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
                     var properties = SpawnerNbtParser.parse(spawnerEntity.getCobblemonTrialSpawner(), fullNbt);
                     BlockPos blockPos = new BlockPos(fullNbt.getInt("x"),fullNbt.getInt("y"),fullNbt.getInt("z"));
 
-                    Services.PLATFORM.sendSpawnerConfigPacket(serverPlayer, blockPos, properties);
+                    List<ResourceLocation> allLootTables = new java.util.ArrayList<>();
 
-                    ClientScreenHelper.openTrialSpawnerScreen(blockPos, properties);
+                    if (level.getServer() != null) {
+                        allLootTables.addAll(level.getServer().reloadableRegistries().get()
+                                .lookupOrThrow(net.minecraft.core.registries.Registries.LOOT_TABLE)
+                                .listElementIds()
+                                .map(net.minecraft.resources.ResourceKey::location)
+                                .toList());
+
+                        allLootTables.addAll(level.getServer().reloadableRegistries().get()
+                                .lookupOrThrow(Services.PLATFORM.getLootTableRegistry())
+                                .listElementIds()
+                                .map(net.minecraft.resources.ResourceKey::location)
+                                .toList());
+                    }
+
+                    Services.PLATFORM.sendSpawnerConfigPacket(serverPlayer, blockPos, properties, allLootTables);
+
+                    ClientScreenHelper.openTrialSpawnerScreen(blockPos, properties, allLootTables);
 
                     // Send your packet here
                     // e.g., PacketDistributor.sendToPlayer(serverPlayer, new OpenSpawnerConfigS2CPacket(pos, properties));

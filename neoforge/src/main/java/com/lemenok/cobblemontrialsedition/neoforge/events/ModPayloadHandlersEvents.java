@@ -19,7 +19,7 @@ public class ModPayloadHandlersEvents {
                         OpenSpawnerConfigS2CPacket.STREAM_CODEC,
                         (payload, context) -> {
                             context.enqueueWork(() -> {
-                                ClientScreenHelper.openTrialSpawnerScreen(payload.pos(), payload.properties());
+                                ClientScreenHelper.openTrialSpawnerScreen(payload.pos(), payload.properties(), payload.availableLootTables());
                             });
                         }
                 );

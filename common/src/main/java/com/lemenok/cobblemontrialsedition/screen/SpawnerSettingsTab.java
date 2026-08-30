@@ -51,9 +51,8 @@ public class SpawnerSettingsTab implements Tab {
         }
 
         // --- LISTS (Comma Separated Strings) ---
-        addListRow(rowHelper, "Loot Tables:", screen.lootTables, val -> screen.lootTables = val);
-        addListRow(rowHelper, "Ominous Loot Tables:", screen.ominousLootTables, val -> screen.ominousLootTables = val);
-
+        addListRow(rowHelper, "Loot Tables:", screen.lootTables, screen.availableLootTables, val -> screen.lootTables = val);
+        addListRow(rowHelper, "Ominous Loot Tables:", screen.ominousLootTables, screen.availableLootTables, val -> screen.ominousLootTables = val);
         this.layout.addChild(this.grid);
     }
 
@@ -82,16 +81,16 @@ public class SpawnerSettingsTab implements Tab {
     }
 
     // Helper: Creates an EditBox that parses comma-separated ResourceLocations safely
-    private void addListRow(GridLayout.RowHelper rowHelper, String label, List<ResourceLocation> initialValue, Consumer<List<ResourceLocation>> onChange) {
-        SearchableDropdownWidget searchableDropdownWidget = new SearchableDropdownWidget(100, 20, Component.literal(label), initialValue);
+    private void addListRow(GridLayout.RowHelper rowHelper, String label, List<ResourceLocation> initialValue, List<ResourceLocation> allOptions, Consumer<List<ResourceLocation>> onChange) {
+        SearchableDropdownWidget searchableDropdownWidget = new SearchableDropdownWidget(100, 20, Component.literal(label), allOptions);
         String initialStr = initialValue.stream().map(ResourceLocation::toString).collect(Collectors.joining(", "));
         searchableDropdownWidget.setValue(initialStr);
         searchableDropdownWidget.setResponder(val -> {
-            List<ResourceLocation> parsed = Arrays.stream(val.split(","))
+            List<ResourceLocation> parsed = java.util.Arrays.stream(val.split(","))
                     .map(String::trim)
                     .filter(s -> !s.isEmpty())
                     .map(ResourceLocation::tryParse)
-                    .filter(Objects::nonNull) // Ignores invalid inputs while typing
+                    .filter(java.util.Objects::nonNull)
                     .toList();
             onChange.accept(parsed);
         });
