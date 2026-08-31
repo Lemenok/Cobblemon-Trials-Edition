@@ -21,6 +21,7 @@ public class SearchableDropdownWidget extends EditBox {
         super(Minecraft.getInstance().font, width, height, title);
         this.allOptions = availableOptions.stream().map(ResourceLocation::toString).collect(Collectors.toList());
         this.filteredOptions = this.allOptions;
+        this.setMaxLength(1024);
 
         super.setResponder(query -> {
             this.isDropdownOpen = true;
@@ -30,12 +31,7 @@ public class SearchableDropdownWidget extends EditBox {
     }
 
     private void updateFilter(String query) {
-        String currentSearch = query;
-        int lastComma = query.lastIndexOf(',');
-        if (lastComma != -1) {
-            currentSearch = query.substring(lastComma + 1).trim();
-        }
-        String finalSearch = currentSearch.toLowerCase();
+        String finalSearch = query.trim().toLowerCase();
         this.filteredOptions = this.allOptions.stream()
                 .filter(opt -> opt.toLowerCase().contains(finalSearch))
                 .limit(5)
@@ -90,26 +86,28 @@ public class SearchableDropdownWidget extends EditBox {
         }
     }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean checkDropdownClick(double mouseX, double mouseY) {
         if (this.isFocused() && this.isDropdownOpen && !this.filteredOptions.isEmpty()) {
             int dropDownY = this.getY() + this.getHeight();
             for (int i = 0; i < this.filteredOptions.size(); i++) {
                 int textY = dropDownY + (i * 12);
                 if (mouseX >= this.getX() && mouseX <= this.getX() + this.getWidth() && mouseY >= textY && mouseY < textY + 12) {
 
-                    String currentText = this.getValue();
-                    int lastComma = currentText.lastIndexOf(',');
-                    if (lastComma != -1) {
-                        this.setValue(currentText.substring(0, lastComma + 1) + " " + this.filteredOptions.get(i) + ", ");
-                    } else {
-                        this.setValue(this.filteredOptions.get(i) + ", ");
-                    }
-
+                    // Directly set the value without appending trailing commas
+                    this.setValue(this.filteredOptions.get(i));
                     this.isDropdownOpen = false;
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        // Let the dropdown overlay intercept the click first
+        if (this.checkDropdownClick(mouseX, mouseY)) {
+            return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }

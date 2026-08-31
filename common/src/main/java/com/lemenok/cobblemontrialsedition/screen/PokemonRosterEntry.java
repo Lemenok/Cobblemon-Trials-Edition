@@ -13,7 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<PokemonRosterEntry> {
-    private final List<AbstractWidget> children = new ArrayList<>();
+    private final EditBox speciesBox;
+    private final EditBox levelBox;
+    private final EditBox formsBox;
+    private final EditBox weightBox;
+    private final Button editBtn;
+    private final Button deleteBtn;
+    private final List<AbstractWidget> children;
+
     private final List<SpawnablePokemonProperties> roster;
     private final int index;
 
@@ -23,45 +30,46 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
         SpawnablePokemonProperties poke = roster.get(index);
         SpawnablePokemonStats stats = poke.spawnablePokemonStats() != null ? poke.spawnablePokemonStats() : createDefaultStats();
 
-        // 1. Species Edit Box
-        EditBox speciesBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Species"));
-        speciesBox.setValue(poke.species());
-        speciesBox.setResponder(val -> updatePokemon(val, poke.weight(), poke.scaleModifier(), poke.isUncatchable(), poke.mustBeDefeatedInBattle(), poke.isAggressive(), poke.isAlwaysAlpha(), poke.aspects(), poke.spawnablePokemonStats()));
-        children.add(speciesBox);
+        // 1. Species (Read-only)
+        this.speciesBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Species"));
+        this.speciesBox.setValue(poke.species());
+        this.speciesBox.setEditable(false);
 
-        // 2. Level Edit Box
-        EditBox levelBox = new EditBox(Minecraft.getInstance().font, 40, 18, Component.literal("Level"));
-        levelBox.setValue(String.valueOf(stats.level()));
-        levelBox.setResponder(val -> {
-            try {
-                int lvl = Integer.parseInt(val);
-                updateStats(poke, s -> new SpawnablePokemonStats(s.form(), lvl, s.gender(), s.nature(), s.defaultEVs(), s.defaultIVs(), s.ability(), s.moves(), s.heldItem(), s.dynaMaxLevel(), s.teraType(), s.isShiny()));
-            } catch (NumberFormatException ignored) {}
-        });
-        children.add(levelBox);
+        // 2. Level (Read-only)
+        this.levelBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Level"));
+        this.levelBox.setValue(String.valueOf(stats.level()));
+        this.levelBox.setEditable(false);
 
-        // 3. Edit Button
-        Button editBtn = Button.builder(Component.literal("Edit"), btn -> {
-            // Open the edit screen pre-filled with this entry's data
+        // 3. Forms (Read-only)
+        this.formsBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Forms"));
+        this.formsBox.setValue(String.join(", ", stats.form()));
+        this.formsBox.setMaxLength(256);
+        this.formsBox.setEditable(false);
+
+        // 4. Weight (Read-only)
+        this.weightBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Weight"));
+        this.weightBox.setValue(String.valueOf(poke.weight()));
+        this.weightBox.setEditable(false);
+
+        // 5. Edit Button
+        this.editBtn = Button.builder(Component.literal("Edit"), btn -> {
             Minecraft.getInstance().setScreen(new PokemonEditScreen(
                     Minecraft.getInstance().screen,
                     poke,
                     updatedPokemon -> {
-                        roster.set(this.index, updatedPokemon); // Overwrite data at index
-                        parentList.refreshEntries(roster);      // Refresh parent UI
+                        roster.set(this.index, updatedPokemon);
+                        parentList.refreshEntries(roster);
                     }
             ));
         }).bounds(0, 0, 45, 18).build();
-        children.add(editBtn);
 
-        // 4 Delete Button
-        Button deleteBtn = Button.builder(Component.literal("Delete"), btn -> {
-            // Remove this specific pokemon from the data roster
+        // 6. Delete Button
+        this.deleteBtn = Button.builder(Component.literal("Delete"), btn -> {
             roster.remove(this.index);
-            // Tell the parent UI to completely rebuild the list rows
             parentList.refreshEntries(roster);
         }).bounds(0, 0, 50, 18).build();
-        children.add(deleteBtn);
+
+        this.children = List.of(this.speciesBox, this.levelBox, this.formsBox, this.weightBox, this.editBtn, this.deleteBtn);
     }
 
     @Override
@@ -76,17 +84,48 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
 
     @Override
     public void render(GuiGraphics graphics, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean isSelected, float partialTick) {
-        int xOffset = left + 5;
-        int yPos = top + 2;
+        int padding = 4;
+        int levelW = 35;
+        int formsW = 60;
+        int weightW = 35;
+        int editW = 45;
+        int deleteW = 50;
 
-        graphics.drawString(Minecraft.getInstance().font, "#" + (this.index + 1), xOffset, yPos + 5, 0xFFAAAAAA, false);
-        xOffset += 25;
+        // Species box scales to fill the remaining horizontal space
+        int speciesW = width - levelW - formsW - weightW - editW - deleteW - (padding * 5);
+        int currentX = left;
+
+        this.speciesBox.setX(currentX);
+        this.speciesBox.setY(top + 2);
+        this.speciesBox.setWidth(speciesW);
+        currentX += speciesW + padding;
+
+        this.levelBox.setX(currentX);
+        this.levelBox.setY(top + 2);
+        this.levelBox.setWidth(levelW);
+        currentX += levelW + padding;
+
+        this.formsBox.setX(currentX);
+        this.formsBox.setY(top + 2);
+        this.formsBox.setWidth(formsW);
+        currentX += formsW + padding;
+
+        this.weightBox.setX(currentX);
+        this.weightBox.setY(top + 2);
+        this.weightBox.setWidth(weightW);
+        currentX += weightW + padding;
+
+        this.editBtn.setX(currentX);
+        this.editBtn.setY(top + 2);
+        this.editBtn.setWidth(editW);
+        currentX += editW + padding;
+
+        this.deleteBtn.setX(currentX);
+        this.deleteBtn.setY(top + 2);
+        this.deleteBtn.setWidth(deleteW);
 
         for (AbstractWidget widget : this.children) {
-            widget.setX(xOffset);
-            widget.setY(yPos);
             widget.render(graphics, mouseX, mouseY, partialTick);
-            xOffset += widget.getWidth() + 10;
         }
     }
 

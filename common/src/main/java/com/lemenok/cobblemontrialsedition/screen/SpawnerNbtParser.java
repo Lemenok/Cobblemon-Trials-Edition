@@ -70,7 +70,7 @@ public class SpawnerNbtParser {
             String form = pokemonNbt.getString("FormId");
             boolean isShiny = pokemonNbt.getBoolean("Shiny");
             String gender = pokemonNbt.getString("Gender");
-            String teraType = pokemonNbt.getString("TeraType");
+            String teraType = pokemonNbt.getString("TeraType").replace("cobblemon:", "");
 
             // Extract PersistentData booleans
             CompoundTag persistentData = pokemonNbt.getCompound("PersistentData");

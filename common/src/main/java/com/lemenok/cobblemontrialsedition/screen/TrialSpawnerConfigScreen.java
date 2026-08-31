@@ -38,8 +38,8 @@ public class TrialSpawnerConfigScreen extends Screen {
 
     public List<ResourceLocation> blockTypesToReplace;
     public List<ResourceLocation> mobEntitiesInSpawnerToReplace;
-    public List<ResourceLocation> lootTables;
-    public List<ResourceLocation> ominousLootTables;
+    public List<WeightedLootEntry> lootTables;
+    public List<WeightedLootEntry> ominousLootTables;
     public List<ResourceLocation> availableLootTables;
 
     public List<SpawnablePokemonProperties> editableNormalRoster;
@@ -63,8 +63,19 @@ public class TrialSpawnerConfigScreen extends Screen {
         this.ominousSpawnerAttacksEnabled = spawnerProperties.ominousSpawnerAttacksEnabled();
         this.doPokemonSpawnedGlow = spawnerProperties.doPokemonSpawnedGlow();
 
-        this.lootTables = new ArrayList<>(spawnerProperties.lootTables());
-        this.ominousLootTables = new ArrayList<>(spawnerProperties.ominousLootTables());
+        ArrayList<WeightedLootEntry> oldWeightedLootTableList = new ArrayList<>();
+        for(int i = 0; i < spawnerProperties.lootTables().size(); i++)
+        {
+            oldWeightedLootTableList.add(new WeightedLootEntry(spawnerProperties.lootTables().get(i), 10));
+        }
+        this.lootTables = oldWeightedLootTableList;
+
+        ArrayList<WeightedLootEntry> oldWeightedOminousLootTableList = new ArrayList<>();
+        for(int i = 0; i < spawnerProperties.ominousLootTables().size(); i++)
+        {
+            oldWeightedOminousLootTableList.add(new WeightedLootEntry(spawnerProperties.ominousLootTables().get(i), 10));
+        }
+        this.ominousLootTables = oldWeightedOminousLootTableList;
 
         this.editableNormalRoster = new ArrayList<>(spawnerProperties.listOfPokemonToSpawn());
         this.editableOminousRoster = new ArrayList<>(spawnerProperties.listOfOminousPokemonToSpawn());
@@ -76,6 +87,7 @@ public class TrialSpawnerConfigScreen extends Screen {
 
         this.tabNavigationBar = TabNavigationBar.builder(this.tabManager, this.width)
                 .addTabs(new SpawnerSettingsTab(this))
+                .addTabs(new LootTablesTab(this, lootTables, ominousLootTables, availableLootTables))
                 .addTabs(new PokemonRosterTab("Normal Roster", this, editableNormalRoster))
                 .addTabs(new PokemonRosterTab("Ominous Roster", this, editableOminousRoster))
                 .build();
@@ -95,8 +107,8 @@ public class TrialSpawnerConfigScreen extends Screen {
                     this.maximumNumberOfSimultaneousPokemonAddedPerPlayer,
                     this.totalNumberOfPokemonPerTrial,
                     this.totalNumberOfPokemonPerTrialAddedPerPlayer,
-                    this.lootTables,
-                    this.ominousLootTables,
+                    new ArrayList<>(),
+                    new ArrayList<>(),
                     this.ominousSpawnerAttacksEnabled,
                     this.doPokemonSpawnedGlow,
                     this.editableNormalRoster,

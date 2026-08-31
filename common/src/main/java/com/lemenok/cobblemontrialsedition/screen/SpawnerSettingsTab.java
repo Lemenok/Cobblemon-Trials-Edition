@@ -45,14 +45,6 @@ public class SpawnerSettingsTab implements Tab {
         addBoolRow(rowHelper, "Ominous Attacks:", screen.ominousSpawnerAttacksEnabled, val -> screen.ominousSpawnerAttacksEnabled = val);
         addBoolRow(rowHelper, "Spawned Pokemon Glow:", screen.doPokemonSpawnedGlow, val -> screen.doPokemonSpawnedGlow = val);
 
-        // --- SPACER ROW ---
-        for (int i = 0; i < 4; i++) {
-            rowHelper.addChild(new StringWidget(Component.empty(), Minecraft.getInstance().font));
-        }
-
-        // --- LISTS (Comma Separated Strings) ---
-        addListRow(rowHelper, "Loot Tables:", screen.lootTables, screen.availableLootTables, val -> screen.lootTables = val);
-        addListRow(rowHelper, "Ominous Loot Tables:", screen.ominousLootTables, screen.availableLootTables, val -> screen.ominousLootTables = val);
         this.layout.addChild(this.grid);
     }
 
