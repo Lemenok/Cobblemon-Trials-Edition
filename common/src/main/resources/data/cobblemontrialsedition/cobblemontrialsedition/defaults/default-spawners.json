@@ -4,8 +4,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bat"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "zubat",
           "spawnablePokemonStats": {
@@ -58,8 +64,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bat"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "zubat",
           "spawnablePokemonStats": {
@@ -112,8 +116,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "magmar",
           "spawnablePokemonStats": {
@@ -172,8 +182,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "magmar",
           "spawnablePokemonStats": {
@@ -232,8 +240,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "gloom",
           "spawnablePokemonStats": {
@@ -286,8 +300,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "gloom",
         "spawnablePokemonStats": {
@@ -340,8 +352,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "rotom",
           "spawnablePokemonStats": {
@@ -396,8 +414,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "rotom",
         "spawnablePokemonStats": {
@@ -452,8 +468,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "spinarak",
           "spawnablePokemonStats": {
@@ -506,8 +528,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "spinarak",
           "spawnablePokemonStats": {
@@ -560,8 +580,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:creeper"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "voltorb",
           "spawnablePokemonStats": {
@@ -622,8 +648,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:creeper"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "voltorb",
           "spawnablePokemonStats": {
@@ -684,8 +708,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "frillish",
           "spawnablePokemonStats": {
@@ -738,8 +768,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "frillish",
           "spawnablePokemonStats": {
@@ -794,8 +822,14 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:elder_guardian"],
       "maximumNumberOfSimultaneousPokemon": 1,
       "totalNumberOfPokemonPerTrial": 1,
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "blastoise",
           "spawnablePokemonStats": {
@@ -830,8 +864,6 @@
       "mobEntitiesInSpawnerToReplace": ["minecraft:elder_guardian"],
       "maximumNumberOfSimultaneousPokemon": 1,
       "totalNumberOfPokemonPerTrial": 1,
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "blastoise",
           "spawnablePokemonStats": {
@@ -864,8 +896,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:enderman"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "sableye",
           "spawnablePokemonStats": {
@@ -918,8 +956,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:enderman"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "sableye",
           "spawnablePokemonStats": {
@@ -972,8 +1008,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:endermite"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "venipede",
           "spawnablePokemonStats": {
@@ -1026,8 +1068,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:endermite"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "venipede",
           "spawnablePokemonStats": {
@@ -1080,8 +1120,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:evoker"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "hattrem",
           "spawnablePokemonStats": {
@@ -1134,8 +1180,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:evoker"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "hattrem",
           "spawnablePokemonStats": {
@@ -1188,8 +1232,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:ghast"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "shuppet",
           "spawnablePokemonStats": {
@@ -1242,8 +1292,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:ghast"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "shuppet",
           "spawnablePokemonStats": {
@@ -1296,8 +1344,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:guardian"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "carvanha",
           "spawnablePokemonStats": {
@@ -1350,8 +1404,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:guardian"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "carvanha",
           "spawnablePokemonStats": {
@@ -1404,8 +1456,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:hoglin"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
         "species": "lechonk",
         "spawnablePokemonStats": {
@@ -1458,8 +1516,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:hoglin"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "lechonk",
           "spawnablePokemonStats": {
@@ -1512,8 +1568,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:husk"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "krokorok",
           "spawnablePokemonStats": {
@@ -1566,8 +1628,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:husk"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "krokorok",
           "spawnablePokemonStats": {
@@ -1620,8 +1680,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:illusioner"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "misdreavus",
           "spawnablePokemonStats": {
@@ -1674,8 +1740,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:illusioner"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "misdreavus",
           "spawnablePokemonStats": {
@@ -1728,8 +1792,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:iron_golem"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "lairon",
           "spawnablePokemonStats": {
@@ -1782,8 +1852,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:iron_golem"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "lairon",
         "spawnablePokemonStats": {
@@ -1836,8 +1904,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:magma_cube"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "slugma",
           "spawnablePokemonStats": {
@@ -1890,8 +1964,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:magma_cube"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "slugma",
           "spawnablePokemonStats": {
@@ -1944,8 +2016,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:phantom"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "hoothoot",
           "spawnablePokemonStats": {
@@ -1998,8 +2076,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:phantom"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "hoothoot",
           "spawnablePokemonStats": {
@@ -2052,8 +2128,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:pig"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "spoink",
           "spawnablePokemonStats": {
@@ -2106,8 +2188,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:pig"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "spoink",
           "spawnablePokemonStats": {
@@ -2160,8 +2240,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:piglin"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "gimmighoul",
           "spawnablePokemonStats": {
@@ -2214,8 +2300,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:piglin"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "gimmighoul",
           "spawnablePokemonStats": {
@@ -2268,8 +2352,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:piglin_brute"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "pignite",
           "spawnablePokemonStats": {
@@ -2322,8 +2412,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:piglin_brute"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "pignite",
           "spawnablePokemonStats": {
@@ -2376,8 +2464,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:pillager"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "poochyena",
           "spawnablePokemonStats": {
@@ -2430,8 +2524,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:pillager"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "poochyena",
           "spawnablePokemonStats": {
@@ -2484,8 +2576,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:ravager"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "piloswine",
           "spawnablePokemonStats": {
@@ -2538,8 +2636,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:ravager"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "piloswine",
           "spawnablePokemonStats": {
@@ -2592,8 +2688,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:shulker"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "duosion",
           "spawnablePokemonStats": {
@@ -2646,8 +2748,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:shulker"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "duosion",
           "spawnablePokemonStats": {
@@ -2700,8 +2800,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "dwebble",
           "spawnablePokemonStats": {
@@ -2754,8 +2860,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "dwebble",
           "spawnablePokemonStats": {
@@ -2808,8 +2912,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "duskull",
           "spawnablePokemonStats": {
@@ -2864,8 +2974,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "duskull",
         "spawnablePokemonStats": {
@@ -2920,8 +3028,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:slime"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "grimer",
           "spawnablePokemonStats": {
@@ -2974,8 +3088,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:slime"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "grimer",
         "spawnablePokemonStats": {
@@ -3028,8 +3140,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "tarountula",
           "spawnablePokemonStats": {
@@ -3082,8 +3200,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "tarountula",
           "spawnablePokemonStats": {
@@ -3136,8 +3252,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:stray"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "snorunt",
           "spawnablePokemonStats": {
@@ -3190,8 +3312,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:stray"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "snorunt",
           "spawnablePokemonStats": {
@@ -3244,8 +3364,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:strider"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "larvesta",
           "spawnablePokemonStats": {
@@ -3298,8 +3424,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:strider"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "larvesta",
           "spawnablePokemonStats": {
@@ -3352,8 +3476,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:vex"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "honedge",
           "spawnablePokemonStats": {
@@ -3406,8 +3536,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:vex"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "honedge",
           "spawnablePokemonStats": {
@@ -3460,8 +3588,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:vindicator"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "scraggy",
           "spawnablePokemonStats": {
@@ -3514,8 +3648,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:vindicator"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "scraggy",
           "spawnablePokemonStats": {
@@ -3568,8 +3700,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:witch"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
@@ -3624,8 +3762,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:witch"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
@@ -3680,8 +3816,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:wither_skeleton"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "cubone",
           "spawnablePokemonStats": {
@@ -3736,8 +3878,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:wither_skeleton"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "cubone",
           "spawnablePokemonStats": {
@@ -3792,8 +3932,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zoglin"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "tauros",
           "spawnablePokemonStats": {
@@ -3846,8 +3992,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zoglin"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "tauros",
         "spawnablePokemonStats": {
@@ -3900,8 +4044,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "carnivine",
           "spawnablePokemonStats": {
@@ -3954,8 +4104,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "carnivine",
         "spawnablePokemonStats": {
@@ -4008,8 +4156,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombified_piglin"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
@@ -4064,8 +4218,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombified_piglin"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "slowbro",
           "spawnablePokemonStats": {
@@ -4120,8 +4272,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie_villager"],
-      "lootTables": ["cobblemontrialsedition:default_mob_spawner"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_default_mob_spawner"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:default_mob_spawner",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_default_mob_spawner",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "ditto",
           "spawnablePokemonStats": {
@@ -4174,8 +4332,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie_villager"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "ditto",
           "spawnablePokemonStats": {

@@ -7,8 +7,14 @@
     {
       "blockTypesToReplace": ["minecraft:sculk_shrieker"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "lootTables": ["cobblemontrialsedition:sculk_patch"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_sculk_patch"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:sculk_patch",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_sculk_patch",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "dusclops",
           "spawnablePokemonStats": {

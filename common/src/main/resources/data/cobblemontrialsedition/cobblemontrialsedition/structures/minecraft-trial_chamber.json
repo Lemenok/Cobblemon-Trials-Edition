@@ -4,8 +4,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "drifloon",
         "spawnablePokemonStats": {
@@ -58,8 +56,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "golett",
         "spawnablePokemonStats": {
@@ -112,8 +108,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:husk"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "yamask",
         "spawnablePokemonStats": {
@@ -166,8 +160,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "joltik",
         "spawnablePokemonStats": {
@@ -220,8 +212,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:slime"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "grimer",
           "spawnablePokemonStats": {
@@ -276,8 +266,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "wimpod",
         "spawnablePokemonStats": {
@@ -330,8 +318,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "spinarak",
         "spawnablePokemonStats": {
@@ -384,8 +370,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:stray"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "vulpix",
         "spawnablePokemonStats": {
@@ -440,8 +424,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "magnemite",
         "spawnablePokemonStats": {
@@ -494,8 +476,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
         "species": "paras",
         "spawnablePokemonStats": {

@@ -4,8 +4,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:magma_cube"],
-      "lootTables": ["cobblemontrialsedition:bastion_remnant"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_bastion_remnant"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:bastion_remnant",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_bastion_remnant",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "slugma",
           "spawnablePokemonStats": {

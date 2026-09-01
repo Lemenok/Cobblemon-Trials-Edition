@@ -78,9 +78,9 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
         var currentOminousLoot = this.getCobblemonTrialSpawner().getOminousConfig().lootTablesToEject();
 
         var normalLootTables = properties.lootTables().isEmpty() ?
-                currentNormalLoot : buildLootTableList(properties.lootTables());
+                currentNormalLoot : properties.lootTables();
         var ominousLootTables = properties.ominousLootTables().isEmpty() ?
-                currentOminousLoot : buildLootTableList(properties.ominousLootTables());
+                currentOminousLoot : properties.ominousLootTables();
 
         // 2. Build the Normal Configuration
         CobblemonTrialSpawnerConfig normalConfig = new CobblemonTrialSpawnerConfig(

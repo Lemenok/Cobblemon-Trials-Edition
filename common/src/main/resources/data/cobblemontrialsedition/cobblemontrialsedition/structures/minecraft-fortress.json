@@ -4,8 +4,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
-      "lootTables": ["cobblemontrialsedition:fortress"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_fortress"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:fortress",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_fortress",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "charcadet",
           "spawnablePokemonStats": {

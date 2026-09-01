@@ -11,7 +11,6 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LootTableEntry extends ContainerObjectSelectionList.Entry<LootTableEntry> {

@@ -30,6 +30,17 @@ public class SearchableDropdownWidget extends EditBox {
         });
     }
 
+    @Override
+    public void setWidth(int width) {
+        int oldWidth = this.getWidth();
+        super.setWidth(width);
+        // Fixes text not displaying if value was set while width was 0 during initialization
+        if (oldWidth == 0 && width > 0 && !this.getValue().isEmpty()) {
+            String val = this.getValue();
+            super.setValue(val);
+        }
+    }
+
     private void updateFilter(String query) {
         String finalSearch = query.trim().toLowerCase();
         this.filteredOptions = this.allOptions.stream()

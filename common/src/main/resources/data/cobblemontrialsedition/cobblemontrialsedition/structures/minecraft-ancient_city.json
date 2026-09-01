@@ -7,8 +7,14 @@
     {
       "blockTypesToReplace": ["minecraft:sculk_shrieker"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:warden"],
-      "lootTables": ["cobblemontrialsedition:ancient_city"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_ancient_city"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:ancient_city",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_ancient_city",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "spiritomb",
           "spawnablePokemonStats": {

@@ -63,19 +63,25 @@ public class TrialSpawnerConfigScreen extends Screen {
         this.ominousSpawnerAttacksEnabled = spawnerProperties.ominousSpawnerAttacksEnabled();
         this.doPokemonSpawnedGlow = spawnerProperties.doPokemonSpawnedGlow();
 
-        ArrayList<WeightedLootEntry> oldWeightedLootTableList = new ArrayList<>();
-        for(int i = 0; i < spawnerProperties.lootTables().size(); i++)
-        {
-            oldWeightedLootTableList.add(new WeightedLootEntry(spawnerProperties.lootTables().get(i), 10));
-        }
-        this.lootTables = oldWeightedLootTableList;
+        ArrayList<WeightedLootEntry> updatedWeightedLootTableList = new ArrayList<>();
 
-        ArrayList<WeightedLootEntry> oldWeightedOminousLootTableList = new ArrayList<>();
-        for(int i = 0; i < spawnerProperties.ominousLootTables().size(); i++)
-        {
-            oldWeightedOminousLootTableList.add(new WeightedLootEntry(spawnerProperties.ominousLootTables().get(i), 10));
+        for (var wrapper : spawnerProperties.lootTables().unwrap()) {
+            var resourceKey = wrapper.data();
+            int weight = wrapper.weight().asInt();
+            updatedWeightedLootTableList.add(new WeightedLootEntry(resourceKey.location(), weight));
         }
-        this.ominousLootTables = oldWeightedOminousLootTableList;
+
+        this.lootTables = updatedWeightedLootTableList;
+
+        ArrayList<WeightedLootEntry> updatedWeightedOminousLootTableList = new ArrayList<>();
+
+        for (var wrapper : spawnerProperties.ominousLootTables().unwrap()) {
+            var resourceKey = wrapper.data();
+            int weight = wrapper.weight().asInt();
+            updatedWeightedOminousLootTableList.add(new WeightedLootEntry(resourceKey.location(), weight));
+        }
+
+        this.ominousLootTables = updatedWeightedOminousLootTableList;
 
         this.editableNormalRoster = new ArrayList<>(spawnerProperties.listOfPokemonToSpawn());
         this.editableOminousRoster = new ArrayList<>(spawnerProperties.listOfOminousPokemonToSpawn());
@@ -95,6 +101,21 @@ public class TrialSpawnerConfigScreen extends Screen {
         this.addRenderableWidget(this.tabNavigationBar);
 
         this.saveAndCloseButton = Button.builder(Component.literal("Save & Close"), btn -> {
+
+            net.minecraft.util.random.SimpleWeightedRandomList.Builder<net.minecraft.resources.ResourceKey<net.minecraft.world.level.storage.loot.LootTable>> normalLootBuilder = new net.minecraft.util.random.SimpleWeightedRandomList.Builder<>();
+            for (WeightedLootEntry entry : this.lootTables) {
+                if (entry.getLocation() != null) {
+                    normalLootBuilder.add(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE, entry.getLocation()), entry.getWeight());
+                }
+            }
+
+            net.minecraft.util.random.SimpleWeightedRandomList.Builder<net.minecraft.resources.ResourceKey<net.minecraft.world.level.storage.loot.LootTable>> ominousLootBuilder = new net.minecraft.util.random.SimpleWeightedRandomList.Builder<>();
+            for (WeightedLootEntry entry : this.ominousLootTables) {
+                if (entry.getLocation() != null) {
+                    ominousLootBuilder.add(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE, entry.getLocation()), entry.getWeight());
+                }
+            }
+
             // Reconstruct updated properties record from GUI fields
             SpawnerProperties updatedProperties = new SpawnerProperties(
                     this.blockTypesToReplace,
@@ -107,8 +128,8 @@ public class TrialSpawnerConfigScreen extends Screen {
                     this.maximumNumberOfSimultaneousPokemonAddedPerPlayer,
                     this.totalNumberOfPokemonPerTrial,
                     this.totalNumberOfPokemonPerTrialAddedPerPlayer,
-                    new ArrayList<>(),
-                    new ArrayList<>(),
+                    normalLootBuilder.build(),
+                    ominousLootBuilder.build(),
                     this.ominousSpawnerAttacksEnabled,
                     this.doPokemonSpawnedGlow,
                     this.editableNormalRoster,

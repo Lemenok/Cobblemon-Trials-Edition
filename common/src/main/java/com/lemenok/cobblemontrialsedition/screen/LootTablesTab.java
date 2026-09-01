@@ -3,7 +3,6 @@ package com.lemenok.cobblemontrialsedition.screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.tabs.Tab;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.network.chat.Component;
@@ -28,7 +27,7 @@ public class LootTablesTab implements Tab {
 
         // --- Left Side (Normal) ---
         this.addNormalBtn = Button.builder(Component.literal("+ Add Normal Loot Table"), btn -> {
-            this.normalLootTables.add(new WeightedLootEntry(ResourceLocation.parse("minecraft:chests/trial_chambers/reward"), 1));
+            this.normalLootTables.add(new WeightedLootEntry(ResourceLocation.fromNamespaceAndPath("cobblemontrialsedition",""), 1));
             this.normalListWidget.refreshEntries(this.normalLootTables);
         }).bounds(0, 0, 135, 18).build();
 
@@ -44,7 +43,7 @@ public class LootTablesTab implements Tab {
 
         // --- Right Side (Ominous) ---
         this.addOminousBtn = Button.builder(Component.literal("+ Add Ominous Loot Table"), btn -> {
-            this.ominousLootTables.add(new WeightedLootEntry(ResourceLocation.parse("minecraft:chests/trial_chambers/reward_ominous"), 1));
+            this.ominousLootTables.add(new WeightedLootEntry(ResourceLocation.fromNamespaceAndPath("cobblemontrialsedition",""), 1));
             this.ominousListWidget.refreshEntries(this.ominousLootTables);
         }).bounds(0, 0, 135, 18).build();
 

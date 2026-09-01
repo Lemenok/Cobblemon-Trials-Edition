@@ -4,8 +4,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
-      "lootTables": ["cobblemontrialsedition:monster_room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:monster_room",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_monster_room",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "shuppet",
           "spawnablePokemonStats": {
@@ -58,8 +64,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "lootTables": ["cobblemontrialsedition:monster_room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:monster_room",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_monster_room",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "cubone",
           "spawnablePokemonStats": {
@@ -112,8 +124,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
-      "lootTables": ["cobblemontrialsedition:monster_room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:monster_room",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_monster_room",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "skorupi",
           "spawnablePokemonStats": {
@@ -166,8 +184,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zoglin"],
-      "lootTables": ["cobblemontrialsedition:monster_room"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_monster_room"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:monster_room",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_monster_room",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "tauros",
           "spawnablePokemonStats": {

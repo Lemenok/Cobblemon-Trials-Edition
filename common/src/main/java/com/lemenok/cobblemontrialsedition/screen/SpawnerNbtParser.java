@@ -5,10 +5,14 @@ import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.Cob
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +35,8 @@ public class SpawnerNbtParser {
         List<SpawnablePokemonProperties> ominousRoster = parsePokemonRoster(ominousSpawnData);
 
         // Parse Loot Tables (Assuming they are stored as a list of string paths in the NBT)
-        List<ResourceLocation> lootTables = parseLootTables(normalLootTablesToEject);
-        List<ResourceLocation> ominousLootTables = parseLootTables(ominousLootTablesToEject);
+        SimpleWeightedRandomList<ResourceKey<LootTable>> lootTables = parseLootTables(normalLootTablesToEject);
+        SimpleWeightedRandomList<ResourceKey<LootTable>> ominousLootTables = parseLootTables(ominousLootTablesToEject);
 
         return new SpawnerProperties(
                 new ArrayList<>(), // blocks to replace
@@ -95,15 +99,23 @@ public class SpawnerNbtParser {
         return roster;
     }
 
-    private static List<ResourceLocation> parseLootTables(ListTag lootList) {
-        List<ResourceLocation> tables = new ArrayList<>();
+    private static SimpleWeightedRandomList<ResourceKey<LootTable>> parseLootTables(ListTag lootList) {
+        SimpleWeightedRandomList.Builder<ResourceKey<LootTable>> builder = new SimpleWeightedRandomList.Builder<>();
+
         for (int i = 0; i < lootList.size(); i++) {
             CompoundTag lootEntry = lootList.getCompound(i);
             String tableData = lootEntry.getString("data");
+            int weight = lootEntry.contains("weight") ? lootEntry.getInt("weight") : 1; // Fallback weight if not specified
+
             if (!tableData.isEmpty()) {
-                tables.add(ResourceLocation.tryParse(tableData));
+                ResourceLocation location = ResourceLocation.tryParse(tableData);
+                if (location != null) {
+                    ResourceKey<LootTable> lootTableKey = ResourceKey.create(Registries.LOOT_TABLE, location);
+                    builder.add(lootTableKey, weight);
+                }
             }
         }
-        return tables;
+
+        return builder.build();
     }
 }

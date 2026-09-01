@@ -9,7 +9,10 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.List;
 import java.util.Objects;
@@ -61,8 +64,21 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         // TODO: Make it so these have to exist.
         //buf.writeCollection(props.lootTables(), (b, loc) -> b.writeResourceLocation(loc));
         //buf.writeCollection(props.ominousLootTables(), (b, loc) -> b.writeResourceLocation(loc));
-        buf.writeCollection(Objects.requireNonNullElse(props.lootTables(), List.of()), (b, loc) -> b.writeResourceLocation(loc));
-        buf.writeCollection(Objects.requireNonNullElse(props.ominousLootTables(), List.of()), (b, loc) -> b.writeResourceLocation(loc));
+        SimpleWeightedRandomList<ResourceKey<LootTable>> safeLootTables = Objects.requireNonNullElse(props.lootTables(), SimpleWeightedRandomList.empty());
+        var unwrappedLootTables = safeLootTables.unwrap();
+        buf.writeVarInt(unwrappedLootTables.size());
+        for (var wrapper : unwrappedLootTables) {
+            buf.writeResourceKey(wrapper.data());
+            buf.writeInt(wrapper.weight().asInt());
+        }
+
+        SimpleWeightedRandomList<ResourceKey<LootTable>> safeOminous = Objects.requireNonNullElse(props.ominousLootTables(), SimpleWeightedRandomList.empty());
+        var unwrappedOminous = safeOminous.unwrap();
+        buf.writeVarInt(unwrappedOminous.size());
+        for (var wrapper : unwrappedOminous) {
+            buf.writeResourceKey(wrapper.data());
+            buf.writeInt(wrapper.weight().asInt());
+        }
 
         buf.writeBoolean(props.ominousSpawnerAttacksEnabled());
         buf.writeBoolean(props.doPokemonSpawnedGlow());
@@ -87,8 +103,19 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         int total = buf.readInt();
         int totalPlayer = buf.readInt();
 
-        List<ResourceLocation> lootTables = buf.readList(b -> b.readResourceLocation());
-        List<ResourceLocation> ominousLootTables = buf.readList(b -> b.readResourceLocation());
+        int lootTablesSize = buf.readVarInt();
+        SimpleWeightedRandomList.Builder<ResourceKey<LootTable>> lootTablesBuilder = new SimpleWeightedRandomList.Builder<>();
+        for (int i = 0; i < lootTablesSize; i++) {
+            lootTablesBuilder.add(buf.readResourceKey(net.minecraft.core.registries.Registries.LOOT_TABLE), buf.readInt());
+        }
+        SimpleWeightedRandomList<ResourceKey<LootTable>> lootTables = lootTablesBuilder.build();
+
+        int ominousLootTablesSize = buf.readVarInt();
+        SimpleWeightedRandomList.Builder<ResourceKey<LootTable>> ominousLootTablesBuilder = new SimpleWeightedRandomList.Builder<>();
+        for (int i = 0; i < ominousLootTablesSize; i++) {
+            ominousLootTablesBuilder.add(buf.readResourceKey(net.minecraft.core.registries.Registries.LOOT_TABLE), buf.readInt());
+        }
+        SimpleWeightedRandomList<ResourceKey<LootTable>> ominousLootTables = ominousLootTablesBuilder.build();
 
         boolean ominousAttacks = buf.readBoolean();
         boolean glow = buf.readBoolean();

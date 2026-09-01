@@ -4,8 +4,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
-      "lootTables": ["cobblemontrialsedition:abandoned_mineshaft"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_abandoned_mineshaft"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:abandoned_mineshaft",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_abandoned_mineshaft",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "spinarak",
           "spawnablePokemonStats": {

@@ -4,8 +4,14 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
-      "lootTables": ["cobblemontrialsedition:stronghold"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_stronghold"],
+      "lootTables": [
+        {
+          "data": "cobblemontrialsedition:stronghold",
+          "weight": 1 }],
+      "ominousLootTables": [
+        {
+          "data": "cobblemontrialsedition:ominous_stronghold",
+          "weight": 1 }],
       "listOfPokemonToSpawn": [{
           "species": "lunatone",
           "spawnablePokemonStats": {

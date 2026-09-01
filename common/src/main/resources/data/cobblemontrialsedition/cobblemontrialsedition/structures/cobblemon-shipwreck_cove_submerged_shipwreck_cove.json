@@ -4,8 +4,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:guardian"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "carvanha",
           "spawnablePokemonStats": {
@@ -59,8 +57,6 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
-      "lootTables": [],
-      "ominousLootTables": [],
       "listOfPokemonToSpawn": [{
           "species": "tentacool",
           "spawnablePokemonStats": {
