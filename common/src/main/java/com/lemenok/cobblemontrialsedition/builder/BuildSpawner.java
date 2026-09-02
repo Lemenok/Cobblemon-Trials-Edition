@@ -27,7 +27,7 @@ public class BuildSpawner {
                 newSpawnerProperties.maximumNumberOfSimultaneousPokemonAddedPerPlayer(),
                 newSpawnerProperties.ticksBetweenSpawnAttempts(),
                 newSpawnerProperties.ominousSpawnerAttacksEnabled(),
-                newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, false),
+                newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, false, blockPosition),
                 newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), false, registryAccess),
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
         );
@@ -39,7 +39,7 @@ public class BuildSpawner {
                 newSpawnerProperties.maximumNumberOfSimultaneousPokemonAddedPerPlayer(),
                 newSpawnerProperties.ticksBetweenSpawnAttempts(),
                 newSpawnerProperties.ominousSpawnerAttacksEnabled(),
-                newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, true),
+                newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, true, blockPosition),
                 newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), true, registryAccess),
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
         );

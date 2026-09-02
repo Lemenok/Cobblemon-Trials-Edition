@@ -9,6 +9,7 @@ import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -48,16 +49,16 @@ public record SpawnablePokemonProperties(
 
     private static final Logger LOGGER = LogManager.getLogger(Services.PLATFORM.getModID());
 
-    public SpawnData getPokemonSpawnData(RegistryAccess registryAccess, boolean doPokemonSpawnedGlow) {
+    public SpawnData getPokemonSpawnData(RegistryAccess registryAccess, boolean doPokemonSpawnedGlow, BlockPos blockPos) {
 
         if(Services.PLATFORM.getCommonConfig().ENABLE_DEBUG_LOGS){
             LOGGER.info("Setting up spawn data for '{}'", species);
         }
 
-        return buildSpawnData(registryAccess, doPokemonSpawnedGlow);
+        return buildSpawnData(registryAccess, doPokemonSpawnedGlow, blockPos);
     }
 
-    private SpawnData buildSpawnData(RegistryAccess registryAccess, Boolean doPokemonSpawnedGlow) {
+    private SpawnData buildSpawnData(RegistryAccess registryAccess, Boolean doPokemonSpawnedGlow, BlockPos blockPos) {
         PokemonProperties newPokemonProperties = getSpawnablePokemonProperties();
         Pokemon newPokemon = newPokemonProperties.create();
 
@@ -67,6 +68,7 @@ public record SpawnablePokemonProperties(
         newPokemon.setHeldItem$common(spawnablePokemonStats.getHeldItem());
 
         newPokemon.getPersistentData().putBoolean("is_spawned_from_trial_spawner", true);
+        newPokemon.getPersistentData().putLong("spawner_pos", blockPos.asLong());
 
         List<SpeciesFeature> speciesFeature = new ArrayList<>();
 

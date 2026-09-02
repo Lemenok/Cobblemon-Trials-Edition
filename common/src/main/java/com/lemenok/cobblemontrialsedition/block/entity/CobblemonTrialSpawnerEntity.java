@@ -68,7 +68,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
         this.cobblemonTrialSpawner.codec().encodeStart(NbtOps.INSTANCE, this.cobblemonTrialSpawner).ifSuccess((tag) -> nbt.merge((CompoundTag)tag)).ifError((error) -> LOGGER.warn("Failed to encode TrialSpawner {}", error.message()));
     }
 
-    public void applySpawnerProperties(SpawnerProperties properties) {
+    public void applySpawnerProperties(SpawnerProperties properties, BlockPos blockPos) {
         if (this.level == null) return;
 
         RegistryAccess registryAccess = this.level.registryAccess();
@@ -91,7 +91,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
                 properties.maximumNumberOfSimultaneousPokemonAddedPerPlayer(),
                 properties.ticksBetweenSpawnAttempts(),
                 properties.ominousSpawnerAttacksEnabled(),
-                properties.getListOfPokemonToSpawn(registryAccess, false),
+                properties.getListOfPokemonToSpawn(registryAccess, false, blockPos),
                 normalLootTables,
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
         );
@@ -105,7 +105,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
                 properties.maximumNumberOfSimultaneousPokemonAddedPerPlayer(),
                 properties.ticksBetweenSpawnAttempts(),
                 properties.ominousSpawnerAttacksEnabled(),
-                properties.getListOfPokemonToSpawn(registryAccess, true),
+                properties.getListOfPokemonToSpawn(registryAccess, true, blockPos),
                 ominousLootTables,
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
         );
@@ -131,7 +131,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
         this.markUpdated();
     }
 
-    private void resetSpawnerData(CobblemonTrialSpawnerData spawnerData, CobblemonTrialSpawner spawner) {
+    public void resetSpawnerData(CobblemonTrialSpawnerData spawnerData, CobblemonTrialSpawner spawner) {
         if (this.level instanceof ServerLevel serverLevel) {
             // Despawn existing Pokemon using their tracked UUIDs
             for (java.util.UUID mobId : spawnerData.getCurrentMobs()) {

@@ -3,6 +3,7 @@ package com.lemenok.cobblemontrialsedition.config;
 import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -58,16 +59,16 @@ public record SpawnerProperties(
 
     ).apply(spawner, SpawnerProperties::new));
 
-    public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(RegistryAccess registryAccess, boolean isOminous){
+    public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(RegistryAccess registryAccess, boolean isOminous, BlockPos blockPos){
         SimpleWeightedRandomList.Builder<SpawnData> weightedLootTableListBuilder = new SimpleWeightedRandomList.Builder<>();
 
         if(isOminous){
             for(SpawnablePokemonProperties spawnablePokemonProperties: listOfOminousPokemonToSpawn){
-                weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow), spawnablePokemonProperties.weight());
+                weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow, blockPos), spawnablePokemonProperties.weight());
             }
         } else {
             for(SpawnablePokemonProperties spawnablePokemonProperties: listOfPokemonToSpawn){
-                weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow), spawnablePokemonProperties.weight());
+                weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow, blockPos), spawnablePokemonProperties.weight());
             }
         }
 
