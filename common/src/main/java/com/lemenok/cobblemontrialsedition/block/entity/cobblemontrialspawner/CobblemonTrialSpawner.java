@@ -1,5 +1,9 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
+import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.annotations.VisibleForTesting;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
@@ -19,9 +23,12 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -44,9 +51,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class CobblemonTrialSpawner {
     public static final String NORMAL_CONFIG_TAG_NAME = "normal_config";
@@ -196,6 +201,10 @@ public class CobblemonTrialSpawner {
     public Optional<UUID> spawnMob(ServerLevel serverLevel, BlockPos blockPos) {
         RandomSource randomsource = serverLevel.getRandom();
         SpawnData spawndata = this.data.getOrCreateNextSpawnData(this, serverLevel.getRandom(), serverLevel);
+
+        // Calculate any realtime changes from config or nearby players to the pokemon spawned.
+        spawndata = buildSpawnData(spawndata, serverLevel, this);
+
         CompoundTag compoundtag = spawndata.entityToSpawn();
         ListTag listtag = compoundtag.getList("Pos", 6);
         Optional<EntityType<?>> optional = EntityType.by(compoundtag);
@@ -263,6 +272,158 @@ public class CobblemonTrialSpawner {
                 }
             }
         }
+    }
+
+    private SpawnData buildSpawnData(SpawnData nextSpawnData, ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
+        if(serverLevel == null){
+            return nextSpawnData;
+        }
+
+        CompoundTag nbt = nextSpawnData.entityToSpawn();
+        CompoundTag oldPokemonTag = nbt.getCompound("Pokemon");
+
+        CompoundTag persistentData = oldPokemonTag.contains("PersistentData", Tag.TAG_COMPOUND)
+                ? oldPokemonTag.getCompound("PersistentData")
+                : new CompoundTag();
+
+        int calculatedLevel = getCalculatedLevelAdjustment(serverLevel, cobblemonTrialSpawner);
+
+        PokemonProperties pokemonProperties = new PokemonProperties();
+        pokemonProperties.setSpecies(oldPokemonTag.getString("Species"));
+        pokemonProperties.setLevel(calculatedLevel == 0 ? oldPokemonTag.getInt("Level") : calculatedLevel);
+
+        // Check for custom moves
+        var customMoves = persistentData.getList("custom_moves", Tag.TAG_STRING);
+        if (!customMoves.isEmpty()) {
+            List<String> moveListStrings = new ArrayList<>(customMoves.size());
+            for (int i = 0; i < customMoves.size(); i++) {
+                moveListStrings.add(customMoves.getString(i));
+            }
+            pokemonProperties.setMoves(moveListStrings);
+        }
+
+        Pokemon newPokemon = pokemonProperties.create();
+        CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
+
+        //oldPokemonTag.merge(pokemonNbt);
+        oldPokemonTag.putInt("Level", pokemonNbt.getInt("Level"));
+        oldPokemonTag.putInt("Health", pokemonNbt.getInt("Health"));
+        oldPokemonTag.put("MoveSet", pokemonNbt.getList("MoveSet", Tag.TAG_COMPOUND));
+
+        // Evaluate Aggressive
+        boolean isAggressive = Services.PLATFORM.getCommonConfig().ALLOW_SPAWNED_POKEMON_TO_BE_AGGRESSIVE || persistentData.getBoolean("is_aggressive");
+        persistentData.putBoolean("is_aggressive", isAggressive);
+
+        // Evaluate Uncatchable
+        boolean isUncatchable = Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_ARE_UNCATCHABLE || persistentData.getBoolean("is_uncatchable");
+        if (isUncatchable) {
+            String[] data = new String[] { "uncatchable", "uncatchable", "uncatchable" };
+            ListTag listTag = new ListTag();
+            for (String stringData : data) {
+                listTag.add(StringTag.valueOf(stringData));
+            }
+            oldPokemonTag.put("PokemonData", listTag);
+        } else {
+            oldPokemonTag.remove("PokemonData");
+        }
+
+        // Explicitly attach the PersistentData tag back to oldPokemonTag
+        oldPokemonTag.put("PersistentData", persistentData);
+
+        // Check if Pokemon should be Alpha.
+        if(Services.PLATFORM.getCommonConfig().ALPHA_POKEMON_PERCENTAGE >= Math.random() || persistentData.getBoolean("is_always_alpha"))
+            setAlphaMark(oldPokemonTag);
+        else {
+            oldPokemonTag.remove("Marks");
+            oldPokemonTag.remove("ActiveMark");
+            oldPokemonTag.remove("Alpha");
+        }
+
+        // Save the finalized Pokemon data to the root Entity tag
+        nbt.put("Pokemon", oldPokemonTag);
+
+        // Evaluate Invulnerable
+        boolean isInvulnerable = Services.PLATFORM.getCommonConfig().SPAWNED_POKEMON_MUST_BE_DEFEATED_IN_BATTLE || persistentData.getBoolean("is_invulnerable");
+        if (isInvulnerable) {
+            nbt.putBoolean("Invulnerable", true);
+        } else {
+            nbt.remove("Invulnerable");
+        }
+
+        return nextSpawnData;
+    }
+
+    private int getCalculatedLevelAdjustment(ServerLevel serverLevel, CobblemonTrialSpawner cobblemonTrialSpawner) {
+        int calculatedLevel = 0;
+
+        if(Services.PLATFORM.getCommonConfig().ENABLE_POKEMON_LEVEL_ADJUSTMENT) {
+
+            List<Integer> listOfLevels = new ArrayList<>();
+            var detectedPlayers = cobblemonTrialSpawner.getData().detectedPlayers;
+
+            for (UUID uuid : detectedPlayers) {
+                ServerPlayer serverPlayer = serverLevel.getServer().getPlayerList().getPlayer(uuid);
+
+                if (serverPlayer == null) {
+                    return calculatedLevel;
+                }
+
+                PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(serverPlayer);
+
+                party.spliterator().forEachRemaining(pokemon -> {
+                    listOfLevels.add(pokemon.getLevel());
+                });
+            }
+
+            // Active Players have no Pokemon in party.
+            if (listOfLevels.isEmpty()) {
+                return calculatedLevel;
+            }
+
+            // Calculate Median among all player Pokemon
+            if (Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "MEDIAN"))
+                calculatedLevel = CalculateMedian(listOfLevels);
+                // Calculate Average among all player Pokemon
+            else if (Objects.equals(Services.PLATFORM.getCommonConfig().POKEMON_LEVEL_ADJUSTMENT_TYPE, "AVERAGE"))
+                calculatedLevel = CalculateAverage(listOfLevels);
+                // Other Values default to Average.
+            else calculatedLevel = CalculateAverage(listOfLevels);
+        }
+
+        return calculatedLevel;
+    }
+
+    private int CalculateMedian(List<Integer> listOfLevels) {
+        int size = listOfLevels.size();
+        if (size % 2 != 0) {
+            // If Odd number of elements the middle element
+            return listOfLevels.get(size / 2);
+        } else {
+            // If Even number of elements the average of the two middle elements
+            return (int) ((listOfLevels.get(size / 2 - 1) + listOfLevels.get(size / 2)) / 2.0);
+        }
+    }
+
+    private int CalculateAverage(List<Integer> listOfLevels) {
+        int sum = 0;
+
+        for(int level : listOfLevels){
+            sum += level;
+        }
+
+        return sum / listOfLevels.size();
+    }
+
+    private static void setAlphaMark(CompoundTag oldPokemonTag) {
+        ListTag marksList = new ListTag();
+
+        // Add Mark to make Pokemon Alpha.
+        marksList.add(StringTag.valueOf("cobblemon:mark_alpha"));
+        oldPokemonTag.put("Marks", marksList);
+
+        // Assign the active mark and flip the overarching Alpha boolean flag
+        oldPokemonTag.putString("ActiveMark", "cobblemon:mark_alpha");
+        oldPokemonTag.putBoolean("Alpha", true);
     }
 
     public void ejectReward(ServerLevel serverLevel, BlockPos blockPos, ResourceKey<LootTable> lootTableResourceKey) {
