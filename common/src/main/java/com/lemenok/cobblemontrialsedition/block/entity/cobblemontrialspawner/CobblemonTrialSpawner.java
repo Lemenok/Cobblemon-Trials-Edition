@@ -1,6 +1,8 @@
 package com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner;
 
 import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.api.moves.MoveSet;
+import com.cobblemon.mod.common.api.moves.Moves;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -292,20 +294,30 @@ public class CobblemonTrialSpawner {
         pokemonProperties.setSpecies(oldPokemonTag.getString("Species"));
         pokemonProperties.setLevel(calculatedLevel == 0 ? oldPokemonTag.getInt("Level") : calculatedLevel);
 
+        Pokemon newPokemon = pokemonProperties.create();
+
+        Set<String> combinedAspects = new HashSet<>();
+        if (oldPokemonTag.contains("ForcedAspects", Tag.TAG_LIST)) {
+            ListTag forcedAspectsList = oldPokemonTag.getList("ForcedAspects", Tag.TAG_STRING);
+            for (int i = 0; i < forcedAspectsList.size(); i++) {
+                combinedAspects.add(forcedAspectsList.getString(i));
+            }
+        }
+
+        newPokemon.setForcedAspects(combinedAspects);
+        newPokemon.initializeMoveset(true);
+
         // Check for custom moves
         var customMoves = persistentData.getList("custom_moves", Tag.TAG_STRING);
         if (!customMoves.isEmpty()) {
-            List<String> moveListStrings = new ArrayList<>(customMoves.size());
+            MoveSet oldMoveSet = newPokemon.getMoveSet();
             for (int i = 0; i < customMoves.size(); i++) {
-                moveListStrings.add(customMoves.getString(i));
+                newPokemon.exchangeMove(oldMoveSet.get(i).getTemplate(),Moves.getByName(customMoves.getString(i)));
             }
-            pokemonProperties.setMoves(moveListStrings);
         }
 
-        Pokemon newPokemon = pokemonProperties.create();
         CompoundTag pokemonNbt = newPokemon.saveToNBT(serverLevel.registryAccess(), new CompoundTag());
 
-        //oldPokemonTag.merge(pokemonNbt);
         oldPokemonTag.putInt("Level", pokemonNbt.getInt("Level"));
         oldPokemonTag.putInt("Health", pokemonNbt.getInt("Health"));
         oldPokemonTag.put("MoveSet", pokemonNbt.getList("MoveSet", Tag.TAG_COMPOUND));
