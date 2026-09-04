@@ -62,7 +62,9 @@ public record SpawnablePokemonProperties(
         Pokemon newPokemon = newPokemonProperties.create();
 
         // Set aspects from players
-        newPokemon.setForcedAspects(new HashSet<>(aspects));
+        Set<String> combinedAspects = new HashSet<>(aspects);
+        combinedAspects.addAll(spawnablePokemonStats.form());
+        newPokemon.setForcedAspects(combinedAspects);
 
         newPokemon.setHeldItem$common(spawnablePokemonStats.getHeldItem());
 
@@ -72,11 +74,11 @@ public record SpawnablePokemonProperties(
 
         for(String form: spawnablePokemonStats.form()){
             speciesFeature.add(new FlagSpeciesFeature(form,true));
-
             manageForms(speciesFeature, form);
         }
 
         newPokemon.setFeatures(speciesFeature);
+        newPokemon.initializeMoveset(true);
 
         newPokemon.setScaleModifier(scaleModifier);
 
