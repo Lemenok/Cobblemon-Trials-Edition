@@ -2,6 +2,8 @@
   "itemGroup.cobblemontrialsedition": "Cobblemon Trials Edition",
   "block.cobblemontrialsedition.cobblemon_trial_spawner": "Cobblemon Trial Spawner",
   "item.cobblemontrialsedition.cobblemon_trial_spawner": "Cobblemon Trial Spawner",
+  "block.cobblemontrialsedition.cobblemon_trial_spawner_vanilla": "Cobblemon Trial Spawner",
+  "item.cobblemontrialsedition.cobblemon_trial_spawner_vanilla": "Cobblemon Trial Spawner",
 
   "sounds.cobblemontrialsedition.cobblemon_trial_spawner_ambient_ominous": "Ominous cobblemon trial spawner unown cries",
   "sounds.cobblemontrialsedition.cobblemon_trial_spawner_ambient": "cobblemon trial spawner radio cutouts",

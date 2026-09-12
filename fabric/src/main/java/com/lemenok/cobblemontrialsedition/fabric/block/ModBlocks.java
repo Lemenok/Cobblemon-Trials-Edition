@@ -19,6 +19,12 @@ public class ModBlocks {
             "cobblemon_trial_spawner", new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((blockState) ->
                     blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion()));
 
+    public static final Block COBBLEMON_TRIAL_SPAWNER_VANILLA = registerBlock(
+            "cobblemon_trial_spawner_vanilla",
+            new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((blockState) ->
+                    blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion())
+    );
+
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
         return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEditionFabric.MODID, name), block);

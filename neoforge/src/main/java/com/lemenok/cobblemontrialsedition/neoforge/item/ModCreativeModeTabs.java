@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA.get());
 
                     }).build());
 

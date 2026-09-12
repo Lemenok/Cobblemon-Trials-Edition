@@ -18,6 +18,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("Cobblemon Trials Edition Blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA);
                         //output.accept(ModPotions.TRIAL_POTION);
                     })
                     .build());

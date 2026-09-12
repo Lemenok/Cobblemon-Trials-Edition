@@ -16,7 +16,10 @@ public class ModBlockEntities {
 
     public static final Supplier<BlockEntityType<CobblemonTrialSpawnerEntity>> COBBLEMON_TRIAL_SPAWNER =
             BLOCK_ENTITIES.register("cobblemon_trial_spawner", () ->
-                    BlockEntityType.Builder.of(CobblemonTrialSpawnerEntity::new, ModBlocks.COBBLEMON_TRIAL_SPAWNER.get()).build(null));
+                    BlockEntityType.Builder.of(CobblemonTrialSpawnerEntity::new,
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA.get()
+                    ).build(null));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

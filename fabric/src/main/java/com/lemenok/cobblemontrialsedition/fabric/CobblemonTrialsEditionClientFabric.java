@@ -21,6 +21,7 @@ public class CobblemonTrialsEditionClientFabric implements ClientModInitializer 
         ParticleFactoryRegistry.getInstance().register(ModParticles.UNOWN_PARTICLES, UnownParticles.Provider::new);
         BlockEntityRenderers.register(ModBlockEntities.COBBLEMON_TRIAL_SPAWNER, CobblemonTrialSpawnerRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COBBLEMON_TRIAL_SPAWNER, RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA, RenderType.cutout());
 
         ClientPlayNetworking.registerGlobalReceiver(
                 OpenSpawnerConfigS2CPacket.TYPE,
