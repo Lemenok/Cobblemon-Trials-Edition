@@ -93,7 +93,8 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
                 properties.ominousSpawnerAttacksEnabled(),
                 properties.getListOfPokemonToSpawn(registryAccess, false, blockPos),
                 normalLootTables,
-                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
+                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS,
+                properties.getWaves(registryAccess, false, blockPos)
         );
 
         // 3. Build the Ominous Configuration
@@ -107,7 +108,8 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
                 properties.ominousSpawnerAttacksEnabled(),
                 properties.getListOfPokemonToSpawn(registryAccess, true, blockPos),
                 ominousLootTables,
-                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
+                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS,
+                properties.getWaves(registryAccess, true, blockPos)
         );
 
         // 4. Apply configurations and properties to the spawner logic

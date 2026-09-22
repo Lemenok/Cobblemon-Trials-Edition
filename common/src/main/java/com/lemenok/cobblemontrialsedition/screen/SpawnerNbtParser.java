@@ -2,6 +2,7 @@ package com.lemenok.cobblemontrialsedition.screen;
 
 import com.lemenok.cobblemontrialsedition.block.entity.CobblemonTrialSpawnerEntity;
 import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawner;
+import com.lemenok.cobblemontrialsedition.config.SpawnConfig;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
@@ -27,12 +28,18 @@ public class SpawnerNbtParser {
         //var ominousConfig = cobblemonTrialSpawner.getOminousConfig();
         var normalSpawnData = rootTag.getCompound("normal_config").getList("spawn_potentials", Tag.TAG_COMPOUND);
         var ominousSpawnData = rootTag.getCompound("ominous_config").getList("spawn_potentials", Tag.TAG_COMPOUND);
+        var normalWavesData = rootTag.getCompound("normal_config").getList("waves", Tag.TAG_COMPOUND);
+        var ominousWavesData = rootTag.getCompound("ominous_config").getList("waves", Tag.TAG_COMPOUND);
         var normalLootTablesToEject = rootTag.getCompound("normal_config").getList("loot_tables_to_eject", Tag.TAG_COMPOUND);
         var ominousLootTablesToEject = rootTag.getCompound("ominous_config").getList("loot_tables_to_eject", Tag.TAG_COMPOUND);
 
         // Parse Roster Lists
-        List<SpawnablePokemonProperties> normalRoster = parsePokemonRoster(normalSpawnData);
-        List<SpawnablePokemonProperties> ominousRoster = parsePokemonRoster(ominousSpawnData);
+        SpawnConfig spawnConfig = new SpawnConfig(
+                parsePokemonRoster(normalSpawnData),
+                parsePokemonRoster(ominousSpawnData),
+                parsePokemonWavesRoster(normalWavesData),
+                parsePokemonWavesRoster(ominousWavesData)
+        );
 
         // Parse Loot Tables (Assuming they are stored as a list of string paths in the NBT)
         SimpleWeightedRandomList<ResourceKey<LootTable>> lootTables = parseLootTables(normalLootTablesToEject);
@@ -53,8 +60,7 @@ public class SpawnerNbtParser {
                 ominousLootTables,
                 normalConfig.enableOminousSpawnerAttacks(),
                 true, // glowing
-                normalRoster,
-                ominousRoster
+                spawnConfig
         );
     }
 
@@ -97,6 +103,28 @@ public class SpawnerNbtParser {
         }
 
         return roster;
+    }
+
+    private static List<SpawnerProperties.WaveDefinition> parsePokemonWavesRoster(ListTag wavesList) {
+        List<SpawnerProperties.WaveDefinition> waves = new ArrayList<>();
+
+        for (int i = 0; i < wavesList.size(); i++) {
+            CompoundTag waveTag = wavesList.getCompound(i);
+
+            // Extract core wave properties (using fallbacks mirroring the codec defaults)
+            int baseMobs = waveTag.contains("baseMobs") ? waveTag.getInt("baseMobs") : 4;
+            int mobsPerPlayer = waveTag.contains("mobsPerPlayer") ? waveTag.getInt("mobsPerPlayer") : 1;
+
+            // Extract the spawn potentials specifically scoped to this wave
+            ListTag spawnPotentials = waveTag.getList("spawnPotentials", Tag.TAG_COMPOUND);
+
+            // Reuse the existing roster parser for the inner list
+            List<SpawnablePokemonProperties> pokemonToSpawn = parsePokemonRoster(spawnPotentials);
+
+            waves.add(new SpawnerProperties.WaveDefinition(baseMobs, mobsPerPlayer, pokemonToSpawn));
+        }
+
+        return waves;
     }
 
     private static SimpleWeightedRandomList<ResourceKey<LootTable>> parseLootTables(ListTag lootList) {

@@ -15,55 +15,60 @@
         {
           "data": "cobblemontrialsedition:ominous_ancient_city",
           "weight": 1 }],
-      "listOfPokemonToSpawn": [{
-          "species": "spiritomb",
-          "spawnablePokemonStats": {
-            "level": 55
+      "spawns": {
+        "listOfPokemonToSpawn": [
+          {
+            "species": "spiritomb",
+            "spawnablePokemonStats": {
+              "level": 55
+            }
+          },
+          {
+            "species": "noibat",
+            "spawnablePokemonStats": {
+              "level": 55
+            }
+          },
+          {
+            "species": "golett",
+            "spawnablePokemonStats": {
+              "level": 55
+            }
+          },
+          {
+            "species": "zweilous",
+            "spawnablePokemonStats": {
+              "level": 55
+            }
           }
-        },
-        {
-          "species": "noibat",
-          "spawnablePokemonStats": {
-            "level": 55
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "spiritomb",
+            "spawnablePokemonStats": {
+              "level": 80
+            }
+          },
+          {
+            "species": "noivern",
+            "spawnablePokemonStats": {
+              "level": 80
+            }
+          },
+          {
+            "species": "golurk",
+            "spawnablePokemonStats": {
+              "level": 80
+            }
+          },
+          {
+            "species": "hydreigon",
+            "spawnablePokemonStats": {
+              "level": 80
+            }
           }
-        },
-        {
-          "species": "golett",
-          "spawnablePokemonStats": {
-            "level": 55
-          }
-        },
-        {
-          "species": "zweilous",
-          "spawnablePokemonStats": {
-            "level": 55
-          }
-        }],
-      "listOfOminousPokemonToSpawn": [
-        {
-          "species": "spiritomb",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        },
-        {
-          "species": "noivern",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        },
-        {
-          "species": "golurk",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        },
-        {
-          "species": "hydreigon",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        }]
+        ]
+      }
     }
   ]
 }

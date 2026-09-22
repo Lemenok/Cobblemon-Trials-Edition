@@ -29,7 +29,8 @@ public class BuildSpawner {
                 newSpawnerProperties.ominousSpawnerAttacksEnabled(),
                 newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, false, blockPosition),
                 newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), false, registryAccess),
-                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
+                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS,
+                newSpawnerProperties.getWaves(registryAccess, false, blockPosition)
         );
         cobblemonTrialSpawnerOminousConfig = new CobblemonTrialSpawnerConfig(
                 newSpawnerProperties.spawnRange(),
@@ -41,7 +42,8 @@ public class BuildSpawner {
                 newSpawnerProperties.ominousSpawnerAttacksEnabled(),
                 newSpawnerProperties.getListOfPokemonToSpawn(registryAccess, true, blockPosition),
                 newSpawnerProperties.getLootTables(blockProcessor.getStructureBlockInfo(), true, registryAccess),
-                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS
+                BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS,
+                newSpawnerProperties.getWaves(registryAccess, true, blockPosition)
         );
 
         CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(

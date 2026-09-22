@@ -18,7 +18,6 @@ import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -38,7 +37,6 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -104,7 +102,10 @@ public class CobblemonTrialSpawnerData {
                 .map(tag -> tag.contains("id", Tag.TAG_STRING))
                 .orElse(false);
         boolean isEntityAvailableForSpawn = this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource, serverLevel).getEntityToSpawn().contains("id", 8);
-        return hasEntityId || !cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition().isEmpty();
+        boolean hasPotentials = !cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition().isEmpty() ||
+                (cobblemonTrialSpawner.getConfig().waves() != null && !cobblemonTrialSpawner.getConfig().waves().isEmpty());
+
+        return hasEntityId || isEntityAvailableForSpawn || hasPotentials;
     }
 
     public boolean hasFinishedSpawningAllMobs(CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig, int i) {
@@ -201,7 +202,8 @@ public class CobblemonTrialSpawnerData {
 
             }
         });
-        if (!cobblemonTrialSpawner.getOminousConfig().spawnPotentialsDefinition().isEmpty()) {
+        if (!cobblemonTrialSpawner.getOminousConfig().spawnPotentialsDefinition().isEmpty() ||
+                (cobblemonTrialSpawner.getOminousConfig().waves() != null && !cobblemonTrialSpawner.getOminousConfig().waves().isEmpty())) {
             this.nextSpawnData = Optional.empty();
         }
 
@@ -246,9 +248,10 @@ public class CobblemonTrialSpawnerData {
             return this.nextSpawnData.get();
 
         } else {
-            SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition();
-            Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
+            int additionalPlayers = Math.max(0, this.detectedPlayers.size() - 1);
+            SimpleWeightedRandomList<SpawnData> simpleWeightedRandomList = cobblemonTrialSpawner.getConfig().getSpawnPotentials(this.totalMobsSpawned, additionalPlayers);
 
+            Optional<SpawnData> optional = simpleWeightedRandomList.isEmpty() ? this.nextSpawnData : simpleWeightedRandomList.getRandom(randomSource).map(WeightedEntry.Wrapper::data);
             this.nextSpawnData = Optional.of(optional.orElseGet(SpawnData::new));
 
             cobblemonTrialSpawner.markUpdated();

@@ -4,54 +4,60 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
-      "listOfPokemonToSpawn": [{
-        "species": "drifloon",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "loudred",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "swablu",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "skarmory",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "drifblim",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "exploud",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "altaria",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "skarmory",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      }]
+      "spawns": {
+        "listOfPokemonToSpawn": [
+          {
+            "species": "drifloon",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "loudred",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "swablu",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "skarmory",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "drifblim",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "exploud",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "altaria",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "skarmory",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],

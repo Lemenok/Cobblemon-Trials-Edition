@@ -1,5 +1,7 @@
 package com.lemenok.cobblemontrialsedition.screen;
 
+import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
+import com.lemenok.cobblemontrialsedition.config.SpawnConfig;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
@@ -42,6 +44,7 @@ public class TrialSpawnerConfigScreen extends Screen {
     public List<WeightedLootEntry> ominousLootTables;
     public List<ResourceLocation> availableLootTables;
 
+    public SpawnConfig spawnConfig;
     public List<SpawnablePokemonProperties> editableNormalRoster;
     public List<SpawnablePokemonProperties> editableOminousRoster;
 
@@ -83,8 +86,17 @@ public class TrialSpawnerConfigScreen extends Screen {
 
         this.ominousLootTables = updatedWeightedOminousLootTableList;
 
-        this.editableNormalRoster = new ArrayList<>(spawnerProperties.listOfPokemonToSpawn());
-        this.editableOminousRoster = new ArrayList<>(spawnerProperties.listOfOminousPokemonToSpawn());
+        // Add code to manage Waves
+        this.spawnConfig = new SpawnConfig(new ArrayList<>(spawnerProperties.spawns().listOfPokemonToSpawn()),
+                                           new ArrayList<>(spawnerProperties.spawns().listOfOminousPokemonToSpawn()),
+                                           new ArrayList<>(spawnerProperties.spawns().waves()),
+                                           new ArrayList<>(spawnerProperties.spawns().ominousWaves()));
+
+        this.editableNormalRoster = this.spawnConfig.listOfPokemonToSpawn();
+        this.editableOminousRoster = this.spawnConfig.listOfOminousPokemonToSpawn();
+
+        this.blockTypesToReplace = new ArrayList<>(spawnerProperties.blockTypesToReplace());
+        this.mobEntitiesInSpawnerToReplace = new ArrayList<>(spawnerProperties.mobEntitiesInSpawnerToReplace());
     }
 
     @Override
@@ -132,8 +144,7 @@ public class TrialSpawnerConfigScreen extends Screen {
                     ominousLootBuilder.build(),
                     this.ominousSpawnerAttacksEnabled,
                     this.doPokemonSpawnedGlow,
-                    this.editableNormalRoster,
-                    this.editableOminousRoster
+                    this.spawnConfig
             );
 
             // Send packet to server
