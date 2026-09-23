@@ -80,5 +80,7 @@ public record OpenSpawnerConfigS2CPacket(BlockPos pos, SpawnerProperties propert
         writePokemonRoster(buf, props.spawns().listOfOminousPokemonToSpawn());
         writePokemonWaveRoster(buf, props.spawns().waves());
         writePokemonWaveRoster(buf, props.spawns().ominousWaves());
+
+        buf.writeBoolean(props.spawns().isWaveMode());
     }
 }

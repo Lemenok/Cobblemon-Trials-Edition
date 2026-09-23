@@ -17,7 +17,13 @@
         }
       ],
       "spawns": {
-        "listOfPokemonToSpawn": [],
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [{
+          "species": "shuppet",
+          "spawnablePokemonStats": {
+            "level": 20
+          }
+        }],
         "listOfOminousPokemonToSpawn": [],
         "waves": [
           {

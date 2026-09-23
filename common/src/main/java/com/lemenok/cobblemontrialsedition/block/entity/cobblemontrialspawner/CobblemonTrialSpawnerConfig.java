@@ -19,7 +19,8 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
                                           SimpleWeightedRandomList<SpawnData> spawnPotentialsDefinition,
                                           SimpleWeightedRandomList<ResourceKey<LootTable>> lootTablesToEject,
                                           ResourceKey<LootTable> itemsToDropWhenOminous,
-                                          List<WaveConfig> waves) {
+                                          List<WaveConfig> waves,
+                                          boolean isWaveMode) {
 
     public static final CobblemonTrialSpawnerConfig DEFAULT;
     public static final Codec<CobblemonTrialSpawnerConfig> CODEC;
@@ -37,7 +38,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
     }
 
     public SimpleWeightedRandomList<SpawnData> getSpawnPotentials(int mobsSpawned, int additionalPlayers) {
-        if (this.waves == null || this.waves.isEmpty()) {
+        if (!this.isWaveMode || this.waves == null || this.waves.isEmpty()) {
             return this.spawnPotentialsDefinition(); // Fallback to classic functionality
         }
 
@@ -52,7 +53,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
     }
 
     public int calculateTargetTotalMobs(int additionalPlayers) {
-        if (this.waves != null && !this.waves.isEmpty()) {
+        if (this.isWaveMode && this.waves != null && !this.waves.isEmpty()) {
             return this.waves.stream().mapToInt(w -> w.calculateTotalMobs(additionalPlayers)).sum();
         }
         return (int)Math.floor(this.totalMobs + this.totalMobsAddedPerPlayer * (float)additionalPlayers);
@@ -70,7 +71,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
         DEFAULT = new CobblemonTrialSpawnerConfig(4, 4,
                 2, 1, 1,
                 40, false, SimpleWeightedRandomList.empty(),
-                SimpleWeightedRandomList.empty(), BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS, new ArrayList<>());
+                SimpleWeightedRandomList.empty(), BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS, new ArrayList<>(), false);
         CODEC = RecordCodecBuilder.create((instance) ->
                 instance.group(Codec.intRange(1, 128).lenientOptionalFieldOf("spawn_range", DEFAULT.spawnRange)
                                 .forGetter(CobblemonTrialSpawnerConfig::spawnRange),
@@ -94,7 +95,9 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
                         ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("items_to_drop_when_ominous", DEFAULT.itemsToDropWhenOminous)
                                 .forGetter(CobblemonTrialSpawnerConfig::itemsToDropWhenOminous),
                         Codec.list(WaveConfig.CODEC).optionalFieldOf("waves", new ArrayList<>())
-                                .forGetter(CobblemonTrialSpawnerConfig::waves))
+                                .forGetter(CobblemonTrialSpawnerConfig::waves),
+                        Codec.BOOL.optionalFieldOf("is_wave_mode", false)
+                                .forGetter(CobblemonTrialSpawnerConfig::isWaveMode))
                         .apply(instance, CobblemonTrialSpawnerConfig::new));
     }
 }

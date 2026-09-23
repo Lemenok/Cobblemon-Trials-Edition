@@ -102,8 +102,10 @@ public class CobblemonTrialSpawnerData {
                 .map(tag -> tag.contains("id", Tag.TAG_STRING))
                 .orElse(false);
         boolean isEntityAvailableForSpawn = this.getOrCreateNextSpawnData(cobblemonTrialSpawner, randomSource, serverLevel).getEntityToSpawn().contains("id", 8);
-        boolean hasPotentials = !cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition().isEmpty() ||
-                (cobblemonTrialSpawner.getConfig().waves() != null && !cobblemonTrialSpawner.getConfig().waves().isEmpty());
+
+        boolean hasPotentials = cobblemonTrialSpawner.getConfig().isWaveMode() ?
+                (cobblemonTrialSpawner.getConfig().waves() != null && !cobblemonTrialSpawner.getConfig().waves().isEmpty()) :
+                !cobblemonTrialSpawner.getConfig().spawnPotentialsDefinition().isEmpty();
 
         return hasEntityId || isEntityAvailableForSpawn || hasPotentials;
     }
@@ -202,8 +204,11 @@ public class CobblemonTrialSpawnerData {
 
             }
         });
-        if (!cobblemonTrialSpawner.getOminousConfig().spawnPotentialsDefinition().isEmpty() ||
-                (cobblemonTrialSpawner.getOminousConfig().waves() != null && !cobblemonTrialSpawner.getOminousConfig().waves().isEmpty())) {
+        boolean hasOminousPotentials = cobblemonTrialSpawner.getOminousConfig().isWaveMode() ?
+                (cobblemonTrialSpawner.getOminousConfig().waves() != null && !cobblemonTrialSpawner.getOminousConfig().waves().isEmpty()) :
+                !cobblemonTrialSpawner.getOminousConfig().spawnPotentialsDefinition().isEmpty();
+
+        if (hasOminousPotentials) {
             this.nextSpawnData = Optional.empty();
         }
 

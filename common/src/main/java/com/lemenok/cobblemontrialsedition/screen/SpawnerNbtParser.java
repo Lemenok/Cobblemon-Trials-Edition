@@ -32,9 +32,11 @@ public class SpawnerNbtParser {
         var ominousWavesData = rootTag.getCompound("ominous_config").getList("waves", Tag.TAG_COMPOUND);
         var normalLootTablesToEject = rootTag.getCompound("normal_config").getList("loot_tables_to_eject", Tag.TAG_COMPOUND);
         var ominousLootTablesToEject = rootTag.getCompound("ominous_config").getList("loot_tables_to_eject", Tag.TAG_COMPOUND);
+        boolean isWaveMode = rootTag.contains("is_wave_mode") ? rootTag.getBoolean("is_wave_mode") : cobblemonTrialSpawner.getConfig().isWaveMode();
 
         // Parse Roster Lists
         SpawnConfig spawnConfig = new SpawnConfig(
+                isWaveMode,
                 parsePokemonRoster(normalSpawnData),
                 parsePokemonRoster(ominousSpawnData),
                 parsePokemonWavesRoster(normalWavesData),

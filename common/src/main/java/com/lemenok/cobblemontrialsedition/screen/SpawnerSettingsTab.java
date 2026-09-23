@@ -44,6 +44,7 @@ public class SpawnerSettingsTab implements Tab {
         // --- BOOLEANS ---
         addBoolRow(rowHelper, "Ominous Attacks:", screen.ominousSpawnerAttacksEnabled, val -> screen.ominousSpawnerAttacksEnabled = val);
         addBoolRow(rowHelper, "Spawned Pokemon Glow:", screen.doPokemonSpawnedGlow, val -> screen.doPokemonSpawnedGlow = val);
+        addBoolRow(rowHelper, "Wave Mode Enabled:", screen.isWaveMode, val -> screen.isWaveMode = val);
 
         this.layout.addChild(this.grid);
     }

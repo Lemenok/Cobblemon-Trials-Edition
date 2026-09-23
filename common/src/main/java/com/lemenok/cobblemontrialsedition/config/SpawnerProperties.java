@@ -61,7 +61,7 @@ public record SpawnerProperties(
             SimpleWeightedRandomList.wrappedCodec(ResourceKey.codec(Registries.LOOT_TABLE)).optionalFieldOf("ominousLootTables", SimpleWeightedRandomList.empty()).forGetter(SpawnerProperties::ominousLootTables),
             Codec.BOOL.optionalFieldOf("ominousSpawnerAttacksEnabled", false).forGetter(SpawnerProperties::ominousSpawnerAttacksEnabled),
             Codec.BOOL.optionalFieldOf("doPokemonSpawnedGlow", true).forGetter(SpawnerProperties::doPokemonSpawnedGlow),
-            SpawnConfig.CODEC.optionalFieldOf("spawns", new SpawnConfig(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>())).forGetter(SpawnerProperties::spawns)
+            SpawnConfig.CODEC.optionalFieldOf("spawns", new SpawnConfig(false, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>())).forGetter(SpawnerProperties::spawns)
     ).apply(spawner, SpawnerProperties::new));
 
     public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(RegistryAccess registryAccess, boolean isOminous, BlockPos blockPos){

@@ -90,5 +90,7 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         writePokemonRoster(buf, Objects.requireNonNullElse(props.spawns().listOfOminousPokemonToSpawn(), List.of()));
         writePokemonWaveRoster(buf, props.spawns().waves());
         writePokemonWaveRoster(buf, props.spawns().ominousWaves());
+
+        buf.writeBoolean(props.spawns().isWaveMode());
     }
 }

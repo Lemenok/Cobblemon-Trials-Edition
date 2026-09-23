@@ -114,7 +114,10 @@ public class NetworkHelpers {
         List<SpawnablePokemonProperties> ominousRoster = readPokemonRoster(buf);
         List<SpawnerProperties.WaveDefinition> wavesRoster = readPokemonWaveRoster(buf);
         List<SpawnerProperties.WaveDefinition> ominousWavesRoster = readPokemonWaveRoster(buf);
-        SpawnConfig spawnConfig = new SpawnConfig(roster, ominousRoster, wavesRoster, ominousWavesRoster);
+
+        boolean isWaveMode = buf.readBoolean();
+
+        SpawnConfig spawnConfig = new SpawnConfig(isWaveMode, roster, ominousRoster, wavesRoster, ominousWavesRoster);
 
         return new SpawnerProperties(
                 blockTypes, mobEntities, ticks, cooldown, playerRange, spawnRange,
