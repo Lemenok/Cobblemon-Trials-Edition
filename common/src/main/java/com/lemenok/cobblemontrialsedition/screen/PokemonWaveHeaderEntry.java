@@ -1,6 +1,7 @@
 package com.lemenok.cobblemontrialsedition.screen;
 
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
+import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -53,10 +54,13 @@ public class PokemonWaveHeaderEntry extends PokemonWaveList.WaveListEntry {
         });
 
         this.addPokemonBtn = Button.builder(Component.literal("+ Add Pokemon"), btn -> {
-            Minecraft.getInstance().setScreen(new PokemonEditScreen(screen, null, newPokemon -> {
-                waves.get(this.waveIndex).pokemonToSpawn().add(newPokemon);
-                parentList.refreshEntries(waves);
-            }));
+            com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats defaultStats =
+                    new com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats(new java.util.ArrayList<>(), 25, "", "", new java.util.ArrayList<>(), new java.util.ArrayList<>(), "", new java.util.ArrayList<>(), "", 0, "", false);
+            SpawnablePokemonProperties defaultPokemon =
+                    new SpawnablePokemonProperties("pikachu", 10, 1.0f, false, false, false, false, new java.util.ArrayList<>(), defaultStats);
+
+            waves.get(this.waveIndex).pokemonToSpawn().add(defaultPokemon);
+            parentList.refreshEntries(waves);
         }).bounds(0, 0, 90, 18).build();
 
         this.deleteWaveBtn = Button.builder(Component.literal("Delete"), btn -> {

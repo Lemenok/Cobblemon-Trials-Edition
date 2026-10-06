@@ -23,10 +23,14 @@ public class PokemonRosterTab implements Tab {
         this.roster = roster;
 
         this.addButton = Button.builder(Component.literal("+ Add Pokemon"), btn -> {
-            Minecraft.getInstance().setScreen(new PokemonEditScreen(screen, null, newPokemon -> {
-                this.roster.add(newPokemon);
-                this.listWidget.refreshEntries(this.roster);
-            }));
+            // Generate default stats and properties
+            com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats defaultStats =
+                    new com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats(new java.util.ArrayList<>(), 25, "", "", new java.util.ArrayList<>(), new java.util.ArrayList<>(), "", new java.util.ArrayList<>(), "", 0, "", false);
+            SpawnablePokemonProperties defaultPokemon =
+                    new SpawnablePokemonProperties("pikachu", 10, 1.0f, false, false, false, false, new java.util.ArrayList<>(), defaultStats);
+
+            this.roster.add(defaultPokemon);
+            this.listWidget.refreshEntries(this.roster);
         }).bounds(0, 0, 120, 20).build();
 
         // 1. Instantiate the widget immediately so TabManager can register it during screen init()

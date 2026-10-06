@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -32,6 +33,7 @@ public class MysteriousTabletItem extends Item {
     private static final int MODE_CLEAR = 1;
     private static final int MODE_EJECT = 2;
     private static final int MODE_RESET = 3;
+    private static final int MODE_OMINOUS = 4;
 
     public MysteriousTabletItem(Properties properties) {
         super(properties);
@@ -117,7 +119,7 @@ public class MysteriousTabletItem extends Item {
             player.displayClientMessage(Component.literal("Cleared").withStyle(ChatFormatting.YELLOW), true);
         } else {
             // Cycle Mode
-            int newMode = (currentMode + 1) % 4;
+            int newMode = (currentMode + 1) % 5;
             customData = customData.update(tag -> tag.putInt(MODE_KEY, newMode));
             stack.set(DataComponents.CUSTOM_DATA, customData);
 
@@ -126,6 +128,7 @@ public class MysteriousTabletItem extends Item {
                 case MODE_CLEAR -> "Clear";
                 case MODE_EJECT -> "Eject";
                 case MODE_RESET -> "Reset";
+                case MODE_OMINOUS -> "Toggle Ominous";
                 default -> "Unknown";
             };
 
@@ -140,6 +143,7 @@ public class MysteriousTabletItem extends Item {
             case MODE_CLEAR -> clearSpawner(spawnerEntity, player);
             case MODE_EJECT -> ejectSpawner(spawnerEntity, level, player);
             case MODE_RESET -> resetSpawner(spawnerEntity, player);
+            case MODE_OMINOUS -> toggleOminous(spawnerEntity, level, player);
         }
     }
 
@@ -214,15 +218,40 @@ public class MysteriousTabletItem extends Item {
     }
 
     private void ejectSpawner(CobblemonTrialSpawnerEntity spawnerEntity, Level level, Player player) {
-        // Setting the state to WAITING_FOR_REWARD_EJECTION kicks off the ejecting reward state on the next tick[cite: 6]
-        // This ultimately runs ejectReward() and transitions the spawner into COOLDOWN.[cite: 3, 6]
+        var spawner = spawnerEntity.getCobblemonTrialSpawner();
+        var data = spawner.getData();
+
+        if (level instanceof ServerLevel serverLevel) {
+            data.forceEjectForPlayer(player, serverLevel, spawner.getTargetCooldownLength());
+        }
+
+        // Set state to trigger the ejection phase
         spawnerEntity.setState(level, CobblemonTrialSpawnerState.WAITING_FOR_REWARD_EJECTION);
-        player.displayClientMessage(Component.literal("Ejecting Loot").withStyle(ChatFormatting.GOLD), true);
+
+        // The shutter will wait 40 ticks (2 seconds) before opening, mirroring normal game behavior
+        player.displayClientMessage(net.minecraft.network.chat.Component.literal("Ejecting Loot").withStyle(net.minecraft.ChatFormatting.GOLD), true);
     }
 
     private void resetSpawner(CobblemonTrialSpawnerEntity spawnerEntity, Player player) {
         // Internal data clearance, active pokemon despawning, and setting to WAITING_FOR_PLAYERS is handled securely here[cite: 7]
         spawnerEntity.resetSpawnerData(spawnerEntity.getCobblemonTrialSpawner().getData(), spawnerEntity.getCobblemonTrialSpawner());
         player.displayClientMessage(Component.literal("Spawner Reset").withStyle(ChatFormatting.AQUA), true);
+    }
+
+    private void toggleOminous(CobblemonTrialSpawnerEntity spawnerEntity, Level level, Player player) {
+        if (!(level instanceof ServerLevel serverLevel)) return;
+
+        var spawner = spawnerEntity.getCobblemonTrialSpawner();
+
+        if (spawner.isOminous()) {
+            spawner.removeOminous(serverLevel, spawnerEntity.getBlockPos());
+            player.displayClientMessage(Component.literal("Ominous Mode: Disabled").withStyle(ChatFormatting.DARK_GREEN), true);
+        } else {
+            spawner.applyOminous(serverLevel, spawnerEntity.getBlockPos());
+            player.displayClientMessage(Component.literal("Ominous Mode: Enabled").withStyle(ChatFormatting.DARK_RED), true);
+        }
+
+        // Ensure any active Pokémon are despawned and internal tracking resets
+        spawnerEntity.resetSpawnerData(spawner.getData(), spawner);
     }
 }

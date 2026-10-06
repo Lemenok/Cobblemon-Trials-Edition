@@ -10,7 +10,9 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<PokemonRosterEntry> {
     private final EditBox speciesBox;
@@ -30,32 +32,45 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
         SpawnablePokemonProperties poke = roster.get(index);
         SpawnablePokemonStats stats = poke.spawnablePokemonStats() != null ? poke.spawnablePokemonStats() : createDefaultStats();
 
-        // 1. Species (Read-only)
         this.speciesBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Species"));
         this.speciesBox.setValue(poke.species());
-        this.speciesBox.setEditable(false);
+        this.speciesBox.setResponder(val -> {
+            SpawnablePokemonProperties p = roster.get(this.index);
+            updatePokemon(val, p.weight(), p.scaleModifier(), p.isUncatchable(), p.mustBeDefeatedInBattle(), p.isAggressive(), p.isAlwaysAlpha(), p.aspects(), p.spawnablePokemonStats());
+        });
 
-        // 2. Level (Read-only)
         this.levelBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Level"));
         this.levelBox.setValue(String.valueOf(stats.level()));
-        this.levelBox.setEditable(false);
+        this.levelBox.setResponder(val -> {
+            try {
+                int newLevel = Integer.parseInt(val);
+                updateStats(roster.get(this.index), s -> new SpawnablePokemonStats(s.form(), newLevel, s.gender(), s.nature(), s.defaultIVs(), s.defaultEVs(), s.ability(), s.moves(), s.heldItem(), s.dynaMaxLevel(), s.teraType(), s.isShiny()));
+            } catch (NumberFormatException ignored) {}
+        });
 
-        // 3. Forms (Read-only)
         this.formsBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Forms"));
         this.formsBox.setValue(String.join(", ", stats.form()));
         this.formsBox.setMaxLength(256);
-        this.formsBox.setEditable(false);
+        this.formsBox.setResponder(val -> {
+            List<String> newForms = Arrays.stream(val.split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+            updateStats(roster.get(this.index), s -> new SpawnablePokemonStats(newForms, s.level(), s.gender(), s.nature(), s.defaultIVs(), s.defaultEVs(), s.ability(), s.moves(), s.heldItem(), s.dynaMaxLevel(), s.teraType(), s.isShiny()));
+        });
 
-        // 4. Weight (Read-only)
         this.weightBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Weight"));
         this.weightBox.setValue(String.valueOf(poke.weight()));
-        this.weightBox.setEditable(false);
+        this.weightBox.setResponder(val -> {
+            try {
+                int newWeight = Integer.parseInt(val);
+                SpawnablePokemonProperties p = roster.get(this.index);
+                updatePokemon(p.species(), newWeight, p.scaleModifier(), p.isUncatchable(), p.mustBeDefeatedInBattle(), p.isAggressive(), p.isAlwaysAlpha(), p.aspects(), p.spawnablePokemonStats());
+            } catch (NumberFormatException ignored) {}
+        });
 
         // 5. Edit Button
         this.editBtn = Button.builder(Component.literal("Edit"), btn -> {
             Minecraft.getInstance().setScreen(new PokemonEditScreen(
                     Minecraft.getInstance().screen,
-                    poke,
+                    roster.get(this.index), // Fetch the latest record dynamically
                     updatedPokemon -> {
                         roster.set(this.index, updatedPokemon);
                         parentList.refreshEntries(roster);

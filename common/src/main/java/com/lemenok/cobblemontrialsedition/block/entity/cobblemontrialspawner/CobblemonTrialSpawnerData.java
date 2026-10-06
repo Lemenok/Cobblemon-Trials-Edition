@@ -324,6 +324,24 @@ public class CobblemonTrialSpawnerData {
         }
     }
 
+    // Added for the Tablet Item, otherwise nothing is ejected due to players being in creative mode.
+    public void forceEjectForPlayer(Player player, ServerLevel serverLevel, int cooldownLength) {
+        // Despawn current active mobs
+        for (UUID mobId : this.currentMobs) {
+            Entity entity = serverLevel.getEntity(mobId);
+            if (entity != null) {
+                entity.remove(Entity.RemovalReason.DISCARDED);
+            }
+        }
+        this.currentMobs.clear();
+        this.cooldownEndsAt = serverLevel.getGameTime();
+        this.totalMobsSpawned = 0;
+        this.nextMobSpawnsAt = 0L;
+
+        //Add the player so the spawner knows who to reward
+        this.detectedPlayers.add(player.getUUID());
+    }
+
     private static long lowResolutionPosition(ServerLevel serverLevel, BlockPos blockPos) {
         BlockPos lowResolutionBlockPos = new BlockPos(Mth.floor((float) blockPos.getX() / 30.0F), Mth.floor((float) blockPos.getY() / 20.0F), Mth.floor((float) blockPos.getZ() / 30.0F));
         return serverLevel.getSeed() + lowResolutionBlockPos.asLong();
