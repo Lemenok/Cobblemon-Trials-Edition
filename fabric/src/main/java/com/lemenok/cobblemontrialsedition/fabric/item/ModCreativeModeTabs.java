@@ -19,6 +19,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER);
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA);
+                        output.accept(ModItems.MYSTERIOUS_TABLET);
                         //output.accept(ModPotions.TRIAL_POTION);
                     })
                     .build());

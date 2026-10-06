@@ -114,8 +114,8 @@ public class TrialSpawnerConfigScreen extends Screen {
             this.tabNavigationBar = TabNavigationBar.builder(this.tabManager, this.width)
                     .addTabs(new SpawnerSettingsTab(this))
                     .addTabs(new LootTablesTab(this, lootTables, ominousLootTables, availableLootTables))
-                    .addTabs(new PokemonRosterTab("Normal Wave Roster", this, editableNormalRoster))
-                    .addTabs(new PokemonRosterTab("Ominous Wave Roster", this, editableOminousRoster))
+                    .addTabs(new PokemonWaveTab("Normal Waves", this, editableWaveRoster))
+                    .addTabs(new PokemonWaveTab("Ominous Waves", this, editableOminousWaveRoster))
                     .build();
         }
         else {
@@ -205,6 +205,11 @@ public class TrialSpawnerConfigScreen extends Screen {
             // This is the missing piece that tells the tab where to render and calls doLayout()
             this.tabManager.setTabArea(screenRectangle);
         }
+    }
+
+    public void refreshUI() {
+        this.clearWidgets();
+        this.init();
     }
 
     @Override

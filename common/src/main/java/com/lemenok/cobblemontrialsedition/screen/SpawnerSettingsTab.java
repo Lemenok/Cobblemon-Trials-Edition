@@ -28,7 +28,7 @@ public class SpawnerSettingsTab implements Tab {
 
         this.grid.defaultCellSetting().padding(5);
 
-        // 4 columns allows us to put two settings side-by-side per row
+        // 4 columns
         GridLayout.RowHelper rowHelper = this.grid.createRowHelper(4);
 
         // --- INTEGERS ---
@@ -44,7 +44,16 @@ public class SpawnerSettingsTab implements Tab {
         // --- BOOLEANS ---
         addBoolRow(rowHelper, "Ominous Attacks:", screen.ominousSpawnerAttacksEnabled, val -> screen.ominousSpawnerAttacksEnabled = val);
         addBoolRow(rowHelper, "Spawned Pokemon Glow:", screen.doPokemonSpawnedGlow, val -> screen.doPokemonSpawnedGlow = val);
-        addBoolRow(rowHelper, "Wave Mode Enabled:", screen.isWaveMode, val -> screen.isWaveMode = val);
+        CycleButton<Boolean> waveModeBtn = CycleButton.onOffBuilder(screen.isWaveMode)
+                .displayOnlyValue()
+                .create(0, 0, 210, 20, Component.empty(), (cycle, val) -> {
+                    screen.isWaveMode = val;
+                    screen.refreshUI();
+                });
+
+        // Add the label and button to the grid, spanning 2 columns each (4 total)
+        rowHelper.addChild(new StringWidget(Component.literal("Wave Mode Enabled:"), Minecraft.getInstance().font), 2);
+        rowHelper.addChild(waveModeBtn, 2);
 
         this.layout.addChild(this.grid);
     }
@@ -71,24 +80,6 @@ public class SpawnerSettingsTab implements Tab {
                 .create(0, 0, 100, 20, Component.empty(), (cycle, val) -> onChange.accept(val));
         rowHelper.addChild(new StringWidget(Component.literal(label), Minecraft.getInstance().font));
         rowHelper.addChild(button);
-    }
-
-    // Helper: Creates an EditBox that parses comma-separated ResourceLocations safely
-    private void addListRow(GridLayout.RowHelper rowHelper, String label, List<ResourceLocation> initialValue, List<ResourceLocation> allOptions, Consumer<List<ResourceLocation>> onChange) {
-        SearchableDropdownWidget searchableDropdownWidget = new SearchableDropdownWidget(100, 20, Component.literal(label), allOptions);
-        String initialStr = initialValue.stream().map(ResourceLocation::toString).collect(Collectors.joining(", "));
-        searchableDropdownWidget.setValue(initialStr);
-        searchableDropdownWidget.setResponder(val -> {
-            List<ResourceLocation> parsed = java.util.Arrays.stream(val.split(","))
-                    .map(String::trim)
-                    .filter(s -> !s.isEmpty())
-                    .map(ResourceLocation::tryParse)
-                    .filter(java.util.Objects::nonNull)
-                    .toList();
-            onChange.accept(parsed);
-        });
-        rowHelper.addChild(new StringWidget(Component.literal(label), Minecraft.getInstance().font));
-        rowHelper.addChild(searchableDropdownWidget);
     }
 
     @Override

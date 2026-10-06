@@ -1,27 +1,34 @@
 package com.lemenok.cobblemontrialsedition.fabric;
 
 import com.lemenok.cobblemontrialsedition.caches.PropertiesCache;
+import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
 import com.lemenok.cobblemontrialsedition.fabric.block.ModBlocks;
 import com.lemenok.cobblemontrialsedition.fabric.block.entity.ModBlockEntities;
 import com.lemenok.cobblemontrialsedition.config.StructureProperties;
 import com.lemenok.cobblemontrialsedition.fabric.item.ModCreativeModeTabs;
+import com.lemenok.cobblemontrialsedition.fabric.item.ModItems;
 import com.lemenok.cobblemontrialsedition.fabric.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.fabric.potion.ModPotions;
 import com.lemenok.cobblemontrialsedition.fabric.processors.ModProcessors;
 import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
+import com.lemenok.cobblemontrialsedition.item.MysteriousTabletItem;
 import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.slf4j.Logger;
@@ -49,6 +56,7 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModItems.registerItems();
         ModBlocks.registerModBlocks();
         ModBlockEntities.registerBlockEntities();
         ModParticles.registerParticles();
@@ -89,5 +97,25 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
                 OpenSpawnerConfigS2CPacket.TYPE,
                 OpenSpawnerConfigS2CPacket.STREAM_CODEC
         );
+
+        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+            ItemStack stack = player.getItemInHand(hand);
+
+            // Check if the player is holding the tablet
+            if (stack.getItem() instanceof MysteriousTabletItem) {
+                // Check if they are clicking the spawner
+                if (world.getBlockState(hitResult.getBlockPos()).getBlock() instanceof CobblemonTrialSpawnerBlock) {
+
+                    // Manually trigger the tablet's useOn method
+                    InteractionResult result = stack.useOn(new UseOnContext(player, hand, hitResult));
+
+                    // Returning the result here intercepts the interaction and prevents the block menu from opening
+                    return result;
+                }
+            }
+
+            // For all other blocks/items, let vanilla interaction proceed normally
+            return InteractionResult.PASS;
+        });
     }
 }

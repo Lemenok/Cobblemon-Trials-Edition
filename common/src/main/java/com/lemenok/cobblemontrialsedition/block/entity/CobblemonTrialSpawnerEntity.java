@@ -45,7 +45,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
     }
 
     @Override
-    protected void loadAdditional(@NotNull CompoundTag nbt, HolderLookup.@NotNull Provider registries) {
+    public void loadAdditional(@NotNull CompoundTag nbt, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(nbt, registries);
         if (nbt.contains("normal_config")) {
             CompoundTag compoundTag = nbt.getCompound("normal_config").copy();
