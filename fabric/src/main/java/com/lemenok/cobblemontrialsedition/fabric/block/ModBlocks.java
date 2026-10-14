@@ -25,6 +25,12 @@ public class ModBlocks {
                     blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion())
     );
 
+    public static final Block COBBLEMON_TRIAL_SPAWNER_MAGMA = registerBlock(
+            "cobblemon_trial_spawner_magma",
+            new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((blockState) ->
+                    blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion())
+    );
+
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
         return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(CobblemonTrialsEditionFabric.MODID, name), block);

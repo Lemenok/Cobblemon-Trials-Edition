@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top_inner_faces",
+  "textures": {
+    "bottom": "cobblemontrialsedition:block/vanilla/cobblemon_trial_spawner_bottom_vanilla",
+    "side": "cobblemontrialsedition:block/vanilla/cobblemon_trial_spawner_side_active_ominous_vanilla",
+    "top": "cobblemontrialsedition:block/vanilla/cobblemon_trial_spawner_top_ejecting_reward_ominous_vanilla"
+  },
+  "render_type": "minecraft:cutout"
+}

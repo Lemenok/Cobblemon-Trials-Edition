@@ -18,7 +18,8 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("cobblemon_trial_spawner", () ->
                     BlockEntityType.Builder.of(CobblemonTrialSpawnerEntity::new,
                             ModBlocks.COBBLEMON_TRIAL_SPAWNER.get(),
-                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA.get()
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_MAGMA.get()
                     ).build(null));
 
     public static void register(IEventBus eventBus) {

@@ -22,6 +22,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.MYSTERIOUS_TABLET.get());
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER.get());
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_MAGMA.get());
 
                     }).build());
 

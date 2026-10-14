@@ -4,6 +4,10 @@
   "item.cobblemontrialsedition.cobblemon_trial_spawner": "Cobblemon Trial Spawner",
   "block.cobblemontrialsedition.cobblemon_trial_spawner_vanilla": "Cobblemon Trial Spawner",
   "item.cobblemontrialsedition.cobblemon_trial_spawner_vanilla": "Cobblemon Trial Spawner",
+  "block.cobblemontrialsedition.cobblemon_trial_spawner_magma": "Cobblemon Trial Spawner",
+  "item.cobblemontrialsedition.cobblemon_trial_spawner_magma": "Cobblemon Trial Spawner",
+  "item.cobblemontrialsedition.mysterious_tablet": "Mysterious Tablet",
+  "item.cobblemontrialsedition.mysterious_tablet.tooltip": "An ancient stone tool to help you Create or Test Cobblemon Trial Spawners.",
 
   "sounds.cobblemontrialsedition.cobblemon_trial_spawner_ambient_ominous": "Ominous cobblemon trial spawner unown cries",
   "sounds.cobblemontrialsedition.cobblemon_trial_spawner_ambient": "cobblemon trial spawner radio cutouts",
