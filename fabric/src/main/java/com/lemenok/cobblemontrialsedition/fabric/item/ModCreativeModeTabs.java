@@ -20,6 +20,13 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER);
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA);
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_MAGMA);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_DUNGEON);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_RELIC);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_END);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_PRISMARINE);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_FORTRESS);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_LABORATORY);
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_CREATE);
                         output.accept(ModItems.MYSTERIOUS_TABLET);
                         //output.accept(ModPotions.TRIAL_POTION);
                     })

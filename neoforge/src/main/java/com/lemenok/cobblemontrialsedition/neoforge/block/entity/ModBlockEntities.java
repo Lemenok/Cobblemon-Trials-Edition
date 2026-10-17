@@ -19,7 +19,14 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(CobblemonTrialSpawnerEntity::new,
                             ModBlocks.COBBLEMON_TRIAL_SPAWNER.get(),
                             ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA.get(),
-                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_MAGMA.get()
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_MAGMA.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_DUNGEON.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_RELIC.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_END.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_PRISMARINE.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_FORTRESS.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_LABORATORY.get(),
+                            ModBlocks.COBBLEMON_TRIAL_SPAWNER_CREATE.get()
                     ).build(null));
 
     public static void register(IEventBus eventBus) {

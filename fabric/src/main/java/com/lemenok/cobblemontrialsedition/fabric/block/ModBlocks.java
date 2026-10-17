@@ -12,24 +12,28 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import org.jetbrains.annotations.NotNull;
 
 public class ModBlocks {
 
-    public static final Block COBBLEMON_TRIAL_SPAWNER = registerBlock(
-            "cobblemon_trial_spawner", new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((blockState) ->
-                    blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion()));
+    public static final Block COBBLEMON_TRIAL_SPAWNER = registerCobblemonTrialSpawner("cobblemon_trial_spawner");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_VANILLA = registerCobblemonTrialSpawner("cobblemon_trial_spawner_vanilla");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_MAGMA = registerCobblemonTrialSpawner("cobblemon_trial_spawner_magma");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_DUNGEON = registerCobblemonTrialSpawner("cobblemon_trial_spawner_dungeon");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_RELIC = registerCobblemonTrialSpawner("cobblemon_trial_spawner_relic");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_END = registerCobblemonTrialSpawner("cobblemon_trial_spawner_end");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_PRISMARINE = registerCobblemonTrialSpawner("cobblemon_trial_spawner_prismarine");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_FORTRESS = registerCobblemonTrialSpawner("cobblemon_trial_spawner_fortress");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_LABORATORY = registerCobblemonTrialSpawner("cobblemon_trial_spawner_laboratory");
+    public static final Block COBBLEMON_TRIAL_SPAWNER_CREATE = registerCobblemonTrialSpawner("cobblemon_trial_spawner_create");
 
-    public static final Block COBBLEMON_TRIAL_SPAWNER_VANILLA = registerBlock(
-            "cobblemon_trial_spawner_vanilla",
-            new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((blockState) ->
-                    blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion())
-    );
-
-    public static final Block COBBLEMON_TRIAL_SPAWNER_MAGMA = registerBlock(
-            "cobblemon_trial_spawner_magma",
-            new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((blockState) ->
-                    blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion())
-    );
+    private static @NotNull Block registerCobblemonTrialSpawner(String name) {
+        return registerBlock(
+                name,
+                new CobblemonTrialSpawnerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).lightLevel((blockState) ->
+                        blockState.getValue(CobblemonTrialSpawnerBlock.STATE).lightLevel()).strength(50.0F).sound(SoundType.TRIAL_SPAWNER).isViewBlocking((state, world, pos) -> false).noOcclusion())
+        );
+    }
 
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
