@@ -120,7 +120,7 @@ public class NetworkHelpers {
         SpawnConfig spawnConfig = new SpawnConfig(isWaveMode, roster, ominousRoster, wavesRoster, ominousWavesRoster);
 
         return new SpawnerProperties(
-                blockTypes, mobEntities, ticks, cooldown, playerRange, spawnRange,
+                blockTypes, mobEntities, "", ticks, cooldown, playerRange, spawnRange,
                 maxSim, maxSimPlayer, total, totalPlayer,
                 lootTables, ominousLootTables, ominousAttacks, glow,
                 spawnConfig

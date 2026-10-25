@@ -4,7 +4,9 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
+      "variant": "vanilla",
       "spawns": {
+        "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
             "species": "drifloon",
@@ -62,268 +64,313 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
-      "listOfPokemonToSpawn": [{
-        "species": "golett",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "croagunk",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "varoom",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "drilbur",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "golurk",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "toxicroak",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "revavroom",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "excadrill",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }]
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "golett",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "croagunk",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "varoom",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "drilbur",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "golurk",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "toxicroak",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "revavroom",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "excadrill",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:husk"],
-      "listOfPokemonToSpawn": [{
-        "species": "yamask",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "spiritomb",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "kleavor",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "krokorok",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "cofagrigus",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "spiritomb",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "kleavor",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "krookodile",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      }]
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "yamask",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "spiritomb",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "kleavor",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "krokorok",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "cofagrigus",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "spiritomb",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "kleavor",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "krookodile",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
-      "listOfPokemonToSpawn": [{
-        "species": "joltik",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "tarountula",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "pinsir",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "sizzlipede",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "galvantula",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "spidops",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "pinsir",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "centiskorch",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      }]
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "joltik",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "tarountula",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "pinsir",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "sizzlipede",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "galvantula",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "spidops",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "pinsir",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "centiskorch",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:slime"],
-      "listOfPokemonToSpawn": [{
-          "species": "grimer",
-          "spawnablePokemonStats": {
-            "level": 30
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "grimer",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "grimer",
+            "spawnablePokemonStats": {
+              "form": [
+                "alolan"
+              ],
+              "level": 30
+            }
+          },
+          {
+            "species": "nidorino",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "nidorina",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
           }
-        },
-        {
-          "species": "grimer",
-          "spawnablePokemonStats": {
-            "form": ["alolan"],
-            "level": 30
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "muk",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "muk",
+            "spawnablePokemonStats": {
+              "form": [
+                "alolan"
+              ],
+              "level": 60
+            }
+          },
+          {
+            "species": "nidoking",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "nidoqueen",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
           }
-        },
-        {
-          "species": "nidorino",
-          "spawnablePokemonStats": {
-            "level": 30
-          }
-        },
-        {
-          "species": "nidorina",
-          "spawnablePokemonStats": {
-            "level": 30
-          }
-        }],
-      "listOfOminousPokemonToSpawn": [{
-          "species": "muk",
-          "spawnablePokemonStats": {
-            "level": 60
-          }
-        },
-        {
-          "species": "muk",
-          "spawnablePokemonStats": {
-            "form": ["alolan"],
-            "level": 60
-          }
-        },
-        {
-          "species": "nidoking",
-          "spawnablePokemonStats": {
-            "level": 60
-          }
-        },
-        {
-          "species": "nidoqueen",
-          "spawnablePokemonStats": {
-            "level": 60
-          }
-        }]
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
-      "listOfPokemonToSpawn": [{
-        "species": "wimpod",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "anorith",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "dwebble",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "rellor",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "golisopod",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "armaldo",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "crustle",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "rabsca",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      }]
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "wimpod",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "anorith",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "dwebble",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "rellor",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "golisopod",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "armaldo",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "crustle",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "rabsca",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
+      "variant": "vanilla",
       "listOfPokemonToSpawn": [{
         "species": "spinarak",
         "spawnablePokemonStats": {
@@ -376,161 +423,188 @@
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:stray"],
-      "listOfPokemonToSpawn": [{
-        "species": "vulpix",
-        "spawnablePokemonStats": {
-          "form": ["alolan"],
-          "level": 30
-        }
-      },
-      {
-        "species": "snorunt",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "cryogonal",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "sneasel",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "ninetales",
-        "spawnablePokemonStats": {
-          "form": ["alolan"],
-          "level": 60
-        }
-      },
-      {
-        "species": "froslass",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "cryogonal",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "weavile",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      }]
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "vulpix",
+            "spawnablePokemonStats": {
+              "form": [
+                "alolan"
+              ],
+              "level": 30
+            }
+          },
+          {
+            "species": "snorunt",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "cryogonal",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "sneasel",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "ninetales",
+            "spawnablePokemonStats": {
+              "form": [
+                "alolan"
+              ],
+              "level": 60
+            }
+          },
+          {
+            "species": "froslass",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "cryogonal",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "weavile",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
-      "listOfPokemonToSpawn": [{
-        "species": "magnemite",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "electabuzz",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "toxtricity",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "voltorb",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "magneton",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "electivire",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "toxtricity",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "electrode",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      }]
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "magnemite",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "electabuzz",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "toxtricity",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "voltorb",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "magneton",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "electivire",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "toxtricity",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "electrode",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
-      "listOfPokemonToSpawn": [{
-        "species": "paras",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "foongus",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "mareanie",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "bramblin",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "parasect",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "amoonguss",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "toxapex",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "brambleghast",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
+      "variant": "vanilla",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "paras",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "foongus",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "mareanie",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "bramblin",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "parasect",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "amoonguss",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "toxapex",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "brambleghast",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
       }
-      ]
     }
   ]
 }

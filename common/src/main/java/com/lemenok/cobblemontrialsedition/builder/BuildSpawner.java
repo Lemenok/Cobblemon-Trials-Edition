@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +16,9 @@ public class BuildSpawner {
     public static CobblemonTrialSpawnerEntity create(RegistryAccess registryAccess, BlockPos blockPosition, IBlockBuilder blockProcessor, @Nullable ServerLevel serverLevel) {
 
         SpawnerProperties newSpawnerProperties = blockProcessor.getSpawnerProperties();
+
+        net.minecraft.world.level.block.Block targetBlock = Services.PLATFORM.getSpawnerBlockForVariant(newSpawnerProperties.variant());
+        BlockState targetBlockState = targetBlock.defaultBlockState();
 
         CobblemonTrialSpawnerConfig cobblemonTrialSpawnerConfig;
         CobblemonTrialSpawnerConfig cobblemonTrialSpawnerOminousConfig;
@@ -49,7 +53,7 @@ public class BuildSpawner {
         );
 
         CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = new CobblemonTrialSpawnerEntity(
-                blockPosition, Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState());
+                blockPosition, targetBlockState);
 
         cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerConfig, false);
         cobblemonTrialSpawnerEntity.getCobblemonTrialSpawner().setConfig(cobblemonTrialSpawnerOminousConfig, true);

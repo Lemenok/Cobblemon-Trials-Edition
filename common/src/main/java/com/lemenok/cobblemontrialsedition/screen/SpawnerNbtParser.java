@@ -50,6 +50,7 @@ public class SpawnerNbtParser {
         return new SpawnerProperties(
                 new ArrayList<>(), // blocks to replace
                 new ArrayList<>(), // entities to replace
+                "",
                 normalConfig.ticksBetweenSpawn(),
                 cobblemonTrialSpawner.getTargetCooldownLength(),
                 cobblemonTrialSpawner.getRequiredPlayerRange(),

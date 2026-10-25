@@ -16,6 +16,7 @@
           "data": "cobblemontrialsedition:ominous_ancient_city",
           "weight": 1 }],
       "spawns": {
+        "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
             "species": "spiritomb",

@@ -33,4 +33,5 @@ public interface IModIntegrations {
     StructureProcessorType<JigsawSpawnerReplacementProcessor> getSpawnerReplacementProcessor();
     void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties, List<ResourceLocation> availableLootTables);
     ModConfigCommon getCommonConfig();
+    Block getSpawnerBlockForVariant(String variant);
 }

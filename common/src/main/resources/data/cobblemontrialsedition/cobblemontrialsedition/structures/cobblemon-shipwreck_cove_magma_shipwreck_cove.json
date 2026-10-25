@@ -1,0 +1,185 @@
+{
+  "structureId": "cobblemon:shipwreck_coves/magma_shipwreck_cove",
+  "spawnerProperties": [
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
+      "variant": "magma",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "slugma",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "numel",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "carkol",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "sizzlipede",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "magcargo",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "camerupt",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "coalossal",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "centiskorch",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          }
+        ]
+      }
+    },
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
+      "variant": "magma",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "lampent",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "yamask",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "sableye",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "drifloon",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "chandelure",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "cofagrigus",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "drifblim",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "sableye",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          }
+        ]
+      }
+    },
+    {
+      "blockTypesToReplace": ["minecraft:trial_spawner"],
+      "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
+      "variant": "magma",
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "boldore",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "larvitar",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "salandit",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "darumaka",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "gigalith",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "pupitar",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "salazzle",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "darmanitan",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

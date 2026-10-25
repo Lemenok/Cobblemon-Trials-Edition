@@ -4,6 +4,7 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
+      "variant": "dungeon",
       "lootTables": [
         {
           "data": "cobblemontrialsedition:abandoned_mineshaft",
@@ -12,54 +13,61 @@
         {
           "data": "cobblemontrialsedition:ominous_abandoned_mineshaft",
           "weight": 1 }],
-      "listOfPokemonToSpawn": [{
-          "species": "spinarak",
-          "spawnablePokemonStats": {
-            "level": 20
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "spinarak",
+            "spawnablePokemonStats": {
+              "level": 20
+            }
+          },
+          {
+            "species": "joltik",
+            "spawnablePokemonStats": {
+              "level": 20
+            }
+          },
+          {
+            "species": "timburr",
+            "spawnablePokemonStats": {
+              "level": 20
+            }
+          },
+          {
+            "species": "carbink",
+            "spawnablePokemonStats": {
+              "level": 20
+            }
           }
-        },
-        {
-          "species": "joltik",
-          "spawnablePokemonStats": {
-            "level": 20
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "ariados",
+            "spawnablePokemonStats": {
+              "level": 40
+            }
+          },
+          {
+            "species": "galvantula",
+            "spawnablePokemonStats": {
+              "level": 40
+            }
+          },
+          {
+            "species": "gurdurr",
+            "spawnablePokemonStats": {
+              "level": 40
+            }
+          },
+          {
+            "species": "carbink",
+            "spawnablePokemonStats": {
+              "level": 40
+            }
           }
-        },
-        {
-          "species": "timburr",
-          "spawnablePokemonStats": {
-            "level": 20
-          }
-        },
-        {
-          "species": "carbink",
-          "spawnablePokemonStats": {
-            "level": 20
-          }
-        }],
-      "listOfOminousPokemonToSpawn": [{
-          "species": "ariados",
-          "spawnablePokemonStats": {
-            "level": 40
-          }
-        },
-        {
-          "species": "galvantula",
-          "spawnablePokemonStats": {
-            "level": 40
-          }
-        },
-        {
-          "species": "gurdurr",
-          "spawnablePokemonStats": {
-            "level": 40
-          }
-        },
-        {
-          "species": "carbink",
-          "spawnablePokemonStats": {
-            "level": 40
-          }
-        }]
+        ]
+      }
     }
   ]
 }

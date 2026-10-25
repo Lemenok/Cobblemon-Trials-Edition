@@ -29,6 +29,8 @@ import org.slf4j.Logger;
 
 import java.util.List;
 
+import static com.lemenok.cobblemontrialsedition.neoforge.block.ModBlocks.*;
+
 public class ModIntegrations implements IModIntegrations {
     @Override
     public String getModID() {
@@ -115,5 +117,21 @@ public class ModIntegrations implements IModIntegrations {
         ModConfigCommon.TIME_TILL_POKEMON_DESPAWN_IN_TICKS = Config.TIME_TILL_POKEMON_DESPAWN_IN_TICKS.get();
 
         return modConfigCommon;
+    }
+
+    @Override
+    public Block getSpawnerBlockForVariant(String variant) {
+        return switch (variant.toLowerCase()) {
+            case "vanilla" -> COBBLEMON_TRIAL_SPAWNER_VANILLA.get();
+            case "magma" -> COBBLEMON_TRIAL_SPAWNER_MAGMA.get();
+            case "dungeon" -> COBBLEMON_TRIAL_SPAWNER_DUNGEON.get();
+            case "relic" -> COBBLEMON_TRIAL_SPAWNER_RELIC.get();
+            case "end" -> COBBLEMON_TRIAL_SPAWNER_END.get();
+            case "prismarine" -> COBBLEMON_TRIAL_SPAWNER_PRISMARINE.get();
+            case "fortress" -> COBBLEMON_TRIAL_SPAWNER_FORTRESS.get();
+            case "laboratory" -> COBBLEMON_TRIAL_SPAWNER_LABORATORY.get();
+            case "create" -> COBBLEMON_TRIAL_SPAWNER_CREATE.get();
+            default -> COBBLEMON_TRIAL_SPAWNER.get();
+        };
     }
 }

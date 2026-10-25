@@ -159,6 +159,7 @@ public class TrialSpawnerConfigScreen extends Screen {
             SpawnerProperties updatedProperties = new SpawnerProperties(
                     this.blockTypesToReplace,
                     this.mobEntitiesInSpawnerToReplace,
+                    "",
                     this.ticksBetweenSpawnAttempts,
                     this.spawnerCooldown,
                     this.playerDetectionRange,

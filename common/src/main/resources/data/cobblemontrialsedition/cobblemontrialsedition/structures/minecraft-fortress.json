@@ -4,6 +4,7 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:blaze"],
+      "variant": "fortress",
       "lootTables": [
         {
           "data": "cobblemontrialsedition:fortress",
@@ -12,54 +13,61 @@
         {
           "data": "cobblemontrialsedition:ominous_fortress",
           "weight": 1 }],
-      "listOfPokemonToSpawn": [{
-          "species": "charcadet",
-          "spawnablePokemonStats": {
-            "level": 25
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "charcadet",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "falinks",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "houndour",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
+          },
+          {
+            "species": "darmanitan",
+            "spawnablePokemonStats": {
+              "level": 25
+            }
           }
-        },
-        {
-          "species": "falinks",
-          "spawnablePokemonStats": {
-            "level": 25
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "armarouge",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "ceruledge",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "houndoom",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
+          },
+          {
+            "species": "darmanitan",
+            "spawnablePokemonStats": {
+              "level": 50
+            }
           }
-        },
-        {
-          "species": "houndour",
-          "spawnablePokemonStats": {
-            "level": 25
-          }
-        },
-        {
-          "species": "darmanitan",
-          "spawnablePokemonStats": {
-            "level": 25
-          }
-        }],
-      "listOfOminousPokemonToSpawn": [{
-          "species": "armarouge",
-          "spawnablePokemonStats": {
-          "level": 50
-          }
-        },
-        {
-          "species": "ceruledge",
-          "spawnablePokemonStats": {
-            "level": 50
-          }
-        },
-        {
-          "species": "houndoom",
-          "spawnablePokemonStats": {
-            "level": 50
-          }
-        },
-        {
-          "species": "darmanitan",
-          "spawnablePokemonStats": {
-            "level": 50
-          }
-        }]
+        ]
+      }
     }
   ]
 }

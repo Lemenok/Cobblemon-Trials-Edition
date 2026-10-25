@@ -23,6 +23,7 @@ import java.util.Objects;
 public record SpawnerProperties(
         List<ResourceLocation> blockTypesToReplace,
         List<ResourceLocation> mobEntitiesInSpawnerToReplace,
+        String variant,
         int ticksBetweenSpawnAttempts,
         int spawnerCooldown,
         int playerDetectionRange,
@@ -49,6 +50,7 @@ public record SpawnerProperties(
     public static final Codec<SpawnerProperties> CODEC = RecordCodecBuilder.create(spawner -> spawner.group(
             Codec.list(ResourceLocation.CODEC).optionalFieldOf("blockTypesToReplace", new ArrayList<>()).forGetter(SpawnerProperties::blockTypesToReplace),
             Codec.list(ResourceLocation.CODEC).optionalFieldOf("mobEntitiesInSpawnerToReplace", new ArrayList<>()).forGetter(SpawnerProperties::mobEntitiesInSpawnerToReplace),
+            Codec.STRING.optionalFieldOf("variant", "default").forGetter(SpawnerProperties::variant),
             Codec.INT.optionalFieldOf("ticksBetweenSpawnAttempts", 40).forGetter(SpawnerProperties::ticksBetweenSpawnAttempts),
             Codec.INT.optionalFieldOf("spawnerCooldown", 36000).forGetter(SpawnerProperties::spawnerCooldown),
             Codec.INT.optionalFieldOf("playerDetectionRange", 14).forGetter(SpawnerProperties::playerDetectionRange),

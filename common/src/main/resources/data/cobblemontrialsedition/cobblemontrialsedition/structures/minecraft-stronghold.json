@@ -4,6 +4,7 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
+      "variant": "dungeon",
       "lootTables": [
         {
           "data": "cobblemontrialsedition:stronghold",
@@ -17,13 +18,8 @@
         }
       ],
       "spawns": {
-        "isWaveMode": false,
-        "listOfPokemonToSpawn": [{
-          "species": "shuppet",
-          "spawnablePokemonStats": {
-            "level": 20
-          }
-        }],
+        "isWaveMode": true,
+        "listOfPokemonToSpawn": [],
         "listOfOminousPokemonToSpawn": [],
         "waves": [
           {
@@ -31,7 +27,7 @@
             "mobsInWaveAddedPerPlayer": 1,
             "pokemonToSpawn": [
               {
-                "species": "lunatone",
+                "species": "sigilyph",
                 "spawnablePokemonStats": {
                   "level": 40
                 }
@@ -43,7 +39,8 @@
             "mobsInWaveAddedPerPlayer": 1,
             "pokemonToSpawn": [
               {
-                "species": "golurk",
+                "species": "hydreigon",
+                "isAlwaysAlpha": true,
                 "spawnablePokemonStats": {
                   "level": 40
                 }
@@ -57,13 +54,13 @@
             "mobsInWaveAddedPerPlayer": 1,
             "pokemonToSpawn": [
               {
-                "species": "lunatone",
+                "species": "sigilyph",
                 "spawnablePokemonStats": {
                   "level": 80
                 }
               },
               {
-                "species": "solrock",
+                "species": "unown",
                 "spawnablePokemonStats": {
                   "level": 80
                 }
@@ -71,17 +68,19 @@
             ]
           },
           {
-            "mobsInWave": 4,
+            "mobsInWave": 1,
             "mobsInWaveAddedPerPlayer": 1,
             "pokemonToSpawn": [
               {
-                "species": "golurk",
+                "species": "hydreigon",
+                "isAlwaysAlpha": true,
                 "spawnablePokemonStats": {
                   "level": 80
                 }
               },
               {
-                "species": "aegislash",
+                "species": "dragapult",
+                "isAlwaysAlpha": true,
                 "spawnablePokemonStats": {
                   "level": 80
                 }
