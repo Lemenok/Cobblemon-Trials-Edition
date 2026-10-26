@@ -13,6 +13,7 @@ import com.lemenok.cobblemontrialsedition.fabric.processors.ModProcessors;
 import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
 import com.lemenok.cobblemontrialsedition.item.MysteriousTabletItem;
 import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
+import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -96,6 +97,11 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
         PayloadTypeRegistry.playS2C().register(
                 OpenSpawnerConfigS2CPacket.TYPE,
                 OpenSpawnerConfigS2CPacket.STREAM_CODEC
+        );
+
+        PayloadTypeRegistry.playC2S().register(
+                SaveSpawnerC2SPacket.TYPE,
+                SaveSpawnerC2SPacket.STREAM_CODEC
         );
 
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {

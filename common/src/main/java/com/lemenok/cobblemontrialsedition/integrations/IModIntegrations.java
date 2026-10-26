@@ -7,6 +7,7 @@ import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProc
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,6 +33,7 @@ public interface IModIntegrations {
     SoundEvent getCobblemonTrialSpawnerAmbientOminousSound();
     StructureProcessorType<JigsawSpawnerReplacementProcessor> getSpawnerReplacementProcessor();
     void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties, List<ResourceLocation> availableLootTables);
+    void sendToServer(CustomPacketPayload payload);
     ModConfigCommon getCommonConfig();
     Block getSpawnerBlockForVariant(String variant);
 }

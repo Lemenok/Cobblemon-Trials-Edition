@@ -1,6 +1,7 @@
 package com.lemenok.cobblemontrialsedition.network;
 
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
+import com.lemenok.cobblemontrialsedition.platform.Services;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -39,10 +40,7 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
 
     public static void send(BlockPos pos, SpawnerProperties properties) {
         if (Minecraft.getInstance().getConnection() != null) {
-            // Wrap the payload in a ServerboundCustomPayloadPacket
-            Minecraft.getInstance().getConnection().send(
-                    new ServerboundCustomPayloadPacket(new SaveSpawnerC2SPacket(pos, properties))
-            );
+            Services.PLATFORM.sendToServer(new SaveSpawnerC2SPacket(pos, properties));
         }
     }
 

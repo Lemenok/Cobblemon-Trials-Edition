@@ -14,9 +14,12 @@ import com.lemenok.cobblemontrialsedition.integrations.ModConfigCommon;
 import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
 import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
 import me.shedaniel.autoconfig.AutoConfig;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -89,10 +92,15 @@ public class ModIntegrations implements IModIntegrations {
 
     @Override
     public void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties, List<ResourceLocation> availableLootTables) {
-        net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(
+        ServerPlayNetworking.send(
                 player,
                 new OpenSpawnerConfigS2CPacket(pos, properties, availableLootTables)
         );
+    }
+
+    @Override
+    public void sendToServer(CustomPacketPayload payload) {
+        ClientPlayNetworking.send(payload);
     }
 
     @Override

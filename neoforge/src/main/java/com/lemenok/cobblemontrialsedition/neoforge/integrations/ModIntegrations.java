@@ -96,6 +96,11 @@ public class ModIntegrations implements IModIntegrations {
     }
 
     @Override
+    public void sendToServer(net.minecraft.network.protocol.common.custom.CustomPacketPayload payload) {
+        net.neoforged.neoforge.network.PacketDistributor.sendToServer(payload);
+    }
+
+    @Override
     public ModConfigCommon getCommonConfig() {
         ModConfigCommon modConfigCommon = new ModConfigCommon();
         modConfigCommon.ENABLE_DEBUG_LOGS = Config.ENABLE_DEBUG_LOGS.get();
