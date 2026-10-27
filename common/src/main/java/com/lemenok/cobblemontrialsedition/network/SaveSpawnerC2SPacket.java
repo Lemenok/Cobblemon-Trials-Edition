@@ -59,9 +59,6 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         buf.writeInt(props.totalNumberOfPokemonPerTrial());
         buf.writeInt(props.totalNumberOfPokemonPerTrialAddedPerPlayer());
 
-        // TODO: Make it so these have to exist.
-        //buf.writeCollection(props.lootTables(), (b, loc) -> b.writeResourceLocation(loc));
-        //buf.writeCollection(props.ominousLootTables(), (b, loc) -> b.writeResourceLocation(loc));
         SimpleWeightedRandomList<ResourceKey<LootTable>> safeLootTables = Objects.requireNonNullElse(props.lootTables(), SimpleWeightedRandomList.empty());
         var unwrappedLootTables = safeLootTables.unwrap();
         buf.writeVarInt(unwrappedLootTables.size());
@@ -81,9 +78,6 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         buf.writeBoolean(props.ominousSpawnerAttacksEnabled());
         buf.writeBoolean(props.doPokemonSpawnedGlow());
 
-        // TODO: Make it so these have to exist.
-        //writePokemonRoster(buf, props.listOfPokemonToSpawn());
-        //writePokemonRoster(buf, props.listOfOminousPokemonToSpawn());
         writePokemonRoster(buf, Objects.requireNonNullElse(props.spawns().listOfPokemonToSpawn(), List.of()));
         writePokemonRoster(buf, Objects.requireNonNullElse(props.spawns().listOfOminousPokemonToSpawn(), List.of()));
         writePokemonWaveRoster(buf, props.spawns().waves());

@@ -371,54 +371,61 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
       "variant": "vanilla",
-      "listOfPokemonToSpawn": [{
-        "species": "spinarak",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "whirlipede",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "venonat",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      },
-      {
-        "species": "skorupi",
-        "spawnablePokemonStats": {
-          "level": 30
-        }
-      }],
-      "listOfOminousPokemonToSpawn": [{
-        "species": "ariados",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "scolipede",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "venomoth",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      },
-      {
-        "species": "drapion",
-        "spawnablePokemonStats": {
-          "level": 60
-        }
-      }]
+      "spawns": {
+        "isWaveMode": false,
+        "listOfPokemonToSpawn": [
+          {
+            "species": "spinarak",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "whirlipede",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "venonat",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          },
+          {
+            "species": "skorupi",
+            "spawnablePokemonStats": {
+              "level": 30
+            }
+          }
+        ],
+        "listOfOminousPokemonToSpawn": [
+          {
+            "species": "ariados",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "scolipede",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "venomoth",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          },
+          {
+            "species": "drapion",
+            "spawnablePokemonStats": {
+              "level": 60
+            }
+          }
+        ]
+      }
     },
     {
       "blockTypesToReplace": ["minecraft:trial_spawner"],
