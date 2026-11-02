@@ -97,7 +97,7 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
             // Validate permissions
-            if (!serverPlayer.hasPermissions(2)) {
+            if (!serverPlayer.isCreative() || !serverPlayer.hasPermissions(2)) {
                 return InteractionResult.PASS;
             }
 

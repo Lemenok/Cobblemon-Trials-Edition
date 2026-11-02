@@ -23,6 +23,10 @@ public class ModConfigHelper {
     public static boolean isStructureBlacklisted(LevelReader level, IBlockBuilder blockProcessor) {
 
         ResourceLocation targetId = blockProcessor.getStructureId();
+        if(targetId == null) {
+            return false;
+        }
+
         Registry<Structure> structureRegistry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         ResourceKey<Structure> structureKey = ResourceKey.create(Registries.STRUCTURE, blockProcessor.getStructureId());
 
