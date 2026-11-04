@@ -13,7 +13,7 @@ public class PokemonWaveList extends ContainerObjectSelectionList<PokemonWaveLis
 
     private final TrialSpawnerConfigScreen screen;
 
-    public PokemonWaveList(Minecraft minecraft, int width, int height, int y, int itemHeight, List<SpawnerProperties.WaveDefinition> waves, TrialSpawnerConfigScreen screen) {
+    public PokemonWaveList(Minecraft minecraft, int width, int height, int y, int itemHeight, List<SpawnerProperties.PokemonWaveDefinition> waves, TrialSpawnerConfigScreen screen) {
         super(minecraft, width, height, y, itemHeight);
         this.screen = screen;
         this.centerListVertically = false;
@@ -45,7 +45,7 @@ public class PokemonWaveList extends ContainerObjectSelectionList<PokemonWaveLis
         }
     }
 
-    public void refreshEntries(List<SpawnerProperties.WaveDefinition> waves) {
+    public void refreshEntries(List<SpawnerProperties.PokemonWaveDefinition> waves) {
         this.clearEntries();
         for (int i = 0; i < waves.size(); i++) {
             // 1. Render the Wave Header

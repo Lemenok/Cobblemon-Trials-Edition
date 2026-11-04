@@ -1,7 +1,6 @@
 package com.lemenok.cobblemontrialsedition.screen;
 
-import com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig;
-import com.lemenok.cobblemontrialsedition.config.SpawnConfig;
+import com.lemenok.cobblemontrialsedition.config.PokemonSpawnConfig;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
@@ -45,11 +44,11 @@ public class TrialSpawnerConfigScreen extends Screen {
     public List<WeightedLootEntry> ominousLootTables;
     public List<ResourceLocation> availableLootTables;
 
-    public SpawnConfig spawnConfig;
+    public PokemonSpawnConfig pokemonSpawnConfig;
     public List<SpawnablePokemonProperties> editableNormalRoster;
     public List<SpawnablePokemonProperties> editableOminousRoster;
-    public List<SpawnerProperties.WaveDefinition> editableWaveRoster;
-    public List<SpawnerProperties.WaveDefinition> editableOminousWaveRoster;
+    public List<SpawnerProperties.PokemonWaveDefinition> editableWaveRoster;
+    public List<SpawnerProperties.PokemonWaveDefinition> editableOminousWaveRoster;
 
     public TrialSpawnerConfigScreen(BlockPos pos, SpawnerProperties spawnerProperties, List<ResourceLocation> availableLootTables) {
         super(Component.literal("Cobblemon Trial Spawner Config"));
@@ -68,7 +67,7 @@ public class TrialSpawnerConfigScreen extends Screen {
 
         this.ominousSpawnerAttacksEnabled = spawnerProperties.ominousSpawnerAttacksEnabled();
         this.doPokemonSpawnedGlow = spawnerProperties.doPokemonSpawnedGlow();
-        this.isWaveMode = spawnerProperties.spawns().isWaveMode();
+        this.isWaveMode = spawnerProperties.pokemonSpawns().isWaveMode();
 
         ArrayList<WeightedLootEntry> updatedWeightedLootTableList = new ArrayList<>();
 
@@ -91,16 +90,16 @@ public class TrialSpawnerConfigScreen extends Screen {
         this.ominousLootTables = updatedWeightedOminousLootTableList;
 
         // Add code to manage Waves
-        this.spawnConfig = new SpawnConfig(this.isWaveMode,
-                                           new ArrayList<>(spawnerProperties.spawns().listOfPokemonToSpawn()),
-                                           new ArrayList<>(spawnerProperties.spawns().listOfOminousPokemonToSpawn()),
-                                           new ArrayList<>(spawnerProperties.spawns().waves()),
-                                           new ArrayList<>(spawnerProperties.spawns().ominousWaves()));
+        this.pokemonSpawnConfig = new PokemonSpawnConfig(this.isWaveMode,
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfPokemonToSpawn()),
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfOminousPokemonToSpawn()),
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfPokemonWaves()),
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfOminousPokemonWaves()));
 
-        this.editableNormalRoster = this.spawnConfig.listOfPokemonToSpawn();
-        this.editableOminousRoster = this.spawnConfig.listOfOminousPokemonToSpawn();
-        this.editableWaveRoster = this.spawnConfig.waves();
-        this.editableOminousWaveRoster = this.spawnConfig.ominousWaves();
+        this.editableNormalRoster = this.pokemonSpawnConfig.listOfPokemonToSpawn();
+        this.editableOminousRoster = this.pokemonSpawnConfig.listOfOminousPokemonToSpawn();
+        this.editableWaveRoster = this.pokemonSpawnConfig.listOfPokemonWaves();
+        this.editableOminousWaveRoster = this.pokemonSpawnConfig.listOfOminousPokemonWaves();
 
         this.blockTypesToReplace = new ArrayList<>(spawnerProperties.blockTypesToReplace());
         this.mobEntitiesInSpawnerToReplace = new ArrayList<>(spawnerProperties.mobEntitiesInSpawnerToReplace());
@@ -147,7 +146,7 @@ public class TrialSpawnerConfigScreen extends Screen {
                 }
             }
 
-            SpawnConfig updatedSpawnConfig = new SpawnConfig(
+            PokemonSpawnConfig updatedPokemonSpawnConfig = new PokemonSpawnConfig(
                     this.isWaveMode, // 3. Pass flag to SpawnConfig
                     this.editableNormalRoster,
                     this.editableOminousRoster,
@@ -172,7 +171,7 @@ public class TrialSpawnerConfigScreen extends Screen {
                     ominousLootBuilder.build(),
                     this.ominousSpawnerAttacksEnabled,
                     this.doPokemonSpawnedGlow,
-                    updatedSpawnConfig
+                    updatedPokemonSpawnConfig
             );
 
             // Send packet to server

@@ -95,7 +95,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
                 normalLootTables,
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS,
                 properties.getWaves(registryAccess, false, blockPos),
-                properties.spawns().isWaveMode()
+                properties.pokemonSpawns().isWaveMode()
         );
 
         // 3. Build the Ominous Configuration
@@ -111,7 +111,7 @@ public class CobblemonTrialSpawnerEntity extends BlockEntity implements Cobblemo
                 ominousLootTables,
                 BuiltInLootTables.SPAWNER_TRIAL_ITEMS_TO_DROP_WHEN_OMINOUS,
                 properties.getWaves(registryAccess, true, blockPos),
-                properties.spawns().isWaveMode()
+                properties.pokemonSpawns().isWaveMode()
         );
 
         // 4. Apply configurations and properties to the spawner logic

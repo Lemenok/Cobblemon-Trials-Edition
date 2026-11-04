@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -78,11 +77,11 @@ public record SaveSpawnerC2SPacket(BlockPos pos, SpawnerProperties properties) i
         buf.writeBoolean(props.ominousSpawnerAttacksEnabled());
         buf.writeBoolean(props.doPokemonSpawnedGlow());
 
-        writePokemonRoster(buf, Objects.requireNonNullElse(props.spawns().listOfPokemonToSpawn(), List.of()));
-        writePokemonRoster(buf, Objects.requireNonNullElse(props.spawns().listOfOminousPokemonToSpawn(), List.of()));
-        writePokemonWaveRoster(buf, props.spawns().waves());
-        writePokemonWaveRoster(buf, props.spawns().ominousWaves());
+        writePokemonRoster(buf, Objects.requireNonNullElse(props.pokemonSpawns().listOfPokemonToSpawn(), List.of()));
+        writePokemonRoster(buf, Objects.requireNonNullElse(props.pokemonSpawns().listOfOminousPokemonToSpawn(), List.of()));
+        writePokemonWaveRoster(buf, props.pokemonSpawns().listOfPokemonWaves());
+        writePokemonWaveRoster(buf, props.pokemonSpawns().listOfOminousPokemonWaves());
 
-        buf.writeBoolean(props.spawns().isWaveMode());
+        buf.writeBoolean(props.pokemonSpawns().isWaveMode());
     }
 }

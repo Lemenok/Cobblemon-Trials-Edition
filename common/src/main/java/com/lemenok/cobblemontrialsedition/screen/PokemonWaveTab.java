@@ -15,18 +15,18 @@ import java.util.function.Consumer;
 public class PokemonWaveTab implements Tab {
     private final String title;
     private final TrialSpawnerConfigScreen screen;
-    private final List<SpawnerProperties.WaveDefinition> waves;
+    private final List<SpawnerProperties.PokemonWaveDefinition> waves;
     private PokemonWaveList listWidget = null;
     private final Button addWaveButton;
 
-    public PokemonWaveTab(String title, TrialSpawnerConfigScreen screen, List<SpawnerProperties.WaveDefinition> waves) {
+    public PokemonWaveTab(String title, TrialSpawnerConfigScreen screen, List<SpawnerProperties.PokemonWaveDefinition> waves) {
         this.title = title;
         this.screen = screen;
         this.waves = waves;
 
         this.addWaveButton = Button.builder(Component.literal("+ Add Wave"), btn -> {
             // Adds a new blank wave.
-            this.waves.add(new SpawnerProperties.WaveDefinition(4, 1, new ArrayList<>()));
+            this.waves.add(new SpawnerProperties.PokemonWaveDefinition(4, 1, new ArrayList<>()));
             this.listWidget.refreshEntries(this.waves);
         }).bounds(0, 0, 100, 20).build();
 

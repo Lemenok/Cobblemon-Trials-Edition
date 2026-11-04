@@ -17,14 +17,10 @@
           "weight": 1
         }
       ],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": true,
-        "listOfPokemonToSpawn": [],
-        "listOfOminousPokemonToSpawn": [],
-        "waves": [
+        "listOfPokemonWaves": [
           {
-            "mobsInWave": 4,
-            "mobsInWaveAddedPerPlayer": 1,
             "pokemonToSpawn": [
               {
                 "species": "sigilyph",
@@ -35,8 +31,7 @@
             ]
           },
           {
-            "mobsInWave": 1,
-            "mobsInWaveAddedPerPlayer": 1,
+            "pokemonInWave": 1,
             "pokemonToSpawn": [
               {
                 "species": "hydreigon",
@@ -48,10 +43,8 @@
             ]
           }
         ],
-        "ominousWaves": [
+        "listOfOminousPokemonWaves": [
           {
-            "mobsInWave": 4,
-            "mobsInWaveAddedPerPlayer": 1,
             "pokemonToSpawn": [
               {
                 "species": "sigilyph",
@@ -68,8 +61,7 @@
             ]
           },
           {
-            "mobsInWave": 1,
-            "mobsInWaveAddedPerPlayer": 1,
+            "pokemonInWave": 1,
             "pokemonToSpawn": [
               {
                 "species": "hydreigon",

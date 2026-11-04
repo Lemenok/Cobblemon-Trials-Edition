@@ -5,7 +5,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
       "variant": "magma",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -65,7 +65,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
       "variant": "magma",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -125,7 +125,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
       "variant": "magma",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {

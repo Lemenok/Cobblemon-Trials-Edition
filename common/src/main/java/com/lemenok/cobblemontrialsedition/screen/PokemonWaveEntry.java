@@ -25,11 +25,11 @@ public class PokemonWaveEntry extends PokemonWaveList.WaveListEntry {
     private final Button editBtn;
     private final Button deleteBtn;
     private final List<AbstractWidget> children;
-    private final List<SpawnerProperties.WaveDefinition> waves;
+    private final List<SpawnerProperties.PokemonWaveDefinition> waves;
     private final int waveIndex;
     private final int pokemonIndex;
 
-    public PokemonWaveEntry(PokemonWaveList parentList, List<SpawnerProperties.WaveDefinition> waves, int waveIndex, int pokemonIndex, TrialSpawnerConfigScreen screen) {
+    public PokemonWaveEntry(PokemonWaveList parentList, List<SpawnerProperties.PokemonWaveDefinition> waves, int waveIndex, int pokemonIndex, TrialSpawnerConfigScreen screen) {
         this.waves = waves;
         this.waveIndex = waveIndex;
         this.pokemonIndex = pokemonIndex;

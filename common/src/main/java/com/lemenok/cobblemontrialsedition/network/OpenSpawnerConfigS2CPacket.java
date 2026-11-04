@@ -1,17 +1,11 @@
 package com.lemenok.cobblemontrialsedition.network;
 
-import com.lemenok.cobblemontrialsedition.config.SpawnConfig;
-import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
-import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.List;
 
@@ -76,11 +70,11 @@ public record OpenSpawnerConfigS2CPacket(BlockPos pos, SpawnerProperties propert
         buf.writeBoolean(props.doPokemonSpawnedGlow());
 
         // Write complex nested rosters
-        writePokemonRoster(buf, props.spawns().listOfPokemonToSpawn());
-        writePokemonRoster(buf, props.spawns().listOfOminousPokemonToSpawn());
-        writePokemonWaveRoster(buf, props.spawns().waves());
-        writePokemonWaveRoster(buf, props.spawns().ominousWaves());
+        writePokemonRoster(buf, props.pokemonSpawns().listOfPokemonToSpawn());
+        writePokemonRoster(buf, props.pokemonSpawns().listOfOminousPokemonToSpawn());
+        writePokemonWaveRoster(buf, props.pokemonSpawns().listOfPokemonWaves());
+        writePokemonWaveRoster(buf, props.pokemonSpawns().listOfOminousPokemonWaves());
 
-        buf.writeBoolean(props.spawns().isWaveMode());
+        buf.writeBoolean(props.pokemonSpawns().isWaveMode());
     }
 }

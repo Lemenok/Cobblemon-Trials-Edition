@@ -24,32 +24,32 @@ public class PokemonWaveHeaderEntry extends PokemonWaveList.WaveListEntry {
     private final Button deleteWaveBtn;
     private final List<AbstractWidget> children;
 
-    private final List<SpawnerProperties.WaveDefinition> waves;
+    private final List<SpawnerProperties.PokemonWaveDefinition> waves;
     private final int waveIndex;
 
-    public PokemonWaveHeaderEntry(PokemonWaveList parentList, List<SpawnerProperties.WaveDefinition> waves, int waveIndex, TrialSpawnerConfigScreen screen) {
+    public PokemonWaveHeaderEntry(PokemonWaveList parentList, List<SpawnerProperties.PokemonWaveDefinition> waves, int waveIndex, TrialSpawnerConfigScreen screen) {
         this.waves = waves;
         this.waveIndex = waveIndex;
-        SpawnerProperties.WaveDefinition wave = waves.get(waveIndex);
+        SpawnerProperties.PokemonWaveDefinition wave = waves.get(waveIndex);
 
         this.waveLabel = new StringWidget(Component.literal("Wave " + (waveIndex + 1)), Minecraft.getInstance().font);
         //this.waveLabel.setColor(0xFFAA00); // Orange tint to stand out
 
         this.totalLabel = new StringWidget(Component.literal("Total Pokemon in Wave:"), Minecraft.getInstance().font);
         this.mobsInWaveBox = new EditBox(Minecraft.getInstance().font, 30, 18, Component.empty());
-        this.mobsInWaveBox.setValue(String.valueOf(wave.mobsInWave()));
+        this.mobsInWaveBox.setValue(String.valueOf(wave.pokemonInWave()));
         this.mobsInWaveBox.setResponder(val -> {
             try {
-                updateWave(Integer.parseInt(val), waves.get(waveIndex).mobsInWaveAddedPerPlayer());
+                updateWave(Integer.parseInt(val), waves.get(waveIndex).pokemonInWaveAddedPerPlayer());
             } catch (NumberFormatException ignored) {}
         });
 
         this.addedLabel = new StringWidget(Component.literal("Pokemon in Wave added per player:"), Minecraft.getInstance().font);
         this.addedPerPlayerBox = new EditBox(Minecraft.getInstance().font, 30, 18, Component.empty());
-        this.addedPerPlayerBox.setValue(String.valueOf(wave.mobsInWaveAddedPerPlayer()));
+        this.addedPerPlayerBox.setValue(String.valueOf(wave.pokemonInWaveAddedPerPlayer()));
         this.addedPerPlayerBox.setResponder(val -> {
             try {
-                updateWave(waves.get(waveIndex).mobsInWave(), Integer.parseInt(val));
+                updateWave(waves.get(waveIndex).pokemonInWave(), Integer.parseInt(val));
             } catch (NumberFormatException ignored) {}
         });
 
@@ -73,7 +73,7 @@ public class PokemonWaveHeaderEntry extends PokemonWaveList.WaveListEntry {
 
     private void updateWave(int mobs, int added) {
         var old = waves.get(waveIndex);
-        waves.set(waveIndex, new SpawnerProperties.WaveDefinition(mobs, added, old.pokemonToSpawn()));
+        waves.set(waveIndex, new SpawnerProperties.PokemonWaveDefinition(mobs, added, old.pokemonToSpawn()));
     }
 
     @Override

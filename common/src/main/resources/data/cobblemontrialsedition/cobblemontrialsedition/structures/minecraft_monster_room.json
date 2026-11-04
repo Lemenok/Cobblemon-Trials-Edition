@@ -13,7 +13,7 @@
         {
           "data": "cobblemontrialsedition:ominous_monster_room",
           "weight": 1 }],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -81,7 +81,7 @@
         {
           "data": "cobblemontrialsedition:ominous_monster_room",
           "weight": 1 }],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -149,7 +149,7 @@
         {
           "data": "cobblemontrialsedition:ominous_monster_room",
           "weight": 1 }],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -217,7 +217,7 @@
         {
           "data": "cobblemontrialsedition:ominous_monster_room",
           "weight": 1 }],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {

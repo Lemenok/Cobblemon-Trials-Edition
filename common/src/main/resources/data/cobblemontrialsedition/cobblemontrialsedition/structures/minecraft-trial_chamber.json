@@ -5,7 +5,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:breeze"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -65,7 +65,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:zombie"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -125,7 +125,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:husk"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -185,7 +185,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:spider"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -245,7 +245,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:slime"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -311,7 +311,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -371,7 +371,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:cave_spider"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -431,7 +431,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:stray"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -497,7 +497,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:skeleton"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -557,7 +557,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:bogged"],
       "variant": "vanilla",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {

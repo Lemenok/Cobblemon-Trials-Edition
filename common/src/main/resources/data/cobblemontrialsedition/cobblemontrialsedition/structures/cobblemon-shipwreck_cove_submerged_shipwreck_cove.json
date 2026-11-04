@@ -5,7 +5,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:guardian"],
       "variant": "prismarine",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
@@ -65,7 +65,7 @@
       "blockTypesToReplace": ["minecraft:trial_spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:drowned"],
       "variant": "prismarine",
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {

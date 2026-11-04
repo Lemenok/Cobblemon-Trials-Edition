@@ -13,7 +13,7 @@
         {
           "data": "cobblemontrialsedition:ominous_bastion_remnant",
           "weight": 1 }],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {

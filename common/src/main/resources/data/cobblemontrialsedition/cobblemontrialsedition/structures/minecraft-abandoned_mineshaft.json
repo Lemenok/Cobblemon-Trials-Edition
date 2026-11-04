@@ -13,7 +13,7 @@
         {
           "data": "cobblemontrialsedition:ominous_abandoned_mineshaft",
           "weight": 1 }],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {

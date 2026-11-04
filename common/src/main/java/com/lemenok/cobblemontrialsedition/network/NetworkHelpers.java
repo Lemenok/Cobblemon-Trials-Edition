@@ -1,6 +1,6 @@
 package com.lemenok.cobblemontrialsedition.network;
 
-import com.lemenok.cobblemontrialsedition.config.SpawnConfig;
+import com.lemenok.cobblemontrialsedition.config.PokemonSpawnConfig;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
 import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonStats;
 import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
@@ -112,35 +112,35 @@ public class NetworkHelpers {
 
         List<SpawnablePokemonProperties> roster = readPokemonRoster(buf);
         List<SpawnablePokemonProperties> ominousRoster = readPokemonRoster(buf);
-        List<SpawnerProperties.WaveDefinition> wavesRoster = readPokemonWaveRoster(buf);
-        List<SpawnerProperties.WaveDefinition> ominousWavesRoster = readPokemonWaveRoster(buf);
+        List<SpawnerProperties.PokemonWaveDefinition> wavesRoster = readPokemonWaveRoster(buf);
+        List<SpawnerProperties.PokemonWaveDefinition> ominousWavesRoster = readPokemonWaveRoster(buf);
 
         boolean isWaveMode = buf.readBoolean();
 
-        SpawnConfig spawnConfig = new SpawnConfig(isWaveMode, roster, ominousRoster, wavesRoster, ominousWavesRoster);
+        PokemonSpawnConfig pokemonSpawnConfig = new PokemonSpawnConfig(isWaveMode, roster, ominousRoster, wavesRoster, ominousWavesRoster);
 
         return new SpawnerProperties(
                 blockTypes, mobEntities, "", ticks, cooldown, playerRange, spawnRange,
                 maxSim, maxSimPlayer, total, totalPlayer,
                 lootTables, ominousLootTables, ominousAttacks, glow,
-                spawnConfig
+                pokemonSpawnConfig
         );
     }
 
-    public static List<SpawnerProperties.WaveDefinition> readPokemonWaveRoster(RegistryFriendlyByteBuf buf) {
+    public static List<SpawnerProperties.PokemonWaveDefinition> readPokemonWaveRoster(RegistryFriendlyByteBuf buf) {
         return buf.readList(b -> {
             int mobsInWave = b.readInt();
             int mobsInWaveAddedPerPlayer = b.readInt();
             List<SpawnablePokemonProperties> pokemonToSpawn = readPokemonRoster((RegistryFriendlyByteBuf) b);
 
-            return new SpawnerProperties.WaveDefinition(mobsInWave, mobsInWaveAddedPerPlayer, pokemonToSpawn);
+            return new SpawnerProperties.PokemonWaveDefinition(mobsInWave, mobsInWaveAddedPerPlayer, pokemonToSpawn);
         });
     }
 
-    public static void writePokemonWaveRoster(RegistryFriendlyByteBuf buf, List<SpawnerProperties.WaveDefinition> waves) {
+    public static void writePokemonWaveRoster(RegistryFriendlyByteBuf buf, List<SpawnerProperties.PokemonWaveDefinition> waves) {
         buf.writeCollection(waves, (b, wave) -> {
-            b.writeInt(wave.mobsInWave());
-            b.writeInt(wave.mobsInWaveAddedPerPlayer());
+            b.writeInt(wave.pokemonInWave());
+            b.writeInt(wave.pokemonInWaveAddedPerPlayer());
             writePokemonRoster((RegistryFriendlyByteBuf) b, wave.pokemonToSpawn());
         });
     }

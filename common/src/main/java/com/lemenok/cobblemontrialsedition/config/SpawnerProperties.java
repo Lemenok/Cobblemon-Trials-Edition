@@ -1,6 +1,5 @@
 package com.lemenok.cobblemontrialsedition.config;
 
-import com.lemenok.cobblemontrialsedition.platform.Services;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -36,15 +35,15 @@ public record SpawnerProperties(
         SimpleWeightedRandomList<ResourceKey<LootTable>> ominousLootTables,
         boolean ominousSpawnerAttacksEnabled,
         boolean doPokemonSpawnedGlow,
-        SpawnConfig spawns
+        PokemonSpawnConfig pokemonSpawns
 )
 {
-    public record WaveDefinition(int mobsInWave, int mobsInWaveAddedPerPlayer, List<SpawnablePokemonProperties> pokemonToSpawn) {
-        public static final Codec<WaveDefinition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.INT.optionalFieldOf("mobsInWave", 4).forGetter(WaveDefinition::mobsInWave),
-                Codec.INT.optionalFieldOf("mobsInWaveAddedPerPlayer", 1).forGetter(WaveDefinition::mobsInWaveAddedPerPlayer),
-                Codec.list(SpawnablePokemonProperties.CODEC).optionalFieldOf("pokemonToSpawn", new ArrayList<>()).forGetter(WaveDefinition::pokemonToSpawn)
-        ).apply(instance, WaveDefinition::new));
+    public record PokemonWaveDefinition(int pokemonInWave, int pokemonInWaveAddedPerPlayer, List<SpawnablePokemonProperties> pokemonToSpawn) {
+        public static final Codec<PokemonWaveDefinition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.INT.optionalFieldOf("pokemonInWave", 4).forGetter(PokemonWaveDefinition::pokemonInWave),
+                Codec.INT.optionalFieldOf("pokemonInWaveAddedPerPlayer", 1).forGetter(PokemonWaveDefinition::pokemonInWaveAddedPerPlayer),
+                Codec.list(SpawnablePokemonProperties.CODEC).optionalFieldOf("pokemonToSpawn", new ArrayList<>()).forGetter(PokemonWaveDefinition::pokemonToSpawn)
+        ).apply(instance, PokemonWaveDefinition::new));
     }
 
     public static final Codec<SpawnerProperties> CODEC = RecordCodecBuilder.create(spawner -> spawner.group(
@@ -63,18 +62,18 @@ public record SpawnerProperties(
             SimpleWeightedRandomList.wrappedCodec(ResourceKey.codec(Registries.LOOT_TABLE)).optionalFieldOf("ominousLootTables", SimpleWeightedRandomList.empty()).forGetter(SpawnerProperties::ominousLootTables),
             Codec.BOOL.optionalFieldOf("ominousSpawnerAttacksEnabled", false).forGetter(SpawnerProperties::ominousSpawnerAttacksEnabled),
             Codec.BOOL.optionalFieldOf("doPokemonSpawnedGlow", true).forGetter(SpawnerProperties::doPokemonSpawnedGlow),
-            SpawnConfig.CODEC.optionalFieldOf("spawns", new SpawnConfig(false, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>())).forGetter(SpawnerProperties::spawns)
+            PokemonSpawnConfig.CODEC.optionalFieldOf("pokemonSpawns", new PokemonSpawnConfig(false, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>())).forGetter(SpawnerProperties::pokemonSpawns)
     ).apply(spawner, SpawnerProperties::new));
 
     public SimpleWeightedRandomList<SpawnData> getListOfPokemonToSpawn(RegistryAccess registryAccess, boolean isOminous, BlockPos blockPos){
         SimpleWeightedRandomList.Builder<SpawnData> weightedLootTableListBuilder = new SimpleWeightedRandomList.Builder<>();
 
         if(isOminous){
-            for(SpawnablePokemonProperties spawnablePokemonProperties: spawns.listOfOminousPokemonToSpawn()){
+            for(SpawnablePokemonProperties spawnablePokemonProperties: pokemonSpawns.listOfOminousPokemonToSpawn()){
                 weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow, blockPos), spawnablePokemonProperties.weight());
             }
         } else {
-            for(SpawnablePokemonProperties spawnablePokemonProperties: spawns.listOfPokemonToSpawn()){
+            for(SpawnablePokemonProperties spawnablePokemonProperties: pokemonSpawns.listOfPokemonToSpawn()){
                 weightedLootTableListBuilder.add(spawnablePokemonProperties.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow, blockPos), spawnablePokemonProperties.weight());
             }
         }
@@ -118,15 +117,15 @@ public record SpawnerProperties(
     }
 
     public List<com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig.WaveConfig> getWaves(RegistryAccess registryAccess, boolean isOminous, BlockPos blockPos) {
-        List<WaveDefinition> targetWaves = isOminous ? spawns.ominousWaves() : spawns.waves();
+        List<PokemonWaveDefinition> targetWaves = isOminous ? pokemonSpawns.listOfOminousPokemonWaves() : pokemonSpawns.listOfPokemonWaves();
         List<com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig.WaveConfig> configWaves = new ArrayList<>();
 
-        for (WaveDefinition wave : targetWaves) {
+        for (PokemonWaveDefinition wave : targetWaves) {
             SimpleWeightedRandomList.Builder<SpawnData> builder = new SimpleWeightedRandomList.Builder<>();
             for (SpawnablePokemonProperties props : wave.pokemonToSpawn()) {
                 builder.add(props.getPokemonSpawnData(registryAccess, doPokemonSpawnedGlow, blockPos), props.weight());
             }
-            configWaves.add(new com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig.WaveConfig(wave.mobsInWave(), wave.mobsInWaveAddedPerPlayer(), builder.build()));
+            configWaves.add(new com.lemenok.cobblemontrialsedition.block.entity.cobblemontrialspawner.CobblemonTrialSpawnerConfig.WaveConfig(wave.pokemonInWave(), wave.pokemonInWaveAddedPerPlayer(), builder.build()));
         }
 
         return configWaves;

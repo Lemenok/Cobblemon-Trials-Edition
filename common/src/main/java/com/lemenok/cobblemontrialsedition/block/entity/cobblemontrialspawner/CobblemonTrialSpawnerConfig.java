@@ -94,7 +94,7 @@ public record CobblemonTrialSpawnerConfig(int spawnRange, float totalMobs, float
                                 .forGetter(CobblemonTrialSpawnerConfig::lootTablesToEject),
                         ResourceKey.codec(Registries.LOOT_TABLE).lenientOptionalFieldOf("items_to_drop_when_ominous", DEFAULT.itemsToDropWhenOminous)
                                 .forGetter(CobblemonTrialSpawnerConfig::itemsToDropWhenOminous),
-                        Codec.list(WaveConfig.CODEC).optionalFieldOf("waves", new ArrayList<>())
+                        Codec.list(WaveConfig.CODEC).optionalFieldOf("listOfPokemonWaves", new ArrayList<>())
                                 .forGetter(CobblemonTrialSpawnerConfig::waves),
                         Codec.BOOL.optionalFieldOf("is_wave_mode", false)
                                 .forGetter(CobblemonTrialSpawnerConfig::isWaveMode))

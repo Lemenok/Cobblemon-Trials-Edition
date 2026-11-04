@@ -15,7 +15,7 @@
         {
           "data": "cobblemontrialsedition:ominous_sculk_patch",
           "weight": 1 }],
-      "spawns": {
+      "pokemonSpawns": {
         "isWaveMode": false,
         "listOfPokemonToSpawn": [
           {
