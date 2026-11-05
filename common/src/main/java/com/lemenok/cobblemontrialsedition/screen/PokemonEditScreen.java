@@ -39,6 +39,8 @@ public class PokemonEditScreen extends Screen {
     private int level = 25;
     private String gender = "";
     private String nature = "";
+    private List<Integer> defaultEVs = new ArrayList<>();
+    private List<Integer> defaultIVs = new ArrayList<>();
     private String ability = "";
     private List<String> moves = new ArrayList<>();
     private String heldItem = "";
@@ -63,15 +65,17 @@ public class PokemonEditScreen extends Screen {
 
             if (existingData.spawnablePokemonStats() != null) {
                 SpawnablePokemonStats stats = existingData.spawnablePokemonStats();
-                this.forms = new ArrayList<>(stats.form());
+                this.forms = stats.form() != null ? new ArrayList<>(stats.form()) : new ArrayList<>();
                 this.level = stats.level();
-                this.gender = stats.gender();
-                this.nature = stats.nature();
-                this.ability = stats.ability();
-                this.moves = new ArrayList<>(stats.moves());
-                this.heldItem = stats.heldItem();
+                this.gender = stats.gender() != null ? stats.gender() : "";
+                this.nature = stats.nature() != null ? stats.nature() : "";
+                this.defaultEVs = stats.defaultEVs() != null ? new ArrayList<>(stats.defaultEVs()) : new ArrayList<>();
+                this.defaultIVs = stats.defaultIVs() != null ? new ArrayList<>(stats.defaultIVs()) : new ArrayList<>();
+                this.ability = stats.ability() != null ? stats.ability() : "";
+                this.moves = stats.moves() != null ? new ArrayList<>(stats.moves()) : new ArrayList<>();
+                this.heldItem = stats.heldItem() != null ? stats.heldItem() : "";
                 this.dynaMaxLevel = stats.dynaMaxLevel();
-                this.teraType = stats.teraType();
+                this.teraType = stats.teraType() != null ? stats.teraType() : "";
                 this.isShiny = stats.isShiny();
             }
         }
@@ -89,7 +93,7 @@ public class PokemonEditScreen extends Screen {
         addFloatField(rowHelper, "Scale:", scaleModifier, val -> scaleModifier = val);
         addBoolField(rowHelper, "Uncatchable:", isUncatchable, val -> isUncatchable = val);
 
-        addBoolField(rowHelper, "Must Defeat:", mustBeDefeatedInBattle, val -> mustBeDefeatedInBattle = val);
+        addBoolField(rowHelper, "Defeat in Battle:", mustBeDefeatedInBattle, val -> mustBeDefeatedInBattle = val);
         addBoolField(rowHelper, "Aggressive:", isAggressive, val -> isAggressive = val);
         addBoolField(rowHelper, "Always Alpha:", isAlwaysAlpha, val -> isAlwaysAlpha = val);
         addListField(rowHelper, "Aspects:", aspects, val -> aspects = val);
@@ -99,6 +103,9 @@ public class PokemonEditScreen extends Screen {
         addBoolField(rowHelper, "Shiny:", isShiny, val -> isShiny = val);
         addTextField(rowHelper, "Gender:", gender, val -> gender = val);
         addTextField(rowHelper, "Nature:", nature, val -> nature = val);
+
+        addIntListField(rowHelper, "Default EVs:", defaultEVs, val -> defaultEVs = val);
+        addIntListField(rowHelper, "Default IVs:", defaultIVs, val -> defaultIVs = val);
 
         addTextField(rowHelper, "Ability:", ability, val -> ability = val);
         addTextField(rowHelper, "Held Item:", heldItem, val -> heldItem = val);
@@ -114,7 +121,7 @@ public class PokemonEditScreen extends Screen {
         // Actions
         Button saveBtn = Button.builder(Component.literal("Save Pokemon"), b -> {
             SpawnablePokemonStats stats = new SpawnablePokemonStats(
-                    forms, level, gender, nature, new ArrayList<>(), new ArrayList<>(),
+                    forms, level, gender, nature, defaultEVs, defaultIVs,
                     ability, moves, heldItem, dynaMaxLevel, teraType, isShiny
             );
             SpawnablePokemonProperties pokemon = new SpawnablePokemonProperties(
@@ -139,8 +146,8 @@ public class PokemonEditScreen extends Screen {
 
     private void addTextField(GridLayout.RowHelper row, String label, String init, Consumer<String> onChange) {
         EditBox box = new EditBox(font, 90, 18, Component.literal(label));
-        box.setValue(init);
         box.setResponder(onChange);
+        box.setValue(init != null ? init : "");
         row.addChild(new StringWidget(Component.literal(label), font));
         row.addChild(box);
     }
@@ -172,6 +179,23 @@ public class PokemonEditScreen extends Screen {
         EditBox box = new EditBox(font, 90, 18, Component.literal(label));
         box.setValue(String.join(", ", init));
         box.setResponder(v -> onChange.accept(Arrays.stream(v.split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList())));
+        row.addChild(new StringWidget(Component.literal(label), font));
+        row.addChild(box);
+    }
+
+    private void addIntListField(GridLayout.RowHelper row, String label, List<Integer> init, Consumer<List<Integer>> onChange) {
+        EditBox box = new EditBox(font, 90, 18, Component.literal(label));
+        box.setValue(init.stream().map(String::valueOf).collect(Collectors.joining(", ")));
+        box.setResponder(v -> {
+            try {
+                List<Integer> parsed = Arrays.stream(v.split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toList());
+                onChange.accept(parsed);
+            } catch (NumberFormatException ignored) {}
+        });
         row.addChild(new StringWidget(Component.literal(label), font));
         row.addChild(box);
     }

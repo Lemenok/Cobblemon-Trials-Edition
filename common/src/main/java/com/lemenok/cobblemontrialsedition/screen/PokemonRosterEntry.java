@@ -44,7 +44,10 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
         this.levelBox.setResponder(val -> {
             try {
                 int newLevel = Integer.parseInt(val);
-                updateStats(roster.get(this.index), s -> new SpawnablePokemonStats(s.form(), newLevel, s.gender(), s.nature(), s.defaultIVs(), s.defaultEVs(), s.ability(), s.moves(), s.heldItem(), s.dynaMaxLevel(), s.teraType(), s.isShiny()));
+                updateStats(roster.get(this.index), s -> new SpawnablePokemonStats(
+                        s.form(), newLevel, s.gender(), s.nature(), s.defaultEVs(), s.defaultIVs(),
+                        s.ability(), s.moves(), s.heldItem(), s.dynaMaxLevel(), s.teraType(), s.isShiny()
+                ));
             } catch (NumberFormatException ignored) {}
         });
 
@@ -53,7 +56,10 @@ public class PokemonRosterEntry extends ContainerObjectSelectionList.Entry<Pokem
         this.formsBox.setMaxLength(256);
         this.formsBox.setResponder(val -> {
             List<String> newForms = Arrays.stream(val.split(",")).map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
-            updateStats(roster.get(this.index), s -> new SpawnablePokemonStats(newForms, s.level(), s.gender(), s.nature(), s.defaultIVs(), s.defaultEVs(), s.ability(), s.moves(), s.heldItem(), s.dynaMaxLevel(), s.teraType(), s.isShiny()));
+            updateStats(roster.get(this.index), s -> new SpawnablePokemonStats(
+                    newForms, s.level(), s.gender(), s.nature(), s.defaultEVs(), s.defaultIVs(),
+                    s.ability(), s.moves(), s.heldItem(), s.dynaMaxLevel(), s.teraType(), s.isShiny()
+            ));
         });
 
         this.weightBox = new EditBox(Minecraft.getInstance().font, 100, 18, Component.literal("Weight"));

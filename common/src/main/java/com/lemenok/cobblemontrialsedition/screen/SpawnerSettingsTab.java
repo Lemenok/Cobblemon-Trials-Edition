@@ -36,13 +36,13 @@ public class SpawnerSettingsTab implements Tab {
         addIntRow(rowHelper, "Spawner Cooldown:", screen.spawnerCooldown, val -> screen.spawnerCooldown = val);
         addIntRow(rowHelper, "Player Detect Range:", screen.playerDetectionRange, val -> screen.playerDetectionRange = val);
         addIntRow(rowHelper, "Spawn Range:", screen.spawnRange, val -> screen.spawnRange = val);
-        addIntRow(rowHelper, "Max Simultaneous:", screen.maximumNumberOfSimultaneousPokemon, val -> screen.maximumNumberOfSimultaneousPokemon = val);
+        addIntRow(rowHelper, "Max Simultaneous Pokemon:", screen.maximumNumberOfSimultaneousPokemon, val -> screen.maximumNumberOfSimultaneousPokemon = val);
         addIntRow(rowHelper, "Max Sim. Added/Player:", screen.maximumNumberOfSimultaneousPokemonAddedPerPlayer, val -> screen.maximumNumberOfSimultaneousPokemonAddedPerPlayer = val);
-        addIntRow(rowHelper, "Total Per Trial:", screen.totalNumberOfPokemonPerTrial, val -> screen.totalNumberOfPokemonPerTrial = val);
+        addIntRow(rowHelper, "Total Pokemon Per Trial:", screen.totalNumberOfPokemonPerTrial, val -> screen.totalNumberOfPokemonPerTrial = val);
         addIntRow(rowHelper, "Total Added/Player:", screen.totalNumberOfPokemonPerTrialAddedPerPlayer, val -> screen.totalNumberOfPokemonPerTrialAddedPerPlayer = val);
 
         // --- BOOLEANS ---
-        addBoolRow(rowHelper, "Ominous Attacks:", screen.ominousSpawnerAttacksEnabled, val -> screen.ominousSpawnerAttacksEnabled = val);
+        addBoolRow(rowHelper, "Ominous Spawner Attacks:", screen.ominousSpawnerAttacksEnabled, val -> screen.ominousSpawnerAttacksEnabled = val);
         addBoolRow(rowHelper, "Spawned Pokemon Glow:", screen.doPokemonSpawnedGlow, val -> screen.doPokemonSpawnedGlow = val);
         CycleButton<Boolean> waveModeBtn = CycleButton.onOffBuilder(screen.isWaveMode)
                 .displayOnlyValue()

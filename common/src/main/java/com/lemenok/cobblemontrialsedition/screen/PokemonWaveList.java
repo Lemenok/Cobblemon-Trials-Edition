@@ -45,16 +45,22 @@ public class PokemonWaveList extends ContainerObjectSelectionList<PokemonWaveLis
         }
     }
 
-    public void refreshEntries(List<SpawnerProperties.PokemonWaveDefinition> waves) {
+    public void refreshEntries(List<SpawnerProperties.PokemonWaveDefinition> pokemonWaveDefinitions) {
         this.clearEntries();
-        for (int i = 0; i < waves.size(); i++) {
-            // 1. Render the Wave Header
-            this.addEntry(new PokemonWaveHeaderEntry(this, waves, i, screen));
+        for (int i = 0; i < pokemonWaveDefinitions.size(); i++) {
+            // Render the Wave Header
+            this.addEntry(new PokemonWaveHeaderEntry(this, pokemonWaveDefinitions, i, screen));
 
-            // 2. Render each Pokemon inside that Wave
-            var wave = waves.get(i);
+            var wave = pokemonWaveDefinitions.get(i);
+
+            // Render Column Headers only if the wave contains Pokémon
+            if (!wave.pokemonToSpawn().isEmpty()) {
+                this.addEntry(new PokemonWaveColumnHeaderEntry());
+            }
+
+            // Render each Pokemon inside that Wave
             for (int j = 0; j < wave.pokemonToSpawn().size(); j++) {
-                this.addEntry(new PokemonWaveEntry(this, waves, i, j, screen));
+                this.addEntry(new PokemonWaveEntry(this, pokemonWaveDefinitions, i, j, screen));
             }
         }
     }
