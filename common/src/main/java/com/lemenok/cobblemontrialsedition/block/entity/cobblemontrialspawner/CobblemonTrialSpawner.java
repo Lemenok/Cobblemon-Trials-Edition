@@ -4,7 +4,11 @@ import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.api.moves.MoveSet;
 import com.cobblemon.mod.common.api.moves.Moves;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import com.cobblemon.mod.common.api.pokemon.stats.Stat;
+import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
+import com.cobblemon.mod.common.pokemon.EVs;
+import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.google.common.annotations.VisibleForTesting;
 import com.lemenok.cobblemontrialsedition.block.custom.CobblemonTrialSpawnerBlock;
@@ -292,6 +296,27 @@ public class CobblemonTrialSpawner {
 
         PokemonProperties pokemonProperties = new PokemonProperties();
         pokemonProperties.setSpecies(oldPokemonTag.getString("Species"));
+
+        CompoundTag evsTag = oldPokemonTag.getCompound("EVs");
+        var oldEVs = new EVs();
+        oldEVs.set(Stats.HP, getStatValue(evsTag, "cobblemon:hp"));
+        oldEVs.set(Stats.ATTACK, getStatValue(evsTag, "cobblemon:attack"));
+        oldEVs.set(Stats.DEFENCE, getStatValue(evsTag, "cobblemon:defence"));
+        oldEVs.set(Stats.SPECIAL_ATTACK, getStatValue(evsTag, "cobblemon:special_attack"));
+        oldEVs.set(Stats.SPECIAL_DEFENCE, getStatValue(evsTag, "cobblemon:special_defence"));
+        oldEVs.set(Stats.SPEED, getStatValue(evsTag, "cobblemon:speed"));
+        pokemonProperties.setEvs(oldEVs);
+
+        CompoundTag ivsTag = oldPokemonTag.getCompound("IVs").getCompound("Base");
+        var oldIVs = new IVs();
+        oldIVs.set(Stats.HP, getStatValue(ivsTag, "cobblemon:hp"));
+        oldIVs.set(Stats.ATTACK, getStatValue(ivsTag, "cobblemon:attack"));
+        oldIVs.set(Stats.DEFENCE, getStatValue(ivsTag, "cobblemon:defence"));
+        oldIVs.set(Stats.SPECIAL_ATTACK, getStatValue(ivsTag, "cobblemon:special_attack"));
+        oldIVs.set(Stats.SPECIAL_DEFENCE, getStatValue(ivsTag, "cobblemon:special_defence"));
+        oldIVs.set(Stats.SPEED, getStatValue(ivsTag, "cobblemon:speed"));
+        pokemonProperties.setIvs(oldIVs);
+
         pokemonProperties.setLevel(calculatedLevel == 0 ? oldPokemonTag.getInt("Level") : calculatedLevel);
 
         Pokemon newPokemon = pokemonProperties.create();
@@ -403,6 +428,17 @@ public class CobblemonTrialSpawner {
         }
 
         return calculatedLevel;
+    }
+
+    private static int getStatValue(CompoundTag tag, String key) {
+        if (tag.contains(key)) {
+            return tag.getInt(key);
+        }
+        String shortKey = key.contains(":") ? key.substring(key.indexOf(':') + 1) : key;
+        if (tag.contains(shortKey)) {
+            return tag.getInt(shortKey);
+        }
+        return 0;
     }
 
     private int CalculateMedian(List<Integer> listOfLevels) {

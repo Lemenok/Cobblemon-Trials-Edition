@@ -131,7 +131,7 @@ public record SpawnablePokemonProperties(
         pokemonProperties.setSpecies(species);
         pokemonProperties.setLevel(spawnablePokemonStats.level());
         pokemonProperties.setGender(spawnablePokemonStats.parseGender());
-        pokemonProperties.setNature(spawnablePokemonStats.parseNature().getDisplayName());
+        pokemonProperties.setNature(spawnablePokemonStats.nature());
         pokemonProperties.setEvs(spawnablePokemonStats.parseEVs());
         pokemonProperties.setIvs(spawnablePokemonStats.parseIVs());
         pokemonProperties.setShiny(spawnablePokemonStats.isShiny());
