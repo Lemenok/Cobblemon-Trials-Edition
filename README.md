@@ -1,6 +1,6 @@
 <img width="700" height="700" alt="Logo" src="https://github.com/user-attachments/assets/c31abd59-181d-44f9-9a78-89f545aeb6e6" />
 
-Cobblemon Trials Edition
+Cobblemon Trials Edition 
 =======
 
 Cobblemon Trials Edition is a mod for Cobblemon that adds a set of highly configurable Cobblemon Trial Spawners to replace generated Mob Spawners, Trial Spawners, or Block in Structures or Features that you want to configure. By Default there is a list of structures and blocks listed below that the mod will replace. Any of these can be modified with a Datapack and new structures can be added the same way. The Spawners function almost exactly like regular Trial Spawners so players and modpack makers do not have to learn any new mechanics, but they can also be customized with a Wave mode, for any makers looking to provide a challenge or custom scenario for their players.
