@@ -1,0 +1,102 @@
+package com.lemenok.cobblemontrialsedition.screen;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.tabs.Tab;
+import net.minecraft.client.gui.layouts.FrameLayout;
+import net.minecraft.client.gui.layouts.GridLayout;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+public class SpawnerSettingsTab implements Tab {
+    private final TrialSpawnerConfigScreen screen;
+    private final FrameLayout layout = new FrameLayout();
+    private final GridLayout grid = new GridLayout();
+
+    public SpawnerSettingsTab(TrialSpawnerConfigScreen screen) {
+        this.screen = screen;
+
+        this.grid.defaultCellSetting().padding(5);
+
+        // 4 columns
+        GridLayout.RowHelper rowHelper = this.grid.createRowHelper(4);
+
+        // --- INTEGERS ---
+        addIntRow(rowHelper, "Ticks Between Spawns:", screen.ticksBetweenSpawnAttempts, val -> screen.ticksBetweenSpawnAttempts = val);
+        addIntRow(rowHelper, "Spawner Cooldown:", screen.spawnerCooldown, val -> screen.spawnerCooldown = val);
+        addIntRow(rowHelper, "Player Detect Range:", screen.playerDetectionRange, val -> screen.playerDetectionRange = val);
+        addIntRow(rowHelper, "Spawn Range:", screen.spawnRange, val -> screen.spawnRange = val);
+        addIntRow(rowHelper, "Max Simultaneous Pokemon:", screen.maximumNumberOfSimultaneousPokemon, val -> screen.maximumNumberOfSimultaneousPokemon = val);
+        addIntRow(rowHelper, "Max Sim. Added/Player:", screen.maximumNumberOfSimultaneousPokemonAddedPerPlayer, val -> screen.maximumNumberOfSimultaneousPokemonAddedPerPlayer = val);
+        addIntRow(rowHelper, "Total Pokemon Per Trial:", screen.totalNumberOfPokemonPerTrial, val -> screen.totalNumberOfPokemonPerTrial = val);
+        addIntRow(rowHelper, "Total Added/Player:", screen.totalNumberOfPokemonPerTrialAddedPerPlayer, val -> screen.totalNumberOfPokemonPerTrialAddedPerPlayer = val);
+
+        // --- BOOLEANS ---
+        addBoolRow(rowHelper, "Ominous Spawner Attacks:", screen.ominousSpawnerAttacksEnabled, val -> screen.ominousSpawnerAttacksEnabled = val);
+        addBoolRow(rowHelper, "Spawned Pokemon Glow:", screen.doPokemonSpawnedGlow, val -> screen.doPokemonSpawnedGlow = val);
+        CycleButton<Boolean> waveModeBtn = CycleButton.onOffBuilder(screen.isWaveMode)
+                .displayOnlyValue()
+                .create(0, 0, 210, 20, Component.empty(), (cycle, val) -> {
+                    screen.isWaveMode = val;
+                    screen.refreshUI();
+                });
+
+        // Add the label and button to the grid, spanning 2 columns each (4 total)
+        rowHelper.addChild(new StringWidget(Component.literal("Wave Mode Enabled:"), Minecraft.getInstance().font), 2);
+        rowHelper.addChild(waveModeBtn, 2);
+
+        this.layout.addChild(this.grid);
+    }
+
+    // Helper: Creates an Integer EditBox
+    private void addIntRow(GridLayout.RowHelper rowHelper, String label, int initialValue, Consumer<Integer> onChange) {
+        EditBox editBox = new EditBox(Minecraft.getInstance().font, 100, 20, Component.literal(label));
+        editBox.setValue(String.valueOf(initialValue));
+        editBox.setResponder(val -> {
+            try {
+                onChange.accept(Integer.parseInt(val));
+            } catch (NumberFormatException ignored) {
+                // Ignore incomplete inputs like a single "-"
+            }
+        });
+        rowHelper.addChild(new StringWidget(Component.literal(label), Minecraft.getInstance().font));
+        rowHelper.addChild(editBox);
+    }
+
+    // Helper: Creates a Boolean Toggle Button
+    private void addBoolRow(GridLayout.RowHelper rowHelper, String label, boolean initialValue, Consumer<Boolean> onChange) {
+        CycleButton<Boolean> button = CycleButton.onOffBuilder(initialValue)
+                .displayOnlyValue()
+                .create(0, 0, 100, 20, Component.empty(), (cycle, val) -> onChange.accept(val));
+        rowHelper.addChild(new StringWidget(Component.literal(label), Minecraft.getInstance().font));
+        rowHelper.addChild(button);
+    }
+
+    @Override
+    public Component getTabTitle() {
+        return Component.literal("Spawner Settings");
+    }
+
+    @Override
+    public void visitChildren(Consumer<AbstractWidget> consumer) {
+        this.layout.visitWidgets(consumer);
+    }
+
+    @Override
+    public void doLayout(ScreenRectangle screenRectangle) {
+        grid.arrangeElements();
+        this.layout.arrangeElements();
+        FrameLayout.alignInRectangle(this.layout, screenRectangle, 0.5f, 0.1f);
+
+    }
+}

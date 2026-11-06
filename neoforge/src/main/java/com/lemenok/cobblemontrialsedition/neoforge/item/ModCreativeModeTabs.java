@@ -19,9 +19,17 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.COBBLEMON_TRIAL_SPAWNER))
                     .title(Component.translatable("Cobblemon Trials Edition Blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
-
+                        output.accept(ModItems.MYSTERIOUS_TABLET.get());
                         output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER.get());
-
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_VANILLA.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_MAGMA.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_DUNGEON.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_RELIC.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_END.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_PRISMARINE.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_FORTRESS.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_LABORATORY.get());
+                        output.accept(ModBlocks.COBBLEMON_TRIAL_SPAWNER_CREATE.get());
                     }).build());
 
     public static void register(IEventBus eventBus) {

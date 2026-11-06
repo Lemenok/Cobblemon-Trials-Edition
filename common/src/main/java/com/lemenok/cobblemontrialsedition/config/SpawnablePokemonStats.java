@@ -112,7 +112,11 @@ public record SpawnablePokemonStats(
     }
 
     public Nature parseNature(){
-        Nature pokemonNature = Natures.getNature(nature);
+        if (nature == null || nature.isEmpty()) {
+            return Natures.getRandomNature();
+        }
+
+        Nature pokemonNature = Natures.getNature(nature.toLowerCase(java.util.Locale.ROOT));
 
         if(pokemonNature != null) {
             return pokemonNature;

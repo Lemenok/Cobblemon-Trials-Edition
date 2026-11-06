@@ -108,10 +108,11 @@ public class JigsawSpawnerReplacementProcessor extends StructureProcessor {
                 serverLevel = wgl.getLevel();
             }
 
-            BlockState newBlockState = Services.PLATFORM.getCobblemonTrialSpawnerBlock().defaultBlockState();
+            // 1. Build the entity first so it evaluates the variant properties
             CobblemonTrialSpawnerEntity cobblemonTrialSpawnerEntity = blockBuilder.buildCobblemonTrialSpawnerBlock(level.registryAccess(), serverLevel);
 
-            // Serialize the fully configured BlockEntity into an NBT tag
+            // 2. Fetch the correct block state corresponding to the variant block
+            BlockState newBlockState = cobblemonTrialSpawnerEntity.getBlockState();
             CompoundTag newNbt = cobblemonTrialSpawnerEntity.saveWithFullMetadata(level.registryAccess());
 
             return new StructureTemplate.StructureBlockInfo(blockBuilder.getBlockPosition(), newBlockState, newNbt);

@@ -1,0 +1,220 @@
+package com.lemenok.cobblemontrialsedition.screen;
+
+import com.lemenok.cobblemontrialsedition.config.PokemonSpawnConfig;
+import com.lemenok.cobblemontrialsedition.config.SpawnablePokemonProperties;
+import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
+import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.tabs.TabManager;
+import net.minecraft.client.gui.components.tabs.TabNavigationBar;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TrialSpawnerConfigScreen extends Screen {
+
+    private final BlockPos pos;
+    private final SpawnerProperties originalProperties;
+    private final TabManager tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
+    private TabNavigationBar tabNavigationBar;
+
+    private Button saveAndCloseButton;
+
+    public int ticksBetweenSpawnAttempts;
+    public int spawnerCooldown;
+    public int playerDetectionRange;
+    public int spawnRange;
+    public int maximumNumberOfSimultaneousPokemon;
+    public int maximumNumberOfSimultaneousPokemonAddedPerPlayer;
+    public int totalNumberOfPokemonPerTrial;
+    public int totalNumberOfPokemonPerTrialAddedPerPlayer;
+
+    public boolean ominousSpawnerAttacksEnabled;
+    public boolean doPokemonSpawnedGlow;
+    public boolean isWaveMode;
+
+    public List<ResourceLocation> blockTypesToReplace;
+    public List<ResourceLocation> mobEntitiesInSpawnerToReplace;
+    public List<WeightedLootEntry> lootTables;
+    public List<WeightedLootEntry> ominousLootTables;
+    public List<ResourceLocation> availableLootTables;
+
+    public PokemonSpawnConfig pokemonSpawnConfig;
+    public List<SpawnablePokemonProperties> editableNormalRoster;
+    public List<SpawnablePokemonProperties> editableOminousRoster;
+    public List<SpawnerProperties.PokemonWaveDefinition> editableWaveRoster;
+    public List<SpawnerProperties.PokemonWaveDefinition> editableOminousWaveRoster;
+
+    public TrialSpawnerConfigScreen(BlockPos pos, SpawnerProperties spawnerProperties, List<ResourceLocation> availableLootTables) {
+        super(Component.literal("Cobblemon Trial Spawner Config"));
+        this.pos = pos;
+        originalProperties = spawnerProperties;
+        this.availableLootTables = availableLootTables;
+
+        this.ticksBetweenSpawnAttempts = spawnerProperties.ticksBetweenSpawnAttempts();
+        this.spawnerCooldown = spawnerProperties.spawnerCooldown();
+        this.playerDetectionRange = spawnerProperties.playerDetectionRange();
+        this.spawnRange = spawnerProperties.spawnRange();
+        this.maximumNumberOfSimultaneousPokemon = spawnerProperties.maximumNumberOfSimultaneousPokemon();
+        this.maximumNumberOfSimultaneousPokemonAddedPerPlayer = spawnerProperties.maximumNumberOfSimultaneousPokemonAddedPerPlayer();
+        this.totalNumberOfPokemonPerTrial = spawnerProperties.totalNumberOfPokemonPerTrial();
+        this.totalNumberOfPokemonPerTrialAddedPerPlayer = spawnerProperties.totalNumberOfPokemonPerTrialAddedPerPlayer();
+
+        this.ominousSpawnerAttacksEnabled = spawnerProperties.ominousSpawnerAttacksEnabled();
+        this.doPokemonSpawnedGlow = spawnerProperties.doPokemonSpawnedGlow();
+        this.isWaveMode = spawnerProperties.pokemonSpawns().isWaveMode();
+
+        ArrayList<WeightedLootEntry> updatedWeightedLootTableList = new ArrayList<>();
+
+        for (var wrapper : spawnerProperties.lootTables().unwrap()) {
+            var resourceKey = wrapper.data();
+            int weight = wrapper.weight().asInt();
+            updatedWeightedLootTableList.add(new WeightedLootEntry(resourceKey.location(), weight));
+        }
+
+        this.lootTables = updatedWeightedLootTableList;
+
+        ArrayList<WeightedLootEntry> updatedWeightedOminousLootTableList = new ArrayList<>();
+
+        for (var wrapper : spawnerProperties.ominousLootTables().unwrap()) {
+            var resourceKey = wrapper.data();
+            int weight = wrapper.weight().asInt();
+            updatedWeightedOminousLootTableList.add(new WeightedLootEntry(resourceKey.location(), weight));
+        }
+
+        this.ominousLootTables = updatedWeightedOminousLootTableList;
+
+        // Add code to manage Waves
+        this.pokemonSpawnConfig = new PokemonSpawnConfig(this.isWaveMode,
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfPokemonToSpawn()),
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfOminousPokemonToSpawn()),
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfPokemonWaves()),
+                                           new ArrayList<>(spawnerProperties.pokemonSpawns().listOfOminousPokemonWaves()));
+
+        this.editableNormalRoster = this.pokemonSpawnConfig.listOfPokemonToSpawn();
+        this.editableOminousRoster = this.pokemonSpawnConfig.listOfOminousPokemonToSpawn();
+        this.editableWaveRoster = this.pokemonSpawnConfig.listOfPokemonWaves();
+        this.editableOminousWaveRoster = this.pokemonSpawnConfig.listOfOminousPokemonWaves();
+
+        this.blockTypesToReplace = new ArrayList<>(spawnerProperties.blockTypesToReplace());
+        this.mobEntitiesInSpawnerToReplace = new ArrayList<>(spawnerProperties.mobEntitiesInSpawnerToReplace());
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        if(this.isWaveMode) {
+            this.tabNavigationBar = TabNavigationBar.builder(this.tabManager, this.width)
+                    .addTabs(new SpawnerSettingsTab(this))
+                    .addTabs(new LootTablesTab(this, lootTables, ominousLootTables, availableLootTables))
+                    .addTabs(new PokemonWaveTab("Normal Waves", this, editableWaveRoster))
+                    .addTabs(new PokemonWaveTab("Ominous Waves", this, editableOminousWaveRoster))
+                    .build();
+        }
+        else {
+            this.tabNavigationBar = TabNavigationBar.builder(this.tabManager, this.width)
+                    .addTabs(new SpawnerSettingsTab(this))
+                    .addTabs(new LootTablesTab(this, lootTables, ominousLootTables, availableLootTables))
+                    .addTabs(new PokemonRosterTab("Normal Roster", this, editableNormalRoster))
+                    .addTabs(new PokemonRosterTab("Ominous Roster", this, editableOminousRoster))
+                    .build();
+        }
+
+
+
+        this.addRenderableWidget(this.tabNavigationBar);
+
+        this.saveAndCloseButton = Button.builder(Component.literal("Save & Close"), btn -> {
+
+            net.minecraft.util.random.SimpleWeightedRandomList.Builder<net.minecraft.resources.ResourceKey<net.minecraft.world.level.storage.loot.LootTable>> normalLootBuilder = new net.minecraft.util.random.SimpleWeightedRandomList.Builder<>();
+            for (WeightedLootEntry entry : this.lootTables) {
+                if (entry.getLocation() != null) {
+                    normalLootBuilder.add(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE, entry.getLocation()), entry.getWeight());
+                }
+            }
+
+            net.minecraft.util.random.SimpleWeightedRandomList.Builder<net.minecraft.resources.ResourceKey<net.minecraft.world.level.storage.loot.LootTable>> ominousLootBuilder = new net.minecraft.util.random.SimpleWeightedRandomList.Builder<>();
+            for (WeightedLootEntry entry : this.ominousLootTables) {
+                if (entry.getLocation() != null) {
+                    ominousLootBuilder.add(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE, entry.getLocation()), entry.getWeight());
+                }
+            }
+
+            PokemonSpawnConfig updatedPokemonSpawnConfig = new PokemonSpawnConfig(
+                    this.isWaveMode, // 3. Pass flag to SpawnConfig
+                    this.editableNormalRoster,
+                    this.editableOminousRoster,
+                    this.editableWaveRoster,
+                    this.editableOminousWaveRoster
+            );
+
+            // Reconstruct updated properties record from GUI fields
+            SpawnerProperties updatedProperties = new SpawnerProperties(
+                    this.blockTypesToReplace,
+                    this.mobEntitiesInSpawnerToReplace,
+                    "",
+                    this.ticksBetweenSpawnAttempts,
+                    this.spawnerCooldown,
+                    this.playerDetectionRange,
+                    this.spawnRange,
+                    this.maximumNumberOfSimultaneousPokemon,
+                    this.maximumNumberOfSimultaneousPokemonAddedPerPlayer,
+                    this.totalNumberOfPokemonPerTrial,
+                    this.totalNumberOfPokemonPerTrialAddedPerPlayer,
+                    normalLootBuilder.build(),
+                    ominousLootBuilder.build(),
+                    this.ominousSpawnerAttacksEnabled,
+                    this.doPokemonSpawnedGlow,
+                    updatedPokemonSpawnConfig
+            );
+
+            // Send packet to server
+            SaveSpawnerC2SPacket.send(this.pos, updatedProperties);
+            this.minecraft.setScreen(null);
+        }).width(200).build();
+
+        this.addRenderableWidget(this.saveAndCloseButton);
+
+        this.repositionElements();
+        this.tabNavigationBar.selectTab(0, false);
+    }
+
+    @Override
+    protected void repositionElements() {
+        if (this.tabNavigationBar != null) {
+            this.tabNavigationBar.setWidth(this.width);
+            this.tabNavigationBar.arrangeElements();
+
+            int footerHeight = 40;
+
+            if (this.saveAndCloseButton != null) {
+                // Position the button centered horizontally, near the bottom edge
+                this.saveAndCloseButton.setPosition((this.width - this.saveAndCloseButton.getWidth()) / 2, this.height - 30);
+            }
+
+            // Calculate the screen area directly below the navigation tabs
+            int topOffset = this.tabNavigationBar.getRectangle().bottom();
+            ScreenRectangle screenRectangle = new ScreenRectangle(0, topOffset, this.width, this.height - topOffset - footerHeight);
+
+            // This is the missing piece that tells the tab where to render and calls doLayout()
+            this.tabManager.setTabArea(screenRectangle);
+        }
+    }
+
+    public void refreshUI() {
+        this.clearWidgets();
+        this.init();
+    }
+
+    @Override
+    public void render(net.minecraft.client.gui.GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+    }
+}

@@ -4,57 +4,83 @@
     {
       "blockTypesToReplace": ["minecraft:spawner"],
       "mobEntitiesInSpawnerToReplace": ["minecraft:silverfish"],
-      "lootTables": ["cobblemontrialsedition:stronghold"],
-      "ominousLootTables": ["cobblemontrialsedition:ominous_stronghold"],
-      "listOfPokemonToSpawn": [{
-          "species": "lunatone",
-          "spawnablePokemonStats": {
-              "level": 40
-          }
-        },
+      "variant": "dungeon",
+      "lootTables": [
         {
-          "species": "solrock",
-          "spawnablePokemonStats": {
-            "level": 40
-          }
-        },
+          "data": "cobblemontrialsedition:stronghold",
+          "weight": 1
+        }
+      ],
+      "ominousLootTables": [
         {
-          "species": "golett",
-          "spawnablePokemonStats": {
-            "level": 40
+          "data": "cobblemontrialsedition:ominous_stronghold",
+          "weight": 1
+        }
+      ],
+      "pokemonSpawns": {
+        "isWaveMode": true,
+        "listOfPokemonWaves": [
+          {
+            "pokemonToSpawn": [
+              {
+                "species": "sigilyph",
+                "spawnablePokemonStats": {
+                  "level": 40
+                }
+              }
+            ]
+          },
+          {
+            "pokemonInWave": 1,
+            "pokemonToSpawn": [
+              {
+                "species": "hydreigon",
+                "isAlwaysAlpha": true,
+                "spawnablePokemonStats": {
+                  "level": 40
+                }
+              }
+            ]
           }
-        },
-        {
-          "species": "doublade",
-          "spawnablePokemonStats": {
-            "level": 40
+        ],
+        "listOfOminousPokemonWaves": [
+          {
+            "pokemonToSpawn": [
+              {
+                "species": "sigilyph",
+                "spawnablePokemonStats": {
+                  "level": 80
+                }
+              },
+              {
+                "species": "unown",
+                "spawnablePokemonStats": {
+                  "level": 80
+                }
+              }
+            ]
+          },
+          {
+            "pokemonInWave": 1,
+            "pokemonToSpawn": [
+              {
+                "species": "hydreigon",
+                "isAlwaysAlpha": true,
+                "spawnablePokemonStats": {
+                  "level": 80
+                }
+              },
+              {
+                "species": "dragapult",
+                "isAlwaysAlpha": true,
+                "spawnablePokemonStats": {
+                  "level": 80
+                }
+              }
+            ]
           }
-        }],
-      "listOfOminousPokemonToSpawn": [
-        {
-          "species": "lunatone",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        },
-        {
-          "species": "solrock",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        },
-        {
-          "species": "golurk",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        },
-        {
-          "species": "aegislash",
-          "spawnablePokemonStats": {
-            "level": 80
-          }
-        }]
+        ]
+      }
     }
   ]
 }

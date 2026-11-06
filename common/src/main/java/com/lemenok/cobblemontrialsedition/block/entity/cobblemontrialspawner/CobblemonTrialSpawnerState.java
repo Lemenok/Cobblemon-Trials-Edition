@@ -95,10 +95,14 @@ public enum CobblemonTrialSpawnerState implements StringRepresentable {
                             cobblemonTrialSpawnerData.currentMobs.add(uUID);
                             ++cobblemonTrialSpawnerData.totalMobsSpawned;
                             cobblemonTrialSpawnerData.nextMobSpawnsAt = serverLevel.getGameTime() + (long) cobblemonTrialSpawnerConfig.ticksBetweenSpawn();
-                            cobblemonTrialSpawnerConfig.spawnPotentialsDefinition().getRandom(serverLevel.getRandom()).ifPresent((arg3x) -> {
-                                cobblemonTrialSpawnerData.nextSpawnData = Optional.of((SpawnData)arg3x.data());
-                                cobblemonTrialSpawner.markUpdated();
-                            });
+
+                            int nextAdditionalPlayers = cobblemonTrialSpawnerData.countAdditionalPlayers(blockPos);
+                            cobblemonTrialSpawnerConfig.getSpawnPotentials(cobblemonTrialSpawnerData.totalMobsSpawned, nextAdditionalPlayers)
+                                    .getRandom(serverLevel.getRandom())
+                                    .ifPresent((arg3x) -> {
+                                        cobblemonTrialSpawnerData.nextSpawnData = Optional.of((SpawnData)arg3x.data());
+                                        cobblemonTrialSpawner.markUpdated();
+                                    });
                         });
                     }
 

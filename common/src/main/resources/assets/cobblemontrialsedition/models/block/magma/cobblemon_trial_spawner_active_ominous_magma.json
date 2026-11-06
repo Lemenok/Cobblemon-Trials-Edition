@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top_inner_faces",
+  "textures": {
+    "bottom": "cobblemontrialsedition:block/magma/cobblemon_trial_spawner_bottom_magma",
+    "side": "cobblemontrialsedition:block/magma/cobblemon_trial_spawner_side_active_ominous_magma",
+    "top": "cobblemontrialsedition:block/magma/cobblemon_trial_spawner_top_active_ominous_magma"
+  },
+  "render_type": "minecraft:cutout"
+}

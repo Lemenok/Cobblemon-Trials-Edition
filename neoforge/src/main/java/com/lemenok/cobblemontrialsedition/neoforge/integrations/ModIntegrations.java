@@ -1,5 +1,6 @@
 package com.lemenok.cobblemontrialsedition.neoforge.integrations;
 
+import com.lemenok.cobblemontrialsedition.config.SpawnerProperties;
 import com.lemenok.cobblemontrialsedition.integrations.IModIntegrations;
 import com.lemenok.cobblemontrialsedition.integrations.ModConfigCommon;
 import com.lemenok.cobblemontrialsedition.neoforge.CobblemonTrialsEdition;
@@ -12,15 +13,23 @@ import com.lemenok.cobblemontrialsedition.neoforge.particle.ModParticles;
 import com.lemenok.cobblemontrialsedition.neoforge.processor.ModProcessors;
 import com.lemenok.cobblemontrialsedition.neoforge.sound.ModSounds;
 import com.lemenok.cobblemontrialsedition.processor.JigsawSpawnerReplacementProcessor;
+import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.slf4j.Logger;
+
+import java.util.List;
+
+import static com.lemenok.cobblemontrialsedition.neoforge.block.ModBlocks.*;
 
 public class ModIntegrations implements IModIntegrations {
     @Override
@@ -79,6 +88,19 @@ public class ModIntegrations implements IModIntegrations {
     }
 
     @Override
+    public void sendSpawnerConfigPacket(ServerPlayer player, BlockPos pos, SpawnerProperties properties, List<ResourceLocation> availableLootTables) {
+        net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(
+                player,
+                new OpenSpawnerConfigS2CPacket(pos, properties, availableLootTables)
+        );
+    }
+
+    @Override
+    public void sendToServer(net.minecraft.network.protocol.common.custom.CustomPacketPayload payload) {
+        net.neoforged.neoforge.network.PacketDistributor.sendToServer(payload);
+    }
+
+    @Override
     public ModConfigCommon getCommonConfig() {
         ModConfigCommon modConfigCommon = new ModConfigCommon();
         modConfigCommon.ENABLE_DEBUG_LOGS = Config.ENABLE_DEBUG_LOGS.get();
@@ -100,5 +122,21 @@ public class ModIntegrations implements IModIntegrations {
         ModConfigCommon.TIME_TILL_POKEMON_DESPAWN_IN_TICKS = Config.TIME_TILL_POKEMON_DESPAWN_IN_TICKS.get();
 
         return modConfigCommon;
+    }
+
+    @Override
+    public Block getSpawnerBlockForVariant(String variant) {
+        return switch (variant.toLowerCase()) {
+            case "vanilla" -> COBBLEMON_TRIAL_SPAWNER_VANILLA.get();
+            case "magma" -> COBBLEMON_TRIAL_SPAWNER_MAGMA.get();
+            case "dungeon" -> COBBLEMON_TRIAL_SPAWNER_DUNGEON.get();
+            case "relic" -> COBBLEMON_TRIAL_SPAWNER_RELIC.get();
+            case "end" -> COBBLEMON_TRIAL_SPAWNER_END.get();
+            case "prismarine" -> COBBLEMON_TRIAL_SPAWNER_PRISMARINE.get();
+            case "fortress" -> COBBLEMON_TRIAL_SPAWNER_FORTRESS.get();
+            case "laboratory" -> COBBLEMON_TRIAL_SPAWNER_LABORATORY.get();
+            case "create" -> COBBLEMON_TRIAL_SPAWNER_CREATE.get();
+            default -> COBBLEMON_TRIAL_SPAWNER.get();
+        };
     }
 }
