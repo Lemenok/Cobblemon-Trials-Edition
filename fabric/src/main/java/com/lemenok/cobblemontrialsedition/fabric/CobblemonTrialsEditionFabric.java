@@ -14,6 +14,7 @@ import com.lemenok.cobblemontrialsedition.fabric.sound.ModSounds;
 import com.lemenok.cobblemontrialsedition.item.MysteriousTabletItem;
 import com.lemenok.cobblemontrialsedition.network.OpenSpawnerConfigS2CPacket;
 import com.lemenok.cobblemontrialsedition.network.SaveSpawnerC2SPacket;
+import com.lemenok.cobblemontrialsedition.screen.ServerSpawnerPacketHandler;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -21,6 +22,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -103,6 +105,12 @@ public class CobblemonTrialsEditionFabric implements ModInitializer {
                 SaveSpawnerC2SPacket.TYPE,
                 SaveSpawnerC2SPacket.STREAM_CODEC
         );
+
+        ServerPlayNetworking.registerGlobalReceiver(SaveSpawnerC2SPacket.TYPE, (payload, context) -> {
+            context.server().execute(() -> {
+                ServerSpawnerPacketHandler.handle(payload, context.player());
+            });
+        });
 
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             ItemStack stack = player.getItemInHand(hand);

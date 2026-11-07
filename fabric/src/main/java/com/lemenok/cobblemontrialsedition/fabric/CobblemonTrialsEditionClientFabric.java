@@ -44,11 +44,5 @@ public class CobblemonTrialsEditionClientFabric implements ClientModInitializer 
                     });
                 }
         );
-
-        ServerPlayNetworking.registerGlobalReceiver(SaveSpawnerC2SPacket.TYPE, (payload, context) -> {
-            context.server().execute(() -> {
-                ServerSpawnerPacketHandler.handle(payload, context.player());
-            });
-        });
     }
 }

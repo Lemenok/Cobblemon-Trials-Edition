@@ -126,7 +126,6 @@ public class CobblemonTrialSpawnerBlock extends BaseEntityBlock {
                     }
 
                     Services.PLATFORM.sendSpawnerConfigPacket(serverPlayer, blockPos, properties, allLootTables);
-                    ClientScreenHelper.openTrialSpawnerScreen(blockPos, properties, allLootTables);
 
                 } catch (Exception e) {
                     System.out.println("SERVER: Failed to parse NBT or send packet!");
